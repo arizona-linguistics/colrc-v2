@@ -1,0 +1,58 @@
+version: '3.2'
+services:
+  prisma:
+    image: prismagraphql/prisma:1.34
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "4466:4466"
+    env_file:
+      - ./.env
+    environment:
+      PRISMA_CONFIG_PATH: "/prisma.yml"
+    volumes:
+      - "./prisma.yml:/prisma.yml"
+  mysql:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./.env
+    environment:
+      # FIXME: Make DRY/unified with MySQL, Prisma, etc.
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - mysql:/var/lib/mysql
+  backend:
+    build:
+      context: ./backend
+      # labels:
+      #   edu.arizona.colrc.description: "API for COLRC v2"
+    depends_on:
+      - mysql
+      - prisma
+    restart: always
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./.env
+    environment:
+      DB_HOST: mysql
+  frontend:
+    build:
+      context: ./frontend
+      # labels:
+      #   edu.arizona.colrc.description: "Frontend for COLRC v2"
+    depends_on:
+      - backend
+    restart: always
+    ports:
+      - "3000:3000"
+volumes:
+  # FIXME: this should point to a pre-populated DB for deployment;
+  # Consider ENV variable for volume path
+  mysql:

@@ -1,5 +1,3 @@
-// store config variables in dotenv
-require('dotenv').config();
 // ORM (Object-Relational Mapper library)
 const Sequelize = require('sequelize');
 
