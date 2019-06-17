@@ -1,0 +1,51 @@
+{
+<<<<<<< HEAD
+<<<<<<< HEAD
+  "base": "semantic\\",
+=======
+  "base": "semantic/",
+>>>>>>> 686eb693e84b7f74cf27dd06e00e07bfd364212d
+=======
+<<<<<<< HEAD
+  "base": "semantic/",
+=======
+  "base": "semantic\\",
+>>>>>>> Angela
+=======
+  "base": "semantic\\",
+=======
+  "base": "semantic/",
+>>>>>>> 686eb693e84b7f74cf27dd06e00e07bfd364212d
+>>>>>>> fb4ce826306c531738e77996dfadd1c3033da6cd
+>>>>>>> 439cf69983ea60ab50ae224c80c40a9eabf808e0
+  "paths": {
+    "source": {
+      "config": "src/theme.config",
+      "definitions": "src/definitions/",
+      "site": "src/site/",
+      "themes": "src/themes/"
+    },
+    "output": {
+<<<<<<< HEAD
+      "packaged": "dist\\",
+      "uncompressed": "dist\\components\\",
+      "compressed": "dist\\components\\",
+      "themes": "dist\\themes\\"
+=======
+      "packaged": "dist/",
+      "uncompressed": "dist/components/",
+      "compressed": "dist/components/",
+      "themes": "dist/themes/"
+>>>>>>> 686eb693e84b7f74cf27dd06e00e07bfd364212d
+    },
+    "clean": "dist/"
+  },
+  "permission": false,
+  "autoInstall": false,
+  "rtl": false,
+<<<<<<< HEAD
+  "components": ["reset", "site", "button", "container", "divider", "flag", "header", "icon", "image", "input", "label", "list", "loader", "placeholder", "rail", "reveal", "segment", "step", "breadcrumb", "form", "grid", "menu", "message", "table", "ad", "card", "comment", "feed", "item", "statistic", "accordion", "checkbox", "dimmer", "dropdown", "embed", "modal", "nag", "popup", "progress", "rating", "search", "shape", "sidebar", "sticky", "tab", "transition", "api", "form", "state", "visibility"],
+=======
+>>>>>>> 686eb693e84b7f74cf27dd06e00e07bfd364212d
+  "version": "2.4.0"
+}

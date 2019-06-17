@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+.superscript { position: relative; top: -0.5em; font-size: 80%; }
+
+.right {
+  text-align: right;
+}

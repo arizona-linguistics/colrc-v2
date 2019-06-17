@@ -1,0 +1,75 @@
+.Colrc {
+  text-align: center;
+}
+
+.Grid {
+	padding: 10px;
+}
+.Colrc-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.Colrc-title {
+  font-size: 1.5em;
+}
+
+.left {
+  text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.ReactTable .rt-resizer {
+	right: 0;
+}
+
+.wordwrap {
+	white-space: pre-line !important;
+	word-wrap: break-word;
+	padding: 2px;
+}
+
+.checkBoxMenu {
+  background-color: #222;
+  padding: 5px;
+  color: white;
+  text-align: right;
+}
+
+.wordwrap {
+  white-space: pre-line !important;
+  word-wrap: break-word;
+  padding: 2px;
+}
+
+.checkBoxLabel {
+	padding-left: 20px;
+	padding-right: 5px;
+}
+
+.floatRight {
+	float: right;
+}
+
+.alignRight {
+	align: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.image-gallery-slide img {
+  height: 90%;
+}
+/*.keyboardContainer {
+  max-width: 250px;
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+}*/

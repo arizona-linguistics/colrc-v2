@@ -1,0 +1,46 @@
+You can get Adobe Acrobat DC Pro from UofA site license
+You want 300-400 dpi for best results at OCR.
+Problems with headers in newspaper columns,
+does not recover bold font and different size fonts very well.
+You lose color. You may lose capitalization.
+Semantics get lost, text, highlights, colors are gone.
+
+preflight DC Pro Acrobat
+PDF/A - required format for court filings. Includes all the necessary fonts.
+PDF/E - required format for engineering.
+3DPDF
+
+
+flatecube
+
+Tj display
+Tr display mode
+Adobe SDK -- need to purchase
+Foxit SDK (Google Chrome) -- need to purchase
+iText (version 7 is the latest) -- free for educational purposes (Java and C#)
+PDFBox -- not as good
+Want to call Java from MatLab
+LSTM OCR -- works with 90% accuracy
+
+inital-medial-final characters in Arabic
+post-processing dictates the accuracy in the end
+detect characters by area, small areas are diacritics
+Using MatLab and Python --> C and C++ when done prototyping
+https://github.com/mrychlik/
+http://pashtoenglish.org
+--- 3 phases ---
+segmentation - the right unit of English for OCR (ligatures or characters)
+OCR phase
+post-processing
+----------------
+
+kraken and tesseract have multiple models for arabic.
+kraken native correctness is about 60-70-80%.
+kraken works line by line
+kraken is python with some C LSTM library dependencies
+tesseract works either by character or by ligature
+tesseract is implemented in C++/Python
+programs combine the results of scans in multiple directions
+Pashto has about 1000 ligatures in 4 different directions for 4000 models
+Both networks use bi-directional LSTM in order to help limit the vanishing gradient problem
+Use tesseract trained data for MatLab experimentation

@@ -1,0 +1,102 @@
+/* This file inventories the folder names, paths, and filenames for each of the texts and audios on the COLRC 1.0 site, and maps them to a file structure that we should consider using for COLRC 2.0. */
+
+/* Audio Files */
+Audio path:  COLRC\audio\
+Audio Files
+current_name ::: proposed_name ::: associated_text
+"01_Track_1Crd_Little_Mosquito1.wav" ::: "little_mosquito_part_1.wav" ::: "Little Mosquito",
+"01_Track_1Crd_LittleMosq1.mp3" :::	"little_mosquito_part_1.mp3" ::: "Little Mosquito",
+"02_Track2Crd_Little_Mosq2.mp3" ::: "little_mosquito_part_2.mp3" ::: "Little Mosquito",
+"02_Track2Crd_Little_Mosquito2.wav" ::: "little_mosquito_part_2.wav" ::: "Little Mosquito",
+"03_Track_3Crd_Rabbit.mp3" ::: "rabbit_and_jackrabbit_part_1.mp3" ::: "Rabbit and Jackrabbit",
+"03_Track_3Crd_Rabbit_JackRabbit1.wav" ::: "rabbit_and_jackrabbit_part_1.wav" ::: "Rabbit and Jackrabbit",
+"04_Track_4Crd_Rabbit.mp3" ::: "rabbit_and_jackrabbit_part_2.mp3" ::: "Rabbit and Jackrabbit",
+"04_Track_4Crd_Rabbit_JackRabbit2.wav" ::: "rabbit_and_jackrabbit_part_2.wav" ::: "Rabbit and Jackrabbit",
+"05_Track_5Crd_Lords_Prayer.mp3" ::: "lords_prayer_and_angels_salutation.mp3" ::: "",
+"05_Track_5Crd_Lords_Prayer_Angels_Salutation.wav" ::: "lords_prayer_and_angels_salutation.mp3"	::: "",
+"06_Track_6Crd_Cricket_Rides_Coyote.wav" ::: "cricket_rides_coyote_in_cda.wav" ::: "Cricket Rides Coyote",
+"06_Track_6Crd_CricketRides.mp3" ::: "cricket_rides_coyote_in_cda.mp3" ::: "Cricket Rides Coyote",
+"07_Track_7Engl_Cricket_Rides_Coyote.wav" ::: "cricket_rides_coyote_in_engl.wav" ::: "Cricket Rides Coyote",
+"07_Track_7Engl_CricketRides.mp3"  ::: "cricket_rides_coyote_in_engl.mp3" ::: "Cricket Rides Coyote",
+"08_Track_8CrdSong_DeerKills.mp3" ::: "when_deer_kills_children.mp3" ::: "",
+"08_Track_8CrdSong_When_Deer_Kills_Children.wav" ::: "when_deer_kills_children.wav" ::: "",
+Other Files in this folder
+filename ::: note  ::: recommended_action
+"crdt27-29_arc20.wav" ::: audio file of cricket rides coyote, saved under new name, not used ::: ignore,
+"crdt27-29_arc-e35.wav" ::: audio file of rabbit and jackrabbit, not used ::: ignor,
+"church_teachings.html" ::: associated with "lords_prayer_and_angels_salutation", combines images of field notes ::: knit images, ignore file,
+"church_teachings.pdf" ::: associated with "lords_prayer_and_angels_salutation", pdf of field notes ::: move to correct path and name,
+"church_teachings1.png" ::: associated with "lords_prayer_and_angels_salutation", image called in church_teachings.html ::: knit
+"church_teachings2.png" ::: associated with "lords_prayer_and_angels_salutation", image called in church_teachings.html,
+"church_teachings3.png" ::: associated with "lords_prayer_and_angels_salutation", image called in church_teachings.html,
+"crdt27-29_arc20.html" ::: metadata for little mosquito audio ::: move to correct path and name,
+"crdt27-29_arc28.html" ::: metadata for cricket rides coyote audio ::: move to correct path and name,
+"crdt27-29_arc-e35.html" ::: metadata for rabbit and jackrabbit audio ::: move to correct path and name,
+"audio_content.php" ::: displays page ::: ignore,
+"index.php" ::: frames page ::: ignore,
+"metadata.php"  ::: displays page ::: ignore,
+"metadata_content.html" ::: displays all the metadata ::: ignore,
+
+Texts Path: COLRC\Texts
+current_folder_name ::: proposed_name ::: display_title,
+"1_ccr" ::: "chief_child_of_the_root" ::: "Chief Child of the Root (Transformer)",
+"2_gblr" ::: "origin_of_indian_tribes" ::: "Origin of Indian Tribes (From Parts of Monster)",
+"3_fccsh" ::: "coyote_overpowers_sun" ::: "Coyote overpowers Sun",
+"4_fcssw" ::: "coyote_steals_his_daughter_in_law" ::: "Coyote steals his daughter-in-law",
+"5_flb" ::: "little_beaver" ::: "Little Beaver",
+"6_fcdoc" ::: "coyote_devours_his_own_children" ::: "Coyote devours his own children",
+"7_clhe" ::: "coyote_loses_his_eyes" ::: "Coyote loses his eyes (Eye Juggling)",
+"8_fcrane" ::: "coyote_hunts_with_crane" ::: "Coyote hunts with crane and releases salmon",
+"9a_flynxt" ::: "story_of_lynx_miyal" ::: "Story of Lynx",
+"9a_lynxt" ::: none, this is redundant with 9a_flynxt and is never used  ::: ignore,
+"9b_flynxd" ::: "story of lynx_nicodemus" ::: "Story of Lynx",
+"9b_lynxd" ::: none, this is redundant with 9b_flynxt and is never used ::: ignore,
+"10_fwblwp" ::: "war_between_land_and_water_people" ::: "War between Land and Water People",
+"11_dh" ::: "dog_husband" ::: "Dog Husband",
+"12_cfg" ::: "coyote_and_fox_gamble_with_fish" ::: "Coyote and Fox gamble with Fish",
+"13_fcms" ::: "coyote_marries_squirrel" ::: "Coyote marries Squirel, sister of Geese",
+"14_fcim" ::: "coyote_imitates_magpie" ::: "Coyote immitates Magpie (Bungling Host)",
+"15_fcb" ::: "coyote_and_badger" ::: "Coyote and Badger",
+"16_fctd" ::: "calling_the_deer" ::: "Calling the deer",
+"17a_cokd" ::: "calling_ones_kind_nicodemus" ::: "Calling one's kind",
+"17b_chkt" ::: "calling_ones_kind_miyal" ::: "Calling one's kind",
+"18_fckc" ::: "coyote_kills_cricket_with_elk_fat" ::: "Coyote kills Cricket with elk fat",
+"19_fcnch" :::"coyote_and_nighthawk_change_coats" ::: "Coyote and Nighthawk change coats (Rolling Rock)",
+"20_fcrc" ::: "cricket_rides_coyote" ::: "Cricket rides Coyote",
+"21_fcsw" ::: "coyote_snares_the_wind" ::: "Coyote snares the wind",
+"22_fcatbrd" ::: "catbird" ::: "Catbird",
+"23_fsf" ::: "skunk_and_fisher" ::: "Skunk and Fisher",
+"24_fgwsd" ::: "the_girls_who_stole_dentalia" ::: "The girls who stole dentalia (Kidnapping)",
+"25_fthndr" ::: "thunder" ::: "Thunder",
+"26_fwcfw" ::: "waterbird_contests_for_women" ::: "Waterbird contests for women (Gift Test)",
+"27_fwmw" ::: "water_monster_woman" ::: "Water Monster Woman",
+"28_flm" ::: "little_mosquito" ::: "Little Mosquito",
+"29_fghbl" ::: "grizzly_and_his_brothers_in_law" ::: "Grizzly and his brothers-in-law",
+"30_fmt" ::: "muskrat_trespasses" ::: "Muskrat trespasses",
+"31_ftsc" ::: "toad_saves_children" ::: "Toad saves children",
+"32_fcs" ::: "chipmonk_and_snake" ::: "Chipmonk and Snake (Contest for Winter and Spring)",
+"33_fes" ::: "elk_and_snowshoe" ::: "Elk and Snowshoe",
+"34_fcbch" ::: "contest_between_cold_and_heat" ::: "Contest between Cold and Heat",
+"35_frjr" ::: "rabbit_and_jackrabbit" ::: "Rabbit and Jackrabbit",
+"36_fdgf" ::: "dog_goes_for_fire" ::: "Dog goes for fire",
+"37_ftwp" ::: "turtles_war_party" ::: "Turtle's war party",
+"38_fths" ::: "two_headed_snakes" ::: "Two-headed snakes",
+"39_dwrf" ::: "the_dwarf" ::: "The dwarf",
+"40_fmcfc" ::: "man_caught_in_fire_corral" ::: "Man caught in fire corral",
+"41_fcsd" ::: "flathead_chief_sends_his_daughter" ::: "Flathead chief sends his daughter to Chief Waxane'",
+"42_fcrda" ::: "the_coeur_dalene_attacked" ::: "The Coeur d'Alene attacked",
+"43_ftwonp" ::: "two_women_overcome_nez_perce_man" ::: "Two women overcome Nez Perce man",
+"44_wsbs" ::: "woman_saved_by_loose_saddle_cinch" ::: "Woman saved by loose saddle cinch",
+"45_fcfk" ::: "the_coeur_dalene_fight_the_kutenai" ::: "The Coeur d'Alene fight the Kutenai",
+"46_fbtf" ::: "boy_takes_food" ::: "Boy takes food",
+"47_fjkr" ::: "the_practical_joker" ::: "The practical joker",
+"48_wbc" ::: "war_between_blackfoot_and_the_coeur_dalene" ::: "War between Blackfoot and the Coeur d'Alene",
+
+/* Within each text folder, find the following, example "texts/chief_child_of_the_root", which contains typed manuscript and published english translations */
+
+"chief_child_of_the_root_typed.png"
+"chief_child_of_the_root_typed.pdf"
+"chief_child_of_the_root_engl.png"
+"chief_child_of_the_root_engl.pdf"
+
+/* and some metadata files */

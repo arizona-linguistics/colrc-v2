@@ -1,0 +1,46 @@
+/******     Sidebar     ******/
+
+.ui.icon.menu .item {
+    line-height: 20px;
+    padding-right: 10px;
+    text-align: justify;
+    font-weight: 200;
+}
+
+.ui.vertical.menu .item::before {
+    height: 0px;
+}
+
+.ui.labeled.icon.menu .item > .icon:not(.dropdown) {
+    float: left;
+    margin-right: 12px !important;
+}
+
+.ui.labeled.icon.menu .item > .svg-inline-fa:not(.dropdown) {
+    float: left;
+    margin-right: 12px !important;
+}
+
+ul {
+	list-style-type: none;
+	text-align: right;
+	float: center;
+}
+.ui.grid {
+	margin: 10;
+
+}
+/*.ui.grid .column {
+    margin-left: -10px;
+    margin-top: -15px;
+    margin-right: -25px;
+    padding: 0;
+
+}*/
+
+/* .ui.grid .row {
+	margin-left: -25px;
+	margin-right: -25px;
+	overflow: hidden;
+	clear: both;
+}*/
