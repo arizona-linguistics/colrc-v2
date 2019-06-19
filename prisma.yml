@@ -6,9 +6,11 @@ databases:
     host: mysql
     # FIXME: can we reference DB_USERNAME?
     # see https://www.prisma.io/docs/1.2/reference/service-configuration/prisma.yml/using-variables-nu5oith4da#environment-variables
+    #user: ${env:DB_USERNAME}
     user: root
     # FIXME: can we reference DB_PASSWORD?
     # see https://www.prisma.io/docs/1.2/reference/service-configuration/prisma.yml/using-variables-nu5oith4da#environment-variables
+    #password: ${env:DB_PASSWORD}
     password: prisma
     rawAccess: true
     port: 3306
