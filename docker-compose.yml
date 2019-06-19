@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.5'
 services:
   prisma:
     image: prismagraphql/prisma:1.34
@@ -52,6 +52,9 @@ services:
     restart: always
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src:rw
+      - ./frontend/public:/app/public:rw
 volumes:
   # FIXME: this should point to a pre-populated DB for deployment;
   # Consider ENV variable for volume path
