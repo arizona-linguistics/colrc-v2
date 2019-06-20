@@ -22,9 +22,9 @@ services:
       - ./.env
     environment:
       # FIXME: Make DRY/unified with MySQL, Prisma, etc.
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_ROOT_PASSWORD: prisma
+      MYSQL_DATABASE: colrc
+      MYSQL_USER: root
     volumes:
       - mysql:/var/lib/mysql
   backend:
