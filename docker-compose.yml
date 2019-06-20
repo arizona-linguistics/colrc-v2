@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.5'
 services:
   prisma:
     image: prismagraphql/prisma:1.34
@@ -30,8 +30,10 @@ services:
   backend:
     build:
       context: ./backend
-      # labels:
-      #   edu.arizona.colrc.description: "API for COLRC v2"
+      # specify .dev or .prod variant
+      dockerfile: Dockerfile.dev
+      labels:
+        edu.arizona.colrc.description: "API for COLRC v2"
     depends_on:
       - mysql
       - prisma
@@ -42,16 +44,21 @@ services:
       - ./.env
     environment:
       DB_HOST: mysql
+    volumes:
+      - ./backend:/app:rw
   frontend:
     build:
       context: ./frontend
-      # labels:
-      #   edu.arizona.colrc.description: "Frontend for COLRC v2"
+      labels:
+        edu.arizona.colrc.description: "Frontend for COLRC v2"
     depends_on:
       - backend
     restart: always
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src:rw
+      - ./frontend/public:/app/public:rw
 volumes:
   # FIXME: this should point to a pre-populated DB for deployment;
   # Consider ENV variable for volume path
