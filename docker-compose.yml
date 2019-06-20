@@ -30,8 +30,10 @@ services:
   backend:
     build:
       context: ./backend
-      # labels:
-      #   edu.arizona.colrc.description: "API for COLRC v2"
+      # specify .dev or .prod variant
+      dockerfile: Dockerfile.dev
+      labels:
+        edu.arizona.colrc.description: "API for COLRC v2"
     depends_on:
       - mysql
       - prisma
@@ -42,11 +44,13 @@ services:
       - ./.env
     environment:
       DB_HOST: mysql
+    volumes:
+      - ./backend:/app:rw
   frontend:
     build:
       context: ./frontend
-      # labels:
-      #   edu.arizona.colrc.description: "Frontend for COLRC v2"
+      labels:
+        edu.arizona.colrc.description: "Frontend for COLRC v2"
     depends_on:
       - backend
     restart: always
