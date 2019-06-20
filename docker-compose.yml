@@ -57,7 +57,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app:rw
+      - ./frontend/src:/app/src:rw
+      - ./frontend/public:/app/public:rw
 volumes:
   # FIXME: this should point to a pre-populated DB for deployment;
   # Consider ENV variable for volume path
