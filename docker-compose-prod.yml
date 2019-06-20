@@ -5,8 +5,8 @@ services:
     restart: always
     depends_on:
       - mysql
-    ports:
-      - "4466:4466"
+    expose:
+      - "4466"
     env_file:
       - ./misc/.env
     environment:
@@ -16,19 +16,18 @@ services:
   mysql:
     image: mysql:5.7
     restart: always
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     env_file:
       - ./misc/.env
     environment:
       # FIXME: Make DRY/unified with MySQL, Prisma, etc.
-      MYSQL_ROOT_PASSWORD: prisma
-      MYSQL_DATABASE: colrc
-      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
     volumes:
       - mysql:/var/lib/mysql
   backend:
-    container_name: colrc-v2-backend
     build:
       context: ./backend
       # specify .dev or .prod variant
@@ -39,8 +38,8 @@ services:
       - mysql
       - prisma
     restart: always
-    ports:
-      - "4000:4000"
+    expose:
+      - "4000"
     env_file:
       - ./misc/.env
     environment:
@@ -50,7 +49,6 @@ services:
       # prevent host's node_modules from being mounted
       - /app/node_modules
   frontend:
-    container_name: colrc-v2-frontend
     build:
       context: ./frontend
       labels:
@@ -58,6 +56,9 @@ services:
     depends_on:
       - backend
     restart: always
+    # FIXME: adjust to work in conjunction with letsencrypt and an nginx proxy
+    # ex: https://www.humankode.com/ssl/how-to-set-up-free-ssl-certificates-from-lets-encrypt-using-docker-and-nginx
+    # ex: https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
     ports:
       - "3000:3000"
     volumes:
