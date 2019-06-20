@@ -46,6 +46,8 @@ services:
       DB_HOST: mysql
     volumes:
       - ./backend:/app:rw
+      # prevent host's node_modules from being mounted
+      - /app/node_modules
   frontend:
     build:
       context: ./frontend
