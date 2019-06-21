@@ -480,7 +480,9 @@ const Mutation = new GraphQLObjectType({
 const typeDefs = `
   type User {
     id: ID!
-    name: String!
+    first: String!
+    last: String!
+    username: String!
     email: String!
     password: String!
     roles: [String]!
@@ -496,6 +498,42 @@ const typeDefs = `
   type Token {
     token: String!
   }
+  type Affix {
+    id: ID!
+    type: String!
+    salish: String!
+    nicodemus: String!
+    english: String!
+    link: String!
+    page: String!
+    active: String!
+    prevId: Affix
+    user: User!
+  }
+  type Root {
+    id: ID!
+    root: String!
+    number: Int!
+    salish: String!
+    nicodemus: String!
+    english: String!
+    active: String!
+    prevId: Root
+    user: User!
+  }
+  type Stem {
+    id: ID!
+    category: String!
+    reichard: String!
+    doak: String!
+    salish: String!
+    nicodemus: String!
+    english: String!
+    note: String!
+    active: String!
+    prevId: Stem
+    user: User!
+  }
   type Query {
     authenticateUser_Q: [User]
     checkUserExists_Q(email:String!): [UserExists]
@@ -505,7 +543,20 @@ const typeDefs = `
     addUser_M(name:String!,email:String!,password:String!): User
     updateUser_M(name:String!,email:String!,password:String!): User
     updateUserAdmin_M(id:String!,roles:[String!]!): User
+  
+    addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
+    updateAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
+    deleteAffix_M(id:ID!, roles:[String!]!): Affix
+    
+    addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!, roles:[String!]!): Root
+    updateRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!, roles:[String!]!): Root
+    deleteRoot_M(id:ID!, roles:[String!]!): Root
+
+    addStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!, roles:[String!]!): Stem
+    updateStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!, roles:[String!]!): Stem
+    deleteStem_M(id:ID!, roles:[String!]!): Stem
   }
+ 
 `;
 
 const resolvers = {
