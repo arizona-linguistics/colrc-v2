@@ -16,6 +16,12 @@ const { // define mysql connectors
   Affix,
   Stem,
   sequelize,
+  affix_C,
+  affixes_C,
+  root_C,
+  roots_C,
+  stem_C,
+  stems_C,
   authenticateUser_C,
   checkUserExists_C,
   loginUser_C,
@@ -35,7 +41,13 @@ const { // define resolvers
   updateUserAdmin_R,
   addAffix_R,
   addRoot_R,
-  addStem_R
+  addStem_R,
+  affix_R,
+  affixes_R,
+  root_R,
+  roots_R,
+  stem_R,
+  stems_R
 } = require('.././resolvers/mysqlDBResolver');
 
 const staticServerAddress = "http://lasrv01.ipfw.edu/";
@@ -545,6 +557,13 @@ const typeDefs = `
     authenticateUser_Q: [User]
     checkUserExists_Q(email:String!): [UserExists]
     loginUser_Q(email:String!,password:String!): [LoginUser]
+    affixes_Q: [Affix]
+    affix_Q(id:ID!): Affix
+    roots_Q: [Root]
+    root_Q(id:ID!): Root
+    stems_Q: [Stem]
+    stem_Q(id:ID!): Stem
+
   }
   type Mutation {
     addUser_M(name:String!,email:String!,password:String!): User
@@ -571,7 +590,13 @@ const resolvers = {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
     //check if user email already exists, for new user id creation
     checkUserExists_Q: (_, args, context) => checkUserExists_R(args, checkUserExists_C),
-    loginUser_Q: (_, args, context) => loginUser_R(args, loginUser_C)
+    loginUser_Q: (_, args, context) => loginUser_R(args, loginUser_C),
+    affix_Q: (_, args, context) => affix_R(args, affix_C),
+    affixes_Q: (_, args, context) => affixes_R(args, affixes_C),
+    stem_Q: (_, args, context) => stem_R(args, stem_C),
+    stems_Q: (_, args, context) => stems_R(args, stems_C),
+    root_Q: (_, args, context) => root_R(args, root_C),
+    roots_Q: (_, args, context) => roots_R(args, roots_C),
   },
   Mutation: {
     // first time user is created see - connector where a dummy role is inserted
@@ -580,7 +605,7 @@ const resolvers = {
     updateUser_M: (_, args, context) => updateUser_R(context,args,updateUser_C),
     //check jwt token, validate if user is admin then update any other user's roles
     updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C),
-    addAffix_M: (_, args, context) => addAffix_M(context, args,  ["admin","owner"], addAffix_C),
+    addAffix_M: (_, args, context) => addAffix_R(context, args,  ["admin","owner"], addAffix_C),
     addRoot_M: (_, args, context) => addRoot_R(      context, args, ["admin","owner"], addRoot_C),
     addStem_M: (_, args, context) => addStem_R(      context, args, ["admin","owner"], addStem_C),
   }
