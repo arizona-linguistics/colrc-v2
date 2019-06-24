@@ -155,7 +155,7 @@ const addUser_C = input => {
     where: { email: input.email }
   }).then((res) => {
     if(res) {
-      return {name:"",email:"", password: ""};
+      return {username:"",email:"", password: ""};
     } else {
       return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') }).then((res) => {
         return input;
@@ -255,37 +255,51 @@ const affix_C = input => {
   return Affix.findOne({
     where: { id: input.id }
   })
-} 
+}
 
 const affixes_C = input => {
   return Affix.findAll({
     where: { }
   })
-} 
+}
 
 const root_C = input => {
+  console.log(input)
   return Root.findOne({
     where: { id: input.id }
   })
-} 
+  .then(res => {
+    return [{
+      id: res.dataValues.id,
+      root: res.root,
+      number: res.number,
+      salish: res.salish,
+      nicodemus: res.nicodemus,
+      english: res.english,
+      active: 'Y',
+      prevId: res.rootId,
+      user: res.user
+    }]
+  })
+}
 
 const roots_C = input => {
   return Root.findAll({
     where: { }
   })
-} 
+}
 
 const stem_C = input => {
   return Stem.findOne({
     where: { id: input.id }
   })
-} 
+}
 
 const stems_C = input => {
   return Stem.findAll({
     where: { }
   })
-} 
+}
 
 
 module.exports = {
