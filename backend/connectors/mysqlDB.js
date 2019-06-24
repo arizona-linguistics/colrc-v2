@@ -138,7 +138,8 @@ const loginUser_C = input => {
   }).then(res => {
     console.log("we have results")
     console.log(res)
-    if(res.length > 0) {
+    if(res) {
+      console.log("This has data")
       console.log(res)
       return [{
         password: jwt.sign(
@@ -273,7 +274,7 @@ const root_C = input => {
     where: { id: input.id }
   })
   .then(res => {
-    return [{
+    return {
       id: res.dataValues.id,
       root: res.root,
       number: res.number,
@@ -283,7 +284,7 @@ const root_C = input => {
       active: 'Y',
       prevId: res.rootId,
       user: res.user
-    }]
+    }
   })
 }
 

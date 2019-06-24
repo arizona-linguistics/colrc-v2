@@ -64,43 +64,43 @@ const addNewUser_R = (context, input, connectorQuery) => {
 const addAffix_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 const addRoot_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 const addStem_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 const affix_R = ( input, connectorQuery) => {
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 const affixes_R = ( input, connectorQuery) => {
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 const root_R = ( input, connectorQuery) => {
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 const roots_R = ( input, connectorQuery) => {
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 const stem_R = ( input, connectorQuery) => {
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 const stems_R = ( input, connectorQuery) => {
-  return connectorQuery.apply(this,(input));
+  return connectorQuery.apply(this,[input]);
 }
 
 module.exports = {
