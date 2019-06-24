@@ -1,7 +1,7 @@
 // ORM (Object-Relational Mapper library)
 const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+require('dotenv').config({path:__dirname+'/./../../misc/.env'});
 const _ = require('lodash');
 const { noRoleError } = require('./../errors/error');
 

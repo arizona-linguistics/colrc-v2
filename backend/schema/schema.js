@@ -1,4 +1,5 @@
 const graphql = require('graphql');
+const { makeExecutableSchema } = require('graphql-tools');
 const {
   GraphQLObjectType,
   GraphQLString,
@@ -549,11 +550,11 @@ const typeDefs = `
     addUser_M(name:String!,email:String!,password:String!): User
     updateUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
     updateUserAdmin_M(id:String!,roles:[String!]!): User
-  
+
     addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
     updateAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
     deleteAffix_M(id:ID!, roles:[String!]!): Affix
-    
+
     addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!, roles:[String!]!): Root
     updateRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!, roles:[String!]!): Root
     deleteRoot_M(id:ID!, roles:[String!]!): Root
@@ -562,7 +563,7 @@ const typeDefs = `
     updateStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!, roles:[String!]!): Stem
     deleteStem_M(id:ID!, roles:[String!]!): Stem
   }
- 
+
 `;
 
 const resolvers = {
