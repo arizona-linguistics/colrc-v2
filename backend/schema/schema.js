@@ -14,8 +14,28 @@ const { // define mysql connectors
   User,
   Affix,
   Stem,
-  sequelize
+  sequelize,
+  authenticateUser_C,
+  checkUserExists_C,
+  loginUser_C,
+  addUser_C,
+  updateUser_C,
+  updateUserAdmin_C,
+  addAffix_C,
+  addRoot_C,
+  addStem_C
 } = require('../connectors/mysqlDB');
+const { // define resolvers
+  authenticateUser_R,
+  checkUserExists_R,
+  loginUser_R,
+  addUser_R,
+  updateUser_R,
+  updateUserAdmin_R,
+  addAffix_R,
+  addRoot_R,
+  addStem_R
+} = require('.././resolvers/mysqlDBResolver');
 
 const staticServerAddress = "http://lasrv01.ipfw.edu/";
 
@@ -460,7 +480,114 @@ const Mutation = new GraphQLObjectType({
 	}
 });
 
-module.exports = new GraphQLSchema({
-  query: BaseQuery,
-  mutation: Mutation
-});
+// passwrd field on type User shouldn't expose passwords
+// instead is used to store json token after successfull login query - loginUser_Q
+// it's ok to leave password at UserInput at Mutation
+const typeDefs = `
+  type User {
+    id: ID!
+    first: String!
+    last: String!
+    username: String!
+    email: String!
+    password: String!
+    roles: [String]!
+  }
+  type UserExists {
+    name: String!
+    email: String!
+    roles: [String]!
+  }
+  type LoginUser {
+    password: String!
+  }
+  type Token {
+    token: String!
+  }
+  type Affix {
+    id: ID!
+    type: String!
+    salish: String!
+    nicodemus: String!
+    english: String!
+    link: String!
+    page: String!
+    active: String!
+    prevId: Int
+    user: User!
+  }
+  type Root {
+    id: ID!
+    root: String!
+    number: Int!
+    salish: String!
+    nicodemus: String!
+    english: String!
+    active: String!
+    prevId: Int
+    user: User!
+  }
+  type Stem {
+    id: ID!
+    category: String!
+    reichard: String!
+    doak: String!
+    salish: String!
+    nicodemus: String!
+    english: String!
+    note: String!
+    active: String!
+    prevId: Int
+    user: User!
+  }
+  type Query {
+    authenticateUser_Q: [User]
+    checkUserExists_Q(email:String!): [UserExists]
+    loginUser_Q(email:String!,password:String!): [LoginUser]
+  }
+  type Mutation {
+    addUser_M(name:String!,email:String!,password:String!): User
+    updateUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
+    updateUserAdmin_M(id:String!,roles:[String!]!): User
+  
+    addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
+    updateAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
+    deleteAffix_M(id:ID!, roles:[String!]!): Affix
+    
+    addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!, roles:[String!]!): Root
+    updateRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!, roles:[String!]!): Root
+    deleteRoot_M(id:ID!, roles:[String!]!): Root
+
+    addStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!, roles:[String!]!): Stem
+    updateStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!, roles:[String!]!): Stem
+    deleteStem_M(id:ID!, roles:[String!]!): Stem
+  }
+ 
+`;
+
+const resolvers = {
+  Query: {
+    authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
+    //check if user email already exists, for new user id creation
+    checkUserExists_Q: (_, args, context) => checkUserExists_R(args, checkUserExists_C),
+    loginUser_Q: (_, args, context) => loginUser_R(args, loginUser_C)
+  },
+  Mutation: {
+    // first time user is created see - connector where a dummy role is inserted
+    addUser_M: (_, args, context) => addUser_R(args,addUser_C),
+    //check jwt token, validate if user is self then update own email & password but NOT the roles
+    updateUser_M: (_, args, context) => updateUser_R(context,args,updateUser_C),
+    //check jwt token, validate if user is admin then update any other user's roles
+    updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C),
+    addAffix_M: (_, args, context) => addAffix_M(context, args,  ["admin","owner"], addAffix_C),
+    addRoot_M: (_, args, context) => addRoot_R(      context, args, ["admin","owner"], addRoot_C),
+    addStem_M: (_, args, context) => addStem_R(      context, args, ["admin","owner"], addStem_C),
+  }
+};
+
+module.exports = new makeExecutableSchema({ typeDefs, resolvers });
+
+// module.exports = new GraphQLSchema({
+//   query: BaseQuery,
+//   mutation: Mutation
+// });

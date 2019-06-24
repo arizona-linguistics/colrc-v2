@@ -1,5 +1,9 @@
 // ORM (Object-Relational Mapper library)
 const Sequelize = require('sequelize');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const _ = require('lodash');
+const { noRoleError } = require('./../errors/error');
 
 // ****** Set up default MYSQL connection START ****** //
 const sequelize = new Sequelize(
@@ -99,44 +103,167 @@ const Stem = sequelize.define('stem', {
 
 Stem.belongsTo(User, { foreignKey: 'userId' });
 
-// force: true will drop the table if it already exists
-// Book
-// .sync({force: true});
-// Author
-// .sync({force: true});
+const authenticateUser_C = input => {
+  //return User.find({ _id: input.id }, { roles: 1 }); // do not feed password back to query, password stays in database
+  return User.findOne({
+    where: { id: input.id }
+  }).then((res) => {
+    return [{
+      id: res.dataValues.id,
+      username: res.dataValues.username,
+      email: res.dataValues.email,
+      roles: res.dataValues.roles.split(',')
+    }];
+  }
+  );
+};
+const checkUserExists_C = input => {
+  //return User.find({ email: input.email }, { name:1, email: 1, roles: 1 });
+  return User.findOne({
+    where: { email: input.email }
+  }).then((res) => {
+    return [{
+      username: res.dataValues.username,
+      email: res.dataValues.email,
+      roles: res.dataValues.roles.split(',')
+    }];
+  }
+  );
+};
 
-// async function makeRootTable() {
-//   await Root.sync({force: true});
-  // await Root.create({
-  //   root: "√a",
-  //   number: 1,
-  //   salish: "a",
-  //   nicodemus: "a",
-  //   english: "†  hello. (gr.)"
-  // });
+const loginUser_C = input => {
+  return User.findOne({
+    where: { email: input.email, password: input.password }
+  }).then((res) => {
+    if(res.length > 0) {
+    return [{
+      password: jwt.sign(
+        { id: res.dataValues.id, email: res.dataValues.email, username: res.dataValues.username },
+        process.env.JWT_SECRET,
+        { expiresIn: '3d' }
+      )
+    }];
+  }
+}
+  );
+  // do not feed password back to query, password stays in database
+}
+const addUser_C = input => {
+  input.roles = ["dummy"]; // assign a dummy roles at first time user is created
+  let user = new User(input);
+  return User.findOne({
+    where: { email: input.email }
+  }).then((res) => {
+    if(res) {
+      return {name:"",email:"", password: ""};
+    } else {
+      return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') }).then((res) => {
+        return input;
+      });
+    }
+  });
+}
 
-//   var fs = require('fs');
-//   var contents = fs.readFileSync('/Users/johnw/Documents/COLRC/data_files/entries.txt', 'utf8');
-//   var rows = contents.split("\n");
-//   rows.forEach(async function (row, index) {
-//     columns = row.split(":::");
-//     await Root.create({
-//       root: columns[2],
-//       number: parseInt(columns[3]),
-//       salish: columns[4],
-//       nicodemus: columns[5],
-//       english: columns[6]
-//     });
-//   });
-//   console.log("I added all the roots to the table");
-// }
+const updateUser_C = input => {
+  // don't let user update his own role, only admin can update roles
+  User.update({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password }, { where: { id: input.id } }).then((res) => {
+    return input;
+  });
+};
 
-//makeRootTable();
+const updateUserAdmin_C = input => {
+  console.log("input:"+input)
+  return User.findOne({
+    where: { id: input.myid }
+  }).then((res) => {
+    if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1) {
+      // don't let user update his own role, only admin can update roles
+      User.update({ roles: input.roles.join(',') }, { where: { id: input.id } }).then((res) => {
+        return input;
+      });
+    } else {
+      //throw new noRoleError();
+    }
+  }
+  );
+};
+
+const addAffix_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  }).then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      let affix = new Affix ({
+        type: input.type,
+        salish: input.salish,
+        nicodemus: input.nicodemus,
+        english: input.english,
+        link: input.link,
+        page: input.page,
+        active: 'Y',
+        prevId: input.affixId,
+        user: res
+      });
+      return affix.save();
+    } //if
+  }) //then
+} //addAffix_C
+
+const addRoot_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  }).then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      let root = new Root ({
+        root: input.root,
+        number: input.number,
+        salish: input.salish,
+        nicodemus: input.nicodemus,
+        english: input.english,
+        active: 'Y',
+        prevId: input.rootId,
+        user: res
+      });
+      return root.save();
+    } //if
+  }) //then
+} //addRoot_C
+
+const addStem_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  }).then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      let stem = new Stem ({
+        category: input.category,
+        reichard: input.reichard,
+        doak: input.doak,
+        nicodemus: input.nicodemus,
+        english: input.english,
+        note: input.note,
+        active: 'Y',
+        prevId: input.stemId,
+        user: res
+      });
+      return stem.save();
+    } //if
+  }) //then
+} //addStem_C
+
 
 module.exports = {
   Root,
   User,
   Affix,
   Stem,
-  sequelize
+  sequelize,
+  authenticateUser_C,
+  checkUserExists_C,
+  loginUser_C,
+  addUser_C,
+  updateUser_C,
+  updateUserAdmin_C,
+  addAffix_C,
+  addRoot_C,
+  addStem_C,
 };
