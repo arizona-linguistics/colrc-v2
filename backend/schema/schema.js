@@ -507,7 +507,7 @@ const typeDefs = `
     roles: [String]!
   }
   type UserExists {
-    name: String!
+    username: String!
     email: String!
     roles: [String]!
   }
@@ -566,7 +566,7 @@ const typeDefs = `
 
   }
   type Mutation {
-    addUser_M(name:String!,email:String!,password:String!): User
+    addUser_M(username:String!,email:String!,password:String!): User
     updateUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
     updateUserAdmin_M(id:String!,roles:[String!]!): User
 
