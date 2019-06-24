@@ -155,7 +155,7 @@ const addUser_C = input => {
     where: { email: input.email }
   }).then((res) => {
     if(res) {
-      return {name:"",email:"", password: ""};
+      return {username:"",email:"", password: ""};
     } else {
       return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') }).then((res) => {
         return input;
