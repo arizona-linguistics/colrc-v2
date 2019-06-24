@@ -110,7 +110,7 @@ const authenticateUser_C = input => {
   }).then((res) => {
     return [{
       id: res.dataValues.id,
-      name: res.dataValues.name,
+      username: res.dataValues.username,
       email: res.dataValues.email,
       roles: res.dataValues.roles.split(',')
     }];
@@ -123,7 +123,7 @@ const checkUserExists_C = input => {
     where: { email: input.email }
   }).then((res) => {
     return [{
-      name: res.dataValues.name,
+      username: res.dataValues.username,
       email: res.dataValues.email,
       roles: res.dataValues.roles.split(',')
     }];
@@ -138,7 +138,7 @@ const loginUser_C = input => {
     if(res.length > 0) {
     return [{
       password: jwt.sign(
-        { id: res.dataValues.id, email: res.dataValues.email, name: res.dataValues.name },
+        { id: res.dataValues.id, email: res.dataValues.email, username: res.dataValues.username },
         process.env.JWT_SECRET,
         { expiresIn: '3d' }
       )
@@ -157,7 +157,7 @@ const addUser_C = input => {
     if(res) {
       return {name:"",email:"", password: ""};
     } else {
-      return User.create({ name: input.name, email: input.email, password: input.password, roles: input.roles.join(',') }).then((res) => {
+      return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') }).then((res) => {
         return input;
       });
     }
@@ -166,7 +166,7 @@ const addUser_C = input => {
 
 const updateUser_C = input => {
   // don't let user update his own role, only admin can update roles
-  User.update({ name: input.name, email: input.email, password: input.password }, { where: { id: input.id } }).then((res) => {
+  User.update({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password }, { where: { id: input.id } }).then((res) => {
     return input;
   });
 };
@@ -188,6 +188,69 @@ const updateUserAdmin_C = input => {
   );
 };
 
+const addAffix_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  }).then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      let affix = new Affix ({
+        type: input.type,
+        salish: input.salish,
+        nicodemus: input.nicodemus,
+        english: input.english,
+        link: input.link,
+        page: input.page,
+        active: 'Y',
+        prevId: input.affixId,
+        user: res
+      });
+      return affix.save();
+    } //if
+  }) //then
+} //addAffix_C
+
+const addRoot_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  }).then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      let root = new Root ({
+        root: input.root,
+        number: input.number,
+        salish: input.salish,
+        nicodemus: input.nicodemus,
+        english: input.english,
+        active: 'Y',
+        prevId: input.rootId,
+        user: res
+      });
+      return root.save();
+    } //if
+  }) //then
+} //addRoot_C
+
+const addStem_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  }).then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      let stem = new Stem ({
+        category: input.category,
+        reichard: input.reichard,
+        doak: input.doak,
+        nicodemus: input.nicodemus,
+        english: input.english,
+        note: input.note,
+        active: 'Y',
+        prevId: input.stemId,
+        user: res
+      });
+      return stem.save();
+    } //if
+  }) //then
+} //addStem_C
+
+
 module.exports = {
   Root,
   User,
@@ -199,5 +262,8 @@ module.exports = {
   loginUser_C,
   addUser_C,
   updateUser_C,
-  updateUserAdmin_C
+  updateUserAdmin_C,
+  addAffix_C,
+  addRoot_C,
+  addStem_C,
 };

@@ -20,7 +20,10 @@ const { // define mysql connectors
   loginUser_C,
   addUser_C,
   updateUser_C,
-  updateUserAdmin_C
+  updateUserAdmin_C,
+  addAffix_C,
+  addRoot_C,
+  addStem_C
 } = require('../connectors/mysqlDB');
 const { // define resolvers
   authenticateUser_R,
@@ -28,7 +31,10 @@ const { // define resolvers
   loginUser_R,
   addUser_R,
   updateUser_R,
-  updateUserAdmin_R
+  updateUserAdmin_R,
+  addAffix_R,
+  addRoot_R,
+  addStem_R
 } = require('.././resolvers/mysqlDBResolver');
 
 const staticServerAddress = "http://lasrv01.ipfw.edu/";
@@ -507,7 +513,7 @@ const typeDefs = `
     link: String!
     page: String!
     active: String!
-    prevId: Affix
+    prevId: Int
     user: User!
   }
   type Root {
@@ -518,7 +524,7 @@ const typeDefs = `
     nicodemus: String!
     english: String!
     active: String!
-    prevId: Root
+    prevId: Int
     user: User!
   }
   type Stem {
@@ -531,7 +537,7 @@ const typeDefs = `
     english: String!
     note: String!
     active: String!
-    prevId: Stem
+    prevId: Int
     user: User!
   }
   type Query {
@@ -541,7 +547,7 @@ const typeDefs = `
   }
   type Mutation {
     addUser_M(name:String!,email:String!,password:String!): User
-    updateUser_M(name:String!,email:String!,password:String!): User
+    updateUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
     updateUserAdmin_M(id:String!,roles:[String!]!): User
   
     addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
@@ -572,13 +578,16 @@ const resolvers = {
     //check jwt token, validate if user is self then update own email & password but NOT the roles
     updateUser_M: (_, args, context) => updateUser_R(context,args,updateUser_C),
     //check jwt token, validate if user is admin then update any other user's roles
-    updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C)
+    updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C),
+    addAffix_M: (_, args, context) => addAffix_M(context, args,  ["admin","owner"], addAffix_C),
+    addRoot_M: (_, args, context) => addRoot_R(      context, args, ["admin","owner"], addRoot_C),
+    addStem_M: (_, args, context) => addStem_R(      context, args, ["admin","owner"], addStem_C),
   }
 };
 
 module.exports = new makeExecutableSchema({ typeDefs, resolvers });
 
-module.exports = new GraphQLSchema({
-  query: BaseQuery,
-  mutation: Mutation
-});
+// module.exports = new GraphQLSchema({
+//   query: BaseQuery,
+//   mutation: Mutation
+// });
