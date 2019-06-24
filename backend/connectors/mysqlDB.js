@@ -132,22 +132,26 @@ const checkUserExists_C = input => {
 };
 
 const loginUser_C = input => {
+  console.log(input)
   return User.findOne({
     where: { email: input.email, password: input.password }
-  }).then((res) => {
+  }).then(res => {
+    console.log("we have results")
+    console.log(res)
     if(res.length > 0) {
-    return [{
-      password: jwt.sign(
-        { id: res.dataValues.id, email: res.dataValues.email, username: res.dataValues.username },
-        process.env.JWT_SECRET,
-        { expiresIn: '3d' }
-      )
-    }];
-  }
-}
-  );
+      console.log(res)
+      return [{
+        password: jwt.sign(
+          { id: res.dataValues.id, email: res.dataValues.email, username: res.dataValues.username },
+          process.env.JWT_SECRET,
+          { expiresIn: '3d' }
+        )
+      }]
+    } // if
+  }) // then
   // do not feed password back to query, password stays in database
 }
+
 const addUser_C = input => {
   input.roles = ["dummy"]; // assign a dummy roles at first time user is created
   let user = new User(input);
@@ -155,7 +159,7 @@ const addUser_C = input => {
     where: { email: input.email }
   }).then((res) => {
     if(res) {
-      return {username:"",email:"", password: ""};
+      return {first:"", last:"", username:"",email:"", password: "", roles:""};
     } else {
       return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') }).then((res) => {
         return input;
