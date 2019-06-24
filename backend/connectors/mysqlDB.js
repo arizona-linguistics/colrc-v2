@@ -251,6 +251,43 @@ const addStem_C = input => {
 } //addStem_C
 
 
+const affix_C = input => {
+  return Affix.findOne({
+    where: { id: input.id }
+  })
+} 
+
+const affixes_C = input => {
+  return Affix.findAll({
+    where: { }
+  })
+} 
+
+const root_C = input => {
+  return Root.findOne({
+    where: { id: input.id }
+  })
+} 
+
+const roots_C = input => {
+  return Root.findAll({
+    where: { }
+  })
+} 
+
+const stem_C = input => {
+  return Stem.findOne({
+    where: { id: input.id }
+  })
+} 
+
+const stems_C = input => {
+  return Stem.findAll({
+    where: { }
+  })
+} 
+
+
 module.exports = {
   Root,
   User,
@@ -266,4 +303,10 @@ module.exports = {
   addAffix_C,
   addRoot_C,
   addStem_C,
+  affix_C,
+  affixes_C,
+  root_C,
+  roots_C,
+  stem_C,
+  stems_C,
 };
