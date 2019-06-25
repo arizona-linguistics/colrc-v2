@@ -47,7 +47,7 @@ const addUser_R = (input, connectorQuery) => {
 };
 
 const updateUser_R = (context,input,connectorQuery) => {
-  input["id"] = checkToken(context).id;
+  input["myid"] = checkToken(context).id;
   return connectorQuery.apply(this, [input]);
 };
 
