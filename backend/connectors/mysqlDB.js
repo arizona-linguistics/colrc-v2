@@ -110,6 +110,9 @@ const authenticateUser_C = input => {
   }).then((res) => {
     return [{
       id: res.dataValues.id,
+      first: res.dataValues.first,
+      last: res.dataValues.last,
+      password: res.dataValues.password,
       username: res.dataValues.username,
       email: res.dataValues.email,
       roles: res.dataValues.roles.split(',')
@@ -171,32 +174,53 @@ const addUser_C = input => {
 
 const updateUser_C = input => {
   // don't let user update his own role, only admin can update roles
-  User.update({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password }, { where: { id: input.id } }).then((res) => {
-    return input;
-  });
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(user => {
+    return user.update({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password }, { where: { id: input.myid } })
+  })
+  .then(res => {
+    res.dataValues.roles = res.dataValues.roles.split(',')
+    return res.dataValues
+  })
 };
 
 const updateUserAdmin_C = input => {
-  console.log("input:"+input)
+  //console.log("input:"+input)
   return User.findOne({
     where: { id: input.myid }
-  }).then((res) => {
-    if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1) {
+  })
+  .then(res => {
+    //console.log(res.dataValues.roles)
+    //console.log(input.expectedRoles)
+    if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1)
+    {
+      //console.log("I passed the roles test")
       // don't let user update his own role, only admin can update roles
-      User.update({ roles: input.roles.join(',') }, { where: { id: input.id } }).then((res) => {
-        return input;
-      });
+      return User.findOne({
+        where: { id: input.id }
+      })
+      .then(user => {
+        return user.update({ roles: input.roles.join(',') }, { where: { id: input.id } })
+      })
+      .then(moduser => {
+        //console.log("I have a modified user")
+        //console.log(moduser)
+        moduser.dataValues.roles = moduser.dataValues.roles.split(',')
+        return moduser.dataValues
+      })
     } else {
       //throw new noRoleError();
     }
-  }
-  );
+  })
 };
 
 const addAffix_C = input => {
   return User.findOne({
     where: { id: input.myid }
-  }).then(res => {
+  })
+  .then(res => {
     if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
       let affix = new Affix ({
         type: input.type,
@@ -207,7 +231,7 @@ const addAffix_C = input => {
         page: input.page,
         active: 'Y',
         prevId: input.affixId,
-        user: res
+        userId: res.dataValues.id
       });
       return affix.save();
     } //if
