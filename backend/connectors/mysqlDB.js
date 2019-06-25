@@ -132,22 +132,27 @@ const checkUserExists_C = input => {
 };
 
 const loginUser_C = input => {
+  console.log(input)
   return User.findOne({
     where: { email: input.email, password: input.password }
-  }).then((res) => {
-    if(res.length > 0) {
-    return [{
-      password: jwt.sign(
-        { id: res.dataValues.id, email: res.dataValues.email, username: res.dataValues.username },
-        process.env.JWT_SECRET,
-        { expiresIn: '3d' }
-      )
-    }];
-  }
-}
-  );
+  }).then(res => {
+    console.log("we have results")
+    console.log(res)
+    if(res) {
+      console.log("This has data")
+      console.log(res)
+      return [{
+        password: jwt.sign(
+          { id: res.dataValues.id, email: res.dataValues.email, username: res.dataValues.username },
+          process.env.JWT_SECRET,
+          { expiresIn: '3d' }
+        )
+      }]
+    } // if
+  }) // then
   // do not feed password back to query, password stays in database
 }
+
 const addUser_C = input => {
   input.roles = ["dummy"]; // assign a dummy roles at first time user is created
   let user = new User(input);
@@ -155,7 +160,7 @@ const addUser_C = input => {
     where: { email: input.email }
   }).then((res) => {
     if(res) {
-      return {username:"",email:"", password: ""};
+      return {first:"", last:"", username:"",email:"", password: "", roles:""};
     } else {
       return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') }).then((res) => {
         return input;
@@ -255,37 +260,51 @@ const affix_C = input => {
   return Affix.findOne({
     where: { id: input.id }
   })
-} 
+}
 
 const affixes_C = input => {
   return Affix.findAll({
     where: { }
   })
-} 
+}
 
 const root_C = input => {
+  console.log(input)
   return Root.findOne({
     where: { id: input.id }
   })
-} 
+  .then(res => {
+    return {
+      id: res.dataValues.id,
+      root: res.root,
+      number: res.number,
+      salish: res.salish,
+      nicodemus: res.nicodemus,
+      english: res.english,
+      active: 'Y',
+      prevId: res.rootId,
+      user: res.user
+    }
+  })
+}
 
 const roots_C = input => {
   return Root.findAll({
     where: { }
   })
-} 
+}
 
 const stem_C = input => {
   return Stem.findOne({
     where: { id: input.id }
   })
-} 
+}
 
 const stems_C = input => {
   return Stem.findAll({
     where: { }
   })
-} 
+}
 
 
 module.exports = {
