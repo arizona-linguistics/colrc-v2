@@ -221,9 +221,6 @@ const addAffix_C = input => {
     where: { id: input.myid }
   })
   .then(res => {
-    console.log(input.expectedRoles)
-    console.log(res.dataValues.roles)
-    console.log( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual))
     if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
       let affix = new Affix ({
         type: input.type,
@@ -256,11 +253,14 @@ const addRoot_C = input => {
         nicodemus: input.nicodemus,
         english: input.english,
         active: 'Y',
-        prevId: input.rootId,
+        prevId: null,
         userId: res.dataValues.id
       });
       return root.save();
     } //if
+    else {
+      throw new noRoleError
+    }
   }) //then
 } //addRoot_C
 
@@ -275,13 +275,17 @@ const addStem_C = input => {
         doak: input.doak,
         nicodemus: input.nicodemus,
         english: input.english,
+        salish: input.salish,
         note: input.note,
         active: 'Y',
-        prevId: input.stemId,
+        prevId: null,
         userId: res.dataValues.id
       });
       return stem.save();
     } //if
+    else {
+      throw new noRoleError
+    }
   }) //then
 } //addStem_C
 

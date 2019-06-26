@@ -572,7 +572,7 @@ const typeDefs = `
 
     addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
     updateAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
-    deleteAffix_M(id:ID!, roles:[String!]!): Affix
+    deleteAffix_M(id:ID!): Affix
 
     addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
     updateRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
@@ -618,8 +618,8 @@ const resolvers = {
     //check jwt token, validate if user is admin then update any other user's roles
     updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C),
     addAffix_M: (_, args, context) => addAffix_R(context, args,  ["admin","owner"], addAffix_C),
-    addRoot_M: (_, args, context) => addRoot_R(      context, args, ["admin","owner"], addRoot_C),
-    addStem_M: (_, args, context) => addStem_R(      context, args, ["admin","owner"], addStem_C),
+    addRoot_M: (_, args, context) => addRoot_R(context, args, ["admin","owner"], addRoot_C),
+    addStem_M: (_, args, context) => addStem_R(context, args, ["admin","owner"], addStem_C),
   }
 };
 
