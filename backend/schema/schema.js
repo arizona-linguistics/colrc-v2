@@ -587,8 +587,17 @@ const typeDefs = `
 
 const resolvers = {
   Affix: {
-    user: affix => { return User.findOne({ where: { id: affix.userId } }) },
+    user: affix => { return User.findOne({ where: {id: affix.userId} }) },
   },
+
+  Root: {
+    user: root => { return User.findOne({ where: {id: root.userId} }) },
+  },
+
+  Stem: {
+    user: stem => { return User.findOne({ where: {id: stem.userId} }) },
+  },
+
   Query: {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
     //check if user email already exists, for new user id creation
@@ -609,8 +618,8 @@ const resolvers = {
     //check jwt token, validate if user is admin then update any other user's roles
     updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C),
     addAffix_M: (_, args, context) => addAffix_R(context, args,  ["admin","owner"], addAffix_C),
-    addRoot_M: (_, args, context) => addRoot_R(context, args, ["admin","owner"], addRoot_C),
-    addStem_M: (_, args, context) => addStem_R(context, args, ["admin","owner"], addStem_C),
+    addRoot_M: (_, args, context) => addRoot_R(      context, args, ["admin","owner"], addRoot_C),
+    addStem_M: (_, args, context) => addStem_R(      context, args, ["admin","owner"], addStem_C),
   }
 };
 
