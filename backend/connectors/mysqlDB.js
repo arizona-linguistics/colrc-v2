@@ -221,6 +221,9 @@ const addAffix_C = input => {
     where: { id: input.myid }
   })
   .then(res => {
+    console.log(input.expectedRoles)
+    console.log(res.dataValues.roles)
+    console.log( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual))
     if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
       let affix = new Affix ({
         type: input.type,
@@ -230,11 +233,14 @@ const addAffix_C = input => {
         link: input.link,
         page: input.page,
         active: 'Y',
-        prevId: input.affixId,
+        prevId: null,
         userId: res.dataValues.id
       });
-      return affix.save();
+      return affix.save()
     } //if
+    else {
+      throw new noRoleError
+    }
   }) //then
 } //addAffix_C
 
