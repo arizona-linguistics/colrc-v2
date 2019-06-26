@@ -257,7 +257,7 @@ const addRoot_C = input => {
         english: input.english,
         active: 'Y',
         prevId: input.rootId,
-        user: res
+        userId: res.dataValues.id
       });
       return root.save();
     } //if
@@ -278,7 +278,7 @@ const addStem_C = input => {
         note: input.note,
         active: 'Y',
         prevId: input.stemId,
-        user: res
+        userId: res.dataValues.id
       });
       return stem.save();
     } //if
