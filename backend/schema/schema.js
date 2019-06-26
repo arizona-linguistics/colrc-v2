@@ -570,25 +570,34 @@ const typeDefs = `
     updateUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
     updateUserAdmin_M(id:String!,roles:[String!]!): User
 
-    addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
-    updateAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!, roles:[String!]!): Affix
+    addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
+    updateAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
     deleteAffix_M(id:ID!, roles:[String!]!): Affix
 
-    addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!, roles:[String!]!): Root
-    updateRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!, roles:[String!]!): Root
-    deleteRoot_M(id:ID!, roles:[String!]!): Root
+    addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
+    updateRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
+    deleteRoot_M(id:ID!): Root
 
-    addStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!, roles:[String!]!): Stem
-    updateStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!, roles:[String!]!): Stem
-    deleteStem_M(id:ID!, roles:[String!]!): Stem
+    addStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!): Stem
+    updateStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!): Stem
+    deleteStem_M(id:ID!): Stem
   }
 
 `;
 
 const resolvers = {
   Affix: {
-    user: affix => { return User.findOne({ where: { id: affix.userId } }) },
+    user: affix => { return User.findOne({ where: {id: affix.userId} }) },
   },
+
+  Root: {
+    user: root => { return User.findOne({ where: {id: root.userId} }) },
+  },
+
+  Stem: {
+    user: stem => { return User.findOne({ where: {id: stem.userId} }) },
+  },
+
   Query: {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
     //check if user email already exists, for new user id creation
@@ -609,8 +618,8 @@ const resolvers = {
     //check jwt token, validate if user is admin then update any other user's roles
     updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C),
     addAffix_M: (_, args, context) => addAffix_R(context, args,  ["admin","owner"], addAffix_C),
-    addRoot_M: (_, args, context) => addRoot_R(context, args, ["admin","owner"], addRoot_C),
-    addStem_M: (_, args, context) => addStem_R(context, args, ["admin","owner"], addStem_C),
+    addRoot_M: (_, args, context) => addRoot_R(      context, args, ["admin","owner"], addRoot_C),
+    addStem_M: (_, args, context) => addStem_R(      context, args, ["admin","owner"], addStem_C),
   }
 };
 
