@@ -35,6 +35,13 @@ You can access the following services:
 
 - [`Prisma` GraphQL Playground](https://github.com/prisma/graphql-playground#how-is-this-different-from-graphiql): http://localhost:4466
 
+#### MySQL
+
+```
+docker exec -it "colrc-v2-mysql-db" mysql -u root -p
+```
+See [`misc/.env`](./misc/.env) for the credentials used to launch the development version of the service.
+
 ### Test
 
 We suggest testing using the environment launched by `docker-compose`.
