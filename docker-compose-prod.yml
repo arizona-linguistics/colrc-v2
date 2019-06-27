@@ -20,11 +20,6 @@ services:
       - "3306"
     env_file:
       - ./misc/.env
-    environment:
-      # FIXME: Make DRY/unified with MySQL, Prisma, etc.
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USERNAME}
     volumes:
       - mysql:/var/lib/mysql
   backend:
