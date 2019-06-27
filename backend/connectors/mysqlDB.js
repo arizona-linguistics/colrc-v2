@@ -371,22 +371,8 @@ const affixes_C = input => {
 }
 
 const root_C = input => {
-  console.log(input)
   return Root.findOne({
     where: { id: input.id }
-  })
-  .then(res => {
-    return {
-      id: res.dataValues.id,
-      root: res.root,
-      number: res.number,
-      salish: res.salish,
-      nicodemus: res.nicodemus,
-      english: res.english,
-      active: 'Y',
-      prevId: res.rootId,
-      user: res.user
-    }
   })
 }
 
