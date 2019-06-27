@@ -1,6 +1,7 @@
 version: '3.5'
 services:
   prisma:
+    container_name: colrc-v2-prisma
     image: prismagraphql/prisma:1.34
     restart: always
     depends_on:
@@ -14,17 +15,13 @@ services:
     volumes:
       - "./misc/prisma.yml:/prisma.yml"
   mysql:
+    container_name: colrc-v2-mysql-db
     image: mysql:5.7
     restart: always
     ports:
       - "3306:3306"
     env_file:
       - ./misc/.env
-    environment:
-      # FIXME: Make DRY/unified with MySQL, Prisma, etc.
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USERNAME}
     volumes:
       - mysql:/var/lib/mysql
   backend:
