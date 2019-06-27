@@ -221,9 +221,6 @@ const addAffix_C = input => {
     where: { id: input.myid }
   })
   .then(res => {
-    console.log(input.expectedRoles)
-    console.log(res.dataValues.roles)
-    console.log( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual))
     if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
       let affix = new Affix ({
         type: input.type,
@@ -256,11 +253,14 @@ const addRoot_C = input => {
         nicodemus: input.nicodemus,
         english: input.english,
         active: 'Y',
-        prevId: input.rootId,
+        prevId: null,
         userId: res.dataValues.id
       });
       return root.save();
     } //if
+    else {
+      throw new noRoleError
+    }
   }) //then
 } //addRoot_C
 
@@ -275,16 +275,88 @@ const addStem_C = input => {
         doak: input.doak,
         nicodemus: input.nicodemus,
         english: input.english,
+        salish: input.salish,
         note: input.note,
         active: 'Y',
-        prevId: input.stemId,
+        prevId: null,
         userId: res.dataValues.id
       });
       return stem.save();
     } //if
+    else {
+      throw new noRoleError
+    }
   }) //then
 } //addStem_C
 
+const deleteAffix_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(res => {
+    if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1)
+    {
+      return Affix.findOne({
+        where: { id: input.id }
+      })
+      .then(affix => {
+        return affix.update({ active:'N' }, 
+        { where: { id: input.id } })
+      })
+      .then(modaffix => {
+        return modaffix.dataValues
+      })
+    } else {
+      throw new noRoleError();
+    }
+  })
+};
+
+const deleteRoot_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(res => {
+    if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1)
+    {
+      return Root.findOne({
+        where: { id: input.id }
+      })
+      .then(root => {
+        return root.update({ active:'N' }, 
+        { where: { id: input.id } })
+      })
+      .then(modroot => {
+        return modroot.dataValues
+      })
+    } else {
+      throw new noRoleError();
+    }
+  })
+};
+
+const deleteStem_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(res => {
+    if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1)
+    {
+      return Stem.findOne({
+        where: { id: input.id }
+      })
+      .then(stem => {
+        return stem.update({ active:'N' }, 
+        { where: { id: input.id } })
+      })
+      .then(modstem => {
+        return modstem.dataValues
+      })
+    } else {
+      throw new noRoleError();
+    }
+  })
+};
 
 const affix_C = input => {
   return Affix.findOne({
@@ -299,22 +371,8 @@ const affixes_C = input => {
 }
 
 const root_C = input => {
-  console.log(input)
   return Root.findOne({
     where: { id: input.id }
-  })
-  .then(res => {
-    return {
-      id: res.dataValues.id,
-      root: res.root,
-      number: res.number,
-      salish: res.salish,
-      nicodemus: res.nicodemus,
-      english: res.english,
-      active: 'Y',
-      prevId: res.rootId,
-      user: res.user
-    }
   })
 }
 
@@ -352,6 +410,9 @@ module.exports = {
   addAffix_C,
   addRoot_C,
   addStem_C,
+  deleteAffix_C,
+  deleteRoot_C,
+  deleteStem_C,
   affix_C,
   affixes_C,
   root_C,

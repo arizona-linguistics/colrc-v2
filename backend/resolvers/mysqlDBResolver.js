@@ -79,6 +79,24 @@ const addStem_R = ( context, input, expectedRoles, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const deleteAffix_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
+const deleteRoot_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
+const deleteStem_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
 const affix_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
@@ -113,6 +131,9 @@ module.exports = {
   addAffix_R,
   addRoot_R,
   addStem_R,
+  deleteAffix_R,
+  deleteRoot_R,
+  deleteStem_R,
   affix_R,
   affixes_R,
   root_R,
