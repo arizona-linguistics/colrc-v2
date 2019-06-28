@@ -1,6 +1,16 @@
+# see https://docs.travis-ci.com/user/docker/
 services: docker
 
+env:
+  - DOCKER_COMPOSE_VERSION=1.21.0
+
 before_install:
+  # use newer docker-compose
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  # print docker version
   - docker -v
   # Disable services enabled by default
   # http://docs.travis-ci.com/user/database-setup/#MySQL
@@ -15,8 +25,9 @@ install:
   - sleep 10
 script:
   # Run tests
-  - docker exec -it "colrc-v2-frontend" npm run test
-  - docker exec -it "colrc-v2-backend" npm run test
+  # see https://facebook.github.io/create-react-app/docs/running-tests#travis-ci
+  - docker exec "colrc-v2-frontend" sh -c "CI=true npm test"
+  #- docker exec "colrc-v2-backend" npm test
 # after_success:
 #   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "arizona-linguistics/colrc-v2_backend:latest" && docker push "arizona-linguistics/colrc-v2:latest" ; fi
 #   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "arizona-linguistics/colrc-v2_frontend:latest" && docker push "arizona-linguistics/colrc-v2:latest" ; fi
