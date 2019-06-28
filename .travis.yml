@@ -2,8 +2,10 @@ services: docker
 
 before_install:
   - docker -v
-  # Stop the postgres instance travis starts automatically
-  # - sudo /etc/init.d/postgresql stop
+  # Disable services enabled by default
+  # http://docs.travis-ci.com/user/database-setup/#MySQL
+  - sudo /etc/init.d/mysql stop
+  - sudo /etc/init.d/postgresql stop
   # set env vars in the build settings to interact with repositories
   # see https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings
   #- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
@@ -13,6 +15,7 @@ install:
   - sleep 10
 script:
   # Run tests
+  - docker exec -it "colrc-v2-frontend" npm run test
   - docker exec -it "colrc-v2-backend" npm run test
 # after_success:
 #   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "arizona-linguistics/colrc-v2_backend:latest" && docker push "arizona-linguistics/colrc-v2:latest" ; fi
