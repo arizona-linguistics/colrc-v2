@@ -26,7 +26,7 @@ services:
   mysql:
     container_name: colrc-v2-mysql-db
     # see https://hub.docker.com/_/mysql/
-    image: mysql:5.7
+    image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
