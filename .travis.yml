@@ -1,0 +1,19 @@
+services: docker
+
+before_install:
+  - docker -v
+  # Stop the postgres instance travis starts automatically
+  # - sudo /etc/init.d/postgresql stop
+  # set env vars in the build settings to interact with repositories
+  # see https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings
+  #- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+install:
+  # Launch services
+  - docker-compose up -d
+  - sleep 10
+script:
+  # Run tests
+  - docker exec -it "colrc-v2-backend" npm run test
+# after_success:
+#   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "arizona-linguistics/colrc-v2_backend:latest" && docker push "arizona-linguistics/colrc-v2:latest" ; fi
+#   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "arizona-linguistics/colrc-v2_frontend:latest" && docker push "arizona-linguistics/colrc-v2:latest" ; fi
