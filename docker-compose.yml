@@ -1,32 +1,50 @@
-version: '3.5'
+version: "2.3"
 services:
   prisma:
+    container_name: colrc-v2-prisma
     image: prismagraphql/prisma:1.34
     restart: always
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     ports:
       - "4466:4466"
     env_file:
-      - ./misc/.env
+      - ./.env
     environment:
-      PRISMA_CONFIG_PATH: "/prisma.yml"
-    volumes:
-      - "./misc/prisma.yml:/prisma.yml"
+      PRISMA_CONFIG: |
+        managementApiSecret: my-server-secret-123
+        port: 4466
+        databases:
+          default:
+            connector: mysql  # or `postgres`
+            migrations: true
+            host: mysql
+            port: 3306        # or `5432` for `postgres`
+            user: ${DB_USERNAME}
+            password: ${DB_PASSWORD}
   mysql:
+    container_name: colrc-v2-mysql-db
+    # see https://hub.docker.com/_/mysql/
     image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
       - "3306:3306"
-    env_file:
-      - ./misc/.env
     environment:
-      # FIXME: Make DRY/unified with MySQL, Prisma, etc.
-      MYSQL_ROOT_PASSWORD: prisma
-      MYSQL_DATABASE: colrc
-      MYSQL_USER: root
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mysql:/var/lib/mysql
+      # SQL scripts in this directory will be executed in alphabetical order
+      - "./misc/sql:/docker-entrypoint-initdb.d"
+    healthcheck:
+        # NOTE: https://stackoverflow.com/a/44488707
+        test: ["CMD", "mysqladmin", "-u$DB_USERNAME", "-p$DB_PASSWORD", "ping"]
+        start_period: 10s
+        interval: 30s
+        timeout: 20s
+        retries: 10
   backend:
     container_name: colrc-v2-backend
     build:
@@ -42,13 +60,11 @@ services:
     ports:
       - "4000:4000"
     env_file:
-      - ./misc/.env
+      - ./.env
     environment:
       DB_HOST: mysql
     volumes:
       - ./backend:/app:rw
-      # prevent host's node_modules from being mounted
-      - /app/node_modules
   frontend:
     container_name: colrc-v2-frontend
     build:
