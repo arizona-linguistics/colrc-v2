@@ -6,6 +6,7 @@ const _ = require('lodash');
 const { noRoleError } = require('./../errors/error');
 
 // ****** Set up default MYSQL connection START ****** //
+// see https://github.com/sequelize/sequelize/blob/7a6cc32ffb4d25581d9cf365f6988a50d8eff56a/lib/sequelize.js#L52
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USERNAME,

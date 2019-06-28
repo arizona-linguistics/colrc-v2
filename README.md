@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/arizona-linguistics/colrc-v2.svg?branch=master)](https://travis-ci.org/arizona-linguistics/colrc-v2)
+
 # colrc-v2
 COLRC version 2.0
 
@@ -38,9 +40,11 @@ You can access the following services:
 #### MySQL
 
 ```
-docker exec -it "colrc-v2-mysql-db" mysql -u root -p
+docker exec -it "colrc-v2-mysql-db" mysql -u root -h localhost colrc -p
 ```
-See [`misc/.env`](./misc/.env) for the credentials used to launch the development version of the service.
+See [`.env`](./.env) for the credentials used to launch the development version of the service.
+
+Place `.sql` files in [`misc/sql`](./misc/sql) to have them loaded when MySQL first launches.
 
 ### Test
 
@@ -58,4 +62,11 @@ Backend tests tests are written using [`jest`](https://jestjs.io/).
 
 ```
 docker exec -it "colrc-v2-backend" npm run test
+```
+
+### Cleanup
+
+To easily remove old volumes and containers, you can run the following script:
+```
+./cleanup.sh
 ```
