@@ -97,6 +97,12 @@ const deleteStem_R = ( context, input, expectedRoles, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const updateAffix_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
 const affix_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
@@ -139,5 +145,6 @@ module.exports = {
   root_R,
   roots_R,
   stem_R,
-  stems_R
+  stems_R,
+  updateAffix_R
 };
