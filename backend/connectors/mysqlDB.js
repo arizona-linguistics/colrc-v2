@@ -1,7 +1,7 @@
 // ORM (Object-Relational Mapper library)
 const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
-require('dotenv').config({path:__dirname+'/./../../misc/.env'});
+require('dotenv').config({path:__dirname+'/./../../.env'});
 const _ = require('lodash');
 const { noRoleError } = require('./../errors/error');
 
@@ -301,7 +301,7 @@ const deleteAffix_C = input => {
         where: { id: input.id }
       })
       .then(affix => {
-        return affix.update({ active:'N' }, 
+        return affix.update({ active:'N' },
         { where: { id: input.id } })
       })
       .then(modaffix => {
@@ -324,7 +324,7 @@ const deleteRoot_C = input => {
         where: { id: input.id }
       })
       .then(root => {
-        return root.update({ active:'N' }, 
+        return root.update({ active:'N' },
         { where: { id: input.id } })
       })
       .then(modroot => {
@@ -347,7 +347,7 @@ const deleteStem_C = input => {
         where: { id: input.id }
       })
       .then(stem => {
-        return stem.update({ active:'N' }, 
+        return stem.update({ active:'N' },
         { where: { id: input.id } })
       })
       .then(modstem => {
@@ -360,12 +360,14 @@ const deleteStem_C = input => {
 };
 
 const updateAffix_C = input => {
-  return User.findOne({
-    where: { id: input.myid }
-  })
-  .then(res => {
-    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
-      sequelize.transaction(t => {
+  return sequelize.transaction(t => {
+    return User.findOne({
+      where: { id: input.myid },
+      transaction: t
+    })
+    .then(res => {
+      if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+
         return Affix.findOne(
           {
             where: { id: input.id},
@@ -394,16 +396,17 @@ const updateAffix_C = input => {
           return newAffix.save({transaction: t})
         })
         .then(newaffix => {
+          //console.log(newaffix.dataValues)
           return newaffix.dataValues
         })
         .catch(err => {
           return err
         })
-      })
-    } //if
-    else {
-      throw new noRoleError
-    }
+      } // if
+      else {
+        throw new noRoleError
+      }
+    }) //transaction
   }) //then
 } //updateAffix_C
 
