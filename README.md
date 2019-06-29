@@ -37,14 +37,14 @@ You can access the following services:
 
 - [`Prisma` GraphQL Playground](https://github.com/prisma/graphql-playground#how-is-this-different-from-graphiql): http://localhost:4466
 
-#### MySQL
+#### Postgres
 
 ```
-docker exec -it "colrc-v2-mysql-db" mysql -u root -h localhost colrc -p
+docker exec -it "colrc-v2-postgres-db" psql -d colrc -U root -W
 ```
 See [`.env`](./.env) for the credentials used to launch the development version of the service.
 
-Place `.sql` files in [`misc/sql`](./misc/sql) to have them loaded when MySQL first launches.
+Place `.sql` files in [`misc/sql`](./misc/sql) to have them loaded when Postgres (v12) first launches.
 
 ### Test
 
