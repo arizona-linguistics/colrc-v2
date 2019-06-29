@@ -28,7 +28,7 @@
     "graphql-tools": "^4.0.5",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
-    "mysql2": "^1.6.5",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^5.8.6"
   },
   "devDependencies": {

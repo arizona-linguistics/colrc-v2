@@ -1,6 +1,6 @@
 import codecs
-fout=codecs.open("spell_data.out","w","utf-8")
-with codecs.open("spell_data.txt", "r", "utf-8") as f:
+fout=codecs.open("../data/spell_data.out","w","utf-8")
+with codecs.open("../data/spell_data.txt", "r", "utf-8") as f:
 	line = f.readline()
 	cnt = 1
 	print(u"\t\"spelling\": [")

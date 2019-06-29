@@ -1,11 +1,9 @@
-// ORM (Object-Relational Mapper library)
 const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
-require('dotenv').config({path:__dirname+'/./../../misc/.env'});
 const _ = require('lodash');
-const { noRoleError } = require('./../errors/error');
+const { noRoleError } = require('../errors/error');
 
-// ****** Set up default MYSQL connection START ****** //
+// ****** Set up default SQL DB connection START ****** //
 // see https://github.com/sequelize/sequelize/blob/7a6cc32ffb4d25581d9cf365f6988a50d8eff56a/lib/sequelize.js#L52
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -13,7 +11,7 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   {
     host: process.env.DB_HOST,
-    dialect: (process.env.DB_DIALECT || "mysql"),
+    dialect: process.env.DB_DIALECT,
     //operatorsAliases: false,
     pool: { max: 5, min: 0, acquire: 30000, idle: 10000 },
     define: {
@@ -27,7 +25,7 @@ const sequelize = new Sequelize(
 sequelize
 .authenticate()
 .then(() => {
-  console.log('connected to MYSQL- COLRC database');
+  console.log(`connected to ${process.env.DB_DIALECT}://USERNAME:****@${process.env.DB_HOST}:5432/${process.env.DB_NAME} (COLRC database)`);
 })
 .catch(err => {
   console.error('Unable to connect to the database:', err);

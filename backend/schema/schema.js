@@ -24,7 +24,7 @@ const { // define mysql connectors
   deleteRoot_C,
   deleteStem_C,
   updateAffix_C
-} = require('../connectors/mysqlDB');
+} = require('../connectors/sqlDB');
 const { // define resolvers
   authenticateUser_R,
   checkUserExists_R,
@@ -45,7 +45,7 @@ const { // define resolvers
   stem_R,
   stems_R,
   updateAffix_R
-} = require('.././resolvers/mysqlDBResolver');
+} = require('.././resolvers/sqlDBResolver');
 
 // passwrd field on type User shouldn't expose passwords
 // instead is used to store json token after successfull login query - loginUser_Q

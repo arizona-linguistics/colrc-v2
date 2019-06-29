@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { AuthorizationError, noInputError } = require('./../errors/error');
+const { AuthorizationError, noInputError } = require('../errors/error');
 
 function checkToken(context) {
   const token = context.headers.token;
