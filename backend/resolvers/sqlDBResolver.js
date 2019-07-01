@@ -103,6 +103,18 @@ const updateAffix_R = ( context, input, expectedRoles, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const updateRoot_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
+const updateStem_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
 const affix_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
@@ -146,5 +158,7 @@ module.exports = {
   roots_R,
   stem_R,
   stems_R,
-  updateAffix_R
+  updateAffix_R,
+  updateRoot_R,
+  updateStem_R
 };
