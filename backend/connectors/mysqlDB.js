@@ -411,6 +411,106 @@ const updateAffix_C = input => {
 } //updateAffix_C
 
 
+const updateRoot_C = input => {
+  return sequelize.transaction(t => {
+    return User.findOne({
+      where: { id: input.myid },
+      transaction: t
+    })
+    .then(res => {
+      if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+
+        return Root.findOne(
+          {
+            where: { id: input.id},
+            lock: t.LOCK.UPDATE,
+            transaction: t
+          }
+        )
+        .then( root => {
+          // Found a root, now 'delete' it
+          root.active = 'N'
+          return root.save({transaction: t})
+        })
+        .then( () => {
+          // 'deleted' the old root, now add the new root
+          let newRoot = new Root({
+              root: input.root,
+              number: input.number,
+              salish: input.salish,
+              nicodemus: input.nicodemus,
+              english: input.english,
+              active: 'Y',
+              prevId: input.id,
+              userId: input.myid
+          })
+          return newRoot.save({transaction: t})
+        })
+        .then(newroot => {
+          //console.log(newroot.dataValues)
+          return newroot.dataValues
+        })
+        .catch(err => {
+          return err
+        })
+      } // if
+      else {
+        throw new noRoleError
+      }
+    }) //transaction
+  }) //then
+} //updateRoot_C
+
+const updateStem_C = input => {
+  return sequelize.transaction(t => {
+    return User.findOne({
+      where: { id: input.myid },
+      transaction: t
+    })
+    .then(res => {
+      if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+        return Stem.findOne(
+          {
+            where: { id: input.id},
+            lock: t.LOCK.UPDATE,
+            transaction: t
+          }
+        )
+        .then( stem => {
+          // Found a stem, now 'delete' it
+          stem.active = 'N'
+          return stem.save({transaction: t})
+        })
+        .then( () => {
+          // 'deleted' the old stem, now add the new stem
+          let newStem = new Stem({
+              category: input.category,
+              reichard: input.reichard,
+              doak: input.doak,
+              salish: input.salish,
+              nicodemus: input.nicodemus,
+              english: input.english,
+              note: input.note,
+              active: 'Y',
+              prevId: input.id,
+              userId: input.myid
+          })
+          return newStem.save({transaction: t})
+        })
+        .then(newstem => {
+          //console.log(newstem.dataValues)
+          return newstem.dataValues
+        })
+        .catch(err => {
+          return err
+        })
+      } // if
+      else {
+        throw new noRoleError
+      }
+    }) //transaction
+  }) //then
+} //updateStem_C
 
 const affix_C = input => {
   return Affix.findOne({
@@ -468,6 +568,8 @@ module.exports = {
   deleteRoot_C,
   deleteStem_C,
   updateAffix_C,
+  updateRoot_C,
+  updateStem_C,
   affix_C,
   affixes_C,
   root_C,
