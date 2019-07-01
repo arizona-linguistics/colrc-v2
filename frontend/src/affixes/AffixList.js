@@ -252,7 +252,7 @@ class AffixList extends Component {
     const dataOrError = this.state.error ?
       <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
       <ReactTable
-			data={this.props.getAffixesQuery.affixes}
+			data={this.props.getAffixesQuery.affixes_Q}
 			loading={this.props.getAffixesQuery.loading}
         columns={columns}
         defaultPageSize={10}
