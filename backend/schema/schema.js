@@ -23,7 +23,9 @@ const { // define mysql connectors
   deleteAffix_C,
   deleteRoot_C,
   deleteStem_C,
-  updateAffix_C
+  updateAffix_C,
+  updateRoot_C,
+  updateStem_C
 } = require('../connectors/mysqlDB');
 const { // define resolvers
   authenticateUser_R,
@@ -44,7 +46,9 @@ const { // define resolvers
   roots_R,
   stem_R,
   stems_R,
-  updateAffix_R
+  updateAffix_R,
+  updateRoot_R,
+  updateStem_R
 } = require('.././resolvers/mysqlDBResolver');
 
 // passwrd field on type User shouldn't expose passwords
@@ -129,11 +133,11 @@ const typeDefs = `
     deleteAffix_M(id:ID!): Affix
 
     addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
-    updateRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
+    updateRoot_M(id:ID!, root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
     deleteRoot_M(id:ID!): Root
 
     addStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!): Stem
-    updateStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!): Stem
+    updateStem_M(id:ID!, category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!): Stem
     deleteStem_M(id:ID!): Stem
   }
 
@@ -178,6 +182,8 @@ const resolvers = {
     deleteRoot_M: (_, args, context) => deleteRoot_R(context, args, ["admin","owner"], deleteRoot_C),
     deleteStem_M: (_, args, context) => deleteStem_R(context, args, ["admin","owner"], deleteStem_C),
     updateAffix_M:(_, args, context) => updateAffix_R(context, args, ["admin","owner"], updateAffix_C),
+    updateRoot_M:(_, args, context) => updateRoot_R(context, args, ["admin","owner"], updateRoot_C),
+    updateStem_M:(_, args, context) => updateStem_R(context, args, ["admin","owner"], updateStem_C),
   }
 };
 
