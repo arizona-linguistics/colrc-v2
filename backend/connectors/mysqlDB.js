@@ -1,7 +1,7 @@
 // ORM (Object-Relational Mapper library)
 const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
-require('dotenv').config({path:__dirname+'/./../../misc/.env'});
+require('dotenv').config({path:__dirname+'/./../../.env'});
 const _ = require('lodash');
 const { noRoleError } = require('./../errors/error');
 
@@ -301,7 +301,7 @@ const deleteAffix_C = input => {
         where: { id: input.id }
       })
       .then(affix => {
-        return affix.update({ active:'N' }, 
+        return affix.update({ active:'N' },
         { where: { id: input.id } })
       })
       .then(modaffix => {
@@ -324,7 +324,7 @@ const deleteRoot_C = input => {
         where: { id: input.id }
       })
       .then(root => {
-        return root.update({ active:'N' }, 
+        return root.update({ active:'N' },
         { where: { id: input.id } })
       })
       .then(modroot => {
@@ -347,7 +347,7 @@ const deleteStem_C = input => {
         where: { id: input.id }
       })
       .then(stem => {
-        return stem.update({ active:'N' }, 
+        return stem.update({ active:'N' },
         { where: { id: input.id } })
       })
       .then(modstem => {
@@ -358,6 +358,59 @@ const deleteStem_C = input => {
     }
   })
 };
+
+const updateAffix_C = input => {
+  return sequelize.transaction(t => {
+    return User.findOne({
+      where: { id: input.myid },
+      transaction: t
+    })
+    .then(res => {
+      if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+
+        return Affix.findOne(
+          {
+            where: { id: input.id},
+            lock: t.LOCK.UPDATE,
+            transaction: t
+          }
+        )
+        .then( affix => {
+          // Found an affix, now 'delete' it
+          affix.active = 'N'
+          return affix.save({transaction: t})
+        })
+        .then( () => {
+          // 'deleted' the old affix, now add the new affix
+          let newAffix = new Affix({
+              type: input.type,
+              salish: input.salish,
+              nicodemus: input.nicodemus,
+              english: input.english,
+              link: input.link,
+              page: input.page,
+              active: 'Y',
+              prevId: input.id,
+              userId: input.myid
+          })
+          return newAffix.save({transaction: t})
+        })
+        .then(newaffix => {
+          //console.log(newaffix.dataValues)
+          return newaffix.dataValues
+        })
+        .catch(err => {
+          return err
+        })
+      } // if
+      else {
+        throw new noRoleError
+      }
+    }) //transaction
+  }) //then
+} //updateAffix_C
+
+
 
 const affix_C = input => {
   return Affix.findOne({
@@ -414,6 +467,7 @@ module.exports = {
   deleteAffix_C,
   deleteRoot_C,
   deleteStem_C,
+  updateAffix_C,
   affix_C,
   affixes_C,
   root_C,

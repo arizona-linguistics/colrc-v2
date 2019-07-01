@@ -22,7 +22,8 @@ const { // define mysql connectors
   addStem_C,
   deleteAffix_C,
   deleteRoot_C,
-  deleteStem_C
+  deleteStem_C,
+  updateAffix_C
 } = require('../connectors/mysqlDB');
 const { // define resolvers
   authenticateUser_R,
@@ -42,7 +43,8 @@ const { // define resolvers
   root_R,
   roots_R,
   stem_R,
-  stems_R
+  stems_R,
+  updateAffix_R
 } = require('.././resolvers/mysqlDBResolver');
 
 // passwrd field on type User shouldn't expose passwords
@@ -56,12 +58,12 @@ const typeDefs = `
     username: String!
     email: String!
     password: String!
-    roles: [String]!
+    roles: [String!]!
   }
   type UserExists {
     username: String!
     email: String!
-    roles: [String]!
+    roles: [String!]!
   }
   type LoginUser {
     password: String!
@@ -123,7 +125,7 @@ const typeDefs = `
     updateUserAdmin_M(id:String!,roles:[String!]!): User
 
     addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
-    updateAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
+    updateAffix_M(id:ID!, type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
     deleteAffix_M(id:ID!): Affix
 
     addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
@@ -175,6 +177,7 @@ const resolvers = {
     deleteAffix_M: (_, args, context) => deleteAffix_R(context, args, ["admin","owner"], deleteAffix_C),
     deleteRoot_M: (_, args, context) => deleteRoot_R(context, args, ["admin","owner"], deleteRoot_C),
     deleteStem_M: (_, args, context) => deleteStem_R(context, args, ["admin","owner"], deleteStem_C),
+    updateAffix_M:(_, args, context) => updateAffix_R(context, args, ["admin","owner"], updateAffix_C),
   }
 };
 
