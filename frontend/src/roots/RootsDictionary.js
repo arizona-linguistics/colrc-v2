@@ -238,7 +238,7 @@ class RootsDictionary extends Component {
  const dataOrError = this.state.error ?
       <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
       <ReactTable
-        data={this.props.getRootsQuery.roots}
+        data={this.props.getRootsQuery.roots_Q}
         loading={this.props.getRootsQuery.loading}
         columns={columns}
         filterable
