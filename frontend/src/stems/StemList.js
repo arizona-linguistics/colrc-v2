@@ -116,7 +116,7 @@ class StemList extends Component {
 			nicodemusSelected,
 			englishSelected,
 			noteSelected,
-			usernameSelected 
+			usernameSelected
 		} = this.state;
 
 
