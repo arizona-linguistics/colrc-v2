@@ -324,7 +324,7 @@ class StemList extends Component {
 		const dataOrError = this.state.error ?
 			<div style = {{color: 'red'}} > Oops!Something went wrong! < /div> :
 			<ReactTable
-				data={this.props.getStemsQuery.stems}
+				data={this.props.getStemsQuery.stems_Q}
 				loading={this.props.getStemsQuery.loading}
 				columns = {columns}
 				defaultPageSize = {5}

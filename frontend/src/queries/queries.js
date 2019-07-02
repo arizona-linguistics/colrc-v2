@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 
 const getStemsQuery = gql`
   {
-    stems {
+    stems_Q {
       id
       category
       reichard
@@ -41,7 +41,7 @@ const getAffixesQuery = gql`
 
 const getUsersQuery = gql`
   {
-    users {
+    users_Q {
       id
       first
       last
@@ -55,7 +55,7 @@ const getUsersQuery = gql`
 
 const getRootsQuery = gql`
   {
-    roots {
+    roots_Q {
       id
       root
       number
