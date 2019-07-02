@@ -22,7 +22,7 @@ const getStemsQuery = gql`
 
 const getAffixesQuery = gql`
   {
-    affixes {
+    affixes_Q {
       id
       type
       salish
