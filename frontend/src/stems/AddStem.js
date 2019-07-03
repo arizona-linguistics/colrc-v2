@@ -46,7 +46,7 @@ class AddStem extends Component {
 						userId: parseInt(values.userId, 10),
 		      },
 		      refetchQueries: [{ query: getStemsQuery }]
-		    });	
+		    });
 			this.props.history.push('/stems');
 		} catch (err) {
 			console.log(err);
@@ -83,7 +83,7 @@ class AddStem extends Component {
 				<p>Fill in the fields below to add a new stem.</p>
 			<div>
 
-				<Formik 
+				<Formik
 					initialValues={{ category: '', reichard: '', doak: '', salish: '', nicodemus: '', english: '', note: ''}}
 				    validationSchema={addStemSchema}
 					onSubmit={(values, { setSubmitting }) => {
@@ -134,7 +134,7 @@ class AddStem extends Component {
 				            />
 				            {errors.doak && touched.doak && (
 				            <div className="input-feedback">{errors.doak}</div>
-				            )}				            
+				            )}
 				            <Input
 				              id="salish"
 				              placeholder="Salish"
@@ -148,7 +148,7 @@ class AddStem extends Component {
 				            />
 				            {errors.salish && touched.salish && (
 				            <div className="input-feedback">{errors.salish}</div>
-				            )}							
+				            )}
 				            <Input
 				              id="nicodemus"
 				              placeholder="Nicodemus"

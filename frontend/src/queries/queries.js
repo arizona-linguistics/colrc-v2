@@ -20,6 +20,14 @@ const getStemsQuery = gql`
   }
 `;
 
+const getUserToken = gql`
+  query($email: String!, $password: String!) {
+    loginUser_Q(email: $email, password: $password) {
+      password
+    }
+  }
+`;
+
 const getAffixesQuery = gql`
   {
     affixes_Q {
@@ -288,4 +296,4 @@ const getRootQuery = gql`
   }
 `;
 
-export { getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, addRootMutation, updateRootMutation, deleteRootMutation };
+export { getUserToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, addRootMutation, updateRootMutation, deleteRootMutation };

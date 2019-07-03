@@ -29,18 +29,90 @@ import "react-table/react-table.css";
 import './stylesheets/NavBar.css';
 import './stylesheets/Colrc.css';
 import './stylesheets/AccordionTables.css';
-import ApolloClient from 'apollo-boost';
+import { ApolloClient } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import Users from './users/Users';
 import Settings from './settings/Settings';
 import More from './more/More';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { setContext } from 'apollo-link-context';
+import { split } from 'apollo-link';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
 
-// apollo client setup
-const client = new ApolloClient({
+const { createApolloFetch } = require('apollo-fetch');
+
+const httpLink = createHttpLink({
   uri: 'http://localhost:4000/api'
-});
+})
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('TOKEN')
+  console.log(token)
+  return {
+    headers: {
+      ...headers,
+      token: token ? `Bearer ${token}` : ''
+    }
+  }
+})
+
+const wsLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('TOKEN')
+  return {
+    headers: {
+      ...headers,
+      token: token ? `Bearer ${token}` : ''
+    }
+  }
+})
+
+const link = split(
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query)
+    return kind === 'OperationDefinition' && operation === 'subscription'
+  },
+  wsLink.concat(httpLink),
+  authLink.concat(httpLink)
+)
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
+})
+
+const fetch = createApolloFetch({
+  uri: 'http://localhost:4000/api',
+})
 
 class Colrc extends Component {
+
+  constructor() {
+		super()
+    // Login a user we know will exist
+    // You can also easily pass variables for dynamic arguments
+    fetch({
+      query: `
+        query($email: String!, $password: String!) {
+          loginUser_Q(email: $email, password: $password) {
+            password
+          }
+        }
+      `,
+      //variables: {}
+      //variables: { id: 1 }
+      variables: { email: 'john.wagner.ivens@gmail.com', password: 'john.wagner.ivens@gmail.com' },
+    }).then(res => {
+      //console.log(res.data.loginUser_Q[0].password)
+      const token = res.data.loginUser_Q[0].password
+      localStorage.setItem('TOKEN', token)
+    }).catch(err => {
+      console.log(err)
+    })
+
+    // Store the login token in the local browser session
+	}
 
     render() {
 
@@ -84,7 +156,7 @@ class Colrc extends Component {
                   <Route path="/search" component={Search}  />
                   <Route path="/users" component={Users}  />
                   <Route path="/Settings" component={Settings}  />
-                  <Route path="/more" component={More}  />                  
+                  <Route path="/more" component={More}  />
                   {/* <Route component={NotFound} /> */}
                 </Switch>
               </Grid.Column>
