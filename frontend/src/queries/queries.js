@@ -72,8 +72,8 @@ const getRootsQuery = gql`
 `;
 
 const addStemMutation = gql`
-  mutation($category: String!, $reichard: String!, $doak: String!, $salish: String!, $nicodemus: String!, $english: String!, $note: String!, $userId: Int!) {
-  	addStem(category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note, userId: $userId) {
+  mutation($category: String!, $reichard: String!, $doak: String!, $salish: String!, $nicodemus: String!, $english: String!, $note: String!) {
+  	addStem_M(category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note) {
       id
       category
       reichard
@@ -92,8 +92,8 @@ const addStemMutation = gql`
 `;
 
 const updateStemMutation = gql`
-  mutation($id: ID!, $category: String!, $reichard: String!, $doak: String!, $salish: String!, $nicodemus: String!, $english: String!, $note: String!, $userId: Int!) {
-    updateStem(id: $id, category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note, userId: $userId) {
+  mutation($id: ID!, $category: String!, $reichard: String!, $doak: String!, $salish: String!, $nicodemus: String!, $english: String!, $note: String!) {
+    updateStem_M(id: $id, category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note) {
       id
       category
       reichard
@@ -113,7 +113,7 @@ const updateStemMutation = gql`
 
 const deleteStemMutation = gql`
   mutation($id: ID!) {
-    deleteStem(id: $id) {
+    deleteStem_M(id: $id) {
       id
       category
       reichard
@@ -132,8 +132,8 @@ const deleteStemMutation = gql`
 `;
 
 const addAffixMutation = gql`
-  mutation($type: String!, $salish: String!, $nicodemus: String!, $english: String!, $link: String!, $page: String!, $userId: Int!) {
-    addAffix(type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page, userId: $userId) {
+  mutation($type: String!, $salish: String!, $nicodemus: String!, $english: String!, $link: String!, $page: String!) {
+    addAffix_M(type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page) {
       id
       type
       salish
@@ -151,15 +151,15 @@ const addAffixMutation = gql`
 `;
 
 const updateAffixMutation = gql`
-  mutation($id: ID!, $type: String!, $salish: String!, $nicodemus: String!, $english: String!, $link: String!, $page: String!, $userId: Int!) {
-    updateAffix(id: $id, type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page, userId: $userId) {
+  mutation($id: ID!, $type: String!, $salish: String!, $nicodemus: String!, $english: String!, $link: String!, $page: String!) {
+    updateAffix_M(id: $id, type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page) {
       	id
       	type
       	salish
       	nicodemus
       	english
-	  	link
-	    page
+	  	  link
+	      page
         active
         prevId
         user {
@@ -171,7 +171,7 @@ const updateAffixMutation = gql`
 
 const deleteAffixMutation = gql`
   mutation($id: ID!) {
-    deleteAffix(id: $id) {
+    deleteAffix_M(id: $id) {
       id
       type
       salish
@@ -190,7 +190,7 @@ const deleteAffixMutation = gql`
 
 const addUserMutation = gql`
   mutation($first: String!, $last: String!, $username: String!, $email: String!, $password: String!, $roles: String!) {
-    addUser(first: $first, last: $last, username: $username, email: $email, password: $password, roles: $roles) {
+    addUser_M(first: $first, last: $last, username: $username, email: $email, password: $password, roles: $roles) {
       id
       first
       last
@@ -203,8 +203,8 @@ const addUserMutation = gql`
 `;
 
 const addRootMutation = gql`
-  mutation($root: String!, $number: Int!, $salish: String!, $nicodemus: String!, $english: String!, $userId: Int!) {
-    addRoot(root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english, userId: $userId) {
+  mutation($root: String!, $number: Int!, $salish: String!, $nicodemus: String!, $english: String!) {
+    addRoot_M(root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english) {
       id
       root
       number
@@ -221,8 +221,8 @@ const addRootMutation = gql`
 `;
 
 const updateRootMutation = gql`
-  mutation($id: ID!, $root: String!, $number: Int!, $salish: String!, $nicodemus: String!, $english: String!, $userId: Int!) {
-    updateRoot(id: $id, root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english, userId: $userId) {
+  mutation($id: ID!, $root: String!, $number: Int!, $salish: String!, $nicodemus: String!, $english: String!) {
+    updateRoot_M(id: $id, root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english) {
       id
       root
       number
@@ -240,7 +240,7 @@ const updateRootMutation = gql`
 
 const deleteRootMutation = gql`
   mutation($id: ID!) {
-    deleteRoot(id: $id) {
+    deleteRoot_M(id: $id) {
       id
       root
       number
@@ -258,7 +258,7 @@ const deleteRootMutation = gql`
 
 const getUserQuery = gql`
   query($id: ID) {
-    user(id: $id) {
+    user_Q(id: $id) {
       id
       first
       last
@@ -272,7 +272,7 @@ const getUserQuery = gql`
 
 const getRootQuery = gql`
   query($id: ID) {
-    root(id: $id) {
+    root_Q(id: $id) {
       id
       root
       number
