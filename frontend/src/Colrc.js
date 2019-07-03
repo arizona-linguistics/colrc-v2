@@ -53,7 +53,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ''
+      token: token ? `Bearer ${token}` : ''
     }
   }
 })
@@ -63,7 +63,7 @@ const wsLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ''
+      token: token ? `Bearer ${token}` : ''
     }
   }
 })
