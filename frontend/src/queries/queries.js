@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 
 const getStemsQuery = gql`
   {
-    stems {
+    stems_Q {
       id
       category
       reichard
@@ -16,6 +16,14 @@ const getStemsQuery = gql`
       user {
         username
       }
+    }
+  }
+`;
+
+const getUserToken = gql`
+  query($email: String!, $password: String!) {
+    loginUser_Q(email: $email, password: $password) {
+      password
     }
   }
 `;
@@ -55,7 +63,7 @@ const getUsersQuery = gql`
 
 const getRootsQuery = gql`
   {
-    roots {
+    roots_Q {
       id
       root
       number
@@ -272,7 +280,7 @@ const getUserQuery = gql`
 
 const getRootQuery = gql`
   query($id: ID) {
-    root(id: $id) {
+    root_Q(id: $id) {
       id
       root
       number
@@ -288,4 +296,4 @@ const getRootQuery = gql`
   }
 `;
 
-export { getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, addRootMutation, updateRootMutation, deleteRootMutation };
+export { getUserToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, addRootMutation, updateRootMutation, deleteRootMutation };

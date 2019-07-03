@@ -2,6 +2,7 @@
 // GraphQL JWT Auth token -- YouTube
 // Also utilizes Sequelize
 // github - AmitXShukla
+riot - 0$!r!$ R3x Rul3s!
 
 1555246c3394dc394cc2c84403be949a13097e1e
 
