@@ -32,6 +32,7 @@ import './stylesheets/AccordionTables.css';
 import { ApolloClient } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import Users from './users/Users';
+import Register from './users/Register';
 import Settings from './settings/Settings';
 import More from './more/More';
 import { createHttpLink } from 'apollo-link-http';
@@ -155,6 +156,7 @@ class Colrc extends Component {
                   <Route path="/splitview" component={SplitView} />
                   <Route path="/search" component={Search}  />
                   <Route path="/users" component={Users}  />
+                  <Route path="/register" component={Register}  />
                   <Route path="/Settings" component={Settings}  />
                   <Route path="/more" component={More}  />
                   {/* <Route component={NotFound} /> */}
