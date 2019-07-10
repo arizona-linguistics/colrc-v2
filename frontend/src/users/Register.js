@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Button, Icon } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { graphql, compose } from 'react-apollo';
+import { withApollo, graphql, compose } from 'react-apollo';
 import { addUserMutation, getUserToken } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
 
@@ -30,15 +30,19 @@ class Register extends Component {
     console.log("In add user submission");
     const { login } = this.state
     try {
-      login ? 
-        console.log(client)
-        (this.props.getUserToken({
+      if (login) {
+        console.log("this.props.client")
+        console.log(this.props.client)
+        const queryUserToken = await this.props.client.query({
+          query: getUserToken,
           variables: {
             email: values.email,
             password: values.password
-          },
-        }))
-         : 
+          }
+        })
+        const token = queryUserToken.data.loginUser_Q[0].password
+        localStorage.setItem('TOKEN', token)
+      } else {
 		    this.props.addUserMutation({
 		      variables: {
 		        first: values.first,
@@ -48,7 +52,8 @@ class Register extends Component {
 		        password: values.password,
 		      },
 		      // refetchQueries: [{ query: addUserQuery }]
-		    });
+        })
+      }
 			// this.props.history.push('/stems');
 		} catch (err) {
 			console.log(err);
@@ -206,6 +211,7 @@ class Register extends Component {
 }
 
 export default compose(
+  withApollo,
   graphql(addUserMutation, { name: "addUserMutation"}), 
   graphql(getUserToken, { name: "getUserToken"})
 )(withRouter(Register));

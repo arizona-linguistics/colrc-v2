@@ -93,24 +93,24 @@ class Colrc extends Component {
 		super()
     // Login a user we know will exist
     // You can also easily pass variables for dynamic arguments
-    fetch({
-      query: `
-        query($email: String!, $password: String!) {
-          loginUser_Q(email: $email, password: $password) {
-            password
-          }
-        }
-      `,
-      //variables: {}
-      //variables: { id: 1 }
-      variables: { email: 'john.wagner.ivens@gmail.com', password: 'john.wagner.ivens@gmail.com' },
-    }).then(res => {
-      //console.log(res.data.loginUser_Q[0].password)
-      const token = res.data.loginUser_Q[0].password
-      localStorage.setItem('TOKEN', token)
-    }).catch(err => {
-      console.log(err)
-    })
+    // fetch({
+    //   query: `
+    //     query($email: String!, $password: String!) {
+    //       loginUser_Q(email: $email, password: $password) {
+    //         password
+    //       }
+    //     }
+    //   `,
+    //   //variables: {}
+    //   //variables: { id: 1 }
+    //   variables: { email: 'john.wagner.ivens@gmail.com', password: 'john.wagner.ivens@gmail.com' },
+    // }).then(res => {
+    //   //console.log(res.data.loginUser_Q[0].password)
+    //   const token = res.data.loginUser_Q[0].password
+    //   localStorage.setItem('TOKEN', token)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
 
     // Store the login token in the local browser session
 	}
