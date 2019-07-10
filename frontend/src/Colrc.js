@@ -106,12 +106,13 @@ class Colrc extends Component {
     }).then(res => {
       //console.log(res.data.loginUser_Q[0].password)
       const token = res.data.loginUser_Q[0].password
+      // Store the login token in the local browser session
       localStorage.setItem('TOKEN', token)
     }).catch(err => {
       console.log(err)
     })
 
-    // Store the login token in the local browser session
+   
 	}
 
     render() {
