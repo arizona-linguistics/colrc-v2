@@ -197,8 +197,8 @@ const deleteAffixMutation = gql`
 `;
 
 const addUserMutation = gql`
-  mutation($first: String!, $last: String!, $username: String!, $email: String!, $password: String!, $roles: String!) {
-    addUser_M(first: $first, last: $last, username: $username, email: $email, password: $password, roles: $roles) {
+  mutation($first: String!, $last: String!, $username: String!, $email: String!, $password: String!) {
+    addUser_M(first: $first, last: $last, username: $username, email: $email, password: $password) {
       id
       first
       last
