@@ -32,6 +32,7 @@ import './stylesheets/AccordionTables.css';
 import { ApolloClient } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import Users from './users/Users';
+import Register from './users/Register';
 import Settings from './settings/Settings';
 import More from './more/More';
 import { createHttpLink } from 'apollo-link-http';
@@ -92,24 +93,24 @@ class Colrc extends Component {
 		super()
     // Login a user we know will exist
     // You can also easily pass variables for dynamic arguments
-    fetch({
-      query: `
-        query($email: String!, $password: String!) {
-          loginUser_Q(email: $email, password: $password) {
-            password
-          }
-        }
-      `,
-      //variables: {}
-      //variables: { id: 1 }
-      variables: { email: 'john.wagner.ivens@gmail.com', password: 'john.wagner.ivens@gmail.com' },
-    }).then(res => {
-      //console.log(res.data.loginUser_Q[0].password)
-      const token = res.data.loginUser_Q[0].password
-      localStorage.setItem('TOKEN', token)
-    }).catch(err => {
-      console.log(err)
-    })
+    // fetch({
+    //   query: `
+    //     query($email: String!, $password: String!) {
+    //       loginUser_Q(email: $email, password: $password) {
+    //         password
+    //       }
+    //     }
+    //   `,
+    //   //variables: {}
+    //   //variables: { id: 1 }
+    //   variables: { email: 'john.wagner.ivens@gmail.com', password: 'john.wagner.ivens@gmail.com' },
+    // }).then(res => {
+    //   //console.log(res.data.loginUser_Q[0].password)
+    //   const token = res.data.loginUser_Q[0].password
+    //   localStorage.setItem('TOKEN', token)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
 
     // Store the login token in the local browser session
 	}
@@ -155,6 +156,7 @@ class Colrc extends Component {
                   <Route path="/splitview" component={SplitView} />
                   <Route path="/search" component={Search}  />
                   <Route path="/users" component={Users}  />
+                  <Route path="/register" component={Register}  />
                   <Route path="/Settings" component={Settings}  />
                   <Route path="/more" component={More}  />
                   {/* <Route component={NotFound} /> */}
