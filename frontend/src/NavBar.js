@@ -6,7 +6,8 @@ import {
   Icon,
   Menu,
   Sidebar,
-  Responsive
+  Responsive,
+  Popup
 } from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css';
 
@@ -117,15 +118,36 @@ const NavBarDesktop = ({ rightItems }) => (
     <Menu.Item as={Link} to="/bibliography" name="Bibliography" key="bib">
        Bibliography
     </Menu.Item>
-    <Menu.Item as={Link} to="/contactus" name="Contact" key="contact">
+    const PopupContactUs = () => (
+    <Popup content="Throw us a line" trigger={<Menu.Item as={Link} to="/contactus" name="Contact" key="contact">
        Contact
     </Menu.Item>
-    <Menu.Item as={Link} to="/elicitations" name="Elicitations" key="elicit">
+    } /> 
+    )
+    const PopupElicitations = () => (
+    <Popup content="Elicit" trigger={<Menu.Item as={Link} to="/elicitations" name="Elicitations" key="elicit">
        Elicitations
     </Menu.Item>
+    } />
+    )
     <Menu.Menu position="right">
       {_.map(rightItems, item => <Menu.Item as={Link} {...item} />)}
     </Menu.Menu>
+    
+    {/********* Angela's attempt at making Popups in RightItems */}
+    {/* const RightIconToolTip = () => (
+    <Menu.Menu position="right">
+    <Popup content="Menu.Item.name" trigger = { {_.map(rightItems, item => <Menu.Item as={Link} {...item} />)}
+    </Menu.Menu>
+    } />
+    ) */}
+    
+    {/********* Angela's Popup Tooltip generic template */}
+    {/* const ToolTip = () => (
+      <Popup content="Menu.Item.name" trigger ={ <Menu.Item as {Link} to 
+      "/path" name="Path" key="path" >
+      </Menu.Item> } /> ) */}
+
   </Menu>
 );
 
