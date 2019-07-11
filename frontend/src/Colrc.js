@@ -112,7 +112,7 @@ class Colrc extends Component {
     //   console.log(err)
     // })
 
-    // Store the login token in the local browser session
+   
 	}
 
     render() {

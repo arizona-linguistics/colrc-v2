@@ -166,9 +166,11 @@ const addUser_C = input => {
     if(res) {
       return {first:"", last:"", username:"",email:"", password: "", roles:""};
     } else {
-      return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') }).then((res) => {
-        return input;
-      });
+      return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') })
+         .then(res => {
+            res.dataValues.roles = res.dataValues.roles.split(',')
+            return res.dataValues
+          })
     }
   });
 }

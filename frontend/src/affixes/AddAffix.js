@@ -14,12 +14,12 @@ class AddAffix extends Component {
     // create a ref to store the textInput DOM element
 		this.state = {
 			fields: {
-		      type: "",
-		      salish: "",
-		      nicodemus: "",
-		      english: "",
-		      link: "",
-		      page: "",
+		    type: "",
+		    salish: "",
+		    nicodemus: "",
+		    english: "",
+		    link: "",
+		    page: "",
 			  prevId: "",
 			  userId: "",
 			},
@@ -39,7 +39,7 @@ class AddAffix extends Component {
 		        english: this.state.fields.english,
 		        link: this.state.fields.link,
 		        page: this.state.fields.page,
-		        userId: parseInt(this.state.fields.userId, 10),
+		        //userId: parseInt(this.state.fields.userId, 10),
 		      },
 		      refetchQueries: [{ query: getAffixesQuery }]
 		    });	
