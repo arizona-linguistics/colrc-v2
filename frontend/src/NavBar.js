@@ -6,7 +6,8 @@ import {
   Icon,
   Menu,
   Sidebar,
-  Responsive
+  Responsive,
+  Popup
 } from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css';
 
@@ -83,7 +84,7 @@ const NavBarMobile = ({
             <Icon name="sidebar" />
           </Menu.Item>
           <Menu.Menu position="right">
-            {_.map(rightItems, item => <Menu.Item as={Link} {...item} />)}
+            {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.content} icon={item.icon} /> } /> )}
           </Menu.Menu>
         </Menu>
         {children}
@@ -124,7 +125,7 @@ const NavBarDesktop = ({ rightItems }) => (
        Elicitations
     </Menu.Item>
     <Menu.Menu position="right">
-      {_.map(rightItems, item => <Menu.Item as={Link} {...item} />)}
+      {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.content} icon={item.icon} /> } /> )}
     </Menu.Menu>
   </Menu>
 );

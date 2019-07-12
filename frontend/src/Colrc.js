@@ -69,6 +69,13 @@ const wsLink = setContext((_, { headers }) => {
   }
 })
 
+const loggedIn = () => { 
+  const token = localStorage.getItem('TOKEN')
+  return {
+    ret = token ? true : false
+  }
+}
+
 const link = split(
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query)
@@ -83,98 +90,74 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-const fetch = createApolloFetch({
-  uri: 'http://localhost:4000/api',
-})
+
+
 
 class Colrc extends Component {
 
-  constructor() {
-		super()
-    // Login a user we know will exist
-    // You can also easily pass variables for dynamic arguments
-    // fetch({
-    //   query: `
-    //     query($email: String!, $password: String!) {
-    //       loginUser_Q(email: $email, password: $password) {
-    //         password
-    //       }
-    //     }
-    //   `,
-    //   //variables: {}
-    //   //variables: { id: 1 }
-    //   variables: { email: 'john.wagner.ivens@gmail.com', password: 'john.wagner.ivens@gmail.com' },
-    // }).then(res => {
-    //   //console.log(res.data.loginUser_Q[0].password)
-    //   const token = res.data.loginUser_Q[0].password
-    //   localStorage.setItem('TOKEN', token)
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+  render() {
 
-   
-	}
+  const rightItems = [
+      { to: "/search", icon: 'search', content:"Search"},
+      { to: "/users", icon: 'user', content:"User Profile"},
+    { to: "/settings", icon: 'cog', content:"Settings"},
+    { to: "/more", icon: 'ellipsis vertical', content:"More Options"},
+  ];
 
-    render() {
 
-	  const rightItems = [
-	  	  { to: "/search", icon: 'search'},
-	  	  { to: "/users", icon: 'user'},
-		  { to: "/settings", icon: 'cog'},
-		  { to: "/more", icon: 'ellipsis vertical'},
-		];
 
-      return (
-        <Router>
-          <ApolloProvider client={client}>
-            <NavBar rightItems={rightItems}>
-            <MainMenu title='title' />
-            <Grid container verticalAlign='top'>
-            <Grid.Row>
-              <Grid.Column>
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route path="/spelling" component={SpellingPronunciation} />
-                  <Route path="/roots" component={Roots} />
-                  <Route path="/stems" component={Stems} />
-                  <Route path="/affixes" component={Affixes} />
-  				        <Route path="/audio" component={Audio} />
-  				        <Route path="/contactus" component={ContactUs} />
-                  <Route path="/texts" component={Texts} />
-                  <Route path="/bibliography" component={Bibliography} />
-                  {/* <Route path="/rootdictionary/:id" exact component={EditRoot} key="rootdictionary" /> */}
-                  <Route path="/editroot" component={EditRoot} />
-                  <Route path="/addroot" component={AddRoot} />
-                  <Route path="/editbib" component={EditBib}  />
-                  <Route path="/addbib" component={AddBib}  />
-                  <Route path="/editstem" component={EditStem} />
-                  <Route path="/addstem" component={AddStem} />
-                  <Route path="/editaffix" component={EditAffix} />
-                  <Route path="/addaffix" component={AddAffix}  />
-                  <Route path="/elicitations" component={Elicitations} />
-                  <Route path="/imageviewer" component={ImageViewer} />
-                  <Route path="/splitview" component={SplitView} />
-                  <Route path="/search" component={Search}  />
-                  <Route path="/users" component={Users}  />
-                  <Route path="/register" component={Register}  />
-                  <Route path="/Settings" component={Settings}  />
-                  <Route path="/more" component={More}  />
-                  {/* <Route component={NotFound} /> */}
-                </Switch>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column textAlign='center'>
-                <Footer />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </NavBar>
 
-        </ApolloProvider>
-      </Router>
-      );
-    }
+    return (
+      <Router>
+        <ApolloProvider client={client}>
+          <NavBar rightItems={rightItems}>
+          <MainMenu title='title' />
+          <Grid container verticalAlign='top'>
+          <Grid.Row>
+            <Grid.Column>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/spelling" component={SpellingPronunciation} />
+                <Route path="/roots" component={Roots} />
+                <Route path="/stems" component={Stems} />
+                <Route path="/affixes" component={Affixes} />
+                <Route path="/audio" component={Audio} />
+                <Route path="/contactus" component={ContactUs} />
+                <Route path="/texts" component={Texts} />
+                <Route path="/bibliography" component={Bibliography} />
+                {/* <Route path="/rootdictionary/:id" exact component={EditRoot} key="rootdictionary" /> */}
+                <Route path="/editroot" component={EditRoot} />
+                <Route path="/addroot" component={AddRoot} />
+                <Route path="/editbib" component={EditBib}  />
+                <Route path="/addbib" component={AddBib}  />
+                <Route path="/editstem" component={EditStem} />
+                <Route path="/addstem" component={AddStem} />
+                <Route path="/editaffix" component={EditAffix} />
+                <Route path="/addaffix" component={AddAffix}  />
+                <Route path="/elicitations" component={Elicitations} />
+                <Route path="/imageviewer" component={ImageViewer} />
+                <Route path="/splitview" component={SplitView} />
+                <Route path="/search" component={Search}  />
+                <Route path="/users" component={Users}  />
+                <Route path="/register" component={Register}  />
+                <Route path="/Settings" component={Settings}  />
+                <Route path="/more" component={More}  />
+                {/* <Route component={NotFound} /> */}
+              </Switch>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column textAlign='center'>
+              <Footer />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </NavBar>
+
+      </ApolloProvider>
+    </Router>
+    );
+  }
 }
 
 class Footer extends Component {
