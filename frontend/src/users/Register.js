@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Grid, Header, Image, Message, Segment, Input } from 'semantic-ui-react';
+import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { withApollo, graphql, compose } from 'react-apollo';
