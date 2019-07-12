@@ -71,9 +71,7 @@ const wsLink = setContext((_, { headers }) => {
 
 const loggedIn = () => { 
   const token = localStorage.getItem('TOKEN')
-  return {
-    ret = token ? true : false
-  }
+  return token ? true : false
 }
 
 const link = split(
@@ -91,26 +89,44 @@ const client = new ApolloClient({
 })
 
 
-
-
 class Colrc extends Component {
 
-  render() {
+  constructor(props) {
+    super(props)
+    this.rightMenuItems = this.rightMenuItems.bind(this)
+    this.changeLoginState = this.changeLoginState.bind(this)
+    this.state = {
+      login: loggedIn()
+    }
+  }
 
-  const rightItems = [
+  changeLoginState(loginState) {
+    this.setState({
+      login: loginState    
+    })
+  }
+
+  rightMenuItems = () => {
+    const rightItems = [
       { to: "/search", icon: 'search', content:"Search"},
-      { to: "/users", icon: 'user', content:"User Profile"},
-    { to: "/settings", icon: 'cog', content:"Settings"},
-    { to: "/more", icon: 'ellipsis vertical', content:"More Options"},
-  ];
+      { to: "/settings", icon: 'cog', content:"Settings"},
+      { to: "/more", icon: 'ellipsis vertical', content:"More Options"},
+    ]
+    if (loggedIn()){ 
+      rightItems.unshift({ to: "/users", icon: 'user', content:"User Profile"})
+    }
+    else {
+      rightItems.unshift({ to: "/users", icon: 'user outline', content:"Log In/Sign Up"})
+    }
+    return rightItems
+  }
 
-
-
+  render() {
 
     return (
       <Router>
         <ApolloProvider client={client}>
-          <NavBar rightItems={rightItems}>
+          <NavBar rightItems={this.rightMenuItems()}>
           <MainMenu title='title' />
           <Grid container verticalAlign='top'>
           <Grid.Row>
@@ -139,7 +155,7 @@ class Colrc extends Component {
                 <Route path="/splitview" component={SplitView} />
                 <Route path="/search" component={Search}  />
                 <Route path="/users" component={Users}  />
-                <Route path="/register" component={Register}  />
+                <Route path="/register" component={() => <Register changeLoginState={this.changeLoginState} />} />
                 <Route path="/Settings" component={Settings}  />
                 <Route path="/more" component={More}  />
                 {/* <Route component={NotFound} /> */}

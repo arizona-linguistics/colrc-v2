@@ -88,3 +88,6 @@
   max-width: 250px;
 }
 
+.ui.input {
+  padding: 5px;
+}

@@ -45,6 +45,7 @@ class Register extends Component {
         const token = queryUserToken.data.loginUser_Q[0].password
         localStorage.setItem('TOKEN', token)
         setSubmitting(false)
+        this.props.changeLoginState(true)
       } else {
 		    this.props.addUserMutation({
 		      variables: {
@@ -58,10 +59,10 @@ class Register extends Component {
         })
         setSubmitting(false)
       }
-			// this.props.history.push('/stems');
+			this.props.history.push('/register');
 		} catch (err) {
 			console.log(err);
-			// this.props.history.push('/stems');
+			this.props.history.push('/register');
 		}
 	};
 
