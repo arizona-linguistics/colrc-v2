@@ -84,7 +84,7 @@ const NavBarMobile = ({
             <Icon name="sidebar" />
           </Menu.Item>
           <Menu.Menu position="right">
-            {_.map(rightItems, item => <Menu.Item as={Link} {...item} />)}
+            {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.content} icon={item.icon} /> } /> )}
           </Menu.Menu>
         </Menu>
         {children}
@@ -118,36 +118,15 @@ const NavBarDesktop = ({ rightItems }) => (
     <Menu.Item as={Link} to="/bibliography" name="Bibliography" key="bib">
        Bibliography
     </Menu.Item>
-    const PopupContactUs = () => (
-    <Popup content="Throw us a line" trigger={<Menu.Item as={Link} to="/contactus" name="Contact" key="contact">
+    <Menu.Item as={Link} to="/contactus" name="Contact" key="contact">
        Contact
     </Menu.Item>
-    } /> 
-    )
-    const PopupElicitations = () => (
-    <Popup content="Elicit" trigger={<Menu.Item as={Link} to="/elicitations" name="Elicitations" key="elicit">
+    <Menu.Item as={Link} to="/elicitations" name="Elicitations" key="elicit">
        Elicitations
     </Menu.Item>
-    } />
-    )
     <Menu.Menu position="right">
-      {_.map(rightItems, item => <Menu.Item as={Link} {...item} />)}
+      {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.content} icon={item.icon} /> } /> )}
     </Menu.Menu>
-    
-    {/********* Angela's attempt at making Popups in RightItems */}
-    {/* const RightIconToolTip = () => (
-    <Menu.Menu position="right">
-    <Popup content="Menu.Item.name" trigger = { {_.map(rightItems, item => <Menu.Item as={Link} {...item} />)}
-    </Menu.Menu>
-    } />
-    ) */}
-    
-    {/********* Angela's Popup Tooltip generic template */}
-    {/* const ToolTip = () => (
-      <Popup content="Menu.Item.name" trigger ={ <Menu.Item as {Link} to 
-      "/path" name="Path" key="path" >
-      </Menu.Item> } /> ) */}
-
   </Menu>
 );
 
