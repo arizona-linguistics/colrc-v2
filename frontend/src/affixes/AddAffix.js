@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form,  Button, Icon } from 'semantic-ui-react';
+import { Form, Button, Icon, Input } from 'semantic-ui-react';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { graphql, compose } from 'react-apollo';
 import { addAffixMutation, getAffixesQuery } from '../queries/queries';
@@ -11,7 +11,6 @@ class AddAffix extends Component {
     super(props);
 		this.onSubmit = this.onFormSubmit.bind(this);
 		this.onInputChange = this.onInputChange.bind(this);
-    // create a ref to store the textInput DOM element
 		this.state = {
 			fields: {
 		    type: "",
@@ -110,13 +109,6 @@ class AddAffix extends Component {
 							onChange={this.onInputChange}
 						/>
 						<span style={{ color: 'red' }}>{this.state.fieldErrors.page}</span>
-						<Form.Input fluid label="User ID"
-							placeholder='Enter 1'
-							name='userId'
-							value={this.state.fields.userId}
-							onChange={this.onInputChange}
-						/>
-						<span style={{ color: 'red' }}>{this.state.fieldErrors.userId}</span>
 						</Form.Group>
 			         	<Button basic color="blue" type='submit' icon size="mini" labelPosition="right">
 			            	<Icon name='save' />

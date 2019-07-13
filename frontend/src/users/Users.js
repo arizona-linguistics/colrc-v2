@@ -6,7 +6,7 @@ class Users extends Component {
 
     return (     
       <div className='ui content'>
-        <Register />
+        This is a user profile landing page.
       </div>
     );
   }
