@@ -12,22 +12,12 @@ class Register extends Component {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onInputChange = this.onInputChange.bind(this);
-    // create a ref to store the textInput DOM element
 		this.state = {
       login: false,
-			fields: {
-        first: "",
-        last: "",
-        username: "",
-        email: "",
-        password: "",
-        passwordConfirmation: "",
-	    },
 		};
   }
 
 	onFormSubmit = async (values, setSubmitting) => {
-		//evt.preventDefault();
     console.log("In add user submission");
     console.log(values)
     console.log(setSubmitting)
@@ -122,7 +112,6 @@ class Register extends Component {
                 this.onFormSubmit(values, setSubmitting);
               }}
             >
-            {/* These are Formik actions */}
               {({ isSubmitting, values, errors, touched, handleChange, handleBlur }) => (
             <Form>
               {!login && (
@@ -220,7 +209,7 @@ class Register extends Component {
                 className={ errors.passwordConfirmation && touched.passwordConfirmation ? 'text-input error' : 'text-input' }
               />
               )}
-                {errors.passwordConfirmation && touched.passwordConfirmation && (
+                {errors.passwordConfirmation && touched.passwordConfirmation && !login &&(
                 <div className="input-feedback">{errors.password}</div>
                 )}
                 <Button color="blue" size='large' type="submit" disabled={isSubmitting}>
