@@ -43,6 +43,7 @@ const Root = sequelize.define('root', {
   salish: { type: Sequelize.STRING },
   nicodemus: { type: Sequelize.STRING },
   english: { type: Sequelize.STRING },
+  editnote: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
   userId: { type: Sequelize.STRING }
@@ -74,6 +75,7 @@ const Affix = sequelize.define('affix', {
   english: { type: Sequelize.STRING },
   link: { type: Sequelize.STRING },
   page: { type: Sequelize.STRING },
+  editnote: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
   userId: { type: Sequelize.STRING }
@@ -93,6 +95,7 @@ const Stem = sequelize.define('stem', {
   nicodemus: { type: Sequelize.STRING },
   english: { type: Sequelize.STRING },
   note: { type: Sequelize.STRING },
+  editnote: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
   userId: { type: Sequelize.STRING }
@@ -232,6 +235,7 @@ const addAffix_C = input => {
         english: input.english,
         link: input.link,
         page: input.page,
+        editnote: input.editnote,
         active: 'Y',
         prevId: null,
         userId: res.dataValues.id
@@ -255,6 +259,7 @@ const addRoot_C = input => {
         salish: input.salish,
         nicodemus: input.nicodemus,
         english: input.english,
+        editnote: input.editnote,
         active: 'Y',
         prevId: null,
         userId: res.dataValues.id
@@ -280,6 +285,7 @@ const addStem_C = input => {
         english: input.english,
         salish: input.salish,
         note: input.note,
+        editnote: input.editnote,
         active: 'Y',
         prevId: null,
         userId: res.dataValues.id
@@ -391,6 +397,7 @@ const updateAffix_C = input => {
               english: input.english,
               link: input.link,
               page: input.page,
+              editnote: input.editnote,
               active: 'Y',
               prevId: input.id,
               userId: input.myid
@@ -442,6 +449,7 @@ const updateRoot_C = input => {
               salish: input.salish,
               nicodemus: input.nicodemus,
               english: input.english,
+              editnote: input.editnote,
               active: 'Y',
               prevId: input.id,
               userId: input.myid
@@ -493,6 +501,7 @@ const updateStem_C = input => {
               nicodemus: input.nicodemus,
               english: input.english,
               note: input.note,
+              editnote: input.editnote,
               active: 'Y',
               prevId: input.id,
               userId: input.myid

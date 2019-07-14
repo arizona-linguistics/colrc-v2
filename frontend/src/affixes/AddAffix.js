@@ -13,19 +13,6 @@ class AddAffix extends Component {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onInputChange = this.onInputChange.bind(this);
-		// this.state = {
-		// 	fields: {
-		//     type: "",
-		//     salish: "",
-		//     nicodemus: "",
-		//     english: "",
-		//     link: "",
-		//     page: "",
-		// 	  prevId: "",
-		// 	  userId: "",
-		// 	},
-		// 	fieldErrors: {}
-		// };
   }
 
 	onFormSubmit = async (values, setSubmitting) => {
@@ -41,6 +28,7 @@ class AddAffix extends Component {
 		        english: values.english,
 		        link: values.link,
 		        page: values.page,
+            editnote: values.editnote
 		      },
 		      refetchQueries: [{ query: getAffixesQuery }]
 		    });	
@@ -75,6 +63,8 @@ class AddAffix extends Component {
         .url('link must be a valid URL'),
       page: Yup.number()
         .integer('page must be a number'),
+      editnote: Yup.string()
+        .max(150, 'cannot be more than 150 characters'),
       });
 
 
@@ -180,6 +170,20 @@ class AddAffix extends Component {
                 />
                 {errors.page && touched.page && (
                 <div className="input-feedback">{errors.page}</div>
+                )}
+                <Input 
+                  fluid 
+                  label={{ basic: 'true', color: 'blue', content: 'Edit Note' }}
+                  placeholder='You can optionally include an editorial note about this entry.  Editorial notes do not display to users'
+                  id='editnote'
+                  type='text'
+                  value={values.editnote}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.editnote && touched.editnote ? 'text-input error' : 'text-input' }
+                />
+                {errors.editnote && touched.editnote && (
+                <div className="input-feedback">{errors.editnote}</div>
                 )}
                 <Button color="black" size='large' type="submit" disabled={isSubmitting}>
                     Submit
