@@ -11,6 +11,7 @@ const getStemsQuery = gql`
       nicodemus
       english
       note
+      editnote
       active
       prevId
       user {
@@ -39,6 +40,7 @@ const getAffixesQuery = gql`
       link
       page
       active
+      editnote
       prevId
       user {
         username
@@ -70,6 +72,7 @@ const getRootsQuery = gql`
       salish
       nicodemus
       english
+      editnote
       active
       prevId
       user {
@@ -80,8 +83,8 @@ const getRootsQuery = gql`
 `;
 
 const addStemMutation = gql`
-  mutation($category: String!, $reichard: String!, $doak: String!, $salish: String!, $nicodemus: String!, $english: String!, $note: String!) {
-  	addStem_M(category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note) {
+  mutation($category: String, $reichard: String, $doak: String, $salish: String, $nicodemus: String!, $english: String!, $note: String, $editnote: String) {
+  	addStem_M(category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note, editnote: $editnote) {
       id
       category
       reichard
@@ -90,6 +93,7 @@ const addStemMutation = gql`
       nicodemus
       english
       note
+      editnote
       active
       prevId
       user {
@@ -100,8 +104,8 @@ const addStemMutation = gql`
 `;
 
 const updateStemMutation = gql`
-  mutation($id: ID!, $category: String!, $reichard: String!, $doak: String!, $salish: String!, $nicodemus: String!, $english: String!, $note: String!) {
-    updateStem_M(id: $id, category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note) {
+  mutation($id: ID!, $category: String, $reichard: String, $doak: String, $salish: String, $nicodemus: String!, $english: String!, $note: String, $editnote: String) {
+    updateStem_M(id: $id, category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note, editnote: $editnote) {
       id
       category
       reichard
@@ -110,6 +114,7 @@ const updateStemMutation = gql`
       nicodemus
       english
       note
+      editnote
       active
       prevId
       user {
@@ -130,6 +135,7 @@ const deleteStemMutation = gql`
       nicodemus
       english
       note
+      editnote
       active
       prevId
       user {
@@ -140,8 +146,8 @@ const deleteStemMutation = gql`
 `;
 
 const addAffixMutation = gql`
-  mutation($type: String!, $salish: String!, $nicodemus: String!, $english: String!, $link: String!, $page: String!) {
-    addAffix_M(type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page) {
+  mutation($type: String, $salish: String, $nicodemus: String!, $english: String!, $link: String, $page: String, $editnote: String) {
+    addAffix_M(type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page, editnote: $editnote) {
       id
       type
       salish
@@ -149,6 +155,7 @@ const addAffixMutation = gql`
       english
       link
       page
+      editnote
       active
       prevId
       user {
@@ -159,8 +166,8 @@ const addAffixMutation = gql`
 `;
 
 const updateAffixMutation = gql`
-  mutation($id: ID!, $type: String!, $salish: String!, $nicodemus: String!, $english: String!, $link: String!, $page: String!) {
-    updateAffix_M(id: $id, type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page) {
+  mutation($id: ID!, $type: String, $salish: String, $nicodemus: String!, $english: String!, $link: String, $page: String, $editnote: String) {
+    updateAffix_M(id: $id, type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page, editnote: $editnote) {
       	id
       	type
       	salish
@@ -168,6 +175,7 @@ const updateAffixMutation = gql`
       	english
 	  	  link
 	      page
+        editnote
         active
         prevId
         user {
@@ -187,6 +195,7 @@ const deleteAffixMutation = gql`
       english
       link
       page
+      editnote
       active
       prevId
       user {
@@ -211,14 +220,15 @@ const addUserMutation = gql`
 `;
 
 const addRootMutation = gql`
-  mutation($root: String!, $number: Int!, $salish: String!, $nicodemus: String!, $english: String!) {
-    addRoot_M(root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english) {
+  mutation($root: String!, $number: Int, $salish: String, $nicodemus: String!, $english: String!, $editnote: String) {
+    addRoot_M(root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english, editnote: $editnote) {
       id
       root
       number
       salish
       nicodemus
       english
+      editnote
       active
       prevId
       user {
@@ -229,14 +239,15 @@ const addRootMutation = gql`
 `;
 
 const updateRootMutation = gql`
-  mutation($id: ID!, $root: String!, $number: Int!, $salish: String!, $nicodemus: String!, $english: String!) {
-    updateRoot_M(id: $id, root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english) {
+  mutation($id: ID!, $root: String!, $number: Int, $salish: String, $nicodemus: String!, $english: String!, $editnote: String) {
+    updateRoot_M(id: $id, root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english, editnote: $editnote) {
       id
       root
       number
       salish
       nicodemus
       english
+      editnote
       active
       prevId
       user {
@@ -255,6 +266,7 @@ const deleteRootMutation = gql`
       salish
       nicodemus
       english
+      editnote
       active
       prevId
       user {
@@ -288,6 +300,7 @@ const getRootQuery = gql`
       nicodemus
       english
       active
+      editnote
       prevId
       user {
         username
