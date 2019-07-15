@@ -7,10 +7,10 @@ import { addUserMutation, getUserToken } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
 
 class Register extends Component {
-  
+
   constructor(props) {
     super(props);
-		this.onSubmit = this.onFormSubmit.bind(this);
+		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onInputChange = this.onInputChange.bind(this);
     // create a ref to store the textInput DOM element
 		this.state = {
@@ -72,7 +72,7 @@ class Register extends Component {
 		fields[evt.target.name] = evt.target.value;
 		this.setState({ fields });
 	};
-  
+
   render() {
     const { login } = this.state
     const addUserSchema = Yup.object().shape({
@@ -90,7 +90,7 @@ class Register extends Component {
       password: Yup.string()
         .min(2, 'Too short!')
         .max(30, 'Too long!')
-        .required('Required'),  
+        .required('Required'),
       });
 
     const loginSchema = Yup.object().shape({
@@ -100,21 +100,21 @@ class Register extends Component {
       password: Yup.string()
         .min(2, 'Too short!')
         .max(30, 'Too long!')
-        .required('Required'),  
+        .required('Required'),
       });
-    
-    return (     
+
+    return (
       <Grid textAlign='center'  verticalAlign='top'>
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as='h2'  textAlign='center'>
               {login ? 'Log in to your account' : 'Create an account'}
           </Header>
           <Segment stacked>
-            <Formik 
+            <Formik
               initialValues={{ first: '', last: '', username: '', email: '', password: ''}}
               validationSchema={ !login ? addUserSchema : loginSchema }
               onSubmit={(values, { setSubmitting }) => {
-                this.onSubmit(values, setSubmitting);
+                this.onFormSubmit(values, setSubmitting);
               }}
             >
             {/* These are Formik actions */}
@@ -137,7 +137,7 @@ class Register extends Component {
                 {errors.first && touched.first && !login && (
                   <div className="input-feedback">{errors.first}</div>
                 )}
-              {!login && (	
+              {!login && (
                 <Input
                   fluid
                   icon="write"
@@ -170,7 +170,7 @@ class Register extends Component {
               )}
                 {errors.username && touched.username && !login && (
                 <div className="input-feedback">{errors.username}</div>
-                )}       			            						
+                )}
               <Input
                 fluid
                 icon="mail"
@@ -221,6 +221,6 @@ class Register extends Component {
 
 export default compose(
   withApollo,
-  graphql(addUserMutation, { name: "addUserMutation"}), 
+  graphql(addUserMutation, { name: "addUserMutation"}),
   graphql(getUserToken, { name: "getUserToken"})
 )(withRouter(Register));
