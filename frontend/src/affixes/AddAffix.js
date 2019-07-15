@@ -12,7 +12,6 @@ class AddAffix extends Component {
 	constructor(props) {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
-		this.onInputChange = this.onInputChange.bind(this);
   }
 
 	onFormSubmit = async (values, setSubmitting) => {
@@ -38,13 +37,6 @@ class AddAffix extends Component {
 			console.log(err);
 			this.props.history.push('/affixes');
 		}
-	};
-
-	onInputChange = (evt) => {
-		console.log("Change event called on " + evt.target.value);
-		const fields = Object.assign({}, this.state.fields);
-		fields[evt.target.name] = evt.target.value;
-		this.setState({ fields });
 	};
 
 	render() {
@@ -79,7 +71,7 @@ class AddAffix extends Component {
           </Message>
           <Segment stacked>
           <Formik 
-              initialValues={{ type: '', salish: '', nicodemus: '', english: '', link: '', page: ''}}
+              initialValues={{ type: '', salish: '', nicodemus: '', english: '', link: '', page: '', editnote: ''}}
               validationSchema={affixSchema}
               onSubmit={(values, { setSubmitting }) => {
                 this.onFormSubmit(values, setSubmitting);
@@ -89,7 +81,7 @@ class AddAffix extends Component {
     					<Form>
     						<Input 
                   fluid 
-                  label={{ basic: 'true', color: 'blue', content: 'Type' }}
+                  label={{ basic: true, color: 'blue', content: 'Type' }}
     							placeholder='Including the affix type is optional...'
     							id='type'
                   type='text'
@@ -103,7 +95,7 @@ class AddAffix extends Component {
                 )}
                 <Input 
                   fluid 
-                  label={{ basic: 'true', color: 'blue', content: 'Salish' }}
+                  label={{ basic: true, color: 'blue', content: 'Salish' }}
                   placeholder='A transcription in the Salish orthography is optional'
                   id='salish'
                   type='text'
@@ -145,7 +137,7 @@ class AddAffix extends Component {
                 )}
                 <Input 
                   fluid 
-                  label={{ basic: 'true', color: 'blue', content: 'Link' }}
+                  label={{ basic: true, color: 'blue', content: 'Link' }}
                   placeholder='A weblink is optional'
                   id='link'
                   type='text'
@@ -159,7 +151,7 @@ class AddAffix extends Component {
                 )}
                 <Input 
                   fluid 
-                  label={{ basic: 'true', color: 'blue', content: 'Page' }}
+                  label={{ basic: true, color: 'blue', content: 'Page' }}
                   placeholder='If a weblink is provided, you can also provide a page number'
                   id='page'
                   type='text'
@@ -173,7 +165,7 @@ class AddAffix extends Component {
                 )}
                 <Input 
                   fluid 
-                  label={{ basic: 'true', color: 'blue', content: 'Edit Note' }}
+                  label={{ basic: true, color: 'blue', content: 'Edit Note' }}
                   placeholder='You can optionally include an editorial note about this entry.  Editorial notes do not display to users'
                   id='editnote'
                   type='text'
