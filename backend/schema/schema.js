@@ -77,12 +77,13 @@ const typeDefs = `
   }
   type Affix {
     id: ID!
-    type: String!
-    salish: String!
+    type: String
+    salish: String
     nicodemus: String!
     english: String!
-    link: String!
-    page: String!
+    link: String
+    page: String
+    editnote: String
     active: String!
     prevId: Int
     user: User!
@@ -90,23 +91,25 @@ const typeDefs = `
   type Root {
     id: ID!
     root: String!
-    number: Int!
-    salish: String!
+    number: Int
+    salish: String
     nicodemus: String!
     english: String!
+    editnote: String
     active: String!
     prevId: Int
     user: User!
   }
   type Stem {
     id: ID!
-    category: String!
-    reichard: String!
-    doak: String!
-    salish: String!
+    category: String
+    reichard: String
+    doak: String
+    salish: String
     nicodemus: String!
     english: String!
-    note: String!
+    note: String
+    editnote: String
     active: String!
     prevId: Int
     user: User!
@@ -128,16 +131,16 @@ const typeDefs = `
     updateUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
     updateUserAdmin_M(id:String!,roles:[String!]!): User
 
-    addAffix_M(type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
-    updateAffix_M(id:ID!, type:String!, salish:String!, nicodemus:String!, english:String!, link:String!, page:String!): Affix
+    addAffix_M(type:String, salish:String, nicodemus:String!, english:String!, link:String, page:String, editnote:String): Affix
+    updateAffix_M(id:ID!, type:String, salish:String, nicodemus:String!, english:String!, link:String, page:String, editnote:String): Affix
     deleteAffix_M(id:ID!): Affix
 
-    addRoot_M(root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
-    updateRoot_M(id:ID!, root:String!, number:Int!, salish:String!, nicodemus:String!, english:String!): Root
+    addRoot_M(root:String!, number:Int, salish:String, nicodemus:String!, english:String!, editnote:String): Root
+    updateRoot_M(id:ID!, root:String!, number:Int, salish:String, nicodemus:String!, english:String!, editnote:String): Root
     deleteRoot_M(id:ID!): Root
 
-    addStem_M(category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!): Stem
-    updateStem_M(id:ID!, category:String!, reichard:String!, doak:String!, salish:String!, nicodemus:String!, english:String!, note:String!): Stem
+    addStem_M(category:String, reichard:String, doak:String, salish:String, nicodemus:String!, english:String!, note:String, editnote:String): Stem
+    updateStem_M(id:ID!, category:String, reichard:String, doak:String, salish:String, nicodemus:String!, english:String!, note:String, editnote:String): Stem
     deleteStem_M(id:ID!): Stem
   }
 

@@ -52,6 +52,10 @@
 	padding-right: 5px;
 }
 
+.ui.input {
+  padding: 5px;
+}
+
 .floatRight {
 	float: right;
 }

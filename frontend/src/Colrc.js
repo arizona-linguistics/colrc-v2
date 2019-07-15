@@ -116,7 +116,7 @@ class Colrc extends Component {
       rightItems.unshift({ to: "/users", icon: 'user', content:"User Profile"})
     }
     else {
-      rightItems.unshift({ to: "/users", icon: 'user outline', content:"Log In/Sign Up"})
+      rightItems.unshift({ to: "/register", icon: 'user outline', content:"Log In/Sign Up"})
     }
     return rightItems
   }

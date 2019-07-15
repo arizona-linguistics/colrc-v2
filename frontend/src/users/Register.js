@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Grid, Header, Image, Message, Segment, Input } from 'semantic-ui-react';
+import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { withApollo, graphql, compose } from 'react-apollo';
@@ -12,21 +12,12 @@ class Register extends Component {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onInputChange = this.onInputChange.bind(this);
-    // create a ref to store the textInput DOM element
 		this.state = {
       login: false,
-			fields: {
-        first: "",
-        last: "",
-        username: "",
-        email: "",
-        password: "",
-	    },
 		};
   }
 
 	onFormSubmit = async (values, setSubmitting) => {
-		//evt.preventDefault();
     console.log("In add user submission");
     console.log(values)
     console.log(setSubmitting)
@@ -59,7 +50,10 @@ class Register extends Component {
         })
         setSubmitting(false)
       }
-			this.props.history.push('/register');
+      this.setState({
+        login: true
+      })
+      this.props.history.push('/register');
 		} catch (err) {
 			console.log(err);
 			this.props.history.push('/register');
@@ -77,20 +71,27 @@ class Register extends Component {
     const { login } = this.state
     const addUserSchema = Yup.object().shape({
       first: Yup.string()
-      .required('Required'),
+        .required('Required'),
       last: Yup.string()
-      .required('Required'),
+        .required('Required'),
       username: Yup.string()
-        .min(1, 'too short')
-        .max(100, 'Username must not exceed 100 characters')
         .required('Required'),
       email: Yup.string()
         .email('Please enter a valid email address')
         .required('Required'),
       password: Yup.string()
+<<<<<<< HEAD
         .min(2, 'Too short!')
         .max(30, 'Too long!')
         .required('Required'),
+=======
+        .min(2, 'Password must be more than 2 characters')
+        .max(30, 'Password must be less than 30 characters')
+        .required('Required'),  
+      passwordConfirmation: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Password confirmation is required!')  
+>>>>>>> a52900ff9ce485411590eb45854fe1c04c549cc7
       });
 
     const loginSchema = Yup.object().shape({
@@ -98,8 +99,13 @@ class Register extends Component {
         .email('Please enter a valid email address')
         .required('Required'),
       password: Yup.string()
+<<<<<<< HEAD
         .min(2, 'Too short!')
         .max(30, 'Too long!')
+=======
+        .min(2, 'Password must be more than two characters')
+        .max(30, 'Password must be less than 30 characters!')
+>>>>>>> a52900ff9ce485411590eb45854fe1c04c549cc7
         .required('Required'),
       });
 
@@ -110,14 +116,18 @@ class Register extends Component {
               {login ? 'Log in to your account' : 'Create an account'}
           </Header>
           <Segment stacked>
+<<<<<<< HEAD
             <Formik
               initialValues={{ first: '', last: '', username: '', email: '', password: ''}}
+=======
+            <Formik 
+              initialValues={{ first: '', last: '', username: '', email: '', password: '', passwordConfirmation: ''}}
+>>>>>>> a52900ff9ce485411590eb45854fe1c04c549cc7
               validationSchema={ !login ? addUserSchema : loginSchema }
               onSubmit={(values, { setSubmitting }) => {
                 this.onFormSubmit(values, setSubmitting);
               }}
             >
-            {/* These are Formik actions */}
               {({ isSubmitting, values, errors, touched, handleChange, handleBlur }) => (
             <Form>
               {!login && (
@@ -192,13 +202,30 @@ class Register extends Component {
                 iconPosition='left'
                 id="password"
                 placeholder="Password"
-                type="text"
+                type="password"
                 value={ values.password }
                 onChange={ handleChange }
                 onBlur={ handleBlur }
                 className={ errors.password && touched.password ? 'text-input error' : 'text-input' }
               />
                 {errors.password && touched.password && (
+                <div className="input-feedback">{errors.password}</div>
+                )}
+            {!login && (                
+              <Input
+                fluid
+                icon='lock'
+                iconPosition='left'
+                id="passwordConfirmation"
+                placeholder="Confirm your password"
+                type="password"
+                value={ values.passwordConfirmation }
+                onChange={ handleChange }
+                onBlur={ handleBlur }
+                className={ errors.passwordConfirmation && touched.passwordConfirmation ? 'text-input error' : 'text-input' }
+              />
+              )}
+                {errors.passwordConfirmation && touched.passwordConfirmation && !login &&(
                 <div className="input-feedback">{errors.password}</div>
                 )}
                 <Button color="blue" size='large' type="submit" disabled={isSubmitting}>
