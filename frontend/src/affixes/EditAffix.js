@@ -104,9 +104,10 @@ class EditAffix extends Component {
           </Message>
           <Segment stacked>
             <Formik
-              initialValues={{id: this.state.fields.id, type: this.state.fields.type, salish: this.state.fields.salish, nicodemus: this.state.fields.nicodemus, english: this.state.fields.english, link: this.state.fields.link, page: this.state.fields.page, editnote: this.state.fields.editnote}}
+              initialValues={{id: this.state.fields.id || '', type: this.state.fields.type || '', salish: this.state.fields.salish || '', nicodemus: this.state.fields.nicodemus || '', english: this.state.fields.english || '', link: this.state.fields.link || '', page: this.state.fields.page || '', editnote: this.state.fields.editnote || ''}}
               validationSchema={affixSchema}
-              onSubmit={(values, setSubmitting) => {
+              enableReinitialize
+              onSubmit={(values, { setSubmitting }) => {
                 this.onFormSubmit(values, setSubmitting);
               }}
               render={({
@@ -119,7 +120,7 @@ class EditAffix extends Component {
                 handleSubmit,
                 isSubmitting,
               }) => (
-              <Form onSubmit={handleSubmit}>
+              <Form>
               <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Affix ID' }}
