@@ -95,3 +95,6 @@
 .ui.input {
   padding: 5px;
 }
+.input-feedback {
+  color: red;
+}

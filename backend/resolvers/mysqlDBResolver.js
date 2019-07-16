@@ -51,6 +51,11 @@ const updateUser_R = (context,input,connectorQuery) => {
   return connectorQuery.apply(this, [input]);
 };
 
+const getUserFromToken_R = (context,input,connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  return connectorQuery.apply(this, [input]);
+};
+
 const updateUserAdmin_R = (context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
@@ -146,6 +151,7 @@ module.exports = {
   addUser_R,
   updateUser_R,
   updateUserAdmin_R,
+  getUserFromToken_R,
   addAffix_R,
   addRoot_R,
   addStem_R,
