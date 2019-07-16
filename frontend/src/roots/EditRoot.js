@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-import { Form, Button, Icon } from 'semantic-ui-react';
+import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { updateRootMutation, getRootsQuery } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
 
@@ -11,147 +13,237 @@ class EditRoot extends Component {
 	constructor(props) {
     super(props);
 		this.onSubmit = this.onFormSubmit.bind(this);
-		this.onInputChange = this.onInputChange.bind(this);
     // create a ref to store the textInput DOM element
     this.idInput = React.createRef();
 		this.state = {
-			fields: {
-				id: "",
-				root: "",
-				number: "",
-				salish: "",
-				nicodemus: "",
-				english: "",
-				userId: "",
-			},
-			fieldErrors: {}
-		};
+			fields: {},
+		}
   }
 
 	componentDidMount() {
-	  const values = queryString.parse(this.props.location.search);
+		const data = queryString.parse(this.props.location.search);
+		console.log("these are the data")
+    console.log(data)
 		this.setState({
 			fields: {
-				id: values.id,
-				root: values.root,
-				number: values.number,
-				salish: values.salish,
-				nicodemus: values.nicodemus,
-				english: values.english,
-				prevId: values.prevId,
-				userId: values.userId
+				id: data.id,
+				root: data.root,
+				number: data.number === "null" ? '' : data.number,
+				salish: data.salish,
+				nicodemus: data.nicodemus,
+				english: data.english,
+				editnote: data.editnote,
 			}
-		}, () => {
-			//this.idInput.current.value = values.id;
-			console.log("The current Id: " + values.id);
-			//this.forceUpdate();
 		});
+		console.log("The current Id: " + data.id)
 	}
 
-	onFormSubmit = async (evt) => {
-		evt.preventDefault();
-		console.log("In form submission");
+	onFormSubmit = async (values, setSubmitting) => {
+		console.log("In edit form submission")
+		console.log(values)
+		console.log(setSubmitting);
 		try {
-			this.props.updateRootMutation({
+			await this.props.updateRootMutation({
 				variables: {
-					id: this.state.fields.id,
-					root: this.state.fields.root,
-					number: parseInt(this.state.fields.number, 10),
-					salish: this.state.fields.salish,
-					nicodemus: this.state.fields.nicodemus,
-					english: this.state.fields.english,
-					//prevId: parseInt(this.state.fields.prevId),
-					userId: parseInt(this.state.fields.userId, 10),
+					id: values.id,
+					root: values.root,
+					number: parseInt(values.number),
+					salish: values.salish,
+					nicodemus: values.nicodemus,
+					english: values.english,
+					editnote: values.editnote
 				},
-		      	refetchQueries: [{ query: getRootsQuery }]
+				refetchQueries: () => [{ query: getRootsQuery, variables: {}, awaitRefetchQueries: true }],
+				awaitRefetchQueries: true
+			})
+			.then(() => {
+				setSubmitting(false)
+				console.log('wha happend')
+				this.props.history.push('/roots')
 			});
-			this.props.history.push('/roots');
-			//history.push('/rootdictionary');
-		} catch (err) {
-			console.log(err);
-			this.props.history.push('/roots');
+		} catch (result) {
+			console.log(result.graphQLErrors[0]);
+			setSubmitting(false)
+			this.setState({ error: result.graphQLErrors[0].message });
 		}
 	};
 
-	onInputChange = (evt) => {
-		console.log("Change event called on " + evt.target.value);
-		const fields = Object.assign({}, this.state.fields);
-		fields[evt.target.name] = evt.target.value;
-		this.setState({ fields });
-	};
-
 	render() {
+		const { id, root, number, salish, nicodemus, english, editnote } = this.state.fields
+    console.log("this.state.fields is")
+    console.log(this.state.fields)
+    const rootSchema = Yup.object().shape({
+      root: Yup.string()
+				.max(150, 'cannot be more than 150 characters')
+				.required('a root entry is required'),
+			number: Yup.number()
+				.integer('must be a number'),
+      salish: Yup.string()
+        .max(150, 'cannot be more than 150 characters'),
+      nicodemus: Yup.string()
+        .min(2, 'at least 2 characters are required')
+        .required('a root entry is required'),
+      english: Yup.string()
+        .min(1, 'at least 1 character is required')
+        .required('an English translation is required'),
+      editnote: Yup.string()
+        .max(150, 'cannot be more than 150 characters')
+        .required('an edit note is required'),
+      });
 
 	return (
-		<div>
-			<h3>Edit a Root</h3>
-			<p>Change your root in wonderful ways.</p>
-			<Form onSubmit={this.onFormSubmit}>
-				<Form.Group widths='equal'>
-				<Form.Input fluid label="Id"
-					placeholder='Id'
-					name='id'
-					value={this.state.fields.id}
-					onChange={this.onInputChange}
-					ref={this.idInput}
-				/>
-				<span style={{ color: 'red' }}>{this.state.fieldErrors.id}</span>
-				<Form.Input fluid label="Root"
-					placeholder='Root'
-					name='root'
-					value={this.state.fields.root}
-					onChange={this.onInputChange}
-				/>
-				<span style={{ color: 'red' }}>{this.state.fieldErrors.root}</span>
-				<Form.Input fluid label="Number"
-					placeholder='Number'
-					name='number'
-					value={this.state.fields.number}
-					onChange={this.onInputChange}
-				/>
-				<span style={{ color: 'red' }}>{this.state.fieldErrors.number}</span>
-				<Form.Input fluid label="Salish"
-					placeholder='Salish'
-					name='salish'
-					value={this.state.fields.salish}
-					onChange={this.onInputChange}
-				/>
-				<span style={{ color: 'red' }}>{this.state.fieldErrors.salish}</span>
-				<Form.Input fluid label="Nicodemus"
-					placeholder='Nicodemus'
-					name='nicodemus'
-					value={this.state.fields.nicodemus}
-					onChange={this.onInputChange}
-				/>
-				<span style={{ color: 'red' }}>{this.state.fieldErrors.nicodemus}</span>
-				<Form.Input fluid label="English"
-					placeholder='English'
-					name='english'
-					value={this.state.fields.english}
-					onChange={this.onInputChange}
-				/>
-				<span style={{ color: 'red' }}>{this.state.fieldErrors.english}</span>
-				<Form.Input fluid label="User ID"
-					placeholder='Enter 1'
-					name='userId'
-					value={this.state.fields.userId}
-					onChange={this.onInputChange}
-				/>
-				<span style={{ color: 'red' }}>{this.state.fieldErrors.userId}</span>
-				</Form.Group>
-	         	<Button basic color="blue" type='submit' icon size="mini" labelPosition="right">
-	            	<Icon name='save' />
-	            	Save Changes
-	          	</Button>
-			</Form>
+		<Grid textAlign='center'  verticalAlign='top'>
+        <Grid.Column>
+          <Header as='h2'  textAlign='center'>
+             Edit a Root
+          </Header>
+          <Message>
+            Fill in the fields below to edit the selected root.  When you save your edits, the old root entry will be set to 'inactive' status and will no longer display.  The edited root will display to users.  Please add an 'edit note' to briefly characterize the reason for the edit.  Edit notes do not display to users.
+          </Message>
+          {this.state.error && (
+            <div className="input-feedback">{this.state.error}</div>
+          )}
+          <Segment stacked>
+            <Formik
+              initialValues={{id: this.state.fields.id || '', root: this.state.fields.root || '', number: this.state.fields.number || '',  salish: this.state.fields.salish || '', nicodemus: this.state.fields.nicodemus || '', english: this.state.fields.english || '', editnote: this.state.fields.editnote || ''}}
+              validationSchema={rootSchema}
+              enableReinitialize
+              onSubmit={(values, { setSubmitting }) => {
+                this.onFormSubmit(values, setSubmitting);
+              }}
+              render={({
+                values,
+                errors,
+                status,
+                touched,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+              <Form>
+              <Input 
+                  fluid 
+                  label={{ basic: true, color: 'blue', content: 'Affix ID' }}
+                  placeholder='The ID of the affix you are editing'
+                  id='id'
+                  type='text'
+                  disabled
+                  value={values.id}
+                  onChange={handleChange}
+									onBlur={handleBlur}
+									// There are no errors for incorrect ID input because it loads pre-filled anyway
+                  className={ errors.type && touched.type ? 'text-input error' : 'text-input' }
+                />
+                <Input 
+                  fluid 
+                  label={{ basic: true, color: 'blue', content: 'Root' }}
+                  placeholder='Root is required'
+                  id='root'
+                  type='text'
+                  value={values.root}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.root && touched.root ? 'text-input error' : 'text-input' }
+                />
+                {errors.root && touched.root && (
+                <div className="input-feedback">{errors.root}</div>
+								)}
+								
+								<Input 
+                  fluid 
+                  label={{ basic: true, color: 'blue', content: 'Number' }}
+                  placeholder='Must be a number. This field is optional.'
+                  id='number'
+                  type='text'
+                  value={values.number}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.number && touched.number ? 'text-input error' : 'text-input' }
+                />
+                {errors.number && touched.number && (
+                <div className="input-feedback">{errors.number}</div>
+                )}
+                <Input 
+                  fluid 
+                  label={{ basic: true, color: 'blue', content: 'Salish' }}
+                  placeholder='Salish transcription is optional'
+                  id='salish'
+                  type='text'
+                  value={values.salish}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.salish && touched.salish ? 'text-input error' : 'text-input' }
+                />
+                {errors.salish && touched.salish && (
+                <div className="input-feedback">{errors.salish}</div>
+                )}
+                <Input 
+                  fluid 
+                  label={{ color: 'blue', content: 'Nicodemus' }}
+                  placeholder='An entry for the root using the Nicodemus orthography is required'
+                  id='nicodemus'
+                  type='text'
+                  value={values.nicodemus}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.nicodemus && touched.nicodemus ? 'text-input error' : 'text-input' }
+                />
+                {errors.nicodemus && touched.nicodemus && (
+                <div className="input-feedback">{errors.nicodemus}</div>
+                )}
+                <Input 
+                  fluid 
+                  label={{ color: 'blue', content: 'English' }}
+                  placeholder='An English gloss for the root is required'
+                  id='english'
+                  type='text'
+                  value={values.english}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.english && touched.english ? 'text-input error' : 'text-input' }
+                />
+                {errors.english && touched.english && (
+                <div className="input-feedback">{errors.english}</div>
+                )}
+                <Input 
+                  fluid 
+                  label={{ color: 'blue', content: 'Edit Note' }}
+                  placeholder='Please provide an editorial note.  Editorial notes do not display to users'
+                  id='editnote'
+                  type='text'
+                  value={values.editnote}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.editnote && touched.editnote ? 'text-input error' : 'text-input' }
+                />
+                {errors.editnote && touched.editnote && (
+                <div className="input-feedback">{errors.editnote}</div>
+                )}
+                <Button color="black" size='large' type="submit" disabled={isSubmitting}>
+                    Submit
+                </Button>
+              </Form>
+            )}
+          />
+        </Segment>
+        <Segment>
+
+
+
+
 
 			<h3>Virtual Keyboard</h3>
 			<SimpleKeyboard / >
-		</div>
+			<SimpleKeyboard / >
+      </Segment>
+      </Grid.Column>
+    </Grid>
 		);
 	}
 };
 
 export default compose(
-	graphql(updateRootMutation, { name: 'updateRootMutation' })
-)(withRouter(EditRoot));
+	graphql(getRootsQuery, { name: 'GetRootsQuery '}),
+	graphql(updateRootMutation, { name: 'updateRootMutation', options: {refetchQueries: [ 'getRootsQuery'], awaitRefetchQueries: true} } )
+)(withRouter(withApollo(EditRoot)));
