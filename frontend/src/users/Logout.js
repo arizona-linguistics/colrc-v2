@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 class Logout extends Component {
@@ -11,6 +11,9 @@ class Logout extends Component {
           <Header as='h3'  textAlign='center'>
               Logout
           </Header>
+          <Segment>
+            Here is the logout landing page, which we probably don't need.
+          </Segment>
         </Grid.Column>
       </Grid>
    );

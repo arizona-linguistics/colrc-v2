@@ -92,6 +92,11 @@
   max-width: 250px;
 }
 
+.ui.button {
+  padding: 10px;
+  margin: 10px;
+
+}
 .ui.input {
   padding: 5px;
 }

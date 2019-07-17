@@ -1,61 +1,71 @@
 import React, { Component } from 'react';
-import { Grid, Header, Segment, Menu } from 'semantic-ui-react';
+import { Grid, Header, Segment, Button, Message } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import UserProfile from './UserProfile';
-import ChangePassword from './ChangePassword';
-import Logout from './Logout';
+import { withApollo, graphql, compose } from 'react-apollo';
+import { getUserToken, getUserFromToken } from '../queries/queries';
 
 class Users extends Component {
   constructor(props) {
     super(props);
-      this.state = { 
-      activeItem: 'profile', 
+    this.state = {
+      fields: {
+        first: '',
+        last: '',
+        email: '',
+        username: '',
+        password: '',
+        roles: []
+      }
     };
-      this.handleItemClick = this.handleItemClick.bind(this);
   }
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
+  async componentDidMount() {
+    try {
+      let userQuery = await this.props.client.query({
+        query: getUserFromToken,
+      })
+      const user = userQuery.data.getUserFromToken_Q
+      this.setState({
+        fields: {
+          first: user.first,
+          last: user.last,
+          email: user.email,
+          username: user.username,
+          password: user.password
+        }
+      }) 
+      console.log(user)
+      console.log(this.state)
+    } catch(error) {
+      console.log(error)
+    }
+  } 
+
+  handleClick(e) {
+    console.log('this is:', this);
+    this.props.history.push('./.');
+  }
 
 render() {
-  const { activeItem } = this.state;
-  let currentItem; 
-    if (this.state.activeItem === "profile") {
-        currentItem = <UserProfile />;
-    }
-    else if (this.state.activeItem === "password") {
-    currentItem = <ChangePassword />;
-  }
-  else {
-    currentItem = <Logout />;
-  };
-
     return (     
       <Grid textAlign='center'  verticalAlign='top'>
-        <Grid.Column style={{ maxWidth: 450 }}>
+        <Grid.Column style={{ maxWidth: 600 }} textAlign='center'>
           <Header as='h2'  textAlign='center'>
               User Actions
           </Header>
-          <Menu>
-            <Menu.Item 
-              name='profile'
-              active={activeItem === 'profile'}
-              onClick={this.handleItemClick}>
+          <Message>
+            You are currently logged in as <div style={{ color: 'blue' }}>{this.state.fields.username}</div>  You can update your user profile, change your password, or log out.
+          </Message>
+          <Segment stacked textAlign='center'>
+            <Button size='large' primary onClick={(e) => this.props.history.push('../userprofile')}>
               Update Your Profile
-            </Menu.Item>
-            <Menu.Item 
-              name='password'
-              active={activeItem === 'password'}
-              onClick={this.handleItemClick}>
+            </Button>
+            <Button size='large' secondary path='../changepassword' onClick={(e) => this.props.history.push('../changepassword')}>
               Change Your Password
-            </Menu.Item>
-            <Menu.Item 
-              name='Log out' 
-              active={activeItem === 'logout'} 
-              onClick={this.handleItemClick}>
-              Log out
-            </Menu.Item>
-          </Menu>
-          <Segment stacked>
-          {currentItem}
+            </Button>
+            <Button size='large' primary path='../logout' onClick={(e) => this.props.history.push('../logout')}>
+              Logout
+            </Button>
           </Segment>
         </Grid.Column>
       </Grid>
@@ -63,4 +73,8 @@ render() {
   }
 }
 
-export default Users;
+export default compose(
+  withApollo,
+  graphql(getUserToken, { name: "getUserToken"}), 
+  graphql(getUserFromToken, { name: "getUserFromToken"})
+)(withRouter(Users));

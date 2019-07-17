@@ -97,7 +97,7 @@ class UserProfile extends Component {
           <Message>
           Use this form to change your account information.  
           </Message>
-          <Segment stacked>
+          <Segment stacked >
             <Formik
               initialValues={{first: this.state.fields.first || '', last: this.state.fields.last || '', username: this.state.fields.username || '', email: this.state.fields.email || ''}}
               validationSchema={updateUserSchema}
