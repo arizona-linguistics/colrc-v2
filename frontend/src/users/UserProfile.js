@@ -191,3 +191,4 @@ export default compose(
   graphql(updateUserMutation, { name: "updateUserMutation"}), 
   graphql(getUserFromToken, { name: "getUserFromToken"})
 )(withRouter(UserProfile));
+
