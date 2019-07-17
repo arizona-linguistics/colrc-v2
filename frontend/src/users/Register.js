@@ -80,18 +80,12 @@ class Register extends Component {
         .email('Please enter a valid email address')
         .required('Required'),
       password: Yup.string()
-<<<<<<< HEAD
-        .min(2, 'Too short!')
-        .max(30, 'Too long!')
-        .required('Required'),
-=======
         .min(2, 'Password must be more than 2 characters')
         .max(30, 'Password must be less than 30 characters')
-        .required('Required'),  
+        .required('Required'),
       passwordConfirmation: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Password confirmation is required!')  
->>>>>>> a52900ff9ce485411590eb45854fe1c04c549cc7
+        .required('Password confirmation is required!')
       });
 
     const loginSchema = Yup.object().shape({
@@ -99,13 +93,8 @@ class Register extends Component {
         .email('Please enter a valid email address')
         .required('Required'),
       password: Yup.string()
-<<<<<<< HEAD
-        .min(2, 'Too short!')
-        .max(30, 'Too long!')
-=======
         .min(2, 'Password must be more than two characters')
         .max(30, 'Password must be less than 30 characters!')
->>>>>>> a52900ff9ce485411590eb45854fe1c04c549cc7
         .required('Required'),
       });
 
@@ -116,13 +105,8 @@ class Register extends Component {
               {login ? 'Log in to your account' : 'Create an account'}
           </Header>
           <Segment stacked>
-<<<<<<< HEAD
             <Formik
-              initialValues={{ first: '', last: '', username: '', email: '', password: ''}}
-=======
-            <Formik 
               initialValues={{ first: '', last: '', username: '', email: '', password: '', passwordConfirmation: ''}}
->>>>>>> a52900ff9ce485411590eb45854fe1c04c549cc7
               validationSchema={ !login ? addUserSchema : loginSchema }
               onSubmit={(values, { setSubmitting }) => {
                 this.onFormSubmit(values, setSubmitting);
@@ -211,7 +195,7 @@ class Register extends Component {
                 {errors.password && touched.password && (
                 <div className="input-feedback">{errors.password}</div>
                 )}
-            {!login && (                
+            {!login && (
               <Input
                 fluid
                 icon='lock'

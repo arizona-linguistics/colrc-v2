@@ -1,130 +1,192 @@
 import React, { Component } from 'react';
-import { Form,  Button, Icon } from 'semantic-ui-react';
+import { Button, Grid, Header, Message, Segment, Input, Icon} from 'semantic-ui-react';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { graphql, compose } from 'react-apollo';
 import { getRootsQuery, addRootMutation } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
 class AddRoot extends Component {
 
 	constructor(props) {
     super(props);
-		this.onSubmit = this.onFormSubmit.bind(this);
-		this.onInputChange = this.onInputChange.bind(this);
-    // create a ref to store the textInput DOM element
-		this.state = {
-			fields: {
-				root: "",
-				number: "",
-				salish: "",
-				nicodemus: "",
-				english: "",
-				prevId: "",
-				userId: "",
-			},
-			fieldErrors: {}
-		};
+		this.onFormSubmit = this.onFormSubmit.bind(this);
+		this.state = {}
   }
 
-	onFormSubmit = async (evt) => {
-		evt.preventDefault();
-		console.log("In add form submission");
+	onFormSubmit = async (values, setSubmitting) => {
+		console.log("In add form submission")
+		console.log(values)
+		console.log(setSubmitting);
 		try {
-		    this.props.addRootMutation({
+		    await this.props.addRootMutation({
 		      variables: {
-		        root: this.state.fields.root,
-		        number: parseInt(this.state.fields.number, 10),
-		        salish: this.state.fields.salish,
-		        nicodemus: this.state.fields.nicodemus,
-		        english: this.state.fields.english,
-		        //prevId: parseInt(this.state.fields.prevId),
-		        userId: parseInt(this.state.fields.userId, 10),
+		        root: values.root,
+		        number: values.number,
+		        salish: values.salish,
+		        nicodemus: values.nicodemus,
+		        english: values.english,
+		        editnote: values.editnote,
 					},
-					refetchQueries: [{ query:getRootsQuery }]
-		    });	
+					//refetchQueries: [{ query:getRootsQuery }]
+				});
+			setSubmitting(false)
 			this.props.history.push('/roots');
-			//history.push('/rootdictionary');
-		} catch (err) {
-			console.log(err);
-			this.props.history.push('/roots');
+		} catch (result) {
+			console.log(result)
+			console.log(result.json())
+			//console.log(result.graphQLErrors[0].message);
+      setSubmitting(false)
+      //this.setState({ error: result.graphQLErrors[0].message });
 		}
 	};
 
-	onInputChange = (evt) => {
-		console.log("Change event called on " + evt.target.value);
-		const fields = Object.assign({}, this.state.fields);
-		fields[evt.target.name] = evt.target.value;
-		this.setState({ fields });
-	};
-
 	render() {
-		return (
-			<div>
-				<h3>Add a Root</h3>
-				<p>
-					Fill in the fields below to add a new root to the dictionary.
-				</p>
+		const rootSchema = Yup.object().shape({
+			root: Yup.string()
+				.max(150, 'cannot be more than 150 characters')
+				.required('Root is required'),
+			number: Yup.number()
+				.integer('must be a number'),
+			salish: Yup.string()
+				.max(150, 'cannot be more than 150 characters'),
+			nicodemus: Yup.string()
+				.max(150, 'cannot be more than 150 characters')
+				.required('An entry is required'),
+			english: Yup.string()
+				.max(150, 'cannot be more than 150 characters')
+				.required('An entry is required'),
+			editnote: Yup.string()
+				.max(150, 'cannot be more than 150 characters'),
+		})
 
-				<div>
-					<Form onSubmit={this.onFormSubmit}>
-						<Form.Group widths='equal'>
-							<Form.Input fluid label="Root"
-							placeholder='Root'
-							name='root'
-							value={this.state.fields.root}
-							onChange={this.onInputChange}
-						/>
-						<span style={{ color: 'red' }}>{this.state.fieldErrors.root}</span>
-							<Form.Input fluid label="Number"
-							placeholder='Number'
-							name='number'
-							value={this.state.fields.number}
-							onChange={this.onInputChange}
-						/>
-						<span style={{ color: 'red' }}>{this.state.fieldErrors.number}</span>
-						<Form.Input fluid label="Salish"
-							placeholder='Salish'
-							name='salish'
-							value={this.state.fields.salish}
-							onChange={this.onInputChange}
-						/>
-						<span style={{ color: 'red' }}>{this.state.fieldErrors.salish}</span>
-						<Form.Input fluid label="Nicodemus"
-							placeholder='Nicodemus'
-							name='nicodemus'
-							value={this.state.fields.nicodemus}
-							onChange={this.onInputChange}
-						/>
-						<span style={{ color: 'red' }}>{this.state.fieldErrors.nicodemus}</span>
-						<Form.Input fluid label="English"
-							placeholder='English'
-							name='english'
-							value={this.state.fields.english}
-							onChange={this.onInputChange}
-						/>
-						<span style={{ color: 'red' }}>{this.state.fieldErrors.english}</span>
-						<Form.Input fluid label="User ID"
-							placeholder='Enter 1'
-							name='userId'
-							value={this.state.fields.userId}
-							onChange={this.onInputChange}
-						/>
-						<span style={{ color: 'red' }}>{this.state.fieldErrors.userId}</span>
-						</Form.Group>
-			         	<Button basic color="blue" type='submit' icon size="mini" labelPosition="right">
-			            	<Icon name='save' />
-			            	Save Changes
-			          	</Button>					
-					</Form>
-				</div>
+		return (
+			<Grid textAlign='center'  verticalAlign='top'>
+        <Grid.Column>
+          <Header as='h2'  textAlign='center'>
+             Add a Root
+          </Header>
+          <Message>
+            Fill in the fields below to add a new root to the list.  Any new root must include an entry in the Nicodemus writing system, and an English translation.  Other fields are optional.
+          </Message>
+
+					{this.state.error && (
+            <div className="input-feedback">{this.state.error}</div>
+					)}
+
+					<Segment stacked>
+          <Formik
+              initialValues={{ root: '', number: '', salish: '', nicodemus: '', english: '', editnote: ''}}
+              validationSchema={rootSchema}
+              onSubmit={(values, { setSubmitting }) => {
+                this.onFormSubmit(values, setSubmitting);
+              }}
+          >
+            {({ isSubmitting, values, errors, touched, handleChange, handleBlur }) => (
+    					<Form>
+    						<Input
+                  fluid
+                  label={{ color: 'blue', content: 'Root' }}
+    							placeholder='The root is required...'
+    							id='root'
+                  type='text'
+    							value={values.root}
+    							onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.root && touched.root ? 'text-input error' : 'text-input' }
+                />
+                {errors.root && touched.root && (
+                <div className="input-feedback">{errors.root}</div>
+                )}
+                <Input
+                  fluid
+                  label={{ basic: true, color: 'blue', content: 'Number' }}
+                  placeholder='The root number is optional'
+                  id='number'
+                  type='text'
+                  value={values.number}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.number && touched.number ? 'text-input error' : 'text-input' }
+                />
+                {errors.number && touched.number && (
+                <div className="input-feedback">{errors.number}</div>
+								)}
+								 <Input
+                  fluid
+                  label={{ basic: true, color: 'blue', content: 'Salish' }}
+                  placeholder='A transcription in the Salish orthography is optional'
+                  id='salish'
+                  type='text'
+                  value={values.salish}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.salish && touched.salish ? 'text-input error' : 'text-input' }
+                />
+                {errors.salish && touched.salish && (
+                <div className="input-feedback">{errors.salish}</div>
+                )}
+                <Input
+                  fluid
+                  label={{ color: 'blue', content: 'Nicodemus' }}
+                  placeholder='An entry for the root using the Nicodemus orthography is required'
+                  id='nicodemus'
+                  type='text'
+                  value={values.nicodemus}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.nicodemus && touched.nicodemus ? 'text-input error' : 'text-input' }
+                />
+                {errors.nicodemus && touched.nicodemus && (
+                <div className="input-feedback">{errors.nicodemus}</div>
+                )}
+                <Input
+                  fluid
+                  label={{ color: 'blue', content: 'English' }}
+                  placeholder='An English gloss for the root is required'
+                  id='english'
+                  type='text'
+                  value={values.english}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.english && touched.english ? 'text-input error' : 'text-input' }
+                />
+                {errors.english && touched.english && (
+                <div className="input-feedback">{errors.english}</div>
+                )}
+                <Input
+                  fluid
+                  label={{ basic: true, color: 'blue', content: 'Edit Note' }}
+                  placeholder='You can optionally include an editorial note about this entry.  Editorial notes do not display to users'
+                  id='editnote'
+                  type='text'
+                  value={values.editnote}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={ errors.editnote && touched.editnote ? 'text-input error' : 'text-input' }
+                />
+                {errors.editnote && touched.editnote && (
+                <div className="input-feedback">{errors.editnote}</div>
+                )}
+                <Button color="black" size='large' type="submit" disabled={isSubmitting}>
+                    Submit
+                </Button>
+    					</Form>
+            )}
+          </Formik>
+        </Segment>
+        <Segment>
 				<h3>Virtual Keyboard</h3>
 				<SimpleKeyboard / >
-			</div>
+				</Segment>
+        </Grid.Column>
+			</Grid>
 		);
 	}
 };
 
-
 export default compose(
-  graphql(addRootMutation, { name: "addRootMutation"})
+  graphql(addRootMutation, { name: "addRootMutation"}),
+	graphql(getRootsQuery, { name: "getRootsQuery"})
   )(withRouter(AddRoot));
