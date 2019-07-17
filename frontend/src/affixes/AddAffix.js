@@ -11,7 +11,8 @@ class AddAffix extends Component {
 
 	constructor(props) {
     super(props);
-		this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.state = {}
   }
 
 	onFormSubmit = async (values, setSubmitting) => {
@@ -19,7 +20,7 @@ class AddAffix extends Component {
     console.log(values)
     console.log(setSubmitting);
 		try {
-		    this.props.addAffixMutation({
+        await this.props.addAffixMutation({
 		      variables: {
 		        type: values.type,
 		        salish: values.salish,
@@ -33,9 +34,10 @@ class AddAffix extends Component {
 		    });	
       setSubmitting(false)
 			this.props.history.push('/affixes');
-		} catch (err) {
-			console.log(err);
-			this.props.history.push('/affixes');
+		} catch (result) {
+      console.log(result.graphQLErrors[0].message);
+      setSubmitting(false)
+      this.setState({ error: result.graphQLErrors[0].message });
 		}
 	};
 
@@ -53,8 +55,8 @@ class AddAffix extends Component {
         .required('an English translation is required'),
       link: Yup.string()
         .url('link must be a valid URL'),
-      page: Yup.number()
-        .integer('page must be a number'),
+      page: Yup.string()
+        .max(150, 'cannot be more than 150 characters'),
       editnote: Yup.string()
         .max(150, 'cannot be more than 150 characters'),
       });
@@ -69,6 +71,11 @@ class AddAffix extends Component {
           <Message>
             Fill in the fields below to add a new affix to the list.  Any new affix must include an entry in the Nicodemus writing system, and an English translation.  Other fields are optional, and the layout of this list is based on Reichard 1938.  Links and pages show the affix in that publication.
           </Message>
+
+          {this.state.error && (
+            <div className="input-feedback">{this.state.error}</div>
+          )}
+
           <Segment stacked>
           <Formik 
               initialValues={{ type: '', salish: '', nicodemus: '', english: '', link: '', page: '', editnote: ''}}

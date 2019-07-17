@@ -45,7 +45,7 @@ class EditAffix extends Component {
     console.log(values)
     console.log(setSubmitting);
 		try {
-			this.props.updateAffixMutation({
+			await this.props.updateAffixMutation({
 				variables: {
 					id: values.id,
 					type: values.type,
@@ -63,9 +63,10 @@ class EditAffix extends Component {
 				setSubmitting(false)
         this.props.history.push('/affixes');
 			});
-		} catch (err) {
-			console.log(err);
-			this.props.history.push('/affixes');
+		} catch (result) {
+      console.log(result.graphQLErrors[0].message);
+      setSubmitting(false)
+      this.setState({ error: result.graphQLErrors[0].message });
 		}
 	};
 
@@ -102,6 +103,9 @@ class EditAffix extends Component {
           <Message>
             Fill in the fields below to edit the selected affix.  When you save your edits, the old affix entry will be set to 'inactive' status and will no longer display.  The edited affix will display to users.  Please add an 'edit note' to briefly characterize the reason for the edit.  Edit notes do not display to users.
           </Message>
+          {this.state.error && (
+            <div className="input-feedback">{this.state.error}</div>
+          )}
           <Segment stacked>
             <Formik
               initialValues={{id: this.state.fields.id || '', type: this.state.fields.type || '', salish: this.state.fields.salish || '', nicodemus: this.state.fields.nicodemus || '', english: this.state.fields.english || '', link: this.state.fields.link || '', page: this.state.fields.page || '', editnote: this.state.fields.editnote || ''}}
@@ -131,6 +135,7 @@ class EditAffix extends Component {
                   value={values.id}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  // There are no errors for incorrect ID input because it loads pre-filled anyway 
                   className={ errors.type && touched.type ? 'text-input error' : 'text-input' }
                 />
                 <Input 
