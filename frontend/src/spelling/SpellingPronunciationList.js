@@ -91,7 +91,7 @@ class SpellingPronunciationList extends Component {
         },{
         	Header: 'Note',
         	accessor: 'note',
-	    	style: { 'white-space': 'unset' },
+	    	style: { 'whiteSpace': 'unset' },
 	    	show: noteSelected,
 		}]
 	}];
