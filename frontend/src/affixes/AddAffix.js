@@ -58,7 +58,7 @@ class AddAffix extends Component {
       page: Yup.string()
         .max(150, 'cannot be more than 150 characters'),
       editnote: Yup.string()
-        .max(150, 'cannot be more than 150 characters'),
+        .max(150, 'cannot be more than 150 characters')
       });
 
 
