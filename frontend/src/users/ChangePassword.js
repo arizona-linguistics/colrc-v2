@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, Header, Segment, Button, Message } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
+import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { getUserToken, getUserFromToken } from '../queries/queries';
+import { withRouter } from 'react-router-dom';
 
-class Users extends Component {
+class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +20,6 @@ class Users extends Component {
       }
     };
   }
-
   async componentDidMount() {
     try {
       let userQuery = await this.props.client.query({
@@ -40,32 +41,20 @@ class Users extends Component {
       console.log(error)
     }
   } 
-
-  handleClick(e) {
-    console.log('this is:', this);
-    this.props.history.push('./.');
-  }
-
-render() {
+ 
+  render() {
+  
     return (     
       <Grid textAlign='center'  verticalAlign='top'>
-        <Grid.Column style={{ maxWidth: 600 }} textAlign='center'>
-          <Header as='h2'  textAlign='center'>
-              User Actions
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as='h3'  textAlign='center'>
+              Change Your Password
           </Header>
           <Message>
-            You are currently logged in as <div style={{ color: 'blue' }}>{this.state.fields.username}</div>  You can update your user profile, change your password, or log out.
+            You are currently logged in as <div style={{ color: 'blue' }}>{this.state.fields.username}</div>  You can change your password here.
           </Message>
-          <Segment stacked textAlign='center'>
-            <Button size='large' primary onClick={(e) => this.props.history.push('../userprofile')}>
-              Update Your Profile
-            </Button>
-            <Button size='large' secondary path='../changepassword' onClick={(e) => this.props.history.push('../changepassword')}>
-              Change Your Password
-            </Button>
-            <Button size='large' primary path='../logout' onClick={(e) => this.props.history.push('../logout')}>
-              Logout
-            </Button>
+          <Segment>
+            Here is the change your password page, which I haven't built.
           </Segment>
         </Grid.Column>
       </Grid>
@@ -77,4 +66,4 @@ export default compose(
   withApollo,
   graphql(getUserToken, { name: "getUserToken"}), 
   graphql(getUserFromToken, { name: "getUserFromToken"})
-)(withRouter(Users));
+)(withRouter(ChangePassword));

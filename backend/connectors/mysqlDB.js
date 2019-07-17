@@ -160,6 +160,8 @@ const loginUser_C = input => {
   // do not feed password back to query, password stays in database
 }
 
+
+
 const addUser_C = input => {
   input.roles = ["dummy"]; // assign a dummy roles at first time user is created
   let user = new User(input);
@@ -177,6 +179,18 @@ const addUser_C = input => {
     }
   });
 }
+
+const getUserFromToken_C = input => {
+  // don't let user update his own role, only admin can update roles
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(user => {
+    user.dataValues.roles = user.dataValues.roles.split(',')
+    return user.dataValues
+  })
+};
+
 
 const updateUser_C = input => {
   // don't let user update his own role, only admin can update roles
@@ -569,6 +583,7 @@ module.exports = {
   authenticateUser_C,
   checkUserExists_C,
   loginUser_C,
+  getUserFromToken_C,
   addUser_C,
   updateUser_C,
   updateUserAdmin_C,
