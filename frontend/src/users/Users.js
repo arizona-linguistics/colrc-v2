@@ -63,7 +63,12 @@ render() {
             <Button size='large' secondary path='../changepassword' onClick={(e) => this.props.history.push('../changepassword')}>
               Change Your Password
             </Button>
-            <Button size='large' primary path='../logout' onClick={(e) => this.props.history.push('../logout')}>
+            <Button size='large' primary 
+              onClick={(e) => { 
+                localStorage.removeItem('TOKEN')
+                this.props.changeLoginState(false)
+                this.props.history.push('./.')
+              }}>
               Logout
             </Button>
           </Segment>

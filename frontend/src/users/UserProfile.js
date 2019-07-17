@@ -67,6 +67,7 @@ class UserProfile extends Component {
         },
       })
       setSubmitting(false)
+      this.props.history.push('./users')
     } catch (err) {
       console.log(err);
     }
