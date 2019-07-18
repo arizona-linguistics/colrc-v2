@@ -136,7 +136,7 @@ class RootsDictionary extends Component {
 	    filterMethod: (filter, rows) =>
         	matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
-	    style: { 'white-space': 'unset' },
+	    style: { 'whiteSpace': 'unset' },
 		  show: englishSelected,
 	  },
     {

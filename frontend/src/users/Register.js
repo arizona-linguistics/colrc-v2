@@ -11,7 +11,6 @@ class Register extends Component {
   constructor(props) {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
-		this.onInputChange = this.onInputChange.bind(this);
 		this.state = {
       login: false,
 		};
@@ -37,6 +36,7 @@ class Register extends Component {
         localStorage.setItem('TOKEN', token)
         setSubmitting(false)
         this.props.changeLoginState(true)
+        this.props.history.push('/')
       } else {
 		    this.props.addUserMutation({
 		      variables: {
@@ -53,18 +53,9 @@ class Register extends Component {
       this.setState({
         login: true
       })
-      this.props.history.push('/register');
 		} catch (err) {
 			console.log(err);
-			this.props.history.push('/register');
 		}
-	};
-
-	onInputChange = (evt) => {
-		console.log("Change event called on " + evt.target.value);
-		const fields = Object.assign({}, this.state.fields);
-		fields[evt.target.name] = evt.target.value;
-		this.setState({ fields });
 	};
   
   render() {
@@ -210,7 +201,7 @@ class Register extends Component {
               />
               )}
                 {errors.passwordConfirmation && touched.passwordConfirmation && !login &&(
-                <div className="input-feedback">{errors.password}</div>
+                <div className="input-feedback">{errors.passwordConfirmation}</div>
                 )}
                 <Button color="blue" size='large' type="submit" disabled={isSubmitting}>
                     Submit
