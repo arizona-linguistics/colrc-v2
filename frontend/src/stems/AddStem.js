@@ -73,11 +73,9 @@ class AddStem extends Component {
           <Message>
             Fill in the fields below to add a new stem to the list.  Any new stem must include an entry in the Nicodemus writing system, and an English translation.  Other fields are optional, and the layout of this list is based on Reichard 1938.  Links and pages show the affix in that publication.
           </Message>
-
           {this.state.error && (
-            <div className="input-feedback">{this.state.error}</div>
+          <Message className="error">Unsuccessful: {this.state.error}</Message>
           )}
-
           <Segment stacked>
           <Formik 
 							initialValues={{ category: '', reichard: '',
@@ -91,7 +89,7 @@ class AddStem extends Component {
     					<Form>
     						<Input 
                   fluid 
-                  label={{ basic: true, color: 'category', content: 'Category' }}
+                  label={{ basic: true, color: 'blue', content: 'Category' }}
     							placeholder='Including the stem category is optional.'
     							id='category'
                   type='text'
@@ -175,8 +173,8 @@ class AddStem extends Component {
                 )}
                 <Input 
                   fluid 
-                  label={{ basic: true, color: 'blue', content: 'Note' }}
-                  placeholder='A note is optional.'
+                  label={{ basic: true, color: 'blue', content: 'Stem Note' }}
+                  placeholder='A stem note is optional. It will display to users.'
                   id='note'
                   type='text'
                   value={values.note}
@@ -190,7 +188,7 @@ class AddStem extends Component {
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Edit Note' }}
-                  placeholder='You can optionally include an editorial note about this entry.  Editorial notes do not display to users.'
+                  placeholder="You can optionally include an editorial note about this entry. This won't display to users."
                   id='editnote'
                   type='text'
                   value={values.editnote}

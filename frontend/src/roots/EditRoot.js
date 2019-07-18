@@ -69,7 +69,6 @@ class EditRoot extends Component {
 	};
 
 	render() {
-		const { id, root, number, salish, nicodemus, english, editnote } = this.state.fields
     console.log("this.state.fields is")
     console.log(this.state.fields)
     const rootSchema = Yup.object().shape({
@@ -81,7 +80,7 @@ class EditRoot extends Component {
       salish: Yup.string()
         .max(150, 'cannot be more than 150 characters'),
       nicodemus: Yup.string()
-        .min(2, 'at least 2 characters are required')
+        .min(1, 'at least 1 character is required')
         .required('a root entry is required'),
       english: Yup.string()
         .min(1, 'at least 1 character is required')
@@ -101,7 +100,7 @@ class EditRoot extends Component {
             Fill in the fields below to edit the selected root.  When you save your edits, the old root entry will be set to 'inactive' status and will no longer display.  The edited root will display to users.  Please add an 'edit note' to briefly characterize the reason for the edit.  Edit notes do not display to users.
           </Message>
           {this.state.error && (
-            <div className="input-feedback">{this.state.error}</div>
+          <Message className="error">Unsuccessful: {this.state.error}</Message>
           )}
           <Segment stacked>
             <Formik
@@ -124,7 +123,7 @@ class EditRoot extends Component {
               <Form>
               <Input 
                   fluid 
-                  label={{ basic: true, color: 'blue', content: 'Affix ID' }}
+                  label={{ basic: true, color: 'blue', content: 'Root ID' }}
                   placeholder='The ID of the affix you are editing'
                   id='id'
                   type='text'
@@ -132,13 +131,11 @@ class EditRoot extends Component {
                   value={values.id}
                   onChange={handleChange}
 									onBlur={handleBlur}
-									// There are no errors for incorrect ID input because it loads pre-filled anyway
-                  className={ errors.type && touched.type ? 'text-input error' : 'text-input' }
                 />
                 <Input 
                   fluid 
-                  label={{ basic: true, color: 'blue', content: 'Root' }}
-                  placeholder='Root is required'
+                  label={{ color: 'blue', content: 'Root' }}
+                  placeholder='Root is required,'
                   id='root'
                   type='text'
                   value={values.root}
@@ -167,7 +164,7 @@ class EditRoot extends Component {
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Salish' }}
-                  placeholder='Salish transcription is optional'
+                  placeholder='Salish transcription is optional.'
                   id='salish'
                   type='text'
                   value={values.salish}
@@ -181,7 +178,7 @@ class EditRoot extends Component {
                 <Input 
                   fluid 
                   label={{ color: 'blue', content: 'Nicodemus' }}
-                  placeholder='An entry for the root using the Nicodemus orthography is required'
+                  placeholder='An entry for the root using the Nicodemus orthography is required.'
                   id='nicodemus'
                   type='text'
                   value={values.nicodemus}
@@ -195,7 +192,7 @@ class EditRoot extends Component {
                 <Input 
                   fluid 
                   label={{ color: 'blue', content: 'English' }}
-                  placeholder='An English gloss for the root is required'
+                  placeholder='An English gloss for the root is required.'
                   id='english'
                   type='text'
                   value={values.english}
@@ -209,7 +206,7 @@ class EditRoot extends Component {
                 <Input 
                   fluid 
                   label={{ color: 'blue', content: 'Edit Note' }}
-                  placeholder='Please provide an editorial note.  Editorial notes do not display to users'
+                  placeholder='Please provide an editorial note.  Editorial notes do not display to users.'
                   id='editnote'
                   type='text'
                   value={values.editnote}
@@ -228,13 +225,7 @@ class EditRoot extends Component {
           />
         </Segment>
         <Segment>
-
-
-
-
-
 			<h3>Virtual Keyboard</h3>
-			<SimpleKeyboard / >
 			<SimpleKeyboard / >
       </Segment>
       </Grid.Column>
