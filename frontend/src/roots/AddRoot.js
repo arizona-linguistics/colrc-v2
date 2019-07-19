@@ -23,7 +23,7 @@ class AddRoot extends Component {
 		    await this.props.addRootMutation({
 		      variables: {
 		        root: values.root,
-		        number: values.number,
+		        number: parseInt(values.number),
 		        salish: values.salish,
 		        nicodemus: values.nicodemus,
 		        english: values.english,

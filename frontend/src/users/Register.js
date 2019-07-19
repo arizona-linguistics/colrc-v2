@@ -11,7 +11,6 @@ class Register extends Component {
   constructor(props) {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
-		this.onInputChange = this.onInputChange.bind(this);
 		this.state = {
       login: false,
 		};
@@ -53,18 +52,10 @@ class Register extends Component {
       this.setState({
         login: true
       })
-      this.props.history.push('/register');
+      this.props.history.push('/');
 		} catch (err) {
 			console.log(err);
-			this.props.history.push('/register');
 		}
-	};
-
-	onInputChange = (evt) => {
-		console.log("Change event called on " + evt.target.value);
-		const fields = Object.assign({}, this.state.fields);
-		fields[evt.target.name] = evt.target.value;
-		this.setState({ fields });
 	};
 
   render() {
