@@ -36,6 +36,7 @@ import ChangePassword from './users/ChangePassword';
 import UserProfile from './users/UserProfile';
 import Register from './users/Register';
 import Admin from './users/Admin';
+import UpdateRoles from './users/UpdateRoles';
 import Settings from './settings/Settings';
 import More from './more/More';
 import { createHttpLink } from 'apollo-link-http';
@@ -162,6 +163,7 @@ class Colrc extends Component {
                 <Route path="/userprofile" component={UserProfile} />
                 <Route path="/register" component={() => <Register changeLoginState={this.changeLoginState} />} />
                 <Route path="/admin" component={Admin} />
+                <Route path="/updateroles" component={UpdateRoles} />                
                 <Route path="/Settings" component={Settings}  />
                 <Route path="/more" component={More}  />
                 {/* <Route component={NotFound} /> */}
