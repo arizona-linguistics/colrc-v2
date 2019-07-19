@@ -11,7 +11,7 @@ class Register extends Component {
   constructor(props) {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
-		this.onInputChange = this.onInputChange.bind(this);
+    //set default appearance to register rather than login
 		this.state = {
       login: false,
 		};
@@ -26,6 +26,7 @@ class Register extends Component {
       if (login) {
         console.log("this.props.client")
         console.log(this.props.client)
+        //for login, check that the email and password match user table and if they do, generate a JWT token
         const queryUserToken = await this.props.client.query({
           query: getUserToken,
           variables: {
@@ -33,10 +34,16 @@ class Register extends Component {
             password: values.password
           }
         })
+        if (!queryUserToken || queryUserToken == null) {
+          //if there's not a matching user for the email/pwd, throw an error.  Error handling in this function is mysterious.
+          throw new Error('Authentication Error')
+        }
+        //if query succeeds, set the JWT token and end the submission process
         const token = queryUserToken.data.loginUser_Q[0].password
         localStorage.setItem('TOKEN', token)
         setSubmitting(false)
         this.props.changeLoginState(true)
+        this.props.history.push('/')
       } else {
 		    this.props.addUserMutation({
 		      variables: {
@@ -53,18 +60,20 @@ class Register extends Component {
       this.setState({
         login: true
       })
-      this.props.history.push('/register');
-		} catch (err) {
-			console.log(err);
-			this.props.history.push('/register');
-		}
-	};
-
-	onInputChange = (evt) => {
-		console.log("Change event called on " + evt.target.value);
-		const fields = Object.assign({}, this.state.fields);
-		fields[evt.target.name] = evt.target.value;
-		this.setState({ fields });
+		} catch (result) {
+      console.log(result)
+      setSubmitting(false)
+      if (result instanceof TypeError) {
+        this.setState({ error: 'Invalid Username or Password'})
+      }
+      else if (result.graphQLErrors) {
+        console.log(result.graphQLErrors[0].message);
+        this.setState({ error: result.graphQLErrors[0].message });        
+      } else {
+        console.log(result.message)
+        this.setState({ error: result.message })
+      }
+    }
 	};
   
   render() {
@@ -104,6 +113,9 @@ class Register extends Component {
           <Header as='h2'  textAlign='center'>
               {login ? 'Log in to your account' : 'Create an account'}
           </Header>
+          {this.state.error && (
+           <Message className="error">Unsuccessful: {this.state.error}</Message>
+          )}
           <Segment stacked>
             <Formik 
               initialValues={{ first: '', last: '', username: '', email: '', password: '', passwordConfirmation: ''}}
@@ -210,7 +222,7 @@ class Register extends Component {
               />
               )}
                 {errors.passwordConfirmation && touched.passwordConfirmation && !login &&(
-                <div className="input-feedback">{errors.password}</div>
+                <div className="input-feedback">{errors.passwordConfirmation}</div>
                 )}
                 <Button color="blue" size='large' type="submit" disabled={isSubmitting}>
                     Submit

@@ -29,6 +29,19 @@ const getUserToken = gql`
   }
 `;
 
+const getUserFromToken = gql`
+  query {
+    getUserFromToken_Q {
+      id
+      username
+      first
+      last
+      email
+      roles
+      password
+    }
+  }
+`;
 const getAffixesQuery = gql`
   {
     affixes_Q {
@@ -219,6 +232,33 @@ const addUserMutation = gql`
   }
 `;
 
+const updateUserMutation = gql`
+  mutation($first: String!, $last: String!, $username: String!, $email: String!, $password: String!) {
+    updateUser_M(first: $first, last: $last, username: $username, email: $email, password: $password) {
+      id
+      first
+      last
+      username
+      email
+      password
+      roles
+    }
+  }
+`;
+
+const updateUserAdminMutation = gql`
+  mutation($id: ID!, $roles: [String!]!) {
+    updateUserAdmin_M(id: $id, roles: $roles) {
+      id
+      first
+      last
+      username
+      email
+      password
+      roles
+    }
+  }
+`;
 const addRootMutation = gql`
   mutation($root: String!, $number: Int, $salish: String, $nicodemus: String!, $english: String!, $editnote: String) {
     addRoot_M(root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english, editnote: $editnote) {
@@ -309,4 +349,4 @@ const getRootQuery = gql`
   }
 `;
 
-export { getUserToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, addRootMutation, updateRootMutation, deleteRootMutation };
+export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation };

@@ -11,8 +11,10 @@ const { // define mysql connectors
   roots_C,
   stem_C,
   stems_C,
+  users_C,
   authenticateUser_C,
   checkUserExists_C,
+  getUserFromToken_C,
   loginUser_C,
   addUser_C,
   updateUser_C,
@@ -32,8 +34,10 @@ const { // define resolvers
   checkUserExists_R,
   loginUser_R,
   addUser_R,
+  getUserFromToken_R,
   updateUser_R,
   updateUserAdmin_R,
+  users_R,
   addAffix_R,
   addRoot_R,
   addStem_R,
@@ -117,14 +121,15 @@ const typeDefs = `
   type Query {
     authenticateUser_Q: [User]
     checkUserExists_Q(email:String!): [UserExists]
+    getUserFromToken_Q: User
     loginUser_Q(email:String!,password:String!): [LoginUser]
+    users_Q: [User]
     affixes_Q: [Affix]
     affix_Q(id:ID!): Affix
     roots_Q: [Root]
     root_Q(id:ID!): Root
     stems_Q: [Stem]
     stem_Q(id:ID!): Stem
-
   }
   type Mutation {
     addUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
@@ -158,12 +163,18 @@ const resolvers = {
   Stem: {
     user: stem => { return User.findOne({ where: {id: stem.userId} }) },
   },
+  
+  User: {
+    roles: user => { return user.roles.split(',') },  
+  },
 
   Query: {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
     //check if user email already exists, for new user id creation
+    getUserFromToken_Q: (_, args, context) => getUserFromToken_R(context, args, getUserFromToken_C),
     checkUserExists_Q: (_, args, context) => checkUserExists_R(args, checkUserExists_C),
     loginUser_Q: (_, args, context) => loginUser_R(args, loginUser_C),
+    users_Q: (_, args, context) => users_R(context, args, ["admin","owner"], users_C),
     affix_Q: (_, args, context) => affix_R(args, affix_C),
     affixes_Q: (_, args, context) => affixes_R(args, affixes_C),
     stem_Q: (_, args, context) => stem_R(args, stem_C),

@@ -160,6 +160,8 @@ const loginUser_C = input => {
   // do not feed password back to query, password stays in database
 }
 
+
+
 const addUser_C = input => {
   input.roles = ["dummy"]; // assign a dummy roles at first time user is created
   let user = new User(input);
@@ -178,6 +180,18 @@ const addUser_C = input => {
   });
 }
 
+const getUserFromToken_C = input => {
+  // don't let user update his own role, only admin can update roles
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(user => {
+    // user.dataValues.roles = user.dataValues.roles.split(',')
+    return user.dataValues
+  })
+};
+
+
 const updateUser_C = input => {
   // don't let user update his own role, only admin can update roles
   return User.findOne({
@@ -187,7 +201,7 @@ const updateUser_C = input => {
     return user.update({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password }, { where: { id: input.myid } })
   })
   .then(res => {
-    res.dataValues.roles = res.dataValues.roles.split(',')
+    // res.dataValues.roles = res.dataValues.roles.split(',')
     return res.dataValues
   })
 };
@@ -198,11 +212,11 @@ const updateUserAdmin_C = input => {
     where: { id: input.myid }
   })
   .then(res => {
-    //console.log(res.dataValues.roles)
+    console.log(res.dataValues.roles)
     //console.log(input.expectedRoles)
     if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1)
     {
-      //console.log("I passed the roles test")
+      console.log("I passed the roles test")
       // don't let user update his own role, only admin can update roles
       return User.findOne({
         where: { id: input.id }
@@ -213,7 +227,7 @@ const updateUserAdmin_C = input => {
       .then(moduser => {
         //console.log("I have a modified user")
         //console.log(moduser)
-        moduser.dataValues.roles = moduser.dataValues.roles.split(',')
+        //moduser.dataValues.roles = moduser.dataValues.roles.split(',')
         return moduser.dataValues
       })
     } else {
@@ -559,6 +573,23 @@ const stems_C = input => {
   })
 }
 
+const users_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      return User.findAll({
+        where: { }
+      })
+    } else {
+      throw new noRoleError
+    }
+  })
+  .catch(error => {
+    return(error)
+  })
+}
 
 module.exports = {
   Root,
@@ -569,6 +600,7 @@ module.exports = {
   authenticateUser_C,
   checkUserExists_C,
   loginUser_C,
+  getUserFromToken_C,
   addUser_C,
   updateUser_C,
   updateUserAdmin_C,
@@ -587,4 +619,5 @@ module.exports = {
   roots_C,
   stem_C,
   stems_C,
+  users_C
 };

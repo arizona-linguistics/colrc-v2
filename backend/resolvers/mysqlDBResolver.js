@@ -7,6 +7,10 @@ function checkToken(context) {
     throw new AuthorizationError({
       message: `You must supply a JWT for authorization!`
     });
+  } else if (token == null) {
+    throw new AuthorizationError({
+      message: `Username or Password is invalid`
+    })
   }
   const decoded = jwt.verify(
     token.replace('Bearer ', ''),
@@ -47,6 +51,11 @@ const addUser_R = (input, connectorQuery) => {
 };
 
 const updateUser_R = (context,input,connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  return connectorQuery.apply(this, [input]);
+};
+
+const getUserFromToken_R = (context,input,connectorQuery) => {
   input["myid"] = checkToken(context).id;
   return connectorQuery.apply(this, [input]);
 };
@@ -139,6 +148,11 @@ const stems_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const users_R = ( context, input, expectedRoles, connectorQuery ) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
 module.exports = {
   authenticateUser_R,
   checkUserExists_R,
@@ -146,6 +160,7 @@ module.exports = {
   addUser_R,
   updateUser_R,
   updateUserAdmin_R,
+  getUserFromToken_R,
   addAffix_R,
   addRoot_R,
   addStem_R,
@@ -160,5 +175,6 @@ module.exports = {
   stems_R,
   updateAffix_R,
   updateRoot_R,
-  updateStem_R
+  updateStem_R,
+  users_R
 };

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { withApollo, graphql, compose } from 'react-apollo';
-import { updateUserMutation, getUserFromToken } from '../queries/queries';
+import { getUserFromToken, updateUserAdminMutation } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
 
-class UserProfile extends Component {
+class UpdateRoles extends Component {
   constructor(props) {
     super(props);
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -23,90 +24,81 @@ class UserProfile extends Component {
   }
 
   async componentDidMount() {
-    try {
-      let userQuery = await this.props.client.query({
-        query: getUserFromToken,
-      })
-      const user = userQuery.data.getUserFromToken_Q
+    const data = queryString.parse(this.props.location.search);
       this.setState({
         fields: {
-          first: user.first,
-          last: user.last,
-          email: user.email,
-          username: user.username,
-          password: user.password
+          first: data.first,
+          last: data.last,
+          email: data.email,
+          username: data.username,
+          password: data.password,
+          roles: [data.roles]
         }
       }) 
-      console.log(user)
+      console.log(data)
       console.log(this.state)
-    } catch(error) {
+      }
+      catch(error) {
       console.log(error)
     }
-  } 
 
-  onFormSubmit = async (values, setSubmitting) => {
-    console.log("In updateUser submission");
+ onFormSubmit = async (values, setSubmitting) => {
+    console.log("In updateRoles submission");
     console.log(values)
     console.log(setSubmitting)
-    console.log(this.state.fields.password)
     try {
       console.log({
         first: values.first,
         last: values.last,
         username: values.username,
         email: values.email,
-        password: this.state.fields.password
+        password: values.password,
+        roles: values.roles
       })
-      await this.props.updateUserMutation({
+      await this.props.updateUserAdminMutation({
         variables: {
           first: values.first,
           last: values.last,
           username: values.username,
           email: values.email,
-          password: this.state.fields.password
+          password: values.password,
+          roles: [this.state.fields.roles]
         },
       })
       setSubmitting(false)
-      this.props.history.push('./users')
+      this.props.history.push('./admin')
     } catch (result) {
       console.log(result.graphQLErrors[0].message);
       setSubmitting(false)
       this.setState({ error: result.graphQLErrors[0].message });
     }
   };
-  
+   
   render() {
-    const { first, last, username, email, password } = this.state.fields
-    console.log("this.state.fields is")
-    console.log(this.state.fields)
-    const updateUserSchema = Yup.object().shape({
-      first: Yup.string()
-        .required('Required'),
-      last: Yup.string()
-        .required('Required'),
-      username: Yup.string()
-        .required('Required'),
-      email: Yup.string()
-        .email('Please enter a valid email address')
-        .required('Required')
-      })
-  
+    const { first, last, username, email, password, roles } = this.state.fields
+    const updateRolesSchema = Yup.object().shape({
+    roles: Yup.string()
+      .min(2, 'Roles must be more than 2 characters')
+      .max(30, 'Roles must be less than 30 characters')
+      .required('Required'),  
+    });
+
     return (     
       <Grid textAlign='center'  verticalAlign='top'>
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as='h3'  textAlign='center'>
-              Update Your Profile
+              Update User Roles
           </Header>
           <Message>
-          Use this form to change your account information.  
+            Assign the role 'admin' to allow the user to edit data on this site.  
           </Message>
           {this.state.error && (
            <Message className="error">Unsuccessful: {this.state.error}</Message>
           )}
-          <Segment stacked >
+          <Segment>
             <Formik
-              initialValues={{first: this.state.fields.first || '', last: this.state.fields.last || '', username: this.state.fields.username || '', email: this.state.fields.email || ''}}
-              validationSchema={updateUserSchema}
+              initialValues={{first: this.state.fields.first || '', last: this.state.fields.last || '', username: this.state.fields.username || '', email: this.state.fields.email || '', roles: this.state.fields.roles }}
+              validationSchema={updateRolesSchema}
               enableReinitialize
               onSubmit={(values, { setSubmitting }) => {
                 this.onFormSubmit(values, setSubmitting);
@@ -129,13 +121,8 @@ class UserProfile extends Component {
                   placeholder="First Name"
                   type="text"
                   value={ values.first }
-                  onChange={ handleChange }
-                  onBlur={ handleBlur }
-                  className={ errors.first && touched.first ? 'text-input error' : 'text-input' }
+                  disabled
                 />
-                {errors.first && touched.first &&(
-                  <div className="input-feedback">{errors.first}</div>
-                )}
                 <Input
                   fluid
                   label={{ basic: true, color: 'blue', content: 'Last Name' }}
@@ -143,13 +130,8 @@ class UserProfile extends Component {
                   placeholder="Last Name"
                   type="text"
                   value={ values.last }
-                  onChange={ handleChange }
-                  onBlur={ handleBlur }
-                  className={ errors.last && touched.last ? 'text-input error' : 'text-input' }
+                  disabled
                 />
-                {errors.last && touched.last &&(
-                <div className="input-feedback">{errors.last}</div>
-                )}
                 <Input
                   fluid
                   label={{ basic: true, color: 'blue', content: 'Username' }}
@@ -157,43 +139,46 @@ class UserProfile extends Component {
                   placeholder="Username"
                   type="text"
                   value={ values.username }
-                  onChange={ handleChange }
-                  onBlur={ handleBlur }
-                  className={ errors.username && touched.username ? 'text-input error' : 'text-input' }
+                  disabled
+                />                                 
+                <Input
+                  fluid
+                  label={{ basic: true, color: 'blue', content: 'Email' }}
+                  id="email"
+                  placeholder="email"
+                  type="text"
+                  value={ values.email }
+                  disabled
                 />
-                {errors.username && touched.username &&(
-                <div className="input-feedback">{errors.username}</div>
-                )}                                    
               <Input
                 fluid
-                label={{ basic: true, color: 'blue', content: 'Email' }}
-                id="email"
-                placeholder="email"
+                label={{color: 'blue', content: 'Roles'}}
+                id="roles"
+                placeholder="Update roles"
                 type="text"
-                value={ values.email }
+                value={ values.roles }
                 onChange={ handleChange }
                 onBlur={ handleBlur }
-                className={ errors.email && touched.email ? 'text-input error' : 'text-input'}
+                className={ errors.roles && touched.roles ? 'text-input error' : 'text-input' }
               />
-                {errors.email && touched.email && (
-                <div className="input-feedback">{errors.email}</div>
-                )}
-                <Button color="blue" size='large' type="submit" disabled={isSubmitting}>
+                {errors.roles && touched.roles && (
+                <div className="input-feedback">{errors.roles}</div>
+                )}                
+                <Button color="black" size='large' type="submit" disabled={isSubmitting}>
                     Submit Changes
                 </Button>
             </Form>
           )}
         />
-      </Segment>
-      </Grid.Column>
-    </Grid>
+          </Segment>
+        </Grid.Column>
+      </Grid>
    );
   }
 }
 
 export default compose(
   withApollo,
-  graphql(updateUserMutation, { name: "updateUserMutation"}), 
+  graphql(updateUserAdminMutation, { name: "updateUserAdminMutation"}),
   graphql(getUserFromToken, { name: "getUserFromToken"})
-)(withRouter(UserProfile));
-
+)(withRouter(UpdateRoles));
