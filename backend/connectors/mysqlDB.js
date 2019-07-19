@@ -573,6 +573,23 @@ const stems_C = input => {
   })
 }
 
+const users_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      return User.findAll({
+        where: { }
+      })
+    } else {
+      throw new noRoleError
+    }
+  })
+  .catch(error => {
+    return(error)
+  })
+}
 
 module.exports = {
   Root,
@@ -602,4 +619,5 @@ module.exports = {
   roots_C,
   stem_C,
   stems_C,
+  users_C
 };
