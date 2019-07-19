@@ -67,8 +67,11 @@ class UserProfile extends Component {
         },
       })
       setSubmitting(false)
-    } catch (err) {
-      console.log(err);
+      this.props.history.push('./users')
+    } catch (result) {
+      console.log(result.graphQLErrors[0].message);
+      setSubmitting(false)
+      this.setState({ error: result.graphQLErrors[0].message });
     }
   };
   
@@ -97,6 +100,9 @@ class UserProfile extends Component {
           <Message>
           Use this form to change your account information.  
           </Message>
+          {this.state.error && (
+           <Message className="error">Unsuccessful: {this.state.error}</Message>
+          )}
           <Segment stacked >
             <Formik
               initialValues={{first: this.state.fields.first || '', last: this.state.fields.last || '', username: this.state.fields.username || '', email: this.state.fields.email || ''}}

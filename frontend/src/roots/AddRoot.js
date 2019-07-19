@@ -70,11 +70,9 @@ class AddRoot extends Component {
           <Message>
             Fill in the fields below to add a new root to the list.  Any new root must include an entry in the Nicodemus writing system, and an English translation.  Other fields are optional.
           </Message>
-
-					{this.state.error && (
-            <div className="input-feedback">{this.state.error}</div>
-					)}
-
+          {this.state.error && (
+          <Message className="error">Unsuccessful: {this.state.error}</Message>
+          )}
 					<Segment stacked>
           <Formik
               initialValues={{ root: '', number: '', salish: '', nicodemus: '', english: '', editnote: ''}}

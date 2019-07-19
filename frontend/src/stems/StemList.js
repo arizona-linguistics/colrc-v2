@@ -194,7 +194,7 @@ class StemList extends Component {
 			Header: 'English',
 			accessor: 'english',
 			style: {
-				'white-space': 'unset'
+				'whiteSpace': 'unset'
 			},
 			filterMethod: (filter, rows) =>
 				matchSorter(rows, filter.value, {
@@ -207,7 +207,7 @@ class StemList extends Component {
 			Header: 'Note',
 			accessor: 'note',
 			style: {
-				'white-space': 'unset'
+				'whiteSpace': 'unset'
 			},
 			filterMethod: (filter, rows) =>
 				matchSorter(rows, filter.value, {

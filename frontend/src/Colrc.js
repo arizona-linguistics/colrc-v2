@@ -33,9 +33,9 @@ import { ApolloClient } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import Users from './users/Users';
 import ChangePassword from './users/ChangePassword';
-import Logout from './users/Logout';
 import UserProfile from './users/UserProfile';
 import Register from './users/Register';
+import Admin from './users/Admin';
 import Settings from './settings/Settings';
 import More from './more/More';
 import { createHttpLink } from 'apollo-link-http';
@@ -157,11 +157,11 @@ class Colrc extends Component {
                 <Route path="/imageviewer" component={ImageViewer} />
                 <Route path="/splitview" component={SplitView} />
                 <Route path="/search" component={Search}  />
-                <Route path="/users" component={Users}  />
+                <Route path="/users" component={() => <Users changeLoginState={this.changeLoginState} />} />
                 <Route path="/changepassword" component={ChangePassword} />
                 <Route path="/userprofile" component={UserProfile} />
-                <Route path="/logout" component={Logout} />
                 <Route path="/register" component={() => <Register changeLoginState={this.changeLoginState} />} />
+                <Route path="/admin" component={Admin} />
                 <Route path="/Settings" component={Settings}  />
                 <Route path="/more" component={More}  />
                 {/* <Route component={NotFound} /> */}

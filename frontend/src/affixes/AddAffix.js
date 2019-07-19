@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
+import { Button, Grid, Header, Message, Segment, Input, Label } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
@@ -38,7 +38,7 @@ class AddAffix extends Component {
       console.log(result.graphQLErrors[0].message);
       setSubmitting(false)
       this.setState({ error: result.graphQLErrors[0].message });
-		}
+    }
 	};
 
 	render() {
@@ -46,7 +46,7 @@ class AddAffix extends Component {
       type: Yup.string()
         .max(150, 'cannot be more than 150 characters'),
       salish: Yup.string()
-        .max(150, 'cannot be more than 150 characters'),
+        .max(150, 'cannot exceed 150 characters'),
       nicodemus: Yup.string()
         .min(2, 'at least 2 characters are required')
         .required('an affix entry is required'),
@@ -58,9 +58,8 @@ class AddAffix extends Component {
       page: Yup.string()
         .max(150, 'cannot be more than 150 characters'),
       editnote: Yup.string()
-        .max(150, 'cannot be more than 150 characters'),
+        .max(150, 'cannot be more than 150 characters')
       });
-
 
 		return (
       <Grid textAlign='center'  verticalAlign='top'>
@@ -71,11 +70,9 @@ class AddAffix extends Component {
           <Message>
             Fill in the fields below to add a new affix to the list.  Any new affix must include an entry in the Nicodemus writing system, and an English translation.  Other fields are optional, and the layout of this list is based on Reichard 1938.  Links and pages show the affix in that publication.
           </Message>
-
           {this.state.error && (
-            <div className="input-feedback">{this.state.error}</div>
+          <Message className="error">Unsuccessful: {this.state.error}</Message>
           )}
-
           <Segment stacked>
           <Formik 
               initialValues={{ type: '', salish: '', nicodemus: '', english: '', link: '', page: '', editnote: ''}}
@@ -89,7 +86,7 @@ class AddAffix extends Component {
     						<Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Type' }}
-    							placeholder='Including the affix type is optional...'
+    							placeholder='Including the affix type is optional.'
     							id='type'
                   type='text'
     							value={values.type}
@@ -97,13 +94,14 @@ class AddAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.type && touched.type ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>Including the affix type is optional.</Label>
                 {errors.type && touched.type && (
                 <div className="input-feedback">{errors.type}</div>
                 )}
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Salish' }}
-                  placeholder='A transcription in the Salish orthography is optional'
+                  placeholder='A transcription in the Salish orthography is optional.'
                   id='salish'
                   type='text'
                   value={values.salish}
@@ -111,6 +109,7 @@ class AddAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.salish && touched.salish ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>A transcription in the Salish orthography is optional.</Label>
                 {errors.salish && touched.salish && (
                 <div className="input-feedback">{errors.salish}</div>
                 )}

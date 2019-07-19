@@ -71,7 +71,6 @@ class EditAffix extends Component {
 	};
 
 	render() {
-    const { id, type, salish, nicodemus, english, link, page, editnote } = this.state.fields
     console.log("this.state.fields is")
     console.log(this.state.fields)
     const affixSchema = Yup.object().shape({
@@ -104,7 +103,7 @@ class EditAffix extends Component {
             Fill in the fields below to edit the selected affix.  When you save your edits, the old affix entry will be set to 'inactive' status and will no longer display.  The edited affix will display to users.  Please add an 'edit note' to briefly characterize the reason for the edit.  Edit notes do not display to users.
           </Message>
           {this.state.error && (
-            <div className="input-feedback">{this.state.error}</div>
+          <Message className="error">Unsuccessful: {this.state.error}</Message>
           )}
           <Segment stacked>
             <Formik
@@ -135,8 +134,6 @@ class EditAffix extends Component {
                   value={values.id}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  // There are no errors for incorrect ID input because it loads pre-filled anyway 
-                  className={ errors.type && touched.type ? 'text-input error' : 'text-input' }
                 />
                 <Input 
                   fluid 
