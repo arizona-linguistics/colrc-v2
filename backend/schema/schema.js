@@ -134,7 +134,7 @@ const typeDefs = `
   type Mutation {
     addUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
     updateUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
-    updateUserAdmin_M(id:String!,roles:[String!]!): User
+    updateUserAdmin_M(id:ID!,roles:[String!]!): User
 
     addAffix_M(type:String, salish:String, nicodemus:String!, english:String!, link:String, page:String, editnote:String): Affix
     updateAffix_M(id:ID!, type:String, salish:String, nicodemus:String!, english:String!, link:String, page:String, editnote:String): Affix

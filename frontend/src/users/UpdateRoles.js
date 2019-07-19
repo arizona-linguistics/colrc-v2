@@ -13,12 +13,12 @@ class UpdateRoles extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.state = {
       fields: {
+        id: '',
         first: '',
         last: '',
         email: '',
         username: '',
-        password: '',
-        roles: []
+        roles: ''
       }
     };
   }
@@ -27,12 +27,12 @@ class UpdateRoles extends Component {
     const data = queryString.parse(this.props.location.search);
       this.setState({
         fields: {
+          id: data.id,
           first: data.first,
           last: data.last,
           email: data.email,
           username: data.username,
-          password: data.password,
-          roles: [data.roles]
+          roles: data.roles
         }
       }) 
       console.log(data)
@@ -52,22 +52,19 @@ class UpdateRoles extends Component {
         last: values.last,
         username: values.username,
         email: values.email,
-        password: values.password,
         roles: values.roles
       })
+      console.log(values.roles)
       await this.props.updateUserAdminMutation({
         variables: {
-          first: values.first,
-          last: values.last,
-          username: values.username,
-          email: values.email,
-          password: values.password,
-          roles: [this.state.fields.roles]
+          id: values.id,
+          roles: values.roles
         },
       })
       setSubmitting(false)
-      this.props.history.push('./admin')
+      this.props.history.push('/admin')
     } catch (result) {
+      console.log(result)
       console.log(result.graphQLErrors[0].message);
       setSubmitting(false)
       this.setState({ error: result.graphQLErrors[0].message });
@@ -75,7 +72,7 @@ class UpdateRoles extends Component {
   };
    
   render() {
-    const { first, last, username, email, password, roles } = this.state.fields
+    const { id, first, last, username, email, roles } = this.state.fields
     const updateRolesSchema = Yup.object().shape({
     roles: Yup.string()
       .min(2, 'Roles must be more than 2 characters')
@@ -97,7 +94,7 @@ class UpdateRoles extends Component {
           )}
           <Segment>
             <Formik
-              initialValues={{first: this.state.fields.first || '', last: this.state.fields.last || '', username: this.state.fields.username || '', email: this.state.fields.email || '', roles: this.state.fields.roles }}
+              initialValues={{id: this.state.fields.id || '', first: this.state.fields.first || '', last: this.state.fields.last || '', username: this.state.fields.username || '', email: this.state.fields.email || '', roles: this.state.fields.roles }}
               validationSchema={updateRolesSchema}
               enableReinitialize
               onSubmit={(values, { setSubmitting }) => {
@@ -114,6 +111,15 @@ class UpdateRoles extends Component {
                 isSubmitting,
               }) => (
             <Form>
+                <Input
+                  fluid
+                  label={{ basic: true, color: 'blue', content: 'ID' }}
+                  id="id"
+                  placeholder="User ID"
+                  type="text"
+                  value={ values.id }
+                  disabled
+                />
                 <Input
                   fluid
                   label={{ basic: true, color: 'blue', content: 'First Name' }}
