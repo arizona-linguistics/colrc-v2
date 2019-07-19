@@ -67,7 +67,7 @@ class UserProfile extends Component {
         },
       })
       setSubmitting(false)
-      this.props.history.push('./users')
+      this.props.history.push('/users')
     } catch (result) {
       console.log(result.graphQLErrors[0].message);
       setSubmitting(false)
