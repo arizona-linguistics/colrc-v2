@@ -69,7 +69,8 @@ class EditStem extends Component {
 	};
 
 	render() {
-
+		console.log("this.state.fields is")
+    console.log(this.state.fields)
 		const stemSchema = Yup.object().shape({
 			category: Yup.string()
 				.max(150, 'cannot exceed 150 characters'),
@@ -102,7 +103,7 @@ class EditStem extends Component {
             Fill in the fields below to edit the selected stem.  When you save your edits, the old stem entry will be set to 'inactive' status and will no longer display.  The edited stem will display to users.  Please add an 'edit note' to briefly characterize the reason for the edit.  Edit notes do not display to users.
           </Message>
           {this.state.error && (
-            <div className="input-feedback">{this.state.error}</div>
+          <Message className="error">Unsuccessful: {this.state.error}</Message>
           )}
           <Segment stacked>
             <Formik
