@@ -11,86 +11,67 @@ import { Button, Icon } from 'semantic-ui-react';
 class StemList extends Component {
 
 	constructor() {
+    //get all the props so we can refer to them
 		super();
-    	this.onDelete = this.onDelete.bind(this);
-    	//this.loadStemData = this.loadStemData.bind(this);
+    //bind the functions we've defined
+    this.onDelete = this.onDelete.bind(this);
 		this.state = {
+      //set up an empty array and a loading state for react-table
 			data: [],
 			loading: true,
-			reichardSelected: false,
+      //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
+			categorySelected: false,
+      reichardSelected: false,
 			doakSelected: false,
 			salishSelected: false,
 			nicodemusSelected: true,
 			englishSelected: true,
 			noteSelected: false,
-			usernameSelected: true,
+      editSelected: false,
+      usernameSelected: false,
+      activeSelected: false,
+      prevIdSelected: false,
+      editnoteSelected: false,
 		};
 	}
-
+//handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
+  handleCategoryChange(value) {
+    this.setState({ categorySelected: !this.state.categorySelected });
+  };
 	handleReichardChange(value) {
-		this.setState({
-			reichardSelected: !this.state.reichardSelected
-		});
+		this.setState({ reichardSelected: !this.state.reichardSelected });
 	};
-
 	handleDoakChange(value) {
-		this.setState({
-			doakSelected: !this.state.doakSelected
-		});
+    this.setState({ doakSelected: !this.state.doakSelected });
 	};
-
 	handleSalishChange(value) {
-		this.setState({
-			salishSelected: !this.state.salishSelected
-		});
+		this.setState({ salishSelected: !this.state.salishSelected });
 	};
-
 	handleNicodemusChange(value) {
-		this.setState({
-			nicodemusSelected: !this.state.nicodemusSelected
-		});
+		this.setState({ nicodemusSelected: !this.state.nicodemusSelected });
 	};
-
 	handleEnglishChange(value) {
-		this.setState({
-			englishSelected: !this.state.englishSelected
-		});
+		this.setState({ englishSelected: !this.state.englishSelected });
 	};
-
 	handleNoteChange(value) {
-		this.setState({
-			noteSelected: !this.state.noteSelected
-		});
+		this.setState({ noteSelected: !this.state.noteSelected });
 	};
-
-	handleUserChange(value) {
-		this.setState({ usernameSelected: !this.state.usernameSelected });
-	};
-
-
-	async componentDidMount() {
-		//this.loadStemData();
-	}
-
-	// async loadStemData() {
-	// 	try {
-	// 		const response = await fetch(`http://localhost:4000/stems`);
-	// 		if (!response.ok) {
-	// 			throw Error(response.statusText);
-	// 		}
-	// 		const json = await response.json();
-	// 		this.setState({
-	// 			loading: false,
-	// 			data: json
-	// 		});
-	// 	} catch (error) {
-	// 		console.log("This is my Error: " + error);
-	// 		this.setState({
-	// 			error: error
-	// 		});
-	// 	}
-	// }
-
+  handleActiveChange(value) {
+   this.setState({ activeSelected: !this.state.activeSelected });
+  };
+  handlePrevIdChange(value) {
+   this.setState({ prevIdSelected: !this.state.prevIdSelected });
+  };
+  handleUserChange(value) {
+   this.setState({ usernameSelected: !this.state.usernameSelected });
+  };
+  handleEditnoteChange(value) {
+   this.setState({ editnoteSelected: !this.state.editnoteSelected });
+  };
+  handleEditChange(value) {
+   this.setState({ editSelected: !this.state.editSelected });
+  };
+  // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
 	async onDelete(id) {
 	    console.log("In deletion");
 	    try {
@@ -98,8 +79,10 @@ class StemList extends Component {
 					variables: {
 						id: id
 					},
+      //after setting the flag, refetch the stems from the db
 			refetchQueries: [{ query: getStemsQuery }]
-				});
+			});
+      //then send the user back to the stemlist display
 				this.props.history.push('/stems');
 			} catch (err) {
 				console.log(err);
@@ -108,18 +91,10 @@ class StemList extends Component {
 	  };
 
 	render() {
+    //give the render a way to access values for the checkboxes that show/hide columns by setting state
+		const { categorySelected, reichardSelected, doakSelected, salishSelected, nicodemusSelected, englishSelected,noteSelected, usernameSelected, editSelected, activeSelected, prevIdSelected, editnoteSelected } = this.state;
 
-		const {
-			reichardSelected,
-			doakSelected,
-			salishSelected,
-			nicodemusSelected,
-			englishSelected,
-			noteSelected,
-			usernameSelected
-		} = this.state;
-
-
+    //provide a function to set column widths dynamically based on the data returned.   
 		const getColumnWidth = (rows, accessor, headerText) => {
 			const maxWidth = 600
 			const magicSpacing = 22
@@ -130,10 +105,12 @@ class StemList extends Component {
 			return Math.min(maxWidth, cellLength * magicSpacing)
 		};
 
+   //set up the table columns.  Header is the column header text, accessor is the name of the column in the db. 
 		const columns = [{
-			Header: 'Type',
+			Header: 'Category',
 			accessor: 'category',
 			width: getColumnWidth(this.state.data, 'category', 'Type'),
+      //build dropdown list for this column
 			filterMethod: (filter, row) => {
 				if (filter.value === "all") {
 					return true;
@@ -145,21 +122,23 @@ class StemList extends Component {
 					style = {{ width: "100%"}}
 					value = {filter ? filter.value : "all"} >
 				<option value = "all" > Show All </option>
-				<option value = "verb" > Verbs </option>
-				<option value = "noun" > Nouns </option>
-				<option value = "other" > Other </option>
+				<option value = "v" > Verbs </option>
+				<option value = "n" > Nouns </option>
+				<option value = "aci" > Other </option>
 				</select>,
-		}, {
+		}, 
+    {
 			Header: 'Reichard',
 			accessor: 'reichard',
 			filterMethod: (filter, rows) =>
-				matchSorter(rows, filter.value, {
-					keys: ["reichard"],
-					threshold: matchSorter.rankings.CONTAINS
-				}),
+  			matchSorter(rows, filter.value, {
+  				keys: ["reichard"],
+  				threshold: matchSorter.rankings.CONTAINS
+			}),
 			filterAll: true,
 			show: reichardSelected,
-		}, {
+		}, 
+    {
 			Header: 'Doak',
 			accessor: 'doak',
 			filterMethod: (filter, rows) =>
@@ -169,7 +148,8 @@ class StemList extends Component {
 				}),
 			filterAll: true,
 			show: doakSelected,
-		}, {
+		}, 
+    {
 			Header: 'Salish',
 			accessor: 'salish',
 			filterMethod: (filter, rows) =>
@@ -188,14 +168,15 @@ class StemList extends Component {
 					threshold: matchSorter.rankings.CONTAINS
 				}),
 			filterAll: true,
-		    Cell: row => ( <DecoratedTextSpan str={row.value} />),
+      //some Nicodemus entries have markup like <underline></underline>.  DecoratedTextSpan interprets this.
+		  Cell: row => ( <DecoratedTextSpan str={row.value} />),
 			show: nicodemusSelected,
-		}, {
+		}, 
+    {
 			Header: 'English',
 			accessor: 'english',
-			style: {
-				'whiteSpace': 'unset'
-			},
+      //style whiteSpace unset allows English to break on word boundaries rather than overflowing
+			style: { 'whiteSpace': 'unset'},
 			filterMethod: (filter, rows) =>
 				matchSorter(rows, filter.value, {
 					keys: ["english"],
@@ -203,12 +184,11 @@ class StemList extends Component {
 				}),
 			filterAll: true,
 			show: englishSelected,
-		}, {
+		}, 
+    {
 			Header: 'Note',
 			accessor: 'note',
-			style: {
-				'whiteSpace': 'unset'
-			},
+			style: { 'whiteSpace': 'unset' },
 			filterMethod: (filter, rows) =>
 				matchSorter(rows, filter.value, {
 					keys: ["note"],
@@ -223,7 +203,7 @@ class StemList extends Component {
       filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
-      show: true,
+      show: activeSelected,
       width: 50,
 		},
 		{
@@ -231,8 +211,8 @@ class StemList extends Component {
       accessor: 'prevId',
       filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-      show: true,
+      filterAll: true,
+      show: prevIdSelected,
       width: 50,
     },
     {
@@ -242,111 +222,156 @@ class StemList extends Component {
           matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
       show: usernameSelected,
-	  width: 100,
+	    width: 100,
     },
-      {
-        Header: 'Edit/Delete',
-        filterable: false,
-        sortable: false,
-        width: 100,
-        Cell: ({row, original}) => (
-          <div>
-            <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
-                <Icon name='trash' />
-            </Button>
-            <Link to={{
-              pathname: '/editstem/',
-              search: '?id=' + original.id +
-              '&category=' + original.category +
-              '&reichard=' + original.reichard +
-              '&doak=' + original.doak +
-              '&salish=' + original.salish +
-              '&nicodemus=' + original.nicodemus +
-              '&english=' + original.english +
-              '&note=' + original.note
-            }} >
-            <Button icon floated='right'>
-            	<Icon name='edit' />
-            </Button>
-            </Link>
-          </div>
+    {
+      Header: 'Edit/Delete',
+      filterable: false,
+      sortable: false,
+      width: 100,
+      show: editSelected,
+      //get original row id, allow user to call onDelete, or edit.  Linkto passes original root values into editroot form via the location string
+      Cell: ({row, original}) => (
+        <div>
+          <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
+              <Icon name='trash' />
+          </Button>
+          <Link to={{
+            pathname: '/editstem/',
+            search: '?id=' + original.id +
+            '&category=' + original.category +
+            '&reichard=' + original.reichard +
+            '&doak=' + original.doak +
+            '&salish=' + original.salish +
+            '&nicodemus=' + original.nicodemus +
+            '&english=' + original.english +
+            '&note=' + original.note
+          }} >
+          <Button icon floated='right'>
+          	<Icon name='edit' />
+          </Button>
+          </Link>
+        </div>
         )
       }];
 
+  //setup the checkbox bar that allows users to show/hide columns
 		const CheckboxStem = () => (
-			<div className = "checkBoxMenu" >
-			<label className = "checkBoxLabel" > Reichard < /label>
-			<input name = "reichard"
-				type = "checkbox"
-				checked = {this.state.reichardSelected}
-				onChange = {this.handleReichardChange.bind(this)}
-			/>
-			<label className = "checkBoxLabel" > Doak < /label>
-			<input name = "doak"
-				type = "checkbox"
-				checked = {this.state.doakSelected}
-				onChange = {this.handleDoakChange.bind(this)}
-			/>
-			<label className = "checkBoxLabel" > Salish < /label>
-			<input name = "salish"
-				type = "checkbox"
-				checked = {this.state.salishSelected}
-				onChange = {this.handleSalishChange.bind(this)}
-			/>
-			<label className = "checkBoxLabel" > Nicodemus < /label>
-			<input name = "nicodemus"
-				type = "checkbox"
-				checked = {this.state.nicodemusSelected}
-				onChange = {this.handleNicodemusChange.bind(this)}
-			/>
-			<label className = "checkBoxLabel" > English < /label>
-			<input name = "english"
-				type = "checkbox"
-				checked = {this.state.englishSelected}
-				onChange = {this.handleEnglishChange.bind(this)}
-			/>
-			<label className = "checkBoxLabel" > Note < /label>
-			<input name = "Note"
-				type = "checkbox"
-				checked = {this.state.noteSelected}
-				onChange = {this.handleNoteChange.bind(this)}
-			/>
-			<label className="checkBoxLabel">User Name</label>
-			<input
-				name="user.username"
-				type="checkbox"
-				checked={this.state.usernameSelected}
-				onChange={this.handleUserChange.bind(this)}
-			/>
-		</div>
-	);
+      <div className="checkBoxMenu">
+        <label className="checkBoxLabel">Category</label>
+        <input
+          name="category"
+          type="checkbox"
+          checked={this.state.categorySelected}
+          onChange={this.handleCategoryChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Reichard</label>
+        <input
+          name="reichard"
+          type="checkbox"
+          checked={this.state.reichardSelected}
+          onChange={this.handleReichardChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Doak</label>
+        <input
+          name="doak"
+          type="checkbox"
+          checked={this.state.doakSelected}
+          onChange={this.handleDoakChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Salish</label>
+        <input
+          name="salish"
+          type="checkbox"
+          checked={this.state.salishSelected}
+          onChange={this.handleSalishChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Nicodemus</label>
+        <input
+          name="nicodemus"
+          type="checkbox"
+          checked={this.state.nicodemusSelected}
+          onChange={this.handleNicodemusChange.bind(this)}
+        />
+        <label className="checkBoxLabel">English</label>
+        <input
+          name="english"
+          type="checkbox"
+          checked={this.state.englishSelected}
+          onChange={this.handleEnglishChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Note</label>
+        <input
+          name="note"
+          type="checkbox"
+          checked={this.state.noteSelected}
+          onChange={this.handleNoteChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Active</label>
+        <input
+          name="active"
+          type="checkbox"
+          checked={this.state.activeSelected}
+          onChange={this.handleActiveChange.bind(this)}
+        />
+        <label className="checkBoxLabel">PrevId</label>
+        <input
+          name="prevId"
+          type="checkbox"
+          checked={this.state.prevIdSelected}
+          onChange={this.handlePrevIdChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Edit Note</label>
+        <input
+          name="editnote"
+          type="checkbox"
+          checked={this.state.editnoteSelected}
+          onChange={this.handleEditnoteChange.bind(this)}
+        />
+        <label className="checkBoxLabel">User Name</label>
+        <input
+          name="user.username"
+          type="checkbox"
+          checked={this.state.usernameSelected}
+          onChange={this.handleUserChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Edit/Delete</label>
+        <input
+          name="edit"
+          type="checkbox"
+          checked={this.state.editSelected}
+          onChange={this.handleEditChange.bind(this)}
+        />
+      </div>
+    );
 
+    //now build the table.  If successful, the table will populate, if error the error message will appear.
 		const dataOrError = this.state.error ?
-			<div style = {{color: 'red'}} > Oops!Something went wrong! < /div> :
+     <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
 			<ReactTable
 				data={this.props.getStemsQuery.stems_Q}
 				loading={this.props.getStemsQuery.loading}
 				columns = {columns}
-				defaultPageSize = {5}
+				defaultPageSize = {10}
 				className = "-striped -highlight left"
 				filterable
 			/>;
-		return ( <div className = 'ui content'>
-
-			<div className="text-right">
+		return ( 
+      <div className = 'ui content'>
+			 <div className="text-right">
 				<Link to={{pathname: '/addstem/'}} >
 					<Button icon labelPosition='left' size='small'>
 						<Icon name='plus' />
 						Add a stem
 					</Button>
 				</Link>
-			</div>
+			 </div>
 			<p> </p>
-			<SimpleKeyboard / >
-			<p> Stem type as listed by Reichard, 'Other' = 'Adverbs, Interjections, Conjunctions' </p>
-			<CheckboxStem / >
+			<SimpleKeyboard />
+			<p>Stem categories used by Reichard: 'Other' = 'Adverbs, Interjections, Conjunctions'</p>
+			<CheckboxStem />
 			{dataOrError}
-			<p> </p>
+			<p></p>
 			</div>
 		);
 	}
