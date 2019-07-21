@@ -163,7 +163,7 @@ const loginUser_C = input => {
 
 
 const addUser_C = input => {
-  input.roles = ["dummy"]; // assign a dummy roles at first time user is created
+  input.roles = ["view"]; // assign a dummy roles at first time user is created
   let user = new User(input);
   return User.findOne({
     where: { email: input.email }
@@ -171,9 +171,9 @@ const addUser_C = input => {
     if(res) {
       return {first:"", last:"", username:"",email:"", password: "", roles:""};
     } else {
-      return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(',') })
+      return User.create({ first:input.first, last:input.last, username: input.username, email: input.email, password: input.password, roles: input.roles.join(",") })
          .then(res => {
-            res.dataValues.roles = res.dataValues.roles.split(',')
+            // res.dataValues.roles = res.dataValues.roles.split(',')
             return res.dataValues
           })
     }
