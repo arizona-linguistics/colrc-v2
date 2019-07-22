@@ -134,7 +134,7 @@ const typeDefs = `
   type Mutation {
     addUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
     updateUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
-    updateUserAdmin_M(id:String!,roles:[String!]!): User
+    updateUserAdmin_M(id:ID!,roles:[String!]!): User
 
     addAffix_M(type:String, salish:String, nicodemus:String!, english:String!, link:String, page:String, editnote:String): Affix
     updateAffix_M(id:ID!, type:String, salish:String, nicodemus:String!, english:String!, link:String, page:String, editnote:String): Affix
@@ -183,7 +183,7 @@ const resolvers = {
     roots_Q: (_, args, context) => roots_R(args, roots_C),
   },
   Mutation: {
-    // first time user is created see - connector where a dummy role is inserted
+    // first time user is created see - connector where a view role is inserted
     addUser_M: (_, args, context) => addUser_R(args,addUser_C),
     //check jwt token, validate if user is self then update own email & password but NOT the roles
     updateUser_M: (_, args, context) => updateUser_R(context,args,updateUser_C),

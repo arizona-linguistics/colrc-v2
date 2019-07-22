@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Grid, Header, Message, Segment, Input, Icon} from 'semantic-ui-react';
+import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { graphql, compose } from 'react-apollo';
 import { getRootsQuery, addRootMutation } from '../queries/queries';

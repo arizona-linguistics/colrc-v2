@@ -84,7 +84,7 @@ const NavBarMobile = ({
             <Icon name="sidebar" />
           </Menu.Item>
           <Menu.Menu position="right">
-            {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.content} icon={item.icon} /> } /> )}
+            {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.key} icon={item.icon} /> } /> )}
           </Menu.Menu>
         </Menu>
         {children}
@@ -94,38 +94,38 @@ const NavBarMobile = ({
 
 const NavBarDesktop = ({ rightItems }) => (
   <Menu fixed="top" inverted>
-    <Menu.Item as={Link} to="/" name="home" key="home">
+    <Menu.Item as={Link} to="/" name="home" key="mhome">
        <Icon name="home" />
     </Menu.Item>
-    <Menu.Item as={Link} to="/roots" name="Roots" key="roots">
+    <Menu.Item as={Link} to="/roots" name="Roots" key="mroots">
        Roots
     </Menu.Item>
-    <Menu.Item as={Link} to="/stems" name="Stems" key="stems">
+    <Menu.Item as={Link} to="/stems" name="Stems" key="mstems">
        Stems
     </Menu.Item>
-     <Menu.Item as={Link} to="/affixes" name="Affixes" key="affixes">
+     <Menu.Item as={Link} to="/affixes" name="Affixes" key="maffixes">
        Affixes
     </Menu.Item>
-    <Menu.Item as={Link} to="/texts" name="Texts" key="texts">
+    <Menu.Item as={Link} to="/texts" name="Texts" key="mtexts">
        Texts
     </Menu.Item>
-    <Menu.Item as={Link} to="/audio" name="Audio" key="audio">
+    <Menu.Item as={Link} to="/audio" name="Audio" key="maudio">
        Audio
     </Menu.Item>
-    <Menu.Item as={Link} to="/spelling" name="Spelling" key="spelling">
+    <Menu.Item as={Link} to="/spelling" name="Spelling" key="mspelling">
        Spelling
     </Menu.Item>
-    <Menu.Item as={Link} to="/bibliography" name="Bibliography" key="bib">
+    <Menu.Item as={Link} to="/bibliography" name="Bibliography" key="mbib">
        Bibliography
     </Menu.Item>
-    <Menu.Item as={Link} to="/contactus" name="Contact" key="contact">
+    <Menu.Item as={Link} to="/contactus" name="Contact" key="mcontact">
        Contact
     </Menu.Item>
-    <Menu.Item as={Link} to="/elicitations" name="Elicitations" key="elicit">
+    <Menu.Item as={Link} to="/elicitations" name="Elicitations" key="melicit">
        Elicitations
     </Menu.Item>
     <Menu.Menu position="right">
-      {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.content} icon={item.icon} /> } /> )}
+      {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.key} icon={item.icon} /> } /> )}
     </Menu.Menu>
   </Menu>
 );
