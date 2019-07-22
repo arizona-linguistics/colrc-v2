@@ -109,6 +109,7 @@ class ChangePassword extends Component {
                 handleChange,
                 handleSubmit,
                 isSubmitting,
+                handleReset,
               }) => (
             <Form>
                 <Input
@@ -175,9 +176,13 @@ class ChangePassword extends Component {
                 {errors.passwordConfirmation && touched.passwordConfirmation &&(
                 <div className="input-feedback">{errors.passwordConfirmation}</div>
                 )}
-                <Button color="black" size='large' type="submit" disabled={isSubmitting}>
-                    Submit Changes
-                </Button>
+              <Button color="black" type="submit" disabled={isSubmitting}>
+                Save
+              </Button>
+                or
+              <Button basic onClick={handleReset}>
+                Cancel
+              </Button>
             </Form>
           )}
         />

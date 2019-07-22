@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Grid, Header, Message, Segment, Input, Icon } from 'semantic-ui-react';
+import { Button, Grid, Header, Message, Icon } from 'semantic-ui-react';
 import ReactTable from "react-table";
-import matchSorter from 'match-sorter';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { getUsersQuery, getUserFromToken, updateUserAdminMutation } from '../queries/queries';
 import { Link, withRouter } from 'react-router-dom';
@@ -40,8 +39,9 @@ class Admin extends Component {
       }) 
       console.log(user)
       console.log(this.state)
-    } catch(error) {
-      console.log(error)
+    } catch(result) {
+      console.log(result.graphQLErrors[0].message);
+      this.setState({ autherror: result.graphQLErrors[0].message });
     }
   } 
 
@@ -111,6 +111,9 @@ class Admin extends Component {
           <Header as='h3'  textAlign='center'>
               Set User Roles
           </Header>
+          {this.state.autherror && (
+          <Message className="error">Unsuccessful: {this.state.autherror}</Message>
+          )}
           <Message>
             You are currently logged in as <div style={{ color: 'blue' }}>{this.state.fields.username}</div> 
           </Message>

@@ -183,7 +183,7 @@ const resolvers = {
     roots_Q: (_, args, context) => roots_R(args, roots_C),
   },
   Mutation: {
-    // first time user is created see - connector where a dummy role is inserted
+    // first time user is created see - connector where a view role is inserted
     addUser_M: (_, args, context) => addUser_R(args,addUser_C),
     //check jwt token, validate if user is self then update own email & password but NOT the roles
     updateUser_M: (_, args, context) => updateUser_R(context,args,updateUser_C),

@@ -43,7 +43,7 @@ class Register extends Component {
         localStorage.setItem('TOKEN', token)
         setSubmitting(false)
         this.props.changeLoginState(true)
-        this.props.history.push('/')
+        this.props.history.push('/users')
       } else {
 		    this.props.addUserMutation({
 		      variables: {
@@ -224,9 +224,9 @@ class Register extends Component {
                 {errors.passwordConfirmation && touched.passwordConfirmation && !login &&(
                 <div className="input-feedback">{errors.passwordConfirmation}</div>
                 )}
-                <Button color="blue" size='large' type="submit" disabled={isSubmitting}>
-                    Submit
-                </Button>
+              <Button color="primary" size="large" type="submit" disabled={isSubmitting}>
+                Submit
+              </Button>
             </Form>
           )}
         </Formik>
