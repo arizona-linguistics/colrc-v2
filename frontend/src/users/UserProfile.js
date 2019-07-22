@@ -67,7 +67,7 @@ class UserProfile extends Component {
         },
       })
       setSubmitting(false)
-      this.props.history.push('./users')
+      this.props.history.push('/users')
     } catch (result) {
       console.log(result.graphQLErrors[0].message);
       setSubmitting(false)
@@ -120,6 +120,7 @@ class UserProfile extends Component {
                 handleChange,
                 handleSubmit,
                 isSubmitting,
+                handleReset,
               }) => (
             <Form>
                 <Input
@@ -178,9 +179,13 @@ class UserProfile extends Component {
                 {errors.email && touched.email && (
                 <div className="input-feedback">{errors.email}</div>
                 )}
-                <Button color="blue" size='large' type="submit" disabled={isSubmitting}>
-                    Submit Changes
-                </Button>
+              <Button color="black" type="submit" disabled={isSubmitting}>
+                Save
+              </Button>
+                or
+              <Button basic onClick={handleReset}>
+                Cancel
+              </Button>
             </Form>
           )}
         />
