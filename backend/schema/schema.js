@@ -1,12 +1,15 @@
 const { makeExecutableSchema } = require('graphql-tools');
 const { // define mysql connectors
+  Affix,
+  Bibliography,
   Root,
   User,
-  Affix,
   Stem,
   sequelize,
   affix_C,
   affixes_C,
+  bibliography_C,
+  bibliographies_C,
   root_C,
   roots_C,
   stem_C,
@@ -43,6 +46,8 @@ const { // define resolvers
   addStem_R,
   affix_R,
   affixes_R,
+  bibliography_R,
+  bibliographies_R,
   deleteAffix_R,
   deleteRoot_R,
   deleteStem_R,
@@ -92,6 +97,18 @@ const typeDefs = `
     prevId: Int
     user: User!
   }
+  type Bibliography {
+    id: ID!
+    author: String
+    year: String
+    title: String
+    reference: String
+    link: String
+    linktext: String
+    active: String!
+    prevId: Int
+    user: User!
+  }
   type Root {
     id: ID!
     root: String!
@@ -130,6 +147,8 @@ const typeDefs = `
     root_Q(id:ID!): Root
     stems_Q: [Stem]
     stem_Q(id:ID!): Stem
+    bibliographies_Q: [Bibliography]
+    bibliography_Q(id:ID!): Bibliography
   }
   type Mutation {
     addUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
@@ -168,6 +187,10 @@ const resolvers = {
     roles: user => { return user.roles.split(',') },  
   },
 
+  Bibliography: {
+    user: bibliography => { return User.findOne({ where: {id: bibliography.userId} }) },
+  },
+
   Query: {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
     //check if user email already exists, for new user id creation
@@ -181,6 +204,8 @@ const resolvers = {
     stems_Q: (_, args, context) => stems_R(args, stems_C),
     root_Q: (_, args, context) => root_R(args, root_C),
     roots_Q: (_, args, context) => roots_R(args, roots_C),
+    bibliography_Q: (_, args, context) => bibliography_R(args, bibliography_C),
+    bibliographies_Q: (_, args, context) => bibliographies_R(args, bibliographies_C)
   },
   Mutation: {
     // first time user is created see - connector where a view role is inserted

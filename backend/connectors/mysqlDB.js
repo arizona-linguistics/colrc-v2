@@ -53,6 +53,22 @@ const Root = sequelize.define('root', {
   collate: 'utf8mb4_unicode_ci'
 });
 
+const Bibliography = sequelize.define('bibliography', {
+  author: { type: Sequelize.STRING },
+  year: { type: Sequelize.STRING },
+  title: { type: Sequelize.STRING },
+  reference: { type: Sequelize.STRING },
+  link: { type: Sequelize.STRING },
+  linktext: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  prevId: { type: Sequelize.INTEGER },
+  userId: { type: Sequelize.STRING }  
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+
 const User = sequelize.define('user', {
   first: { type: Sequelize.STRING },
   last: { type: Sequelize.STRING },
@@ -549,6 +565,18 @@ const affixes_C = input => {
   })
 }
 
+const bibliographies_C = input => {
+  return Bibliography.findAll({
+    where: { }
+  })
+}
+
+const bibliography_C = input => {
+  return Bibliography.findOne({
+    where: { id: input.id }
+  })
+}
+
 const root_C = input => {
   return Root.findOne({
     where: { id: input.id }
@@ -596,6 +624,7 @@ module.exports = {
   User,
   Affix,
   Stem,
+  Bibliography,
   sequelize,
   authenticateUser_C,
   checkUserExists_C,
@@ -615,6 +644,8 @@ module.exports = {
   updateStem_C,
   affix_C,
   affixes_C,
+  bibliography_C,
+  bibliographies_C,
   root_C,
   roots_C,
   stem_C,
