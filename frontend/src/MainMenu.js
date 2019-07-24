@@ -11,9 +11,9 @@ class MainMenu extends Component {
 	            	<Segment>
 		           		<Label as={Link} to="/" name="about" color='blue' ribbon>
 		          			COLRC
-		        		</Label>
-		        		<span>Coeur d'Alene Online Language Resource Center</span>
-	        		</Segment>
+		        		  </Label>
+		        		  <span>Coeur d'Alene Online Language Resource Center</span>
+	        		  </Segment>
 	          	</Grid.Column>
 	      	</Grid>
       </div>

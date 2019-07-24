@@ -26,8 +26,9 @@
     "express-graphql": "^0.7.1",
     "graphql": "^14.1.1",
     "graphql-tools": "^4.0.5",
+    "jest": "^24.8.0",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "mysql2": "^1.6.5",
     "sequelize": "^5.8.6"
   },
