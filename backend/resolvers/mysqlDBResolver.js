@@ -132,6 +132,14 @@ const affixes_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const bibliography_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+
+const bibliographies_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+
 const root_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
@@ -169,6 +177,8 @@ module.exports = {
   deleteStem_R,
   affix_R,
   affixes_R,
+  bibliography_R,
+  bibliographies_R,
   root_R,
   roots_R,
   stem_R,

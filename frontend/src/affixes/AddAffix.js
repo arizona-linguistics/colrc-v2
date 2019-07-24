@@ -86,7 +86,7 @@ class AddAffix extends Component {
     						<Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Type' }}
-    							placeholder='Including the affix type is optional.'
+    							placeholder='Optional affix type'
     							id='type'
                   type='text'
     							value={values.type}
@@ -94,14 +94,13 @@ class AddAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.type && touched.type ? 'text-input error' : 'text-input' }
                 />
-                <Label pointing>Including the affix type is optional.</Label>
                 {errors.type && touched.type && (
                 <div className="input-feedback">{errors.type}</div>
                 )}
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Salish' }}
-                  placeholder='A transcription in the Salish orthography is optional.'
+                  placeholder='Optional'
                   id='salish'
                   type='text'
                   value={values.salish}
@@ -109,14 +108,13 @@ class AddAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.salish && touched.salish ? 'text-input error' : 'text-input' }
                 />
-                <Label pointing>A transcription in the Salish orthography is optional.</Label>
                 {errors.salish && touched.salish && (
                 <div className="input-feedback">{errors.salish}</div>
                 )}
                 <Input 
                   fluid 
                   label={{ color: 'blue', content: 'Nicodemus' }}
-                  placeholder='An entry for the affix using the Nicodemus orthography is required'
+                  placeholder='Required'
                   id='nicodemus'
                   type='text'
                   value={values.nicodemus}
@@ -124,13 +122,14 @@ class AddAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.nicodemus && touched.nicodemus ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>A transcription in the Nicodemus orthography is required.</Label>
                 {errors.nicodemus && touched.nicodemus && (
                 <div className="input-feedback">{errors.nicodemus}</div>
                 )}
                 <Input 
                   fluid 
                   label={{ color: 'blue', content: 'English' }}
-                  placeholder='An English gloss for the affix is required'
+                  placeholder='Required gloss'
                   id='english'
                   type='text'
                   value={values.english}
@@ -138,13 +137,14 @@ class AddAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.english && touched.english ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>An English gloss for the affix is required.</Label>
                 {errors.english && touched.english && (
                 <div className="input-feedback">{errors.english}</div>
                 )}
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Link' }}
-                  placeholder='A weblink is optional'
+                  placeholder='Optional weblink'
                   id='link'
                   type='text'
                   value={values.link}
@@ -158,7 +158,7 @@ class AddAffix extends Component {
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Page' }}
-                  placeholder='If a weblink is provided, you can also provide a page number'
+                  placeholder='For link'
                   id='page'
                   type='text'
                   value={values.page}
@@ -166,13 +166,14 @@ class AddAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.page && touched.page ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>If a weblink is provided, you can also provide a page number.</Label>
                 {errors.page && touched.page && (
                 <div className="input-feedback">{errors.page}</div>
                 )}
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Edit Note' }}
-                  placeholder='You can optionally include an editorial note about this entry.  Editorial notes do not display to users'
+                  placeholder='Optional'
                   id='editnote'
                   type='text'
                   value={values.editnote}
@@ -180,6 +181,7 @@ class AddAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.editnote && touched.editnote ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>You can optionally include an editorial note about this entry.  Editorial notes do not display to users.</Label>
                 {errors.editnote && touched.editnote && (
                 <div className="input-feedback">{errors.editnote}</div>
                 )}
