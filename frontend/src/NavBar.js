@@ -163,7 +163,6 @@ class NavBar extends Component {
           >
             <NavBarChildren>{children}</NavBarChildren>
           </NavBarMobile>
-
         </Responsive>
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
           <NavBarDesktop rightItems={rightItems} />
