@@ -79,9 +79,9 @@ class AffixList extends Component {
         variables: {
           id: id
         },
-    //after setting the flag, refetch the affixes from the db
-		refetchQueries: [{ query: getAffixesQuery }]
-    });
+      //after setting the flag, refetch the affixes from the db
+		  refetchQueries: [{ query: getAffixesQuery }]
+      });
       //then send the user back to the affixlist display
       this.props.history.push('/affixes');
     } catch (err) {
