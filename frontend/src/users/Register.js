@@ -7,7 +7,7 @@ import { addUserMutation, getUserToken } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
 
 class Register extends Component {
-  
+
   constructor(props) {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -75,7 +75,7 @@ class Register extends Component {
       }
     }
 	};
-  
+
   render() {
     const { login } = this.state
     const addUserSchema = Yup.object().shape({
@@ -91,10 +91,10 @@ class Register extends Component {
       password: Yup.string()
         .min(2, 'Password must be more than 2 characters')
         .max(30, 'Password must be less than 30 characters')
-        .required('Required'),  
+        .required('Required'),
       passwordConfirmation: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Password confirmation is required!')  
+        .required('Password confirmation is required!')
       });
 
     const loginSchema = Yup.object().shape({
@@ -106,8 +106,8 @@ class Register extends Component {
         .max(30, 'Password must be less than 30 characters!')
         .required('Required'),
       });
-    
-    return (     
+
+    return (
       <Grid textAlign='center'  verticalAlign='top'>
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as='h2'  textAlign='center'>
@@ -117,7 +117,7 @@ class Register extends Component {
            <Message className="error">Unsuccessful: {this.state.error}</Message>
           )}
           <Segment stacked>
-            <Formik 
+            <Formik
               initialValues={{ first: '', last: '', username: '', email: '', password: '', passwordConfirmation: ''}}
               validationSchema={ !login ? addUserSchema : loginSchema }
               onSubmit={(values, { setSubmitting }) => {
@@ -143,7 +143,7 @@ class Register extends Component {
                 {errors.first && touched.first && !login && (
                   <div className="input-feedback">{errors.first}</div>
                 )}
-              {!login && (	
+              {!login && (
                 <Input
                   fluid
                   icon="write"
@@ -176,7 +176,7 @@ class Register extends Component {
               )}
                 {errors.username && touched.username && !login && (
                 <div className="input-feedback">{errors.username}</div>
-                )}       			            						
+                )}
               <Input
                 fluid
                 icon="mail"
@@ -207,7 +207,7 @@ class Register extends Component {
                 {errors.password && touched.password && (
                 <div className="input-feedback">{errors.password}</div>
                 )}
-            {!login && (                
+            {!login && (
               <Input
                 fluid
                 icon='lock'
@@ -244,6 +244,6 @@ class Register extends Component {
 
 export default compose(
   withApollo,
-  graphql(addUserMutation, { name: "addUserMutation"}), 
+  graphql(addUserMutation, { name: "addUserMutation"}),
   graphql(getUserToken, { name: "getUserToken"})
 )(withRouter(Register));

@@ -29,15 +29,16 @@ class AddRoot extends Component {
 		        english: values.english,
 		        editnote: values.editnote,
 					},
-					refetchQueries: [{ query:getRootsQuery }]
+					//refetchQueries: [{ query:getRootsQuery }]
 				});
-			setSubmitting(false)	
+			setSubmitting(false)
 			this.props.history.push('/roots');
 		} catch (result) {
 			console.log(result)
-			console.log(result.graphQLErrors[0].message);
+			console.log(result.json())
+			//console.log(result.graphQLErrors[0].message);
       setSubmitting(false)
-      this.setState({ error: result.graphQLErrors[0].message });
+      //this.setState({ error: result.graphQLErrors[0].message });
 		}
 	};
 
@@ -73,7 +74,7 @@ class AddRoot extends Component {
           <Message className="error">Unsuccessful: {this.state.error}</Message>
           )}
 					<Segment stacked>
-          <Formik 
+          <Formik
               initialValues={{ root: '', number: '', salish: '', nicodemus: '', english: '', editnote: ''}}
               validationSchema={rootSchema}
               onSubmit={(values, { setSubmitting }) => {
@@ -82,8 +83,8 @@ class AddRoot extends Component {
           >
             {({ isSubmitting, values, errors, touched, handleChange, handleBlur }) => (
     					<Form>
-    						<Input 
-                  fluid 
+    						<Input
+                  fluid
                   label={{ color: 'blue', content: 'Root' }}
     							placeholder='The root is required...'
     							id='root'
@@ -96,8 +97,8 @@ class AddRoot extends Component {
                 {errors.root && touched.root && (
                 <div className="input-feedback">{errors.root}</div>
                 )}
-                <Input 
-                  fluid 
+                <Input
+                  fluid
                   label={{ basic: true, color: 'blue', content: 'Number' }}
                   placeholder='The root number is optional'
                   id='number'
@@ -110,8 +111,8 @@ class AddRoot extends Component {
                 {errors.number && touched.number && (
                 <div className="input-feedback">{errors.number}</div>
 								)}
-								 <Input 
-                  fluid 
+								 <Input
+                  fluid
                   label={{ basic: true, color: 'blue', content: 'Salish' }}
                   placeholder='A transcription in the Salish orthography is optional'
                   id='salish'
@@ -124,8 +125,8 @@ class AddRoot extends Component {
                 {errors.salish && touched.salish && (
                 <div className="input-feedback">{errors.salish}</div>
                 )}
-                <Input 
-                  fluid 
+                <Input
+                  fluid
                   label={{ color: 'blue', content: 'Nicodemus' }}
                   placeholder='An entry for the root using the Nicodemus orthography is required'
                   id='nicodemus'
@@ -138,8 +139,8 @@ class AddRoot extends Component {
                 {errors.nicodemus && touched.nicodemus && (
                 <div className="input-feedback">{errors.nicodemus}</div>
                 )}
-                <Input 
-                  fluid 
+                <Input
+                  fluid
                   label={{ color: 'blue', content: 'English' }}
                   placeholder='An English gloss for the root is required'
                   id='english'
@@ -152,8 +153,8 @@ class AddRoot extends Component {
                 {errors.english && touched.english && (
                 <div className="input-feedback">{errors.english}</div>
                 )}
-                <Input 
-                  fluid 
+                <Input
+                  fluid
                   label={{ basic: true, color: 'blue', content: 'Edit Note' }}
                   placeholder='You can optionally include an editorial note about this entry.  Editorial notes do not display to users'
                   id='editnote'
@@ -178,11 +179,12 @@ class AddRoot extends Component {
 				<SimpleKeyboard / >
 				</Segment>
         </Grid.Column>
-			</Grid>	
+			</Grid>
 		);
 	}
 };
 
 export default compose(
-  graphql(addRootMutation, { name: "addRootMutation"})
+  graphql(addRootMutation, { name: "addRootMutation"}),
+	graphql(getRootsQuery, { name: "getRootsQuery"})
   )(withRouter(AddRoot));
