@@ -76,6 +76,12 @@ const addAffix_R = ( context, input, expectedRoles, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const addBibliography_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
 const addRoot_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
@@ -94,6 +100,12 @@ const deleteAffix_R = ( context, input, expectedRoles, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const deleteBibliography_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
 const deleteRoot_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
@@ -107,6 +119,12 @@ const deleteStem_R = ( context, input, expectedRoles, connectorQuery) => {
 }
 
 const updateAffix_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
+const updateBibliography_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
   return connectorQuery.apply(this,[input]);
@@ -170,9 +188,11 @@ module.exports = {
   updateUserAdmin_R,
   getUserFromToken_R,
   addAffix_R,
+  addBibliography_R,
   addRoot_R,
   addStem_R,
   deleteAffix_R,
+  deleteBibliography_R,
   deleteRoot_R,
   deleteStem_R,
   affix_R,
@@ -184,6 +204,7 @@ module.exports = {
   stem_R,
   stems_R,
   updateAffix_R,
+  updateBibliography_R,
   updateRoot_R,
   updateStem_R,
   users_R

@@ -23,12 +23,15 @@ const { // define mysql connectors
   updateUser_C,
   updateUserAdmin_C,
   addAffix_C,
+  addBibliography_C,
   addRoot_C,
   addStem_C,
   deleteAffix_C,
+  deleteBibliography_C,
   deleteRoot_C,
   deleteStem_C,
   updateAffix_C,
+  updateBibliography_C,
   updateRoot_C,
   updateStem_C
 } = require('../connectors/mysqlDB');
@@ -101,7 +104,7 @@ const typeDefs = `
     id: ID!
     author: String
     year: String
-    title: String
+    title: String!
     reference: String
     link: String
     linktext: String
@@ -166,6 +169,10 @@ const typeDefs = `
     addStem_M(category:String, reichard:String, doak:String, salish:String, nicodemus:String!, english:String!, note:String, editnote:String): Stem
     updateStem_M(id:ID!, category:String, reichard:String, doak:String, salish:String, nicodemus:String!, english:String!, note:String, editnote:String): Stem
     deleteStem_M(id:ID!): Stem
+
+    addBibliography_M(author:String, year:String, title:String!, reference:String, link:String, linktext:String): Bibliography
+    updateBibliography_M(id:ID!, author:String, year:String, title:String!, reference:String, link:String, linktext:String): Bibliography
+    deleteBibliography_M(id:ID!): Bibliography
   }
 
 `;
@@ -205,7 +212,7 @@ const resolvers = {
     root_Q: (_, args, context) => root_R(args, root_C),
     roots_Q: (_, args, context) => roots_R(args, roots_C),
     bibliography_Q: (_, args, context) => bibliography_R(args, bibliography_C),
-    bibliographies_Q: (_, args, context) => bibliographies_R(args, bibliographies_C)
+    bibliographies_Q: (_, args, context) => bibliographies_R(args, bibliographies_C),
   },
   Mutation: {
     // first time user is created see - connector where a view role is inserted
@@ -215,12 +222,15 @@ const resolvers = {
     //check jwt token, validate if user is admin then update any other user's roles
     updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C),
     addAffix_M: (_, args, context) => addAffix_R(context, args, ["admin","owner"], addAffix_C),
+    addBibliography_M: (_, args, context) => addBibliography_R(context, args, ["admin","owner"], addBibliography_C),
     addRoot_M: (_, args, context) => addRoot_R(context, args, ["admin","owner"], addRoot_C),
     addStem_M: (_, args, context) => addStem_R(context, args, ["admin","owner"], addStem_C),
     deleteAffix_M: (_, args, context) => deleteAffix_R(context, args, ["admin","owner"], deleteAffix_C),
+    deleteBibliography_M: (_, args, context) => deleteBibliography_R(context, args, ["admin","owner"], deleteBibliography_C),
     deleteRoot_M: (_, args, context) => deleteRoot_R(context, args, ["admin","owner"], deleteRoot_C),
     deleteStem_M: (_, args, context) => deleteStem_R(context, args, ["admin","owner"], deleteStem_C),
     updateAffix_M:(_, args, context) => updateAffix_R(context, args, ["admin","owner"], updateAffix_C),
+    updateBibliography_M:(_, args, context) => updateBibliography_R(context, args, ["admin","owner"], updateBibliography_C),
     updateRoot_M:(_, args, context) => updateRoot_R(context, args, ["admin","owner"], updateRoot_C),
     updateStem_M:(_, args, context) => updateStem_R(context, args, ["admin","owner"], updateStem_C),
   }
