@@ -4,6 +4,7 @@ const { graphql } = require('graphql')
 //import typeDefs from './schema/schema.js'
 
 const schema = require('../schema/schema')
+const { sequelize } = require('../connectors/mysqlDB')
 
 // const { // define mysql connectors
 //   affix_C,
@@ -26,7 +27,7 @@ let viewToken = ''
 async function getToken(email, password) {
   const result = await graphql(schema, getTokenQuery, null, {}, {email: email, password: password})
   const token = result.data.loginUser_Q[0].password
-  console.log(token)
+  //console.log(token)
   return(token)
 }
 
@@ -34,7 +35,7 @@ async function getTokenCall() {
   adminToken = await getToken("colrc@gmail.com", "colrc@gmail.com")
   //viewToken = await getToken("avf@avf.com", "avf")
   viewToken = ''
-  console.log("adminToken= " + adminToken + ", viewToken= " + viewToken)
+  //console.log("adminToken= " + adminToken + ", viewToken= " + viewToken)
 }
 
 async function initializeTestCases() {
@@ -126,6 +127,10 @@ describe('Test Cases', () => {
 
     beforeAll( async () => {
       await initializeTestCases()
+    })
+
+    afterAll( async () => {
+      await sequelize.close()
     })
 
     const cases = [affixTestCase, usersTestCase, rootTestCase, stemTestCase, userExistsTestCase]

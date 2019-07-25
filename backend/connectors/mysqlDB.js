@@ -21,7 +21,7 @@ const sequelize = new Sequelize(
       collate: 'utf8mb4_unicode_ci',
       timestamps: true
     },
-    //logging:false
+    logging:false
   });
 
 sequelize
@@ -62,7 +62,7 @@ const Bibliography = sequelize.define('bibliography', {
   linktext: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
-  userId: { type: Sequelize.STRING }  
+  userId: { type: Sequelize.STRING }
 },
 {
   charset: 'utf8mb4',
@@ -155,15 +155,15 @@ const checkUserExists_C = input => {
 };
 
 const loginUser_C = input => {
-  console.log(input)
+  //console.log(input)
   return User.findOne({
     where: { email: input.email, password: input.password }
   }).then(res => {
-    console.log("we have results")
-    console.log(res)
+    //console.log("we have results")
+    //console.log(res)
     if(res) {
-      console.log("This has data")
-      console.log(res)
+      //console.log("This has data")
+      //console.log(res)
       return [{
         password: jwt.sign(
           { id: res.dataValues.id, email: res.dataValues.email, username: res.dataValues.username },
