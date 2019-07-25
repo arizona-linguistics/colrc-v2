@@ -3,6 +3,7 @@ import { Menu } from 'semantic-ui-react';
 import StemsAccordion from '../accordions/StemsAccordion';
 import StemList from "./StemList";
 import StemsMetadata from "./StemsMetadata";
+import GetUser from "../utilities/GetUser";
 
 class Stems extends Component {
 	constructor(props) {
@@ -26,23 +27,24 @@ let currentItem;
 		currentItem = <StemsMetadata />;
 	};
     return (
-        <div className='ui content'>
-	      	<Menu size='mini'>
-		        <Menu.Item 
-					name='list'
-					active={activeItem === 'list'}
-					onClick={this.handleItemClick}>
-					Stem Lists
-		        </Menu.Item>
-		        <Menu.Item 
-					name='metadata'
-					active={activeItem === 'metadata'}
-					onClick={this.handleItemClick}>
-					Metadata
-		        </Menu.Item>
-	      	</Menu>
-	      	<p></p>
-	      	<StemsAccordion />
+      <div className='ui content'>
+	      <Menu size='mini'>
+		      <Menu.Item 
+					  name='list'
+					  active={activeItem === 'list'}
+					  onClick={this.handleItemClick}>
+					    Stem Lists
+		      </Menu.Item>
+		      <Menu.Item 
+					  name='metadata'
+					  active={activeItem === 'metadata'}
+					  onClick={this.handleItemClick}>
+					    Metadata
+		      </Menu.Item>
+	      </Menu>
+        <GetUser />
+	      <p></p>
+	      <StemsAccordion />
 	      	<p></p>
         	{currentItem}
       	</div>

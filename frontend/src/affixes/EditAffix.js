@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
+import { Button, Grid, Header, Message, Segment, Input, Label } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
@@ -127,7 +127,7 @@ class EditAffix extends Component {
               <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Affix ID' }}
-                  placeholder='The ID of the affix you are editing'
+                  placeholder='Current affix ID'
                   id='id'
                   type='text'
                   disabled
@@ -135,10 +135,11 @@ class EditAffix extends Component {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                <Label pointing>The ID of the affix you are editing.</Label>
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Type' }}
-                  placeholder='Affix type is optional...'
+                  placeholder='Optional affix type'
                   id='type'
                   type='text'
                   value={values.type}
@@ -152,7 +153,7 @@ class EditAffix extends Component {
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Salish' }}
-                  placeholder='Salish transcription is optional'
+                  placeholder='Optional transcription'
                   id='salish'
                   type='text'
                   value={values.salish}
@@ -166,7 +167,7 @@ class EditAffix extends Component {
                 <Input 
                   fluid 
                   label={{ color: 'blue', content: 'Nicodemus' }}
-                  placeholder='An entry for the affix using the Nicodemus orthography is required'
+                  placeholder='Required'
                   id='nicodemus'
                   type='text'
                   value={values.nicodemus}
@@ -174,13 +175,14 @@ class EditAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.nicodemus && touched.nicodemus ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>An entry for the affix using the Nicodemus orthography is required.</Label>
                 {errors.nicodemus && touched.nicodemus && (
                 <div className="input-feedback">{errors.nicodemus}</div>
                 )}
                 <Input 
                   fluid 
                   label={{ color: 'blue', content: 'English' }}
-                  placeholder='An English gloss for the affix is required'
+                  placeholder='English gloss'
                   id='english'
                   type='text'
                   value={values.english}
@@ -188,6 +190,7 @@ class EditAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.english && touched.english ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>English gloss for the affix is required.</Label>
                 {errors.english && touched.english && (
                 <div className="input-feedback">{errors.english}</div>
                 )}
@@ -208,7 +211,7 @@ class EditAffix extends Component {
                 <Input 
                   fluid 
                   label={{ basic: true, color: 'blue', content: 'Page' }}
-                  placeholder='If a weblink is provided, a page number should be included too'
+                  placeholder='For weblink'
                   id='page'
                   type='text'
                   value={values.page}
@@ -216,13 +219,14 @@ class EditAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.page && touched.page ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>If a weblink is provided, a page number should be included too.</Label>
                 {errors.page && touched.page && (
                 <div className="input-feedback">{errors.page}</div>
                 )}
                 <Input 
                   fluid 
                   label={{ color: 'blue', content: 'Edit Note' }}
-                  placeholder='Please provide an editorial note.  Editorial notes do not display to users'
+                  placeholder='Required edit'
                   id='editnote'
                   type='text'
                   value={values.editnote}
@@ -230,6 +234,7 @@ class EditAffix extends Component {
                   onBlur={handleBlur}
                   className={ errors.editnote && touched.editnote ? 'text-input error' : 'text-input' }
                 />
+                <Label pointing>Please provide an editorial note. Editorial notes do not display to users.</Label>
                 {errors.editnote && touched.editnote && (
                 <div className="input-feedback">{errors.editnote}</div>
                 )}
