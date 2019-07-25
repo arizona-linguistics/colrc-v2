@@ -278,6 +278,31 @@ const addAffix_C = input => {
   }) //then
 } //addAffix_C
 
+const addBibliography_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      let bibliography = new Bibliography ({
+        author: input.author,
+        year: input.year,
+        title: input.title,
+        reference: input.reference,
+        link: input.link,
+        linktext: input.linktext,
+        active: 'Y',
+        prevId: null,
+        userId: res.dataValues.id
+      });
+      return bibliography.save()
+    } //if
+    else {
+      throw new noRoleError
+    }
+  }) //then
+} //addBibliography_C
+
 const addRoot_C = input => {
   return User.findOne({
     where: { id: input.myid }
@@ -344,6 +369,29 @@ const deleteAffix_C = input => {
       })
       .then(modaffix => {
         return modaffix.dataValues
+      })
+    } else {
+      throw new noRoleError();
+    }
+  })
+};
+
+const deleteBibliography_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(res => {
+    if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1)
+    {
+      return Bibliography.findOne({
+        where: { id: input.id }
+      })
+      .then(bibliography => {
+        return bibliography.update({ active:'N' },
+        { where: { id: input.id } })
+      })
+      .then(modbibliography => {
+        return modbibliography.dataValues
       })
     } else {
       throw new noRoleError();
@@ -448,6 +496,57 @@ const updateAffix_C = input => {
     }) //transaction
   }) //then
 } //updateAffix_C
+
+const updateBibliography_C = input => {
+  return sequelize.transaction(t => {
+    return User.findOne({
+      where: { id: input.myid },
+      transaction: t
+    })
+    .then(res => {
+      if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+
+        return Bibliography.findOne(
+          {
+            where: { id: input.id},
+            lock: t.LOCK.UPDATE,
+            transaction: t
+          }
+        )
+        .then( bibliography => {
+          // Found an bibliography, now 'delete' it
+          bibliography.active = 'N'
+          return bibliography.save({transaction: t})
+        })
+        .then( () => {
+          // 'deleted' the old bibliography, now add the new bibliography
+          let newBibliography = new Bibliography({
+              author: input.author,
+              year: input.year,
+              title: input.title,
+              reference: input.reference,
+              link: input.link,
+              linktext: input.linktext,
+              active: 'Y',
+              prevId: input.id,
+              userId: input.myid
+          })
+          return newbibliography.save({transaction: t})
+        })
+        .then(newbibliography => {
+          //console.log(newbibliography.dataValues)
+          return newbibliography.dataValues
+        })
+        .catch(err => {
+          return err
+        })
+      } // if
+      else {
+        throw new noRoleError
+      }
+    }) //transaction
+  }) //then
+} //updateBibliography_C
 
 
 const updateRoot_C = input => {
@@ -634,12 +733,15 @@ module.exports = {
   updateUser_C,
   updateUserAdmin_C,
   addAffix_C,
+  addBibliography_C,
   addRoot_C,
   addStem_C,
   deleteAffix_C,
+  deleteBibliography_C,
   deleteRoot_C,
   deleteStem_C,
   updateAffix_C,
+  updateBibliography_C,
   updateRoot_C,
   updateStem_C,
   affix_C,

@@ -216,6 +216,25 @@ const addAffixMutation = gql`
   }
 `;
 
+const addBibliographyMutation = gql`
+  mutation($author: String, $year: String, $title: String!, $reference: String, $link: String, $linktext: String ) {
+    addBibliography_M(author: $author, year: $year, title: $title, reference: $reference, link: $link, linktext: $linktext ) {
+      id
+      author
+      year
+      title
+      reference
+      link
+      linktext
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+
 const updateAffixMutation = gql`
   mutation($id: ID!, $type: String, $salish: String, $nicodemus: String!, $english: String!, $link: String, $page: String, $editnote: String) {
     updateAffix_M(id: $id, type: $type, salish: $salish, nicodemus: $nicodemus, english: $english, link: $link, page: $page, editnote: $editnote) {
@@ -236,6 +255,25 @@ const updateAffixMutation = gql`
   }
 `;
 
+const updateBibliographyMutation = gql`
+      mutation($id: ID!, $author: String, $year: String, $title: String!, $reference: String, $link: String, $linktext: String ) {
+    updateBibliography_M(id:$id, author: $author, year: $year, title: $title, reference: $reference, link: $link, linktext: $linktext ) {
+      id
+      author
+      year
+      title
+      reference
+      link
+      linktext
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+
 const deleteAffixMutation = gql`
   mutation($id: ID!) {
     deleteAffix_M(id: $id) {
@@ -247,6 +285,25 @@ const deleteAffixMutation = gql`
       link
       page
       editnote
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+
+const deleteBibliographyMutation = gql`
+  mutation($id: ID!) {
+    deleteBibliography_M(id: $id) {
+      id
+      author
+      year
+      title
+      reference
+      link
+      linktext
       active
       prevId
       user {
@@ -387,4 +444,4 @@ const getRootQuery = gql`
   }
 `;
 
-export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery };
+export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation };
