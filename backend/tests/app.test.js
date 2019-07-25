@@ -13,6 +13,37 @@ const schema = require('../schema/schema')
 //   affix_R,
 // } = require('.././resolvers/mysqlDBResolver');
 
+const getTokenQuery = `
+  query($email: String!, $password: String!) {
+    loginUser_Q(email: $email, password: $password) {
+      password
+    }
+  }
+`
+let adminToken = ''
+let viewToken = ''
+
+async function getToken(email, password) {
+  const result = await graphql(schema, getTokenQuery, null, {}, {email: email, password: password})
+  const token = result.data.loginUser_Q[0].password
+  console.log(token)
+  return(token)
+}
+
+async function getTokenCall() {
+  adminToken = await getToken("colrc@gmail.com", "colrc@gmail.com")
+  //viewToken = await getToken("avf@avf.com", "avf")
+  viewToken = ''
+  console.log("adminToken= " + adminToken + ", viewToken= " + viewToken)
+}
+
+async function initializeTestCases() {
+  // get admin token and a view token by logging in two preset users
+  // and getting their tokens
+  await getTokenCall()
+  // Now that we have the tokens add them to the test cases that need tokens
+  usersTestCase.context.headers.token = adminToken
+}
 
 const affixTestCase = {
     id: 'affix_Q(id: "1") { english } returns the first affix',
@@ -56,7 +87,22 @@ const stemTestCase = {
     expected: { data: { stem_Q: { doak: "ʔayx̣ʷ" } } }
 }
 
-let usersTestCase = {
+const userExistsTestCase = {
+    id: 'checkUserExists_Q(email: "colrc@gmail.com") { username } returns the username of colrc@gmail.com',
+    query: `
+      query($email: String!) {
+        checkUserExists_Q(email: $email) {
+            username
+        }
+      }
+    `,
+    variables: { email: "colrc@gmail.com"},
+    context: {},
+    expected: { data: { checkUserExists_Q: [  { username: "original" } ] } }
+}
+
+// You will have to modify the expected username arrays to match your local users table
+const usersTestCase = {
   id: 'users_Q { username } returns all the usernames',
   query: `
     query {
@@ -76,45 +122,13 @@ let usersTestCase = {
     } }
 }
 
-const getTokenQuery = `
-  query($email: String!, $password: String!) {
-    loginUser_Q(email: $email, password: $password) {
-      password
-    }
-  }
-`
-let adminToken = ''
-let viewToken = ''
-
-async function getToken(email, password) {
-  const result = await graphql(schema, getTokenQuery, null, {}, {email: email, password: password})
-  const token = result.data.loginUser_Q[0].password
-  console.log(token)
-  return(token)
-}
-
-async function getTokenCall() {
-  adminToken = await getToken("colrc@gmail.com", "colrc@gmail.com")
-  //viewToken = await getToken("avf@avf.com", "avf")
-  viewToken = ''
-  console.log("adminToken= " + adminToken + ", viewToken= " + viewToken)
-}
-
-async function initializeTestCases() {
-  // get admin token and a view token by logging in two preset users
-  // and getting their tokens
-  await getTokenCall()
-  // Now that we have the tokens add them to the test cases we need
-  usersTestCase.context.headers.token = adminToken
-}
-
 describe('Test Cases', () => {
 
     beforeAll( async () => {
       await initializeTestCases()
     })
 
-    const cases = [affixTestCase, usersTestCase, rootTestCase, stemTestCase]
+    const cases = [affixTestCase, usersTestCase, rootTestCase, stemTestCase, userExistsTestCase]
     //const schema = makeExecutableSchema({ typeDefs: typeDefs, resolvers: { Query: { affix_Q: (_, args, context) => affix_R(args, affix_C), } })
 
     cases.forEach(obj => {
