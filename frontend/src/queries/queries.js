@@ -133,6 +133,53 @@ const getBibliographyQuery = gql`
   }
 `;
 
+const getSpellingsQuery = gql`
+  {
+    spellings_Q {
+      id
+      reichard
+      nicodemus
+      salish
+      english
+      note
+    }
+  }
+`;
+
+const getConsonantsQuery = gql`
+  {
+    consonants_Q {
+      id
+      orthography
+      type
+      voice
+      manner
+      secondary
+      labial
+      alveolar
+      alveopalatal
+      lateral
+      palatal
+      velar
+      uvular
+      glottal
+      pharyngeal
+    }
+  }
+`;
+
+const getVowelsQuery = gql`
+  {
+    vowels_Q {
+      id
+      orthography
+      height
+      front
+      central
+      back
+    }
+  }
+`;
 const addStemMutation = gql`
   mutation($category: String, $reichard: String, $doak: String, $salish: String, $nicodemus: String!, $english: String!, $note: String, $editnote: String) {
   	addStem_M(category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note, editnote: $editnote) {
@@ -387,4 +434,4 @@ const getRootQuery = gql`
   }
 `;
 
-export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery };
+export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, getConsonantsQuery, getVowelsQuery };

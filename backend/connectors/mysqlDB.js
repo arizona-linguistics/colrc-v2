@@ -123,6 +123,51 @@ const Stem = sequelize.define('stem', {
 
 Stem.belongsTo(User, { foreignKey: 'userId' });
 
+const Spelling = sequelize.define('spelling', {
+  reichard: { type: Sequelize.STRING },
+  nicodemus: { type: Sequelize.STRING },
+  salish: { type: Sequelize.STRING },
+  english: { type: Sequelize.STRING },
+  note: { type: Sequelize.STRING }    
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+
+const Vowel = sequelize.define('vowel', {
+  orthography: { type: Sequelize.STRING },
+  height: { type: Sequelize.STRING },
+  front: { type: Sequelize.STRING },
+  central: { type: Sequelize.STRING },
+  back: { type: Sequelize.STRING }    
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+
+const Consonant = sequelize.define('consonant', {
+  orthography: { type: Sequelize.STRING },
+  type: { type: Sequelize.STRING },
+  voice: { type: Sequelize.STRING },
+  manner: { type: Sequelize.STRING },
+  secondary: { type: Sequelize.STRING },
+  labial: { type: Sequelize.STRING },
+  alveolar: { type: Sequelize.STRING },
+  alveopalatal: { type: Sequelize.STRING },
+  lateral: { type: Sequelize.STRING },
+  palatal: { type: Sequelize.STRING },
+  velar: { type: Sequelize.STRING },
+  uvular: { type: Sequelize.STRING },
+  glottal: { type: Sequelize.STRING },
+  pharyngeal: { type: Sequelize.STRING }    
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+
 const authenticateUser_C = input => {
   //return User.find({ _id: input.id }, { roles: 1 }); // do not feed password back to query, password stays in database
   return User.findOne({
@@ -619,6 +664,23 @@ const users_C = input => {
   })
 }
 
+const spellings_C = input => {
+  return Spelling.findAll({
+    where: { }
+  })
+}
+
+const consonants_C = input => {
+  return Consonant.findAll({
+    where: { }
+  })
+}
+const vowels_C = input => {
+  return Vowel.findAll({
+    where: { }
+  })
+}
+
 module.exports = {
   Root,
   User,
@@ -650,5 +712,8 @@ module.exports = {
   roots_C,
   stem_C,
   stems_C,
-  users_C
+  users_C,
+  spellings_C,
+  consonants_C,
+  vowels_C
 };
