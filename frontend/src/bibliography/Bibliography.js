@@ -6,8 +6,8 @@ import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import BibliographyAccordion from "../accordions/BibliographyAccordion";
 import { Link, withRouter } from "react-router-dom";
 import axios from 'axios';
-import { getBibliographiesQuery, deleteBibliograpyMutation } from '../queries/queries';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { getBibliographiesQuery, deleteBibliographyMutation } from '../queries/queries';
+import { graphql, compose } from 'react-apollo';
 
 
 class Bibliography extends Component {
@@ -110,14 +110,17 @@ const columns = [{
   Header: 'Author',
   accessor: 'author',
   style: { 'whiteSpace': 'unset'},
+  show: authorSelected,
   filterMethod: (filter, rows) =>
     matchSorter(rows, filter.value, { keys: ["author"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
+      
   },
 {
   Header: 'Year',
   accessor: 'year',
   maxWidth: 100,
+  show: yearSelected,
   filterMethod: (filter, rows) =>
       matchSorter(rows, filter.value, { keys: ["year"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
@@ -125,6 +128,7 @@ const columns = [{
 {
   Header: 'Title',
   accessor: 'title',
+  show: titleSelected,
   style: { 'whiteSpace': 'unset'},
   Cell: ({row, original}) => ( this.weblink(original.link, original.title) ),
   filterMethod: (filter, rows) =>
@@ -134,6 +138,7 @@ const columns = [{
 {
   Header: 'Reference',
   accessor: 'reference',
+  show: referenceSelected,
   style: { 'whiteSpace': 'unset' }, //allows text to wrap in a cell
   filterMethod: (filter, rows) =>
       matchSorter(rows, filter.value, { keys: ["reference"], threshold: matchSorter.rankings.CONTAINS }),
@@ -292,4 +297,4 @@ const columns = [{
 
 export default compose(
 	graphql(getBibliographiesQuery, { name: 'getBibliographiesQuery' })
-)(withRouter(withApollo(Bibliography)));
+)(withRouter(Bibliography));

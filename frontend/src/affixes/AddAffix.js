@@ -48,10 +48,10 @@ class AddAffix extends Component {
       salish: Yup.string()
         .max(150, 'cannot exceed 150 characters'),
       nicodemus: Yup.string()
-        .min(2, 'at least 2 characters are required')
+        .min(1, 'at least 1 characters are required')
         .required('an affix entry is required'),
       english: Yup.string()
-        .min(1, 'at least 2 characters are required')
+        .min(1, 'at least 1 characters are required')
         .required('an English translation is required'),
       link: Yup.string()
         .url('link must be a valid URL'),
