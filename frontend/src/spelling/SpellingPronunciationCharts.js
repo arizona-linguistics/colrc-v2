@@ -7,90 +7,88 @@ import {
     AccordionItemTitle,
     AccordionItemBody,
 } from 'react-accessible-accordion';
-
+import { withRouter } from "react-router-dom";
+import { graphql, compose, withApollo } from 'react-apollo';
+import { getVowelsQuery, getConsonantsQuery } from '../queries/queries';
 
 class SpellingPronunciationCharts extends Component {
   constructor(props) {
+    //get all the props so we can refer to them
     super(props);
+    this.heightToNumber = this.heightToNumber.bind(this);
+    //set the initial state
     this.state = {
+      //for each react-table, set data to an empty array and set loading to true.
     	data: [],
     	loading: true,
     	vowelData: [],
     	vowelLoading: true,
+      //for any show/hide columns checkboxes, set the initial values
     	voiceSelected: false,
 	    mannerSelected: false,
 	    secondarySelected: false,
     };
   }
+  //every show/hide columns checkbox needs a handleChange function
 	handleVoiceChange(value) {
 	    this.setState({ voiceSelected: !this.state.voiceSelected });
 	  };
-
-  	 handleMannerChange(value) {
+  handleMannerChange(value) {
 	    this.setState({ mannerSelected: !this.state.mannerSelected });
 	  };
-
-	 handleSecondaryChange(value) {
+	handleSecondaryChange(value) {
 	    this.setState({ secondarySelected: !this.state.secondarySelected });
 	  };
-  async componentDidMount() {
-    try {
-      const response = await fetch(`http://localhost:4000/consonants`);
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-      const json = await response.json();
-      this.setState({ loading: false, data: json });
-      const response2 = await fetch(`http://localhost:4000/vowels`);
-      if (!response2.ok) {
-        throw Error(response2.statusText);
-      }
-      const json2 = await response2.json();
-      this.setState({ vowelLoading: false, vowelData: json2 });
-    } catch (error) {
-      console.log("This is my Error: " + error);
-      this.setState({ error: error });
-    }
+
+  heightToNumber(value) {
+    if (value === 'high') { 
+      return 1
+    } else if (value === 'mid') {
+      return 2
+    } else {
+      return 3
+    } 
   }
 
   render() {
+    //setup the state values that the show/hide columns checkboxes need
   	const { voiceSelected, mannerSelected, secondarySelected } = this.state;
-
-	const columns=[{
-		Header: "Consonants",
-		columns: [{
-				Header: () => <div><span title="N = Nicodemus, S = Salish, R = Reichard">ortho-<br/>graphy</span></div>,
-				accessor: 'orthography',
-				id: 'orthography',
-				width: 80,
-				filterMethod: (filter, row) => {
-                    if (filter.value === "all") {
-                      return true;
-                    }
-                    return row[filter.id] === filter.value;
-                },
-	    		Filter: ({ filter, onChange }) =>
-	            <select
-	              onChange={event => onChange(event.target.value)}
-	              style={{ width: "100%" }}
-	              value={filter ? filter.value : "N"}
-	            >
-	              <option value="N">Nicodemus</option>
-	              <option value="S">Salish</option>
-	              <option value="R">Reichard</option>
-	              <option value="all">All</option>
-	            </select>,
-			},{
-				Header: () => <div><span title="VL = Voiceless, V = Voiced, RN = Resonant">voice</span></div>,
-			    accessor: 'voice',
-			    maxWidth: 80,
-				filterMethod: (filter, row) => {
-                    if (filter.value === "all") {
-                      return true;
-                    }
-                    return row[filter.id] === filter.value;
-                },
-	    		Filter: ({ filter, onChange }) =>
+    //setup the columns for the consonant table; which has a subcolumn structure and is complicated
+	  const columns=[{
+  		Header: "Consonants",
+  		columns: [{
+  			Header: () => <div><span title="N = Nicodemus, S = Salish, R = Reichard">ortho-<br/>graphy</span></div>,
+  				accessor: 'orthography',
+  				id: 'orthography',
+  				width: 80,
+  				filterMethod: (filter, row) => {
+            if (filter.value === "all") {
+              return true;
+            }
+              return row[filter.id] === filter.value;
+          },
+  	    	Filter: ({ filter, onChange }) =>
+  	       <select
+              onChange={event => onChange(event.target.value)}
+              style={{ width: "100%" }}
+              value={filter ? filter.value : "N"}
+            >
+              <option value="N">Nicodemus</option>
+              <option value="S">Salish</option>
+              <option value="R">Reichard</option>
+              <option value="all">All</option>
+            </select>,
+  			},{
+  				Header: () => <div><span title="VL = Voiceless, V = Voiced, RN = Resonant">voice</span></div>,
+  			    accessor: 'voice',
+  			    maxWidth: 80,
+  				  filterMethod: (filter, row) => {
+              if (filter.value === "all") {
+                return true;
+              }
+                return row[filter.id] === filter.value;
+            },
+  	    		Filter: ({ filter, onChange }) =>
 	            <select
 	              onChange={event => onChange(event.target.value)}
 	              style={{ width: "100%" }}
@@ -101,147 +99,162 @@ class SpellingPronunciationCharts extends Component {
 	              <option value="RN">resonant</option>
 	              <option value="all">all</option>
 	            </select>,
-		  		show: voiceSelected,
-			},{
-				Header: 'manner',
-				accessor: 'manner',
-				maxWidth: 70,
-				filterMethod: (filter, row) => {
-                    if (filter.value === "all") {
-                      return true;
-                    }
-                    return row[filter.id] === filter.value;
-                },
-	    		Filter: ({ filter, onChange }) =>
-	            <select
-	              onChange={event => onChange(event.target.value)}
-	              style={{ width: "100%" }}
-	              value={filter ? filter.value : "all"}
-	            >
-	              <option value="stop">stops</option>
-	              <option value="affricate">affricates</option>
-	              <option value="fricative">fricatives</option>
-	              <option value="nasal">nasals</option>
-	              <option value="approximant">approximants</option>
-	              <option value="all">all</option>
-	            </select>,
-	            show: mannerSelected,
-			},{
-				Header: () => <div>second-<br/>ary</div>,
-				accessor: 'secondary',
-				filterMethod: (filter, row) => {
-                    if (filter.value === "all") {
-                      return true;
-                    }
-                    return row[filter.id] === filter.value;
-                },
-	    		Filter: ({ filter, onChange }) =>
-	            <select
-	              onChange={event => onChange(event.target.value)}
-	              style={{ width: "100%" }}
-	              value={filter ? filter.value : "all"}
-	            >
-	              <option value="none">none</option>
-	              <option value="glottal">glottal</option>
-	              <option value="labial">labial</option>
-	              <option value="all">all</option>
-	            </select>,
-				maxWidth: 70,
-		  		show: secondarySelected,
-			},{
-	        	Header: 'labial',
-	        	accessor: 'labial',
-	        	minWidth: 30,
-	        	filterable: false,
-	        },{
-	        	Header: 'alveolar',
-	       		accessor: 'alveolar',
-	        	minWidth: 30,
-	        	filterable: false,
-	        },{
-	        	Header: () => <div>alveo-<br/>palatal</div>,
-	        	accessor: 'alveopalatal',
-	        	minWidth: 30,
-	        	filterable: false,
-	        },{
-	        	Header: 'lateral',
-	        	accessor: 'lateral',
-	        	minWidth: 30,
-	        	filterable: false,
-	        },{
-	        	Header: 'palatal',
-	        	accessor: 'palatal',
-	        	minWidth: 30,
-	        	filterable: false,
-	        },{
-	        	Header: 'velar',
-        		accessor: 'velar',
-        		minWidth: 30,
-	        	filterable: false,
-	        },{
-	        	Header: 'uvular',
-	        	accessor: 'uvular',
-	        	minWidth: 30,
-	        	filterable: false,
-	        },{
-	        	Header: () => <div>pharyn-<br/>geal</div>,
-	        	accessor: 'pharyngeal',
-	        	minWidth: 30,
-	        	filterable: false,
-	        },{
-	        	Header: 'glottal',
-	        	accessor: 'glottal',
-	        	minWidth: 30,
-		        filterable: false,
-	        }]
-	}];
-
-	const vowelColumns=[{
-		Header: "Vowels",
-		columns: [{
-			Header: () => <div><span title="N = Nicodemus, S = Salish, R = Reichard">ortho-<br/>graphy</span></div>,
-			accessor: 'orthography',
-			id: 'orthography',
-			width: 80,
-			filterMethod: (filter, row) => {
-                if (filter.value === "all") {
-                  return true;
-                }
-                return row[filter.id] === filter.value;
-            },
-    		Filter: ({ filter, onChange }) =>
-            <select
-              onChange={event => onChange(event.target.value)}
-              style={{ width: "100%" }}
-              value={filter ? filter.value : "N"}
-            >
-              <option value="N">N</option>
-              <option value="S">S</option>
-              <option value="R">R</option>
-              <option value="all">All</option>
-            </select>,
-		},{
-			Header: 'height',
-			accessor: 'height',
-			width: 80,
-			filterMethod: (filter, row) => {
-                if (filter.value === "all") {
-                  return true;
-                }
-                return row[filter.id] === filter.value;
-            },
-    		Filter: ({ filter, onChange }) =>
+  		  		show: voiceSelected,
+  			},{
+  				Header: 'manner',
+  				accessor: 'manner',
+  				maxWidth: 70,
+  				filterMethod: (filter, row) => {
+            if (filter.value === "all") {
+              return true;
+            }
+              return row[filter.id] === filter.value;
+          },
+  	    	Filter: ({ filter, onChange }) =>
             <select
               onChange={event => onChange(event.target.value)}
               style={{ width: "100%" }}
               value={filter ? filter.value : "all"}
             >
-              <option value="high">High</option>
-              <option value="mid">Mid</option>
-              <option value="low">Low</option>
-              <option value="all">All</option>
+              <option value="stop">stops</option>
+              <option value="affricate">affricates</option>
+              <option value="fricative">fricatives</option>
+              <option value="nasal">nasals</option>
+              <option value="approximant">approximants</option>
+              <option value="all">all</option>
             </select>,
-		},{
+            show: mannerSelected,
+  			},{
+  				Header: () => <div>second-<br/>ary</div>,
+  				accessor: 'secondary',
+  				filterMethod: (filter, row) => {
+            if (filter.value === "all") {
+              return true;
+            }
+            return row[filter.id] === filter.value;
+          },
+  	    	Filter: ({ filter, onChange }) =>
+            <select
+              onChange={event => onChange(event.target.value)}
+              style={{ width: "100%" }}
+              value={filter ? filter.value : "all"}
+            >
+              <option value="none">none</option>
+              <option value="glottal">glottal</option>
+              <option value="labial">labial</option>
+              <option value="all">all</option>
+            </select>,
+  				maxWidth: 70,
+  		  	show: secondarySelected,
+  			},{
+        	Header: 'labial',
+        	accessor: 'labial',
+        	minWidth: 30,
+        	filterable: false,
+        },{
+        	Header: 'alveolar',
+       		accessor: 'alveolar',
+        	minWidth: 30,
+        	filterable: false,
+        },{
+        	Header: () => <div>alveo-<br/>palatal</div>,
+        	accessor: 'alveopalatal',
+        	minWidth: 30,
+        	filterable: false,
+        },{
+        	Header: 'lateral',
+        	accessor: 'lateral',
+        	minWidth: 30,
+        	filterable: false,
+        },{
+        	Header: 'palatal',
+        	accessor: 'palatal',
+        	minWidth: 30,
+        	filterable: false,
+        },{
+        	Header: 'velar',
+      		accessor: 'velar',
+      		minWidth: 30,
+        	filterable: false,
+        },{
+        	Header: 'uvular',
+        	accessor: 'uvular',
+        	minWidth: 30,
+        	filterable: false,
+        },{
+        	Header: () => <div>pharyn-<br/>geal</div>,
+        	accessor: 'pharyngeal',
+        	minWidth: 30,
+        	filterable: false,
+        },{
+        	Header: 'glottal',
+        	accessor: 'glottal',
+        	minWidth: 30,
+	        filterable: false,
+        }]
+  	}];
+
+  //setup the columns for the vowels table which also are organized as a subcolumn
+	const vowelColumns=[{
+		Header: "Vowels",
+		columns: [
+     {
+			Header: () => <div><span title="N = Nicodemus, S = Salish, R = Reichard">ortho-<br/>graphy</span></div>,
+			accessor: 'orthography',
+			id: 'orthography',
+			width: 80,
+			filterMethod: (filter, row) => {
+        if (filter.value === "all") {
+          return true;
+        }
+        return row[filter.id] === filter.value;
+        },
+    	Filter: ({ filter, onChange }) =>
+        <select
+          onChange={event => onChange(event.target.value)}
+          style={{ width: "100%" }}
+          value={filter ? filter.value : "N"}
+        >
+          <option value="N">N</option>
+          <option value="S">S</option>
+          <option value="R">R</option>
+          <option value="all">All</option>
+        </select>,
+		},
+    {
+			Header: 'height',
+			accessor: 'height',
+			width: 80,
+      sortMethod: (a, b) => {
+        const aValue = this.heightToNumber(a)
+        const bValue = this.heightToNumber(b)
+        if (aValue === bValue) {
+          return 0
+        } else if (aValue > bValue) {
+          return 1
+        } else {
+          return -1
+        }
+      },
+			filterMethod: (filter, row) => {
+        if (filter.value === "all") {
+          return true;
+        }
+        return row[filter.id] === filter.value;
+        },
+    	Filter: ({ filter, onChange }) =>
+        <select
+          onChange={event => onChange(event.target.value)}
+          style={{ width: "100%" }}
+          value={filter ? filter.value : "all"}
+        >
+          <option value="high">High</option>
+          <option value="mid">Mid</option>
+          <option value="low">Low</option>
+          <option value="all">All</option>
+        </select>,
+		},
+    {
 			Header: 'front',
 			accessor: 'front',
 			filterable: false,
@@ -256,7 +269,8 @@ class SpellingPronunciationCharts extends Component {
 		}]
 	}];
 
-    const ConsonantChartInfo = () => (
+//provide explanatory text for the consonant chart, in accordion form
+const ConsonantChartInfo = () => (
 	<div>
 	<Accordion>
 		<AccordionItem>
@@ -274,6 +288,7 @@ class SpellingPronunciationCharts extends Component {
 	</div>
 	);
 
+//provide explanatory text for the consonant chart, in accordion form
 	const VowelChartInfo = () => (
 	<div>
 	<Accordion>
@@ -291,65 +306,68 @@ class SpellingPronunciationCharts extends Component {
 	</Accordion>
 	</div>
 		);
+
+  //now define the checkboxes to control show/hide column toggles
 	const CheckboxConsonants = () => (
 		<div className="checkBoxMenu">
 		  <label className="checkBoxLabel">Voice</label>
 		  <input
 		  	name="voice"
-            type="checkbox"
-            checked={this.state.voiceSelected}
-            onChange={this.handleVoiceChange.bind(this)}
-          />
+        type="checkbox"
+        checked={this.state.voiceSelected}
+        onChange={this.handleVoiceChange.bind(this)}
+      />
 		  <label className="checkBoxLabel">Manner</label>
 		  <input
 		  	name="manner"
-            type="checkbox"
-            checked={this.state.mannerSelected}
-            onChange={this.handleMannerChange.bind(this)}
-          />
-          <label className="checkBoxLabel">Secondary</label>
-          <input
-            name="secondary"
-            type="checkbox"
-            checked={this.state.secondarySelected}
-            onChange={this.handleSecondaryChange.bind(this)}
-          />
+        type="checkbox"
+        checked={this.state.mannerSelected}
+        onChange={this.handleMannerChange.bind(this)}
+      />
+      <label className="checkBoxLabel">Secondary</label>
+      <input
+        name="secondary"
+        type="checkbox"
+        checked={this.state.secondarySelected}
+        onChange={this.handleSecondaryChange.bind(this)}
+      />
 		</div>
 	  );
+
+  //now build the consonant table, or show an error
     const dataOrError = this.state.error ?
       <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
       <ReactTable
-        data={this.state.data}
-        loading={this.state.loading}
+        data={this.props.getConsonantsQuery.consonants_Q}
+        loading={this.props.getConsonantsQuery.loading}
         columns={columns}
-        defaultPageSize={20}
+        minRows={1}
         filterable
-		defaultFiltered={[
-				{
-					id: 'orthography',
-					value: 'N'
-				}
-			]}
-        className="-striped -highlight"
-      />;
+		    defaultFiltered={[
+  				{
+  					id: 'orthography',
+  					value: 'N'
+  				}
+  			]}
+          className="-striped -highlight"
+        />;
 
     const dataOrError2 = this.state.error ?
       <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
       <ReactTable
-        data={this.state.vowelData}
-        loading={this.state.vowelLoading}
+        data={this.props.getVowelsQuery.vowels_Q}
+        loading={this.props.getVowelsQuery.loading}
         columns={vowelColumns}
-        defaultPageSize={5}
+        minRows={1}
         filterable
-		defaultFiltered={[
-				{
-					id: 'orthography',
-					value: 'N'
-				}
-			]}
-        className="-striped -highlight"
-      />;
-
+    		defaultFiltered={[
+    				{
+    					id: 'orthography',
+    					value: 'N'
+    				}
+    			]}
+            className="-striped -highlight"
+          />;
   return (
 	  	<div className='ui content'>
 			<ConsonantChartInfo />
@@ -365,5 +383,7 @@ class SpellingPronunciationCharts extends Component {
   }
 }
 
-
-export default SpellingPronunciationCharts;
+export default compose(
+  graphql(getConsonantsQuery, { name: 'getConsonantsQuery' }),
+  graphql(getVowelsQuery, { name: 'getVowelsQuery' })
+)(withRouter(withApollo(SpellingPronunciationCharts)));

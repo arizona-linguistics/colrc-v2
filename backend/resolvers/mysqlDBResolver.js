@@ -179,6 +179,15 @@ const users_R = ( context, input, expectedRoles, connectorQuery ) => {
   input["expectedRoles"] = expectedRoles;
   return connectorQuery.apply(this,[input]);
 }
+const spellings_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const consonants_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const vowels_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
 module.exports = {
   authenticateUser_R,
   checkUserExists_R,
@@ -207,5 +216,8 @@ module.exports = {
   updateBibliography_R,
   updateRoot_R,
   updateStem_R,
-  users_R
+  users_R,
+  spellings_R,
+  consonants_R,
+  vowels_R
 };
