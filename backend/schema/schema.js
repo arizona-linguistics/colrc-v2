@@ -45,6 +45,7 @@ const { // define resolvers
   updateUserAdmin_R,
   users_R,
   addAffix_R,
+  addBibliography_R,
   addRoot_R,
   addStem_R,
   affix_R,
