@@ -33,7 +33,10 @@ const { // define mysql connectors
   updateAffix_C,
   updateBibliography_C,
   updateRoot_C,
-  updateStem_C
+  updateStem_C,
+  spellings_C,
+  consonants_C,
+  vowels_C
 } = require('../connectors/mysqlDB');
 const { // define resolvers
   authenticateUser_R,
@@ -61,7 +64,10 @@ const { // define resolvers
   stems_R,
   updateAffix_R,
   updateRoot_R,
-  updateStem_R
+  updateStem_R,
+  spellings_R,
+  consonants_R,
+  vowels_R
 } = require('.././resolvers/mysqlDBResolver');
 
 // passwrd field on type User shouldn't expose passwords
@@ -139,6 +145,39 @@ const typeDefs = `
     prevId: Int
     user: User!
   }
+  type Spelling {
+    id: ID!
+    reichard: String
+    nicodemus: String
+    salish: String
+    english: String
+    note: String    
+  }
+  type Consonant {
+    id: ID!
+    orthography: String
+    type: String
+    voice: String
+    manner: String
+    secondary: String
+    labial: String
+    alveolar: String
+    alveopalatal: String
+    lateral: String
+    palatal: String
+    velar: String
+    uvular: String
+    glottal: String
+    pharyngeal: String
+  }
+  type Vowel {
+    id: ID!
+    orthography: String
+    height: String
+    front: String
+    central: String
+    back: String 
+  }
   type Query {
     authenticateUser_Q: [User]
     checkUserExists_Q(email:String!): [UserExists]
@@ -153,6 +192,9 @@ const typeDefs = `
     stem_Q(id:ID!): Stem
     bibliographies_Q: [Bibliography]
     bibliography_Q(id:ID!): Bibliography
+    spellings_Q: [Spelling]
+    consonants_Q: [Consonant]
+    vowels_Q: [Vowel]
   }
   type Mutation {
     addUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
@@ -214,6 +256,9 @@ const resolvers = {
     roots_Q: (_, args, context) => roots_R(args, roots_C),
     bibliography_Q: (_, args, context) => bibliography_R(args, bibliography_C),
     bibliographies_Q: (_, args, context) => bibliographies_R(args, bibliographies_C),
+    spellings_Q: (_, args, context) => spellings_R(args, spellings_C),
+    consonants_Q: (_, args, context) => consonants_R(args, consonants_C),
+    vowels_Q: (_, args, context) => vowels_R(args, vowels_C)
   },
   Mutation: {
     // first time user is created see - connector where a view role is inserted
