@@ -256,12 +256,9 @@ const resolvers = {
     roots_Q: (_, args, context) => roots_R(args, roots_C),
     bibliography_Q: (_, args, context) => bibliography_R(args, bibliography_C),
     bibliographies_Q: (_, args, context) => bibliographies_R(args, bibliographies_C),
-<<<<<<< HEAD
     spellings_Q: (_, args, context) => spellings_R(args, spellings_C),
     consonants_Q: (_, args, context) => consonants_R(args, consonants_C),
     vowels_Q: (_, args, context) => vowels_R(args, vowels_C)
-=======
->>>>>>> master
   },
   Mutation: {
     // first time user is created see - connector where a view role is inserted
