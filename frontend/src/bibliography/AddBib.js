@@ -164,7 +164,7 @@ class AddBib extends Component {
                 <div className="input-feedback">{errors.page}</div>
                 )}
                 <Button color="black" size='large' type="submit" disabled={isSubmitting}>
-                    Submit
+                  Submit
                 </Button>
     					</Form>
             )}
