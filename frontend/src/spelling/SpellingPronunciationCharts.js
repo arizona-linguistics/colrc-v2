@@ -360,6 +360,10 @@ const ConsonantChartInfo = () => (
         columns={vowelColumns}
         minRows={1}
         filterable
+        defaultSorted={[{
+          id   : 'height',
+          desc : false,
+        }]}
     		defaultFiltered={[
     				{
     					id: 'orthography',
