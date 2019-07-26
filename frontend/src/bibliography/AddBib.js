@@ -6,7 +6,6 @@ import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { graphql, compose } from 'react-apollo';
 import { addBibliographyMutation, getBibliographiesQuery } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
-import Bibliography from './Bibliography';
 
 class AddBib extends Component {
 	constructor(props) {
