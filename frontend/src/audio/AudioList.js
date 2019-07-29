@@ -4,26 +4,28 @@ import matchSorter from 'match-sorter';
 import AudioPlayer from "../utilities/AudioPlayer";
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { withRouter } from 'react-router-dom';
+import { graphql, compose } from 'react-apollo';
+import { getAudioSetsQuery, getAudioFilesQuery } from '../queries/queries';
 
 class AudioList extends Component {
   constructor() {
     super();
-    this.loadAudioSets = this.loadAudioSets.bind(this);
+    // this.loadAudioSets = this.loadAudioSets.bind(this);
     this.state = {
     	data: [],
     	loading: true
      };
   }
 
-  async componentDidMount() {
-    this.loadAudioSets();
-  }
+  // async componentDidMount() {
+  //   this.loadAudioSets();
+  // }
 
   async loadAudioSets() {
     try {
       //assumes audiofiles will all be located in the texts directory
       const staticPath = 'http://localhost:3500/texts/';
-      const response = await fetch(`http://localhost:4000/audiosets?_embed=audiofiles`);
+      const response = await fetch(this.props.getAudioFilesQuery.audiofiles_Q);
       if (!response.ok) {
         throw Error(response.statusText);
       }
@@ -54,7 +56,7 @@ class AudioList extends Component {
     {
       Header: 'Title',
       accessor: 'title',
-      style: { 'white-space': 'unset'},
+      style: { 'whiteSpace': 'unset'},
       filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["title"], threshold: matchSorter.rankings.CONTAINS }),
             filterAll: true,
@@ -76,8 +78,8 @@ class AudioList extends Component {
     const dataOrError = this.state.error ?
          <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
          <ReactTable
-           data={this.state.data}
-           loading={this.state.loading}
+           data={this.props.getAudioSetsQuery.audiosets_Q}
+           loading={this.props.getAudioSetsQuery.loading}
            columns={columns}
            filterable
            defaultPageSize={5}
@@ -96,4 +98,7 @@ class AudioList extends Component {
   }
 }
 
-export default withRouter(AudioList);
+export default compose(
+  graphql(getAudioSetsQuery, { name: 'getAudioSetsQuery' }),
+  graphql(getAudioFilesQuery, { name: 'getAudioFilesQuery' })
+)(withRouter(AudioList));

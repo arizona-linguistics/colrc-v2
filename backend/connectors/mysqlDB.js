@@ -168,6 +168,97 @@ const Consonant = sequelize.define('consonant', {
   collate: 'utf8mb4_unicode_ci'
 });
 
+const Text = sequelize.define('text', {
+  title: { type: Sequelize.STRING },
+  speaker: { type: Sequelize.STRING },
+  cycle: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  prevId: { type: Sequelize.INTEGER },
+  userId: { type: Sequelize.STRING }   
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Text.belongsTo(User, { foreignKey: 'userId' });
+
+const Textfile = sequelize.define('textfile', {
+  subdir: { type: Sequelize.STRING },
+  src: { type: Sequelize.STRING },
+  resType: { type: Sequelize.STRING },
+  msType: { type: Sequelize.STRING },
+  fileType: { type: Sequelize.STRING },
+  textID: { type: Sequelize.STRING }, 
+  active: { type: Sequelize.STRING(1) },
+  prevId: { type: Sequelize.INTEGER },
+  userId: { type: Sequelize.STRING }   
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Textfile.belongsTo(User, { foreignKey: 'userId' });
+Textfile.belongsTo(Text, { foreignKey: 'textId' });
+
+const Textimage = sequelize.define('textimage', {
+  textfileId: { type: Sequelize.STRING },
+  subdir: { type: Sequelize.STRING },
+  src: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  prevId: { type: Sequelize.INTEGER },
+  userId: { type: Sequelize.STRING }   
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Textimage.belongsTo(User, { foreignKey: 'userId' });
+Textimage.belongsTo(Textfile, { foreignKey: 'textfileId' });
+
+const Audioset = sequelize.define('audioset', {
+  title: { type: Sequelize.STRING },
+  speaker: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  textId: { type: Sequelize.STRING },
+  userId: { type: Sequelize.STRING }   
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Audioset.belongsTo(User, { foreignKey: 'userId' });
+Audioset.belongsTo(Text, { foreignKey: 'textId' });
+
+const Elicitation = sequelize.define('elicitation', {
+  title: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  userId: { type: Sequelize.STRING },
+  prevID: { type: Sequelize.INTEGER }      
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Elicitation.belongsTo(User, { foreignKey: 'userId' });
+
+const Audiofile = sequelize.define('audiofile', {
+  src: { type: Sequelize.STRING },
+  type: { type: Sequelize.STRING },
+  direct: { type: Sequelize.STRING },
+  elicitationId: { type: Sequelize.STRING },
+  audiosetId: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  userId: { type: Sequelize.STRING }   
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Audiofile.belongsTo(User, { foreignKey: 'userId' });
+Audiofile.belongsTo(Audioset, { foreignKey: 'audiosetId' });
+Audiofile.belongsTo(Elicitation, { foreignKey: 'elicitationId' });
+
+
 const authenticateUser_C = input => {
   //return User.find({ _id: input.id }, { roles: 1 }); // do not feed password back to query, password stays in database
   return User.findOne({
@@ -779,13 +870,81 @@ const vowels_C = input => {
     where: { }
   })
 }
-
+const text_C = input => {
+  return Text.findOne({
+    where: { id: input.id }
+  })
+}
+const texts_C = input => {
+  return Text.findAll({
+    where: { }
+  })
+}
+const textfile_C = input => {
+  return Textfile.findOne({
+    where: { id: input.id }
+  })
+}
+const textfiles_C = input => {
+  return Textfile.findAll({
+    where: { }
+  })
+}
+const textimage_C = input => {
+  return Textimage.findOne({
+    where: { id: input.id }
+  })
+}
+const textimages_C = input => {
+  return Textimage.findAll({
+    where: { }
+  })
+}
+const audiofile_C = input => {
+  return Audiofile.findOne({
+    where: { id: input.id }
+  })
+}
+const audiofiles_C = input => {
+  return Audiofile.findAll({
+    where: { }
+  })
+}
+const audioset_C = input => {
+  return Audioset.findOne({
+    where: { id: input.id }
+  })
+}
+const audiosets_C = input => {
+  return Audioset.findAll({
+    where: { }
+  })
+}
+const elicitation_C = input => {
+  return Elicitation.findOne({
+    where: { id: input.id }
+  })
+}
+const elicitations_C = input => {
+  return Elicitation.findAll({
+    where: { }
+  })
+}
 module.exports = {
   Root,
   User,
   Affix,
   Stem,
   Bibliography,
+  Spelling,
+  Consonant,
+  Vowel,
+  Text,
+  Textfile,
+  Textimage,
+  Audiofile,
+  Audioset,
+  Elicitation,
   sequelize,
   authenticateUser_C,
   checkUserExists_C,
@@ -817,5 +976,17 @@ module.exports = {
   users_C,
   spellings_C,
   consonants_C,
-  vowels_C
+  vowels_C,
+  text_C,
+  texts_C,
+  textfile_C,
+  textfiles_C,
+  textimage_C,
+  textimages_C,
+  audiofile_C,
+  audiofiles_C,
+  audioset_C,
+  audiosets_C,
+  elicitation_C,
+  elicitations_C,
 };
