@@ -188,6 +188,42 @@ const consonants_R = ( input, connectorQuery) => {
 const vowels_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
+const text_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const texts_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const textfile_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const textfiles_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const textimage_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const textimages_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audiofile_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audiofiles_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audioset_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audiosets_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitation_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitations_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
 module.exports = {
   authenticateUser_R,
   checkUserExists_R,
@@ -219,5 +255,17 @@ module.exports = {
   users_R,
   spellings_R,
   consonants_R,
-  vowels_R
+  vowels_R,
+  text_R,
+  texts_R,
+  textfile_R,
+  textfiles_R,
+  textimage_R,
+  textimages_R,
+  audiofile_R,
+  audiofiles_R,
+  audioset_R,
+  audiosets_R,
+  elicitation_R,
+  elicitations_R,
 };

@@ -5,6 +5,15 @@ const { // define mysql connectors
   Root,
   User,
   Stem,
+  Spelling,
+  Consonant,
+  Vowel,
+  Text,
+  Textfile,
+  Textimage,
+  Audioset,
+  Audiofile,
+  Elicitation,
   sequelize,
   affix_C,
   affixes_C,
@@ -36,7 +45,19 @@ const { // define mysql connectors
   updateStem_C,
   spellings_C,
   consonants_C,
-  vowels_C
+  vowels_C,
+  texts_C,
+  text_C,
+  textfiles_C,
+  textfile_C,
+  textimages_C,
+  textimage_C,
+  audiofiles_C,
+  audiofile_C,
+  audiosets_C,
+  audioset_C,
+  elicitations_C,
+  elicitation_C,
 } = require('../connectors/mysqlDB');
 const { // define resolvers
   authenticateUser_R,
@@ -67,12 +88,25 @@ const { // define resolvers
   updateStem_R,
   spellings_R,
   consonants_R,
-  vowels_R
+  vowels_R,
+  text_R,
+  texts_R,
+  textfile_R,
+  textfiles_R,
+  textimage_R,
+  textimages_R,
+  audiofile_R,
+  audiofiles_R,
+  audioset_R,
+  audiosets_R,
+  elicitation_R,
+  elicitations_R,
 } = require('.././resolvers/mysqlDBResolver');
 
 // passwrd field on type User shouldn't expose passwords
 // instead is used to store json token after successfull login query - loginUser_Q
 // it's ok to leave password at UserInput at Mutation
+
 const typeDefs = `
   type User {
     id: ID!
@@ -178,6 +212,62 @@ const typeDefs = `
     central: String
     back: String 
   }
+  type Text {
+    id: ID!
+    title: String!
+    speaker: String
+    cycle: String
+    active: String!
+    prevId: Int
+    user: User!   
+  }
+  type Textfile {
+    id: ID!
+    subdir: String!
+    src: String
+    resType: String
+    msType: String    
+    fileType: String
+    text: Text!
+    active: String!
+    prevId: Int
+    user: User!   
+  }
+   type Textimage {
+    id: ID!
+    textfile: Textfile!
+    subdir: String
+    src: String
+    active: String!
+    prevId: Int
+    user: User!   
+  }
+  type Audiofile {
+    id: ID!
+    src: String!
+    type: String!
+    direct: String!
+    elicitation: Elicitation
+    audioset: Audioset
+    active: String!
+    user: User!  
+  } 
+  type Audioset {
+    id: ID!
+    title: String!
+    speaker: String
+    text: Text
+    active: String!
+    user: User!  
+  } 
+  type Elicitation {
+    id: ID!
+    title: String!
+    active: String!
+    prevID: Int
+    user: User!
+  } 
+
   type Query {
     authenticateUser_Q: [User]
     checkUserExists_Q(email:String!): [UserExists]
@@ -195,6 +285,18 @@ const typeDefs = `
     spellings_Q: [Spelling]
     consonants_Q: [Consonant]
     vowels_Q: [Vowel]
+    texts_Q: [Text]
+    text_Q(id:ID!): Text
+    textfiles_Q: [Textfile]
+    textfile_Q(id:ID!): Textfile
+    textimages_Q: [Textimage]
+    textimage_Q(id:ID!): Textimage
+    audiosets_Q: [Audioset]
+    audioset_Q(id:ID!): Audioset
+    audiofiles_Q: [Audiofile]
+    audiofile_Q(id:ID!): Audiofile
+    elicitation_Q(id:ID!): Elicitation
+    elicitations_Q: [Elicitation]
   }
   type Mutation {
     addUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
@@ -217,30 +319,49 @@ const typeDefs = `
     updateBibliography_M(id:ID!, author:String, year:String, title:String!, reference:String, link:String, linktext:String): Bibliography
     deleteBibliography_M(id:ID!): Bibliography
   }
-
 `;
 
 const resolvers = {
   Affix: {
     user: affix => { return User.findOne({ where: {id: affix.userId} }) },
   },
-
   Root: {
     user: root => { return User.findOne({ where: {id: root.userId} }) },
   },
-
   Stem: {
     user: stem => { return User.findOne({ where: {id: stem.userId} }) },
   },
-  
   User: {
     roles: user => { return user.roles.split(',') },  
   },
-
   Bibliography: {
     user: bibliography => { return User.findOne({ where: {id: bibliography.userId} }) },
   },
+  Text: {
+    user: text => { return User.findOne({ where: {id: text.userId} }) },
+  },
 
+  Textfile: {
+    user: textfile => { return User.findOne({ where: {id: textfile.userId} }) },
+    text: textfile => { return Text.findOne({ where: {id: textfile.textId } }) },
+  },
+  Textimage: {
+    user: textimage => { return User.findOne({ where: {id: textimage.userId} }) },
+    textfile: textimage => { return Textfile.findOne({ where: {id: textimage.textfileId} }) },  
+  },
+  Audioset: {
+    user: audioset => { return User.findOne({ where: {id: audioset.userId} }) },
+    text: audioset => { return Text.findOne({ where: {id: audioset.textId} }) }
+  },
+  Elicitation: {
+    user: elicitation => { return User.findOne({ where: {id: elicitation.userId} }) },
+  }, 
+  Audiofile: {
+    user: audiofile => { return User.findOne({ where: {id: audiofile.userId} }) },
+    audioset: audiofile => { return Audioset.findOne({ where: {id: audiofile.audiosetId} }) },
+    elicitation: audiofile => { return Elicitation.findOne({ where: {id: audiofile.elicitationId} }) }
+  },
+ 
   Query: {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
     //check if user email already exists, for new user id creation
@@ -258,7 +379,19 @@ const resolvers = {
     bibliographies_Q: (_, args, context) => bibliographies_R(args, bibliographies_C),
     spellings_Q: (_, args, context) => spellings_R(args, spellings_C),
     consonants_Q: (_, args, context) => consonants_R(args, consonants_C),
-    vowels_Q: (_, args, context) => vowels_R(args, vowels_C)
+    vowels_Q: (_, args, context) => vowels_R(args, vowels_C),
+    text_Q: (_, args, context) => text_R(args, text_C),
+    texts_Q: (_, args, context) => texts_R(args, texts_C),
+    textfile_Q: (_, args, context) => textfile_R(args, textfile_C),
+    textfiles_Q: (_, args, context) => textfiles_R(args, textfiles_C), 
+    textimage_Q: (_, args, context) => textimage_R(args, textimage_C),
+    textimages_Q: (_, args, context) => textimages_R(args, textimages_C),
+    audioset_Q: (_, args, context) => audioset_R(args, audioset_C),
+    audiosets_Q: (_, args, context) => audiosets_R(args, audiosets_C),            
+    audiofile_Q: (_, args, context) => audiofile_R(args, audiofile_C),     
+    audiofiles_Q: (_, args, context) => audiofiles_R(args, audiofiles_C),
+    elicitation_Q: (_, args, context) => elicitation_R(args, elicitation_C),      
+    elicitations_Q: (_, args, context) => elicitations_R(args, elicitations_C)      
   },
   Mutation: {
     // first time user is created see - connector where a view role is inserted
