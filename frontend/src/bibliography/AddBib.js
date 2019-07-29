@@ -163,9 +163,11 @@ class AddBib extends Component {
                 {errors.page && touched.page && (
                 <div className="input-feedback">{errors.page}</div>
                 )}
-                <Button color="black" size='large' type="submit" disabled={isSubmitting}>
-                  Submit
-                </Button>
+                <Segment className="confirmButton">
+                  <Button color="black" size='large' type="submit" disabled={isSubmitting}>
+                    Submit
+                  </Button>
+                </Segment>
     					</Form>
             )}
           </Formik>
