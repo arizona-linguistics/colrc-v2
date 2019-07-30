@@ -100,6 +100,7 @@ class ChangePassword extends Component {
               onSubmit={(values, { setSubmitting }) => {
                 this.onFormSubmit(values, setSubmitting);
               }}
+              
               render={({
                 values,
                 errors,
