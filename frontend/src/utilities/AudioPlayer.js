@@ -1,6 +1,30 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { withApollo, graphql, compose } from 'react-apollo';
+import { getAudioSetsQuery, getAudioFilesQuery } from '../queries/queries';
 
 class AudioPlayer extends Component {
+  getAudioSets = async (values, setSubmitting) => {
+    console.log("get audio sets");
+    console.log(values)
+    console.log(setSubmitting)
+    try {
+      console.log("this.props.client")
+      console.log(this.props.client)
+        //for login, check that the email and password match user table and if they do, generate a JWT token
+        const queryAudioSets = await this.props.client.query({
+          query: getAudioSetsQuery,
+          variables: {
+            title: values.title,
+            speaker: values.speaker,
+            active: values.active,
+            textId: values.textId
+          }
+        })
+      } catch (result) {
+        console.log(result)
+      }
+    }
 
   createAudioSources = (sources) => {
 
@@ -41,4 +65,7 @@ class AudioPlayer extends Component {
   }
 }
 
-export default AudioPlayer;
+export default compose(
+  graphql(getAudioSetsQuery, { name: 'getAudioSetsQuery' }),
+  graphql(getAudioFilesQuery, { name: 'getAudioFilesQuery' })
+)(withApollo(withRouter(AudioPlayer)));

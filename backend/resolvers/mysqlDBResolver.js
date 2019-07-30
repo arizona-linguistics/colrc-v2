@@ -188,6 +188,60 @@ const consonants_R = ( input, connectorQuery) => {
 const vowels_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
+const text_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const texts_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const textfile_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const textfiles_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const textimage_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const textimages_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audiofile_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audiofiles_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audioset_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audiosets_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audiorelation_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const audiorelations_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationfile_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationfiles_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationset_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationsets_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationrelation_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationrelations_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
 module.exports = {
   authenticateUser_R,
   checkUserExists_R,
@@ -219,5 +273,23 @@ module.exports = {
   users_R,
   spellings_R,
   consonants_R,
-  vowels_R
+  vowels_R,
+  text_R,
+  texts_R,
+  textfile_R,
+  textfiles_R,
+  textimage_R,
+  textimages_R,
+  audiofile_R,
+  audiofiles_R,
+  audioset_R,
+  audiosets_R,
+  audiorelation_R,
+  audiorelations_R,
+  elicitationfile_R,
+  elicitationfiles_R,
+  elicitationset_R,
+  elicitationsets_R,
+  elicitationrelation_R,
+  elicitationrelations_R
 };
