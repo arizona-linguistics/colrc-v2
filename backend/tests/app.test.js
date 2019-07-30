@@ -3,8 +3,22 @@ const { graphql } = require('graphql')
 //import resolvers from '../src/resolvers'
 //import typeDefs from './schema/schema.js'
 
+// The schema defines all of the types, queries, and mutations and
+// connects to the database
 const schema = require('../schema/schema')
-const { sequelize } = require('../connectors/mysqlDB')
+
+// sequelize is the database connection, which needs to be closed after
+// all tests are run.
+// The other fundamental types are needed to populate the database as
+// needed for each test.
+const {
+  sequelize,
+  Root,
+  User,
+  Affix,
+  Stem,
+  Bibliography
+} = require('../connectors/mysqlDB')
 
 // const { // define mysql connectors
 //   affix_C,
