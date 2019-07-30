@@ -151,7 +151,6 @@ const getConsonantsQuery = gql`
     consonants_Q {
       id
       orthography
-      type
       voice
       manner
       secondary

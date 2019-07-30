@@ -149,7 +149,6 @@ const Vowel = sequelize.define('vowel', {
 
 const Consonant = sequelize.define('consonant', {
   orthography: { type: Sequelize.STRING },
-  type: { type: Sequelize.STRING },
   voice: { type: Sequelize.STRING },
   manner: { type: Sequelize.STRING },
   secondary: { type: Sequelize.STRING },
@@ -263,7 +262,7 @@ const Elicitationset = sequelize.define('elicitationset', {
   title: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   userId: { type: Sequelize.STRING }, 
-  prevID: { type: Sequelize.INTEGER }   
+  prevId: { type: Sequelize.INTEGER }   
 },
 {
   charset: 'utf8mb4',
