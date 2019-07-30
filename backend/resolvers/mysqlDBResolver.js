@@ -218,10 +218,28 @@ const audioset_R = ( input, connectorQuery) => {
 const audiosets_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
-const elicitation_R = ( input, connectorQuery) => {
+const audiorelation_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
-const elicitations_R = ( input, connectorQuery) => {
+const audiorelations_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationfile_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationfiles_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationset_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationsets_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationrelation_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const elicitationrelations_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 module.exports = {
@@ -266,6 +284,12 @@ module.exports = {
   audiofiles_R,
   audioset_R,
   audiosets_R,
-  elicitation_R,
-  elicitations_R,
+  audiorelation_R,
+  audiorelations_R,
+  elicitationfile_R,
+  elicitationfiles_R,
+  elicitationset_R,
+  elicitationsets_R,
+  elicitationrelation_R,
+  elicitationrelations_R
 };
