@@ -32,14 +32,12 @@ class AddRoot extends Component {
 					//refetchQueries: [{ query:getRootsQuery }]
 				});
 			setSubmitting(false)
-			this.props.history.push('/roots');
+      this.props.history.push('/roots');
 		} catch (result) {
-			console.log(result)
-			console.log(result.json())
-			//console.log(result.graphQLErrors[0].message);
+      console.log(result.graphQLErrors[0].message);
       setSubmitting(false)
-      //this.setState({ error: result.graphQLErrors[0].message });
-		}
+      this.setState({ error: result.graphQLErrors[0].message });
+    }
 	};
 
 	render() {

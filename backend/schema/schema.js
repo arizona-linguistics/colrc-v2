@@ -205,7 +205,6 @@ const typeDefs = `
   type Consonant {
     id: ID!
     orthography: String
-    type: String
     voice: String
     manner: String
     secondary: String
@@ -277,7 +276,6 @@ const typeDefs = `
     id: ID!
     audiofileId: String!
     audiosetId: String!
-    user: User!
   }
   type Elicitationfile {
     id: ID!
@@ -291,14 +289,13 @@ const typeDefs = `
     id: ID!
     title: String!
     active: String!
-    prevID: Int
+    prevId: Int
     user: User!
   } 
   type Elicitationrelation {
     id: ID!
     elicitationfileId: String!
     elicitationsetId: String!
-    user: User!
   }
   type Query {
     authenticateUser_Q: [User]
@@ -393,18 +390,12 @@ const resolvers = {
   Audioset: {
     user: audioset => { return User.findOne({ where: {id: audioset.userId} }) },
     text: audioset => { return Text.findOne({ where: {id: audioset.textId} }) },
-  },
-  Audiorelation: {
-    user: audiorelation => { return User.findOne({ where: {id: audiorelation.userId} }) },
   }, 
   Elicitationfile: {
     user: elicitationfile => { return User.findOne({ where: {id: elicitationfile.userId} }) },
   }, 
   Elicitationset: {
     user: elicitationset => { return User.findOne({ where: {id: elicitationset.userId} }) },
-  }, 
-   Elicitationrelation: {
-    user: elicitationrelation => { return User.findOne({ where: {id: elicitationrelation.userId} }) },
   }, 
   Query: {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
@@ -434,10 +425,12 @@ const resolvers = {
     audiosets_Q: (_, args, context) => audiosets_R(args, audiosets_C),            
     audiofile_Q: (_, args, context) => audiofile_R(args, audiofile_C),     
     audiofiles_Q: (_, args, context) => audiofiles_R(args, audiofiles_C),
-    audiorelation_Q: (_, args, context) => audiorelation_Q(args, audiorelation_C),
-    audiorelations_Q: (_, args, context) => audiorelations_Q(args, audiorelations_C),
+    audiorelation_Q: (_, args, context) => audiorelation_R(args, audiorelation_C),
+    audiorelations_Q: (_, args, context) => audiorelations_R(args, audiorelations_C),
     elicitationfile_Q: (_, args, context) => elicitationfile_R(args, elicitationfile_C),
-    elicitationfiles_Q: (_, args, context) => elicitationfiles_R(args, elicitationfiles_C),     
+    elicitationfiles_Q: (_, args, context) => elicitationfiles_R(args, elicitationfiles_C),
+    elicitationset_Q: (_, args, context) => elicitationset_R(args, elicitationset_C),
+    elicitationsets_Q: (_, args, context) => elicitationsets_R(args, elicitationsets_C),
     elicitationrelation_Q: (_, args, context) => elicitationrelation_R(args, elicitationrelation_C),
     elicitationrelations_Q: (_, args, context) => elicitationrelations_R(args, elicitationrelations_C)      
   },
