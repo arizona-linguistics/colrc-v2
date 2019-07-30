@@ -6,7 +6,6 @@ import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { graphql, compose } from 'react-apollo';
 import { addBibliographyMutation, getBibliographiesQuery } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
-import Bibliography from './Bibliography';
 
 class AddBib extends Component {
 	constructor(props) {
@@ -164,9 +163,11 @@ class AddBib extends Component {
                 {errors.page && touched.page && (
                 <div className="input-feedback">{errors.page}</div>
                 )}
-                <Button color="black" size='large' type="submit" disabled={isSubmitting}>
+                <Segment className="confirmButton">
+                  <Button color="black" size='large' type="submit" disabled={isSubmitting}>
                     Submit
-                </Button>
+                  </Button>
+                </Segment>
     					</Form>
             )}
           </Formik>

@@ -167,16 +167,18 @@ class AddRoot extends Component {
                 {errors.editnote && touched.editnote && (
                 <div className="input-feedback">{errors.editnote}</div>
                 )}
-                <Button color="black" size='large' type="submit" disabled={isSubmitting}>
+                <Segment className="confirmButton">
+                  <Button color="black" size='large' type="submit" disabled={isSubmitting}>
                     Submit
-                </Button>
+                  </Button>
+                </Segment>
     					</Form>
             )}
           </Formik>
         </Segment>
         <Segment>
 				<h3>Virtual Keyboard</h3>
-				<SimpleKeyboard / >
+				<SimpleKeyboard />
 				</Segment>
         </Grid.Column>
 			</Grid>
