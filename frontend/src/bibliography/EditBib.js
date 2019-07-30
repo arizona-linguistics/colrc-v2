@@ -209,9 +209,11 @@ class EditBib extends Component {
 								{errors.linktext && touched.linktext && (
 								<div className="input-feedback">{errors.linktext}</div>
 								)}
-								<Button color="black" size='large' type="submit" disabled={isSubmitting}>
-									Submit
+								<Segment className="confirmButton">
+									<Button color="black" size='large' type="submit" disabled={isSubmitting}>
+										Submit
 								</Button>
+								</Segment>
 							</Form>
 						)}				
 					/>
