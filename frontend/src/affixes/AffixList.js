@@ -4,7 +4,7 @@ import matchSorter from 'match-sorter';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Icon } from 'semantic-ui-react';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { getAffixesQuery, deleteAffixMutation } from '../queries/queries';
 
 class AffixList extends Component {
@@ -75,7 +75,7 @@ class AffixList extends Component {
   async onDelete(id) {
     console.log("In deletion");
     try {
-      this.props.deleteAffixMutation({
+      await this.props.deleteAffixMutation({
         variables: {
           id: id
         },
@@ -85,7 +85,7 @@ class AffixList extends Component {
       //then send the user back to the affixlist display
       this.props.history.push('/affixes');
     } catch (err) {
-      console.log(err);
+      console.log(err.graphQLErrors[0].message);
       this.props.history.push('/affixes');
     }
   };
@@ -342,4 +342,4 @@ class AffixList extends Component {
 export default compose(
 	graphql(getAffixesQuery, { name: 'getAffixesQuery' }),
 	graphql(deleteAffixMutation, { name: 'deleteAffixMutation' })
-)(withRouter(withApollo(AffixList)));
+)(withRouter(AffixList));

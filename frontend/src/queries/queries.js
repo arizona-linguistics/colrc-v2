@@ -133,6 +133,52 @@ const getBibliographyQuery = gql`
   }
 `;
 
+const getSpellingsQuery = gql`
+  {
+    spellings_Q {
+      id
+      reichard
+      nicodemus
+      salish
+      english
+      note
+    }
+  }
+`;
+
+const getConsonantsQuery = gql`
+  {
+    consonants_Q {
+      id
+      orthography
+      voice
+      manner
+      secondary
+      labial
+      alveolar
+      alveopalatal
+      lateral
+      palatal
+      velar
+      uvular
+      glottal
+      pharyngeal
+    }
+  }
+`;
+
+const getVowelsQuery = gql`
+  {
+    vowels_Q {
+      id
+      orthography
+      height
+      front
+      central
+      back
+    }
+  }
+`;
 const addStemMutation = gql`
   mutation($category: String, $reichard: String, $doak: String, $salish: String, $nicodemus: String!, $english: String!, $note: String, $editnote: String) {
   	addStem_M(category: $category, reichard: $reichard, doak: $doak, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note, editnote: $editnote) {
@@ -444,4 +490,225 @@ const getRootQuery = gql`
   }
 `;
 
-export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation };
+const getTextQuery = gql`
+  query($id: ID) {
+    text_Q(id: $id) {
+      id 
+      title
+      speaker
+      cycle 
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+const getTextsQuery = gql`
+  {
+    texts_Q {
+      id 
+      title
+      speaker
+      cycle 
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+const getTextFileQuery = gql`
+  query($id: ID) {
+    textfile_Q(id: $id) {
+      id 
+      subdir
+      src
+      resType
+      msType
+      fileType
+      text {
+        title
+        speaker
+        cycle
+      } 
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+const getTextFilesQuery = gql`
+  {
+    textfiles_Q {
+      id 
+      subdir
+      src
+      resType
+      msType
+      fileType
+      text {
+        title
+        speaker
+        cycle
+      } 
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+const getTextImageQuery = gql`
+  query($id: ID) {
+    textImage_Q(id: $id) {
+      id 
+      textfile {
+        subdir
+        src
+        resType
+        msType
+        fileType
+      }
+      subdir
+      src
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+const getTextImagesQuery = gql`
+  {
+    textImages_Q {
+      id 
+      textfile {
+        subdir
+        src
+        resType
+        msType
+        fileType
+      }
+      subdir
+      src
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+const getAudioSetQuery = gql`
+  query($id: ID) {
+    audioset_Q(id: $id) {
+      id 
+      title
+      speaker
+      text {
+        title
+        speaker
+        cycle
+      }
+      active
+      user {
+        username
+      }
+    }
+  }
+`;
+const getAudioSetsQuery = gql`
+  {
+    audiosets_Q {
+      id 
+      title
+      speaker
+      text {
+        title
+        speaker
+        cycle
+      }
+      active
+      user {
+        username
+      }
+    }
+  }
+`;
+const getAudioFileQuery = gql`
+  query($id: ID) {
+    audiofile_Q(id: $id) {
+      id 
+      src
+      type
+      direct
+      text {
+        title
+        speaker
+        cycle
+      }
+      elicitation {
+        title
+      }
+      active
+      user {
+        username
+      }
+    }
+  }
+`;
+const getAudioFilesQuery = gql`
+ {
+    audiofiles_Q {
+      id 
+      src
+      type
+      direct
+      text {
+        title
+        speaker
+        cycle
+      }
+      elicitation {
+        title
+      }
+      active
+      user {
+        username
+      }
+    }
+  }
+`;
+const getElicitationQuery = gql`
+  query($id: ID) {
+    elicitation_Q(id: $id) {
+      id 
+      title
+      active
+      user {
+        username
+      }
+    }
+  }
+`;
+const getElicitationsQuery = gql`
+ {
+    elicitations_Q {
+      id 
+      title
+      active
+      user {
+        username
+      }
+    }
+  }
+`;
+export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery };
+

@@ -32,14 +32,12 @@ class AddRoot extends Component {
 					//refetchQueries: [{ query:getRootsQuery }]
 				});
 			setSubmitting(false)
-			this.props.history.push('/roots');
+      this.props.history.push('/roots');
 		} catch (result) {
-			console.log(result)
-			console.log(result.json())
-			//console.log(result.graphQLErrors[0].message);
+      console.log(result.graphQLErrors[0].message);
       setSubmitting(false)
-      //this.setState({ error: result.graphQLErrors[0].message });
-		}
+      this.setState({ error: result.graphQLErrors[0].message });
+    }
 	};
 
 	render() {
@@ -167,16 +165,18 @@ class AddRoot extends Component {
                 {errors.editnote && touched.editnote && (
                 <div className="input-feedback">{errors.editnote}</div>
                 )}
-                <Button color="black" size='large' type="submit" disabled={isSubmitting}>
+                <Segment className="confirmButton">
+                  <Button color="black" size='large' type="submit" disabled={isSubmitting}>
                     Submit
-                </Button>
+                  </Button>
+                </Segment>
     					</Form>
             )}
           </Formik>
         </Segment>
         <Segment>
 				<h3>Virtual Keyboard</h3>
-				<SimpleKeyboard / >
+				<SimpleKeyboard />
 				</Segment>
         </Grid.Column>
 			</Grid>
