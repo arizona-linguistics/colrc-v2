@@ -88,6 +88,48 @@ const stemTestCase = {
     expected: { data: { stem_Q: { doak: "ʔayx̣ʷ" } } }
 }
 
+const textTestCase = {
+    id: 'text_Q(id: "3") { speaker } returns the third stem',
+    query: `
+      query($id: ID!) {
+        text_Q(id: $id) {
+            speaker
+        }
+      }
+    `,
+    variables: { id: "3"},
+    context: {},
+    expected: { data: { text_Q: { speaker: "Tom Miyal" } } }
+}
+
+const textFileTestCase = {
+    id: 'textfile_Q(id: "1") { msType } returns the first textfile',
+    query: `
+      query($id: ID!) {
+        textfile_Q(id: $id) {
+            msType
+        }
+      }
+    `,
+    variables: { id: "1"},
+    context: {},
+    expected: { data: { textfile_Q: { msType: "Handwritten" } } }
+}
+
+const textImageTestCase = {
+    id: 'textimage_Q(id: "1") { src } returns the first textfile',
+    query: `
+      query($id: ID!) {
+        textimage_Q(id: $id) {
+            src
+        }
+      }
+    `,
+    variables: { id: "1"},
+    context: {},
+    expected: { data: { textimage_Q: { src: "CallingOnesKind__Tom_Typed1.png" } } }
+}
+
 const userExistsTestCase = {
     id: 'checkUserExists_Q(email: "colrc@gmail.com") { username } returns the username of colrc@gmail.com',
     query: `
@@ -116,9 +158,9 @@ const usersTestCase = {
   context: { headers: { token: "" }},
   expected: { data: { users_Q: [
       { username: "original" },
-      //{ username: "amyfou" },
-      //{ username: "amytest" },
-      //{ username: "avf" }
+      { username: "amyfou" },
+      { username: "amytest" },
+      { username: "avf" }
       ]
     } }
 }
@@ -133,7 +175,7 @@ describe('Test Cases', () => {
       await sequelize.close()
     })
 
-    const cases = [affixTestCase, usersTestCase, rootTestCase, stemTestCase, userExistsTestCase]
+    const cases = [affixTestCase, usersTestCase, rootTestCase, stemTestCase, userExistsTestCase, textTestCase, textFileTestCase, textImageTestCase]
     //const schema = makeExecutableSchema({ typeDefs: typeDefs, resolvers: { Query: { affix_Q: (_, args, context) => affix_R(args, affix_C), } })
 
     cases.forEach(obj => {

@@ -13,7 +13,10 @@ const { // define mysql connectors
   Textimage,
   Audioset,
   Audiofile,
-  Elicitation,
+  Audiorelation,
+  Elicitationfile,
+  Elicitationset,
+  Elicitationrelation,
   sequelize,
   affix_C,
   affixes_C,
@@ -56,8 +59,14 @@ const { // define mysql connectors
   audiofile_C,
   audiosets_C,
   audioset_C,
-  elicitations_C,
-  elicitation_C,
+  audiorelation_C,
+  audiorelations_C,
+  elicitationfiles_C,
+  elicitationfile_C,
+  elicitationset_C,
+  elicitationsets_C,
+  elicitationrelation_C,
+  elicitationrelations_C,
 } = require('../connectors/mysqlDB');
 const { // define resolvers
   authenticateUser_R,
@@ -99,8 +108,14 @@ const { // define resolvers
   audiofiles_R,
   audioset_R,
   audiosets_R,
-  elicitation_R,
-  elicitations_R,
+  audiorelation_R,
+  audiorelations_R,
+  elicitationfile_R,
+  elicitationfiles_R,
+  elicitationset_R,
+  elicitationsets_R,
+  elicitationrelation_R,
+  elicitationrelations_R
 } = require('.././resolvers/mysqlDBResolver');
 
 // passwrd field on type User shouldn't expose passwords
@@ -247,8 +262,6 @@ const typeDefs = `
     src: String!
     type: String!
     direct: String!
-    elicitation: Elicitation
-    audioset: Audioset
     active: String!
     user: User!  
   } 
@@ -259,15 +272,34 @@ const typeDefs = `
     text: Text
     active: String!
     user: User!  
-  } 
-  type Elicitation {
+  }
+  type Audiorelation {
+    id: ID!
+    audiofileId: String!
+    audiosetId: String!
+    user: User!
+  }
+  type Elicitationfile {
+    id: ID!
+    src: String!
+    type: String!
+    direct: String!
+    active: String!
+    user: User!  
+  }  
+  type Elicitationset {
     id: ID!
     title: String!
     active: String!
     prevID: Int
     user: User!
   } 
-
+  type Elicitationrelation {
+    id: ID!
+    elicitationfileId: String!
+    elicitationsetId: String!
+    user: User!
+  }
   type Query {
     authenticateUser_Q: [User]
     checkUserExists_Q(email:String!): [UserExists]
@@ -295,8 +327,14 @@ const typeDefs = `
     audioset_Q(id:ID!): Audioset
     audiofiles_Q: [Audiofile]
     audiofile_Q(id:ID!): Audiofile
-    elicitation_Q(id:ID!): Elicitation
-    elicitations_Q: [Elicitation]
+    audiorelations_Q: [Audiorelation]
+    audiorelation_Q(id:ID!): Audiorelation   
+    elicitationfile_Q(id:ID!): Elicitationfile
+    elicitationfiles_Q: [Elicitationfile]
+    elicitationset_Q(id:ID!): Elicitationset
+    elicitationsets_Q: [Elicitationset]
+    elicitationrelation_Q(id:ID!): Elicitationrelation
+    elicitationrelations_Q: [Elicitationrelation]
   }
   type Mutation {
     addUser_M(first:String!, last:String!, username:String!,email:String!,password:String!): User
@@ -349,19 +387,25 @@ const resolvers = {
     user: textimage => { return User.findOne({ where: {id: textimage.userId} }) },
     textfile: textimage => { return Textfile.findOne({ where: {id: textimage.textfileId} }) },  
   },
-  Audioset: {
-    user: audioset => { return User.findOne({ where: {id: audioset.userId} }) },
-    text: audioset => { return Text.findOne({ where: {id: audioset.textId} }) }
-  },
-  Elicitation: {
-    user: elicitation => { return User.findOne({ where: {id: elicitation.userId} }) },
-  }, 
   Audiofile: {
     user: audiofile => { return User.findOne({ where: {id: audiofile.userId} }) },
-    audioset: audiofile => { return Audioset.findOne({ where: {id: audiofile.audiosetId} }) },
-    elicitation: audiofile => { return Elicitation.findOne({ where: {id: audiofile.elicitationId} }) }
+  }, 
+  Audioset: {
+    user: audioset => { return User.findOne({ where: {id: audioset.userId} }) },
+    text: audioset => { return Text.findOne({ where: {id: audioset.textId} }) },
   },
- 
+  Audiorelation: {
+    user: audiorelation => { return User.findOne({ where: {id: audiorelation.userId} }) },
+  }, 
+  Elicitationfile: {
+    user: elicitationfile => { return User.findOne({ where: {id: elicitationfile.userId} }) },
+  }, 
+  Elicitationset: {
+    user: elicitationset => { return User.findOne({ where: {id: elicitationset.userId} }) },
+  }, 
+   Elicitationrelation: {
+    user: elicitationrelation => { return User.findOne({ where: {id: elicitationrelation.userId} }) },
+  }, 
   Query: {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
     //check if user email already exists, for new user id creation
@@ -390,8 +434,12 @@ const resolvers = {
     audiosets_Q: (_, args, context) => audiosets_R(args, audiosets_C),            
     audiofile_Q: (_, args, context) => audiofile_R(args, audiofile_C),     
     audiofiles_Q: (_, args, context) => audiofiles_R(args, audiofiles_C),
-    elicitation_Q: (_, args, context) => elicitation_R(args, elicitation_C),      
-    elicitations_Q: (_, args, context) => elicitations_R(args, elicitations_C)      
+    audiorelation_Q: (_, args, context) => audiorelation_Q(args, audiorelation_C),
+    audiorelations_Q: (_, args, context) => audiorelations_Q(args, audiorelations_C),
+    elicitationfile_Q: (_, args, context) => elicitationfile_R(args, elicitationfile_C),
+    elicitationfiles_Q: (_, args, context) => elicitationfiles_R(args, elicitationfiles_C),     
+    elicitationrelation_Q: (_, args, context) => elicitationrelation_R(args, elicitationrelation_C),
+    elicitationrelations_Q: (_, args, context) => elicitationrelations_R(args, elicitationrelations_C)      
   },
   Mutation: {
     // first time user is created see - connector where a view role is inserted

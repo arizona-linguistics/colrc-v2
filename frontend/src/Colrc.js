@@ -7,7 +7,7 @@ import SpellingPronunciation from './spelling/SpellingPronunciation';
 import Home from './home/Home';
 import Stems from './stems/Stems';
 import Affixes from './affixes/Affixes';
-//import Audio from "./audio/Audio";
+import Audio from "./audio/Audio";
 import ContactUs from './contact/ContactUs';
 import Texts from './texts/Texts';
 import Bibliography from './bibliography/Bibliography';
@@ -141,7 +141,7 @@ class Colrc extends Component {
                 <Route path="/roots" component={Roots} />
                 <Route path="/stems" component={Stems} />
                 <Route path="/affixes" component={Affixes} />
-                {/* <Route path="/audio" component={Audio} />*/}
+                <Route path="/audio" component={Audio} />
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={Texts} />
                 <Route path="/bibliography" component={Bibliography} />
