@@ -128,7 +128,10 @@ const Spelling = sequelize.define('spelling', {
   nicodemus: { type: Sequelize.STRING },
   salish: { type: Sequelize.STRING },
   english: { type: Sequelize.STRING },
-  note: { type: Sequelize.STRING }    
+  note: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  prevId: { type: Sequelize.INTEGER },
+  userId: { type: Sequelize.STRING }    
 },
 {
   charset: 'utf8mb4',
@@ -149,7 +152,6 @@ const Vowel = sequelize.define('vowel', {
 
 const Consonant = sequelize.define('consonant', {
   orthography: { type: Sequelize.STRING },
-  type: { type: Sequelize.STRING },
   voice: { type: Sequelize.STRING },
   manner: { type: Sequelize.STRING },
   secondary: { type: Sequelize.STRING },
