@@ -6,7 +6,7 @@ import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { Link, withRouter } from "react-router-dom";
 import { graphql, compose } from 'react-apollo';
 import { getStemsQuery, deleteStemMutation } from '../queries/queries';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Message } from 'semantic-ui-react';
 
 class StemList extends Component {
 
