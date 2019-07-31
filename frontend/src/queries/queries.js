@@ -627,13 +627,20 @@ const getAudioSetQuery = gql`
 const getAudioSetsQuery = gql`
   {
     audiosets_Q {
-      id 
+      id
       title
       speaker
       text {
         title
         speaker
         cycle
+      }
+      audiofiles {
+        id
+        src
+        type
+        direct
+        active
       }
       active
       user {
@@ -642,6 +649,7 @@ const getAudioSetsQuery = gql`
     }
   }
 `;
+
 const getAudioFileQuery = gql`
   query($id: ID) {
     audiofile_Q(id: $id) {
