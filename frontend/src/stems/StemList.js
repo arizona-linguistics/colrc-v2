@@ -4,9 +4,9 @@ import matchSorter from 'match-sorter';
 import DecoratedTextSpan from '../utilities/DecoratedTextSpan';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { Link, withRouter } from "react-router-dom";
-import { graphql, compose } from 'react-apollo';
-import { getStemsQuery, deleteStemMutation } from '../queries/queries';
-import { Button, Icon, Message } from 'semantic-ui-react';
+import { withApollo, graphql, compose } from 'react-apollo';
+import { getStemsQuery, deleteStemMutation, getUserFromToken } from '../queries/queries';
+import { Button, Icon } from 'semantic-ui-react';
 
 class StemList extends Component {
 
@@ -19,6 +19,16 @@ class StemList extends Component {
       //set up an empty array and a loading state for react-table
 			data: [],
 			loading: true,
+      //assume the user is not logged in as admin, prepare to get user info from token
+      admin: false,
+      fields: {
+        first: '',
+        last: '',
+        email: '',
+        username: '',
+        password: '',
+        roles: []
+      },
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
 			categorySelected: false,
       reichardSelected: false,
@@ -34,6 +44,32 @@ class StemList extends Component {
       editnoteSelected: false,
 		};
 	}
+//get user from token, find out users' roles
+  async componentDidMount() {
+      try {
+        let userQuery = await this.props.client.query({
+          query: getUserFromToken,
+        })
+        const user = userQuery.data.getUserFromToken_Q
+        // set the state with user info based on token, and if the user has an 'admin' role, set 
+        // the state variable 'admin' to true.  Else, set it to false. 
+        this.setState({
+          admin: user.roles.includes("admin") ? true : false,
+          fields: {
+            first: user.first,
+            last: user.last,
+            email: user.email,
+            username: user.username,
+            roles: user.roles
+          }
+        }) 
+        console.log(user)
+        console.log(this.state)
+      } catch(error) {
+        console.log(error)
+      }
+    } 
+
 //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   handleCategoryChange(value) {
     this.setState({ categorySelected: !this.state.categorySelected });
@@ -71,6 +107,9 @@ class StemList extends Component {
   handleEditChange(value) {
    this.setState({ editSelected: !this.state.editSelected });
   };
+
+  // if the roles array includes admin, set state to logged in as admin
+
   // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
 	async onDelete(id) {
 	    console.log("In deletion");
@@ -378,6 +417,7 @@ class StemList extends Component {
 }
 
 export default compose(
+  withApollo, 
 	graphql(getStemsQuery, { name: 'getStemsQuery' }),
 	graphql(deleteStemMutation, { name: 'deleteStemMutation' })
 )(withRouter(StemList));
