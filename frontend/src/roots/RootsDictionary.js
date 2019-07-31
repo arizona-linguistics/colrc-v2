@@ -4,8 +4,8 @@ import ReactTable from "react-table";
 import matchSorter from 'match-sorter';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
-import { graphql, compose } from 'react-apollo';
-import { getRootsQuery, deleteRootMutation } from '../queries/queries';
+import { graphql, compose, withApollo } from 'react-apollo';
+import { getRootsQuery, deleteRootMutation, getUserFromToken } from '../queries/queries';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 
 class RootsDictionary extends Component {
@@ -18,7 +18,17 @@ class RootsDictionary extends Component {
     this.state = {
       //set up an empty array and a loading state for react-table
     	data: [],
-    	loading: true,
+      loading: true,
+       //assume the user is not logged in as admin, prepare to get user info from token
+      admin: false,
+      fields: {
+        first: '',
+        last: '',
+        email: '',
+        username: '',
+        password: '',
+        roles: []
+      },
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       rootSelected: true,
     	numberSelected: false,
@@ -32,6 +42,32 @@ class RootsDictionary extends Component {
       prevIdSelected: false,
       editnoteSelected: false,
     };
+  }
+
+  //get user from token, find out users' roles
+  async componentDidMount() {
+    try {
+      let userQuery = await this.props.client.query({
+        query: getUserFromToken,
+      })
+      const user = userQuery.data.getUserFromToken_Q
+      // set the state with user info based on token, and if the user has an 'admin' role, set 
+      // the state variable 'admin' to true.  Else, set it to false. 
+      this.setState({
+        admin: user.roles.includes("admin") ? true : false,
+        fields: {
+          first: user.first,
+          last: user.last,
+          email: user.email,
+          username: user.username,
+          roles: user.roles
+        }
+      }) 
+      console.log(user)
+      console.log(this.state)
+    } catch(error) {
+      console.log(error)
+    }
   }
 
 //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
@@ -249,6 +285,8 @@ class RootsDictionary extends Component {
         checked={this.state.englishSelected}
         onChange={this.handleEnglishChange.bind(this)}
       />
+      
+{/* Here begin the admin-only checkboxes         */}
       <label className="checkBoxLabel">Active</label>
       <input
         name="active"
@@ -326,4 +364,4 @@ class RootsDictionary extends Component {
 export default compose(
 	graphql(getRootsQuery, { name: 'getRootsQuery' }),
   graphql(deleteRootMutation, { name: 'deleteRootMutation' })
-)(withRouter(RootsDictionary));
+)(withRouter(withApollo(RootsDictionary)));

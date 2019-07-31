@@ -110,7 +110,7 @@ class StemList extends Component {
 
   // if the roles array includes admin, set state to logged in as admin
 
-  // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
+  // allow an admin or owner to delete stems.  Deletion sets the 'active' flag to 'N' on the stem, it does not really delete anything
 	async onDelete(id) {
 	    console.log("In deletion");
 	    try {
@@ -346,6 +346,14 @@ class StemList extends Component {
           checked={this.state.noteSelected}
           onChange={this.handleNoteChange.bind(this)}
         />
+
+{/* Here begin the admin-only checkboxes   
+
+  
+        {this.state.fields.roles}
+
+*/}
+
         <label className="checkBoxLabel">Active</label>
         <input
           name="active"
@@ -397,6 +405,7 @@ class StemList extends Component {
 			/>;
 		return ( 
       <div className = 'ui content'>
+        <h3>Stem List</h3>
 			 <div className="text-right">
 				<Link to={{pathname: '/addstem/'}} >
 					<Button icon labelPosition='left' size='small'>
