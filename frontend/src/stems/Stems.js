@@ -3,7 +3,6 @@ import { Menu } from 'semantic-ui-react';
 import StemsAccordion from '../accordions/StemsAccordion';
 import StemList from "./StemList";
 import StemsMetadata from "./StemsMetadata";
-import GetUser from "../utilities/GetUser";
 
 class Stems extends Component {
 	constructor(props) {
@@ -42,8 +41,6 @@ let currentItem;
 					    Metadata
 		      </Menu.Item>
 	      </Menu>
-        <GetUser />
-	      <p></p>
 	      <StemsAccordion />
 	      	<p></p>
         	{currentItem}
