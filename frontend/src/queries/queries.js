@@ -637,6 +637,7 @@ const getAudioSetsQuery = gql`
       }
       audiofiles {
         id
+        subdir
         src
         type
         direct
