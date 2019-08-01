@@ -100,3 +100,7 @@
 .ui.input {
   padding: 5px;
 }
+
+.confirmButton {
+  border-style: hidden !important;
+}

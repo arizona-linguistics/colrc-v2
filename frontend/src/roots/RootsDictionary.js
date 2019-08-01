@@ -70,7 +70,7 @@ class RootsDictionary extends Component {
   async onDelete(id) {
     console.log("In deletion");
     try {
-      this.props.deleteRootMutation({
+      await this.props.deleteRootMutation({
         variables: {
           id: id
         },
@@ -314,7 +314,7 @@ class RootsDictionary extends Component {
 	        </Link>
         </div>
     		<p></p>
-    		<SimpleKeyboard / >
+    		<SimpleKeyboard />
     		<p></p>
     		<CheckboxRoot />
         {dataOrError}

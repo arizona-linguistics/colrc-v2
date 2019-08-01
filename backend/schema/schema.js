@@ -200,7 +200,10 @@ const typeDefs = `
     nicodemus: String
     salish: String
     english: String
-    note: String    
+    note: String  
+    active: String!
+    prevId: Int
+    user: User!  
   }
   type Consonant {
     id: ID!
@@ -258,6 +261,7 @@ const typeDefs = `
   }
   type Audiofile {
     id: ID!
+    subdir: String!
     src: String!
     type: String!
     direct: String!
@@ -269,6 +273,7 @@ const typeDefs = `
     title: String!
     speaker: String
     text: Text
+    audiofiles: [Audiofile]
     active: String!
     user: User!  
   }
@@ -390,6 +395,7 @@ const resolvers = {
   Audioset: {
     user: audioset => { return User.findOne({ where: {id: audioset.userId} }) },
     text: audioset => { return Text.findOne({ where: {id: audioset.textId} }) },
+    audiofiles: audioset => { return audioset.getAudiofiles() },
   }, 
   Elicitationfile: {
     user: elicitationfile => { return User.findOne({ where: {id: elicitationfile.userId} }) },
