@@ -318,6 +318,7 @@ class AffixList extends Component {
 
 	  return (
       <div className='ui content'>
+        <h3>Affix List</h3>
 	  	  <div className="text-right">
     			<Link to={{
     				pathname: '/addaffix/'

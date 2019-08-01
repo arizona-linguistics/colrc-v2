@@ -46,29 +46,45 @@ class StemList extends Component {
 	}
 //get user from token, find out users' roles
   async componentDidMount() {
-      try {
-        let userQuery = await this.props.client.query({
-          query: getUserFromToken,
-        })
-        const user = userQuery.data.getUserFromToken_Q
-        // set the state with user info based on token, and if the user has an 'admin' role, set 
-        // the state variable 'admin' to true.  Else, set it to false. 
-        this.setState({
-          admin: user.roles.includes("admin") ? true : false,
-          fields: {
-            first: user.first,
-            last: user.last,
-            email: user.email,
-            username: user.username,
-            roles: user.roles
-          }
-        }) 
-        console.log(user)
-        console.log(this.state)
-      } catch(error) {
-        console.log(error)
-      }
-    } 
+    try {
+      const token = localStorage.getItem('TOKEN')
+        if (token) {
+          let userQuery = await this.props.client.query({
+            query: getUserFromToken,
+          })
+          const user = userQuery.data.getUserFromToken_Q
+          // set the state with user info based on token, and if the user has an 'admin' role, set 
+          // the state variable 'admin' to true.  Else, set it to false. 
+          await this.setState({
+            admin: user.roles.includes("admin"),
+            fields: {
+              first: user.first,
+              last: user.last,
+              email: user.email,
+              username: user.username,
+              roles: user.roles
+            }
+          }) 
+          console.log("Firstly, my user is " + user)
+          console.log(this.state.admin)
+        } else {
+          await this.setState({
+            admin: false,
+            fields: {
+              first: "anonymous",
+              last: "anonymous",
+              email: "anonymous",
+              username: "anonymous",
+              roles: ["view"]
+            }
+          })
+          console.log(this.state)
+          console.log("and here's the role " + this.state.fields.roles)
+        }
+    } catch(error) {
+      console.log(error)
+    }
+  } 
 
 //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   handleCategoryChange(value) {
@@ -110,7 +126,7 @@ class StemList extends Component {
 
   // if the roles array includes admin, set state to logged in as admin
 
-  // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
+  // allow an admin or owner to delete stems.  Deletion sets the 'active' flag to 'N' on the stem, it does not really delete anything
 	async onDelete(id) {
 	    console.log("In deletion");
 	    try {
@@ -133,6 +149,7 @@ class StemList extends Component {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
 		const { categorySelected, reichardSelected, doakSelected, salishSelected, nicodemusSelected, englishSelected,noteSelected, usernameSelected, editSelected, activeSelected, prevIdSelected, editnoteSelected } = this.state;
 
+    const { admin } = this.state
     //provide a function to set column widths dynamically based on the data returned.   
 		const getColumnWidth = (rows, accessor, headerText) => {
 			const maxWidth = 600
@@ -346,41 +363,54 @@ class StemList extends Component {
           checked={this.state.noteSelected}
           onChange={this.handleNoteChange.bind(this)}
         />
-        <label className="checkBoxLabel">Active</label>
-        <input
-          name="active"
-          type="checkbox"
-          checked={this.state.activeSelected}
-          onChange={this.handleActiveChange.bind(this)}
-        />
-        <label className="checkBoxLabel">PrevId</label>
-        <input
-          name="prevId"
-          type="checkbox"
-          checked={this.state.prevIdSelected}
-          onChange={this.handlePrevIdChange.bind(this)}
-        />
-        <label className="checkBoxLabel">Edit Note</label>
-        <input
-          name="editnote"
-          type="checkbox"
-          checked={this.state.editnoteSelected}
-          onChange={this.handleEditnoteChange.bind(this)}
-        />
-        <label className="checkBoxLabel">User Name</label>
-        <input
-          name="user.username"
-          type="checkbox"
-          checked={this.state.usernameSelected}
-          onChange={this.handleUserChange.bind(this)}
-        />
-        <label className="checkBoxLabel">Edit/Delete</label>
-        <input
-          name="edit"
-          type="checkbox"
-          checked={this.state.editSelected}
-          onChange={this.handleEditChange.bind(this)}
-        />
+
+{/* Here begin the admin-only checkboxes   
+  
+        if this.state.fields.roles=admin,
+        show the following checkboxes
+        else
+        hide the following checkboxes
+        {admin && (
+*/}
+        {this.state.admin && (
+          <div>
+          <label className="checkBoxLabel">Active</label>
+          <input
+            name="active"
+            type="checkbox"
+            checked={this.state.activeSelected}
+            onChange={this.handleActiveChange.bind(this)}
+          />
+          <label className="checkBoxLabel">PrevId</label>
+          <input
+            name="prevId"
+            type="checkbox"
+            checked={this.state.prevIdSelected}
+            onChange={this.handlePrevIdChange.bind(this)}
+          />
+          <label className="checkBoxLabel">Edit Note</label>
+          <input
+            name="editnote"
+            type="checkbox"
+            checked={this.state.editnoteSelected}
+            onChange={this.handleEditnoteChange.bind(this)}
+          />
+          <label className="checkBoxLabel">User Name</label>
+          <input
+            name="user.username"
+            type="checkbox"
+            checked={this.state.usernameSelected}
+            onChange={this.handleUserChange.bind(this)}
+          />
+          <label className="checkBoxLabel">Edit/Delete</label>
+          <input
+            name="edit"
+            type="checkbox"
+            checked={this.state.editSelected}
+            onChange={this.handleEditChange.bind(this)}
+          />
+          </div>
+        )}
       </div>
     );
 
@@ -397,14 +427,19 @@ class StemList extends Component {
 			/>;
 		return ( 
       <div className = 'ui content'>
+        <h3>Stem List</h3>
 			 <div className="text-right">
+        { this.state.admin && (
+        <div>
 				<Link to={{pathname: '/addstem/'}} >
 					<Button icon labelPosition='left' size='small'>
 						<Icon name='plus' />
 						Add a stem
 					</Button>
 				</Link>
-			 </div>
+        </div>
+        )}
+       </div>
 			<p> </p>
 			<SimpleKeyboard />
 			<p>Stem categories used by Reichard: 'Other' = 'Adverbs, Interjections, Conjunctions'</p>
