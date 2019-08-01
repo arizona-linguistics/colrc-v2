@@ -141,11 +141,10 @@ class Colrc extends Component {
                 <Route path="/roots" component={Roots} />
                 <Route path="/stems" component={Stems} />
                 <Route path="/affixes" component={Affixes} />
-                <Route path="/audio" component={Audio} />
+                {/* <Route path="/audio" component={Audio} /> */}
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={Texts} />
                 <Route path="/bibliography" component={Bibliography} />
-                {/* <Route path="/rootdictionary/:id" exact component={EditRoot} key="rootdictionary" /> */}
                 <Route path="/editroot" component={EditRoot} />
                 <Route path="/addroot" component={AddRoot} />
                 <Route path="/editbib" component={EditBib}  />
