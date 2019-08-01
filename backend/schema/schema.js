@@ -261,6 +261,7 @@ const typeDefs = `
   }
   type Audiofile {
     id: ID!
+    subdir: String!
     src: String!
     type: String!
     direct: String!

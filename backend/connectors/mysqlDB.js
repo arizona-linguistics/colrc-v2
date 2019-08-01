@@ -218,6 +218,7 @@ Textimage.belongsTo(User, { foreignKey: 'userId' });
 Textimage.belongsTo(Textfile, { foreignKey: 'textfileId' });
 
 const Audiofile = sequelize.define('audiofile', {
+  subdir: { type: Sequelize.STRING },
   src: { type: Sequelize.STRING },
   type: { type: Sequelize.STRING },
   direct: { type: Sequelize.STRING },
