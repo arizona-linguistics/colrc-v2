@@ -252,6 +252,17 @@ const Audiorelation = sequelize.define('audiorelation', {
   collate: 'utf8mb4_unicode_ci'
 });
 
+// Set up relationships that will be used later
+Audioset.belongsToMany( Audiofile, {
+  //as: [SetToFile],
+  through: "audiorelations", //this can be string or a model,
+  foreignKey: 'AudiosetId'
+})
+Audiofile.belongsToMany( Audioset, {
+  //as: [FileToSet],
+  through: "audiorelations",
+  foreignKey: 'AudiofileId'
+})
 // then an elicitations type
 const Elicitationrelation = sequelize.define('elicitationrelation', {
   elicitationsetId: { type: Sequelize.STRING, unique: 'elicitation' },
@@ -947,6 +958,7 @@ const audiosets_C = input => {
     where: { }
   })
 }
+
 const audiorelation_C = input => {
   return Audiorelation.findOne({
     where: { id: input.id }
