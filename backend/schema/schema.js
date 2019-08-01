@@ -200,7 +200,10 @@ const typeDefs = `
     nicodemus: String
     salish: String
     english: String
-    note: String    
+    note: String  
+    active: String!
+    prevId: Int
+    user: User!  
   }
   type Consonant {
     id: ID!
