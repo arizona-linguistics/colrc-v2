@@ -528,6 +528,101 @@ const addStem_C = input => {
   }) //then
 } //addStem_C
 
+const addSpelling_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  }).then(res => {
+    if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+      let spelling = new Spelling ({
+        reichard: input.reichard,
+        nicodemus: input.nicodemus,
+        english: input.english,
+        salish: input.salish,
+        note: input.note,
+        active: 'Y',
+        prevId: null,
+        userId: res.dataValues.id
+      });
+      return spelling.save();
+    } //if
+    else {
+      throw new noRoleError
+    }
+  }) //then
+} //addSpelling_C
+
+const deleteSpelling_C = input => {
+  return User.findOne({
+    where: { id: input.myid }
+  })
+  .then(res => {
+    if (_.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >= 1)
+    {
+      return Spelling.findOne({
+        where: { id: input.id }
+      })
+      .then(spelling => {
+        return spelling.update({ active:'N' },
+        { where: { id: input.id } })
+      })
+      .then(modspelling => {
+        return modspelling.dataValues
+      })
+    } else {
+      throw new noRoleError();
+    }
+  })
+};
+
+const updateSpelling_C = input => {
+  return sequelize.transaction(t => {
+    return User.findOne({
+      where: { id: input.myid },
+      transaction: t
+    })
+    .then(res => {
+      if ( _.intersectionWith(res.dataValues.roles.split(','), input.expectedRoles, _.isEqual).length >=1){
+        return Spelling.findOne(
+          {
+            where: { id: input.id},
+            lock: t.LOCK.UPDATE,
+            transaction: t
+          }
+        )
+        .then( spelling => {
+          // Found a spelling, now 'delete' it
+          spelling.active = 'N'
+          return spelling.save({transaction: t})
+        })
+        .then( () => {
+          // 'deleted' the old spelling, now add the new spelling
+          let newSpelling = new Spelling({
+              reichard: input.reichard,
+              salish: input.salish,
+              nicodemus: input.nicodemus,
+              english: input.english,
+              note: input.note,
+              active: 'Y',
+              prevId: input.id,
+              userId: input.myid
+          })
+          return newSpelling.save({transaction: t})
+        })
+        .then(newspelling=> {
+          //console.log(newspelling.dataValues)
+          return newspelling.dataValues
+        })
+        .catch(err => {
+          return err
+        })
+      } // if
+      else {
+        throw new noRoleError
+      }
+    }) //transaction
+  }) //then
+} //updateSpelling_C
+
 const deleteAffix_C = input => {
   return User.findOne({
     where: { id: input.myid }
@@ -893,6 +988,12 @@ const users_C = input => {
   })
 }
 
+const spelling_C = input => {
+  return Spelling.findOne({
+    where: { id: input.id }
+  })
+}
+
 const spellings_C = input => {
   return Spelling.findAll({
     where: { }
@@ -1029,14 +1130,17 @@ module.exports = {
   addAffix_C,
   addBibliography_C,
   addRoot_C,
+  addSpelling_C,
   addStem_C,
   deleteAffix_C,
   deleteBibliography_C,
   deleteRoot_C,
+  deleteSpelling_C,
   deleteStem_C,
   updateAffix_C,
   updateBibliography_C,
   updateRoot_C,
+  updateSpelling_C,
   updateStem_C,
   affix_C,
   affixes_C,
@@ -1047,6 +1151,7 @@ module.exports = {
   stem_C,
   stems_C,
   users_C,
+  spelling_C,
   spellings_C,
   consonants_C,
   vowels_C,

@@ -302,45 +302,45 @@ class RootsDictionary extends Component {
         onChange={this.handleEnglishChange.bind(this)}
       />  
 {/* Here begin the admin-only checkboxes         */}
-    {this.state.admin && (
-      <div>
-      <label className="checkBoxLabel">Active</label>
-      <input
-        name="active"
-        type="checkbox"
-        checked={this.state.activeSelected}
-        onChange={this.handleActiveChange.bind(this)}
-      />
-      <label className="checkBoxLabel">PrevId</label>
-      <input
-        name="prevId"
-        type="checkbox"
-        checked={this.state.prevIdSelected}
-        onChange={this.handlePrevIdChange.bind(this)}
-      />
-      <label className="checkBoxLabel">Edit Note</label>
-      <input
-        name="editnote"
-        type="checkbox"
-        checked={this.state.editnoteSelected}
-        onChange={this.handleEditnoteChange.bind(this)}
-      />
-      <label className="checkBoxLabel">User Name</label>
-      <input
-        name="user.username"
-        type="checkbox"
-        checked={this.state.usernameSelected}
-        onChange={this.handleUserChange.bind(this)}
-      />
-      <label className="checkBoxLabel">Edit/Delete</label>
-      <input
-        name="edit"
-        type="checkbox"
-        checked={this.state.editSelected}
-        onChange={this.handleEditChange.bind(this)}
-      />
-      </div>
-      )}
+      {this.state.admin && (
+        <div>
+        <label className="checkBoxLabel">Active</label>
+        <input
+          name="active"
+          type="checkbox"
+          checked={this.state.activeSelected}
+          onChange={this.handleActiveChange.bind(this)}
+        />
+        <label className="checkBoxLabel">PrevId</label>
+        <input
+          name="prevId"
+          type="checkbox"
+          checked={this.state.prevIdSelected}
+          onChange={this.handlePrevIdChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Edit Note</label>
+        <input
+          name="editnote"
+          type="checkbox"
+          checked={this.state.editnoteSelected}
+          onChange={this.handleEditnoteChange.bind(this)}
+        />
+        <label className="checkBoxLabel">User Name</label>
+        <input
+          name="user.username"
+          type="checkbox"
+          checked={this.state.usernameSelected}
+          onChange={this.handleUserChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Edit/Delete</label>
+        <input
+          name="edit"
+          type="checkbox"
+          checked={this.state.editSelected}
+          onChange={this.handleEditChange.bind(this)}
+        />
+        </div>
+        )}
 		</div>
 	  );
 
@@ -361,18 +361,18 @@ class RootsDictionary extends Component {
         <h3>Lyon and Green-Wood's Root Dictionary</h3>
         <p></p>
         <div className="text-right">
-        { this.state.admin && (
-        <div>
-	        <Link to={{
-	          pathname: '/addroot/'
-	        }} >
-    	      <Button icon labelPosition='left' size='small'>
-    	       <Icon name='plus' />
-    	         Add a root
-    	      </Button>
-	        </Link>
-          </div>
-        )}
+          { this.state.admin && (
+            <div>
+              <Link to={{
+                pathname: '/addroot/'
+              }} >
+                <Button icon labelPosition='left' size='small'>
+                <Icon name='plus' />
+                  Add a root
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
     		<p></p>
     		<SimpleKeyboard />

@@ -37,15 +37,19 @@ const { // define mysql connectors
   addAffix_C,
   addBibliography_C,
   addRoot_C,
+  addSpelling_C,
   addStem_C,
   deleteAffix_C,
   deleteBibliography_C,
   deleteRoot_C,
+  deleteSpelling_C,
   deleteStem_C,
   updateAffix_C,
   updateBibliography_C,
   updateRoot_C,
   updateStem_C,
+  updateSpelling_C,
+  spelling_C,
   spellings_C,
   consonants_C,
   vowels_C,
@@ -80,6 +84,7 @@ const { // define resolvers
   addAffix_R,
   addBibliography_R,
   addRoot_R,
+  addSpelling_R,
   addStem_R,
   affix_R,
   affixes_R,
@@ -87,6 +92,7 @@ const { // define resolvers
   bibliographies_R,
   deleteAffix_R,
   deleteRoot_R,
+  deleteSpelling_R,
   deleteStem_R,
   root_R,
   roots_R,
@@ -95,6 +101,8 @@ const { // define resolvers
   updateAffix_R,
   updateRoot_R,
   updateStem_R,
+  updateSpelling_R,
+  spelling_R,
   spellings_R,
   consonants_R,
   vowels_R,
@@ -316,6 +324,7 @@ const typeDefs = `
     stem_Q(id:ID!): Stem
     bibliographies_Q: [Bibliography]
     bibliography_Q(id:ID!): Bibliography
+    spelling_Q(id:ID!): Spelling
     spellings_Q: [Spelling]
     consonants_Q: [Consonant]
     vowels_Q: [Vowel]
@@ -351,6 +360,10 @@ const typeDefs = `
     updateRoot_M(id:ID!, root:String!, number:Int, salish:String, nicodemus:String!, english:String!, editnote:String): Root
     deleteRoot_M(id:ID!): Root
 
+    addSpelling_M(reichard:String, nicodemus:String!, salish:String, english:String, note:String ): Spelling
+    updateSpelling_M(id:ID!, reichard:String, nicodemus: String!, salish:String, english:String, note:String): Spelling
+    deleteSpelling_M(id:ID!): Spelling
+
     addStem_M(category:String, reichard:String, doak:String, salish:String, nicodemus:String!, english:String!, note:String, editnote:String): Stem
     updateStem_M(id:ID!, category:String, reichard:String, doak:String, salish:String, nicodemus:String!, english:String!, note:String, editnote:String): Stem
     deleteStem_M(id:ID!): Stem
@@ -367,6 +380,9 @@ const resolvers = {
   },
   Root: {
     user: root => { return User.findOne({ where: {id: root.userId} }) },
+  },
+  Spelling: {
+    user: spelling => { return User.findOne({ where: {id: spelling.userId} }) },
   },
   Stem: {
     user: stem => { return User.findOne({ where: {id: stem.userId} }) },
@@ -418,6 +434,7 @@ const resolvers = {
     roots_Q: (_, args, context) => roots_R(args, roots_C),
     bibliography_Q: (_, args, context) => bibliography_R(args, bibliography_C),
     bibliographies_Q: (_, args, context) => bibliographies_R(args, bibliographies_C),
+    spelling_Q: (_, args, context) => spelling_R(args, spelling_C),
     spellings_Q: (_, args, context) => spellings_R(args, spellings_C),
     consonants_Q: (_, args, context) => consonants_R(args, consonants_C),
     vowels_Q: (_, args, context) => vowels_R(args, vowels_C),
@@ -450,14 +467,17 @@ const resolvers = {
     addAffix_M: (_, args, context) => addAffix_R(context, args, ["admin","owner"], addAffix_C),
     addBibliography_M: (_, args, context) => addBibliography_R(context, args, ["admin","owner"], addBibliography_C),
     addRoot_M: (_, args, context) => addRoot_R(context, args, ["admin","owner"], addRoot_C),
+    addSpelling_M: (_, args, context) => addSpelling_R(context, args, ["admin","owner"], addSpelling_C),
     addStem_M: (_, args, context) => addStem_R(context, args, ["admin","owner"], addStem_C),
     deleteAffix_M: (_, args, context) => deleteAffix_R(context, args, ["admin","owner"], deleteAffix_C),
     deleteBibliography_M: (_, args, context) => deleteBibliography_R(context, args, ["admin","owner"], deleteBibliography_C),
     deleteRoot_M: (_, args, context) => deleteRoot_R(context, args, ["admin","owner"], deleteRoot_C),
+    deleteSpelling_M: (_, args, context) => deleteSpelling_R(context, args, ["admin","owner"], deleteSpelling_C),
     deleteStem_M: (_, args, context) => deleteStem_R(context, args, ["admin","owner"], deleteStem_C),
     updateAffix_M:(_, args, context) => updateAffix_R(context, args, ["admin","owner"], updateAffix_C),
     updateBibliography_M:(_, args, context) => updateBibliography_R(context, args, ["admin","owner"], updateBibliography_C),
     updateRoot_M:(_, args, context) => updateRoot_R(context, args, ["admin","owner"], updateRoot_C),
+    updateSpelling_M:(_, args, context) => updateSpelling_R(context, args, ["admin","owner"], updateSpelling_C),
     updateStem_M:(_, args, context) => updateStem_R(context, args, ["admin","owner"], updateStem_C),
   }
 };

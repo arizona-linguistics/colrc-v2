@@ -4,8 +4,8 @@ import matchSorter from 'match-sorter';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Icon } from 'semantic-ui-react';
-import { graphql, compose } from 'react-apollo';
-import { getAffixesQuery, deleteAffixMutation } from '../queries/queries';
+import { withApollo, graphql, compose } from 'react-apollo';
+import { getAffixesQuery, deleteAffixMutation, getUserFromToken } from '../queries/queries';
 
 class AffixList extends Component {
 	constructor() {
@@ -39,6 +39,49 @@ class AffixList extends Component {
 			link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
 		);
 	}
+
+  //get user from token, find out users' roles
+  async componentDidMount() {
+    try {
+      const token = localStorage.getItem('TOKEN')
+        if (token) {
+          let userQuery = await this.props.client.query({
+            query: getUserFromToken,
+          })
+          const user = userQuery.data.getUserFromToken_Q
+          // set the state with user info based on token, and if the user has an 'admin' role, set 
+          // the state variable 'admin' to true.  Else, set it to false. 
+          await this.setState({
+            // if the roles array includes admin, set state to logged in as admin
+            admin: user.roles.includes("admin"),
+            fields: {
+              first: user.first,
+              last: user.last,
+              email: user.email,
+              username: user.username,
+              roles: user.roles
+            }
+          }) 
+          console.log("My user is " + user)
+          console.log(this.state)
+        } else {
+          await this.setState({
+            admin: false,
+            fields: {
+              first: "anonymous",
+              last: "anonymous",
+              email: "anonymous",
+              username: "anonymous",
+              roles: ["view"]
+            }
+          })
+          console.log(this.state)
+          console.log("and here's the role " + this.state.fields.roles)
+        }
+    } catch(error) {
+      console.log(error)
+    }
+  } 
 
 //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   handleTypeChange(value) {
@@ -93,7 +136,8 @@ class AffixList extends Component {
 	render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
     const { typeSelected, salishSelected, nicodemusSelected, englishSelected, linkSelected, usernameSelected, editSelected, activeSelected, prevIdSelected, editnoteSelected } = this.state;
-   
+    
+    const { admin } = this.state
     //provide a function to set column widths dynamically based on the data returned.       
    	const getColumnWidth = (rows, accessor, headerText) => {
   	  const maxWidth = 600
@@ -266,43 +310,48 @@ class AffixList extends Component {
         checked={this.state.linkSelected}
         onChange={this.handleLinkChange.bind(this)}
       />
-      <label className="checkBoxLabel">Active</label>
-      <input
-        name="active"
-        type="checkbox"
-        checked={this.state.activeSelected}
-        onChange={this.handleActiveChange.bind(this)}
-      />
-      <label className="checkBoxLabel">PrevId</label>
-      <input
-        name="prevId"
-        type="checkbox"
-        checked={this.state.prevIdSelected}
-        onChange={this.handlePrevIdChange.bind(this)}
-      />
-      <label className="checkBoxLabel">Edit Note</label>
-      <input
-        name="editnote"
-        type="checkbox"
-        checked={this.state.editnoteSelected}
-        onChange={this.handleEditnoteChange.bind(this)}
-      />
-      <label className="checkBoxLabel">User Name</label>
-      <input
-        name="user.username"
-        type="checkbox"
-        checked={this.state.usernameSelected}
-        onChange={this.handleUserChange.bind(this)}
-      />
-      <label className="checkBoxLabel">Edit/Delete</label>
-      <input
-        name="edit"
-        type="checkbox"
-        checked={this.state.editSelected}
-        onChange={this.handleEditChange.bind(this)}
-      />
-		</div>
-	  );
+{/* Here begin the admin-only checkboxes   */}
+      {this.state.admin && (
+        <div>
+        <label className="checkBoxLabel">Active</label>
+        <input
+          name="active"
+          type="checkbox"
+          checked={this.state.activeSelected}
+          onChange={this.handleActiveChange.bind(this)}
+        />
+        <label className="checkBoxLabel">PrevId</label>
+        <input
+          name="prevId"
+          type="checkbox"
+          checked={this.state.prevIdSelected}
+          onChange={this.handlePrevIdChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Edit Note</label>
+        <input
+          name="editnote"
+          type="checkbox"
+          checked={this.state.editnoteSelected}
+          onChange={this.handleEditnoteChange.bind(this)}
+        />
+        <label className="checkBoxLabel">User Name</label>
+        <input
+          name="user.username"
+          type="checkbox"
+          checked={this.state.usernameSelected}
+          onChange={this.handleUserChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Edit/Delete</label>
+        <input
+          name="edit"
+          type="checkbox"
+          checked={this.state.editSelected}
+          onChange={this.handleEditChange.bind(this)}
+        />
+        </div>
+      )}
+    </div>
+	);
 
     //now build the table.  If successful, the table will populate, if error the error message will appear.
     const dataOrError = this.state.error ?
@@ -320,14 +369,18 @@ class AffixList extends Component {
       <div className='ui content'>
         <h3>Affix List</h3>
 	  	  <div className="text-right">
-    			<Link to={{
-    				pathname: '/addaffix/'
-    			}} >
-    				<Button icon labelPosition='left' size='small'>
-    					<Icon name='plus' />
-    					Add an affix
-    				</Button>
-    			</Link>
+          { this.state.admin && (
+            <div>
+              <Link to={{
+                pathname: '/addaffix/'
+              }} >
+                <Button icon labelPosition='left' size='small'>
+                  <Icon name='plus' />
+                  Add an affix
+                </Button>
+              </Link>
+          </div>
+          )}
 		    </div>
   		  <p></p>
   		  <SimpleKeyboard />
@@ -343,4 +396,4 @@ class AffixList extends Component {
 export default compose(
 	graphql(getAffixesQuery, { name: 'getAffixesQuery' }),
 	graphql(deleteAffixMutation, { name: 'deleteAffixMutation' })
-)(withRouter(AffixList));
+)(withRouter(withApollo(AffixList)));

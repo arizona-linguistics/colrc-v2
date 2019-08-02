@@ -4,6 +4,8 @@ import MainMenu from './MainMenu';
 import NavBar from './NavBar';
 import Roots from './roots/Roots';
 import SpellingPronunciation from './spelling/SpellingPronunciation';
+import AddSpell from './spelling/AddSpell';
+import EditSpell from './spelling/EditSpell';
 import Home from './home/Home';
 import Stems from './stems/Stems';
 import Affixes from './affixes/Affixes';
@@ -145,6 +147,8 @@ class Colrc extends Component {
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={Texts} />
                 <Route path="/bibliography" component={Bibliography} />
+                <Route path="/addspell" component={AddSpell} />
+                <Route path="/editspell" component={EditSpell} />
                 <Route path="/editroot" component={EditRoot} />
                 <Route path="/addroot" component={AddRoot} />
                 <Route path="/editbib" component={EditBib}  />
