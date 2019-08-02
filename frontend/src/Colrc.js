@@ -73,7 +73,7 @@ const wsLink = setContext((_, { headers }) => {
   }
 })
 
-const loggedIn = () => { 
+const loggedIn = () => {
   const token = localStorage.getItem('TOKEN')
   return token ? true : false
 }
@@ -106,7 +106,7 @@ class Colrc extends Component {
 
   changeLoginState(loginState) {
     this.setState({
-      login: loginState    
+      login: loginState
     })
   }
 
@@ -116,7 +116,7 @@ class Colrc extends Component {
       { to: "/settings", icon: 'cog', content:"Settings", key: 'rsettings'},
       { to: "/more", icon: 'ellipsis vertical', content:"More Options", key: 'rmore'},
     ]
-    if (loggedIn()){ 
+    if (loggedIn()){
       rightItems.unshift({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
     }
     else {
@@ -141,7 +141,7 @@ class Colrc extends Component {
                 <Route path="/roots" component={Roots} />
                 <Route path="/stems" component={Stems} />
                 <Route path="/affixes" component={Affixes} />
-                {/* <Route path="/audio" component={Audio} /> */}
+                <Route path="/audio" component={Audio} />
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={Texts} />
                 <Route path="/bibliography" component={Bibliography} />
@@ -162,7 +162,7 @@ class Colrc extends Component {
                 <Route path="/userprofile" component={UserProfile} />
                 <Route path="/register" component={() => <Register changeLoginState={this.changeLoginState} />} />
                 <Route path="/admin" component={Admin} />
-                <Route path="/updateroles" component={UpdateRoles} />                
+                <Route path="/updateroles" component={UpdateRoles} />
                 <Route path="/Settings" component={Settings}  />
                 <Route path="/more" component={More}  />
                 {/* <Route component={NotFound} /> */}
