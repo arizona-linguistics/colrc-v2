@@ -56,6 +56,7 @@ class StemList extends Component {
           // set the state with user info based on token, and if the user has an 'admin' role, set 
           // the state variable 'admin' to true.  Else, set it to false. 
           await this.setState({
+            // if the roles array includes admin, set state to logged in as admin
             admin: user.roles.includes("admin"),
             fields: {
               first: user.first,
@@ -65,8 +66,8 @@ class StemList extends Component {
               roles: user.roles
             }
           }) 
-          console.log("Firstly, my user is " + user)
-          console.log(this.state.admin)
+          console.log("My user is " + user)
+          console.log(this.state)
         } else {
           await this.setState({
             admin: false,
@@ -123,8 +124,6 @@ class StemList extends Component {
   handleEditChange(value) {
    this.setState({ editSelected: !this.state.editSelected });
   };
-
-  // if the roles array includes admin, set state to logged in as admin
 
   // allow an admin or owner to delete stems.  Deletion sets the 'active' flag to 'N' on the stem, it does not really delete anything
 	async onDelete(id) {
@@ -363,15 +362,7 @@ class StemList extends Component {
           checked={this.state.noteSelected}
           onChange={this.handleNoteChange.bind(this)}
         />
-
-{/* Here begin the admin-only checkboxes   
-  
-        if this.state.fields.roles=admin,
-        show the following checkboxes
-        else
-        hide the following checkboxes
-        {admin && (
-*/}
+{/* Here begin the admin-only checkboxes   */}
         {this.state.admin && (
           <div>
           <label className="checkBoxLabel">Active</label>

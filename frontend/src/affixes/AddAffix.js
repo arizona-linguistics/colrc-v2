@@ -3,7 +3,7 @@ import { Button, Grid, Header, Message, Segment, Input, Label } from 'semantic-u
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { addAffixMutation, getAffixesQuery } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
 
@@ -206,4 +206,4 @@ class AddAffix extends Component {
 
 export default compose(
   graphql(addAffixMutation, { name: "addAffixMutation"})
-  )(withRouter(AddAffix));
+  )(withRouter(withApollo(AddAffix)));
