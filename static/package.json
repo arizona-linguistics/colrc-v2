@@ -1,0 +1,25 @@
+{
+  "name": "colrc-static",
+  "version": "1.0.0",
+  "description": "Static Server for COLRC",
+  "main": "static_server.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "node-static": "^0.7.11",
+    "static-server": "^2.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jivens/colrc-static.git"
+  },
+  "author": "John Ivens",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jivens/colrc-static/issues"
+  },
+  "homepage": "https://github.com/jivens/colrc-static#readme"
+}
