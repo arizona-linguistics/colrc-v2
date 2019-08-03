@@ -88,6 +88,12 @@ const addRoot_R = ( context, input, expectedRoles, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const addSpelling_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
 const addStem_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
@@ -112,6 +118,12 @@ const deleteRoot_R = ( context, input, expectedRoles, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
+const deleteSpelling_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
 const deleteStem_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
@@ -131,6 +143,12 @@ const updateBibliography_R = ( context, input, expectedRoles, connectorQuery) =>
 }
 
 const updateRoot_R = ( context, input, expectedRoles, connectorQuery) => {
+  input["myid"] = checkToken(context).id;
+  input["expectedRoles"] = expectedRoles;
+  return connectorQuery.apply(this,[input]);
+}
+
+const updateSpelling_R = ( context, input, expectedRoles, connectorQuery) => {
   input["myid"] = checkToken(context).id;
   input["expectedRoles"] = expectedRoles;
   return connectorQuery.apply(this,[input]);
@@ -163,6 +181,10 @@ const root_R = ( input, connectorQuery) => {
 }
 
 const roots_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+
+const spelling_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 
@@ -253,10 +275,12 @@ module.exports = {
   addAffix_R,
   addBibliography_R,
   addRoot_R,
+  addSpelling_R,
   addStem_R,
   deleteAffix_R,
   deleteBibliography_R,
   deleteRoot_R,
+  deleteSpelling_R,
   deleteStem_R,
   affix_R,
   affixes_R,
@@ -269,8 +293,10 @@ module.exports = {
   updateAffix_R,
   updateBibliography_R,
   updateRoot_R,
+  updateSpelling_R,
   updateStem_R,
   users_R,
+  spelling_R,
   spellings_R,
   consonants_R,
   vowels_R,

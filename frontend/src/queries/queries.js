@@ -146,6 +146,24 @@ const getSpellingsQuery = gql`
   }
 `;
 
+const deleteSpellingMutation = gql`
+  mutation($id: ID!) {
+    deleteSpelling_M(id: $id) {
+      id
+      reichard
+      salish
+      nicodemus
+      english
+      note
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+
 const getConsonantsQuery = gql`
   {
     consonants_Q {
@@ -233,6 +251,42 @@ const deleteStemMutation = gql`
       english
       note
       editnote
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+
+const addSpellingMutation = gql`
+  mutation($reichard: String, $salish: String, $nicodemus: String!, $english: String!, $note: String) {
+  	addSpelling_M(reichard: $reichard, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note) {
+      id
+      reichard
+      salish
+      nicodemus
+      english
+      note
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+
+const updateSpellingMutation = gql`
+  mutation($id: ID!, $reichard: String, $salish: String, $nicodemus: String!, $english: String!, $note: String) {
+    updateSpelling_M(id: $id, reichard: $reichard, salish: $salish, nicodemus: $nicodemus, english: $english, note: $note) {
+      id
+      reichard
+      salish
+      nicodemus
+      english
+      note
       active
       prevId
       user {
@@ -719,5 +773,5 @@ const getElicitationsQuery = gql`
     }
   }
 `;
-export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery };
+export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, addSpellingMutation, deleteSpellingMutation, updateSpellingMutation, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery };
 

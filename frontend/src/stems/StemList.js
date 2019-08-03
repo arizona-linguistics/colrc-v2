@@ -56,6 +56,7 @@ class StemList extends Component {
           // set the state with user info based on token, and if the user has an 'admin' role, set 
           // the state variable 'admin' to true.  Else, set it to false. 
           await this.setState({
+            // if the roles array includes admin, set state to logged in as admin
             admin: user.roles.includes("admin"),
             fields: {
               first: user.first,
@@ -65,8 +66,8 @@ class StemList extends Component {
               roles: user.roles
             }
           }) 
-          console.log("Firstly, my user is " + user)
-          console.log(this.state.admin)
+          console.log("My user is " + user)
+          console.log(this.state)
         } else {
           await this.setState({
             admin: false,
@@ -123,9 +124,6 @@ class StemList extends Component {
   handleEditChange(value) {
    this.setState({ editSelected: !this.state.editSelected });
   };
-
-  // if the roles array includes admin, set state to logged in as admin
-
   // allow an admin or owner to delete stems.  Deletion sets the 'active' flag to 'N' on the stem, it does not really delete anything
 	async onDelete(id) {
 	    console.log("In deletion");
@@ -312,107 +310,99 @@ class StemList extends Component {
       }];
 
   //setup the checkbox bar that allows users to show/hide columns
-		const CheckboxStem = () => (
-      <div className="checkBoxMenu">
-        <label className="checkBoxLabel">Category</label>
+  const CheckboxStem = () => (
+    <div className="checkBoxMenu">
+      <label className="checkBoxLabel">Category</label>
+      <input
+        name="category"
+        type="checkbox"
+        checked={this.state.categorySelected}
+        onChange={this.handleCategoryChange.bind(this)}
+      />
+      <label className="checkBoxLabel">Reichard</label>
+      <input
+        name="reichard"
+        type="checkbox"
+        checked={this.state.reichardSelected}
+        onChange={this.handleReichardChange.bind(this)}
+      />
+      <label className="checkBoxLabel">Doak</label>
+      <input
+        name="doak"
+        type="checkbox"
+        checked={this.state.doakSelected}
+        onChange={this.handleDoakChange.bind(this)}
+      />
+      <label className="checkBoxLabel">Salish</label>
+      <input
+        name="salish"
+        type="checkbox"
+        checked={this.state.salishSelected}
+        onChange={this.handleSalishChange.bind(this)}
+      />
+      <label className="checkBoxLabel">Nicodemus</label>
+      <input
+        name="nicodemus"
+        type="checkbox"
+        checked={this.state.nicodemusSelected}
+        onChange={this.handleNicodemusChange.bind(this)}
+      />
+      <label className="checkBoxLabel">English</label>
+      <input
+        name="english"
+        type="checkbox"
+        checked={this.state.englishSelected}
+        onChange={this.handleEnglishChange.bind(this)}
+      />
+      <label className="checkBoxLabel">Note</label>
+      <input
+        name="note"
+        type="checkbox"
+        checked={this.state.noteSelected}
+        onChange={this.handleNoteChange.bind(this)}
+      />
+{/* Here begin the admin-only checkboxes   */}
+      {this.state.admin && (
+        <div>
+        <label className="checkBoxLabel">Active</label>
         <input
-          name="category"
+          name="active"
           type="checkbox"
-          checked={this.state.categorySelected}
-          onChange={this.handleCategoryChange.bind(this)}
+          checked={this.state.activeSelected}
+          onChange={this.handleActiveChange.bind(this)}
         />
-        <label className="checkBoxLabel">Reichard</label>
+        <label className="checkBoxLabel">PrevId</label>
         <input
-          name="reichard"
+          name="prevId"
           type="checkbox"
-          checked={this.state.reichardSelected}
-          onChange={this.handleReichardChange.bind(this)}
+          checked={this.state.prevIdSelected}
+          onChange={this.handlePrevIdChange.bind(this)}
         />
-        <label className="checkBoxLabel">Doak</label>
+        <label className="checkBoxLabel">Edit Note</label>
         <input
-          name="doak"
+          name="editnote"
           type="checkbox"
-          checked={this.state.doakSelected}
-          onChange={this.handleDoakChange.bind(this)}
+          checked={this.state.editnoteSelected}
+          onChange={this.handleEditnoteChange.bind(this)}
         />
-        <label className="checkBoxLabel">Salish</label>
+        <label className="checkBoxLabel">User Name</label>
         <input
-          name="salish"
+          name="user.username"
           type="checkbox"
-          checked={this.state.salishSelected}
-          onChange={this.handleSalishChange.bind(this)}
+          checked={this.state.usernameSelected}
+          onChange={this.handleUserChange.bind(this)}
         />
-        <label className="checkBoxLabel">Nicodemus</label>
+        <label className="checkBoxLabel">Edit/Delete</label>
         <input
-          name="nicodemus"
+          name="edit"
           type="checkbox"
-          checked={this.state.nicodemusSelected}
-          onChange={this.handleNicodemusChange.bind(this)}
+          checked={this.state.editSelected}
+          onChange={this.handleEditChange.bind(this)}
         />
-        <label className="checkBoxLabel">English</label>
-        <input
-          name="english"
-          type="checkbox"
-          checked={this.state.englishSelected}
-          onChange={this.handleEnglishChange.bind(this)}
-        />
-        <label className="checkBoxLabel">Note</label>
-        <input
-          name="note"
-          type="checkbox"
-          checked={this.state.noteSelected}
-          onChange={this.handleNoteChange.bind(this)}
-        />
-
-{/* Here begin the admin-only checkboxes   
-  
-        if this.state.fields.roles=admin,
-        show the following checkboxes
-        else
-        hide the following checkboxes
-        {admin && (
-*/}
-        {this.state.admin && (
-          <div>
-          <label className="checkBoxLabel">Active</label>
-          <input
-            name="active"
-            type="checkbox"
-            checked={this.state.activeSelected}
-            onChange={this.handleActiveChange.bind(this)}
-          />
-          <label className="checkBoxLabel">PrevId</label>
-          <input
-            name="prevId"
-            type="checkbox"
-            checked={this.state.prevIdSelected}
-            onChange={this.handlePrevIdChange.bind(this)}
-          />
-          <label className="checkBoxLabel">Edit Note</label>
-          <input
-            name="editnote"
-            type="checkbox"
-            checked={this.state.editnoteSelected}
-            onChange={this.handleEditnoteChange.bind(this)}
-          />
-          <label className="checkBoxLabel">User Name</label>
-          <input
-            name="user.username"
-            type="checkbox"
-            checked={this.state.usernameSelected}
-            onChange={this.handleUserChange.bind(this)}
-          />
-          <label className="checkBoxLabel">Edit/Delete</label>
-          <input
-            name="edit"
-            type="checkbox"
-            checked={this.state.editSelected}
-            onChange={this.handleEditChange.bind(this)}
-          />
-          </div>
-        )}
-      </div>
-    );
+        </div>
+      )}
+    </div>
+  );
 
     //now build the table.  If successful, the table will populate, if error the error message will appear.
 		const dataOrError = this.state.error ?
@@ -428,24 +418,24 @@ class StemList extends Component {
 		return ( 
       <div className = 'ui content'>
         <h3>Stem List</h3>
-			 <div className="text-right">
+			  <div className="text-right">
         { this.state.admin && (
-        <div>
-				<Link to={{pathname: '/addstem/'}} >
-					<Button icon labelPosition='left' size='small'>
-						<Icon name='plus' />
-						Add a stem
-					</Button>
-				</Link>
-        </div>
+          <div>
+            <Link to={{pathname: '/addstem/'}} >
+              <Button icon labelPosition='left' size='small'>
+                <Icon name='plus' />
+                Add a stem
+              </Button>
+            </Link>
+          </div>
         )}
-       </div>
-			<p> </p>
-			<SimpleKeyboard />
-			<p>Stem categories used by Reichard: 'Other' = 'Adverbs, Interjections, Conjunctions'</p>
-			<CheckboxStem />
-			{dataOrError}
-			<p></p>
+        </div>
+			  <p> </p>
+        <SimpleKeyboard />
+        <p>Stem categories used by Reichard: 'Other' = 'Adverbs, Interjections, Conjunctions'</p>
+        <CheckboxStem />
+        {dataOrError}
+        <p></p>
 			</div>
 		);
 	}

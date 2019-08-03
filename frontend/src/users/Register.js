@@ -14,7 +14,7 @@ class Register extends Component {
     //set default appearance to register rather than login
 		this.state = {
       login: false,
-		};
+    };
   }
 
 	onFormSubmit = async (values, setSubmitting) => {
@@ -60,6 +60,7 @@ class Register extends Component {
       this.setState({
         login: true
       })
+      console.log(login)
 		} catch (result) {
       console.log(result)
       setSubmitting(false)
