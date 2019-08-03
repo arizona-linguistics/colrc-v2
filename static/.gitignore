@@ -16,7 +16,7 @@
 #/texts
 
 # public files
-#/public
+/public
 
 # misc
 .DS_Store
