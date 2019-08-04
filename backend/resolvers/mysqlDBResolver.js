@@ -216,10 +216,28 @@ const text_R = ( input, connectorQuery) => {
 const texts_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
+const texttofilerelation_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const texttofilerelations_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const texttoaudiosetrelation_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const texttoaudiosetrelations_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
 const textfile_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 const textfiles_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const filetoimagerelation_R = ( input, connectorQuery) => {
+  return connectorQuery.apply(this,[input]);
+}
+const filetoimagerelations_R = ( input, connectorQuery) => {
   return connectorQuery.apply(this,[input]);
 }
 const textimage_R = ( input, connectorQuery) => {
@@ -302,8 +320,14 @@ module.exports = {
   vowels_R,
   text_R,
   texts_R,
+  texttofilerelation_R,
+  texttofilerelations_R,
+  texttoaudiosetrelation_R,
+  texttoaudiosetrelations_R,
   textfile_R,
   textfiles_R,
+  filetoimagerelation_R,
+  filetoimagerelations_R,
   textimage_R,
   textimages_R,
   audiofile_R,

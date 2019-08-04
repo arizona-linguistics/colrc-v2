@@ -1,4 +1,6 @@
 const { makeExecutableSchema } = require('graphql-tools');
+require('dotenv').config({path:__dirname+'/./../../.env'});
+
 const { // define mysql connectors
   Affix,
   Bibliography,
@@ -9,8 +11,11 @@ const { // define mysql connectors
   Consonant,
   Vowel,
   Text,
+  Texttofilerelation,
+  Texttoaudiosetrelation,
   Textfile,
   Textimage,
+  Filetoimagerelation,
   Audioset,
   Audiofile,
   Audiorelation,
@@ -55,8 +60,14 @@ const { // define mysql connectors
   vowels_C,
   texts_C,
   text_C,
+  texttofilerelation_C,
+  texttofilerelations_C,
+  texttoaudiosetrelation_C,
+  texttoaudiorelations_C,
   textfiles_C,
   textfile_C,
+  filetoimagerelation_C,
+  filetoimagerelations_C,
   textimages_C,
   textimage_C,
   audiofiles_C,
@@ -108,8 +119,14 @@ const { // define resolvers
   vowels_R,
   text_R,
   texts_R,
+  texttofilerelation_R,
+  texttofilerelations_R,
+  texttoaudiosetrelation_R,
+  texttoaudiosetrelations_R,
   textfile_R,
   textfiles_R,
+  filetoimagerelation_R,
+  filetoimagerelations_R,
   textimage_R,
   textimages_R,
   audiofile_R,
@@ -242,9 +259,21 @@ const typeDefs = `
     title: String!
     speaker: String
     cycle: String
+    textfiles: [Textfile]
+    audiosets: [Audioset]
     active: String!
     prevId: Int
     user: User!   
+  }
+  type Texttofilerelation {
+    id: ID!
+    textId: String!
+    textfileId: String!
+  }
+type Texttoaudiosetrelation {
+    id: ID!
+    textId: String!
+    audiosetId: String!
   }
   type Textfile {
     id: ID!
@@ -253,6 +282,7 @@ const typeDefs = `
     resType: String
     msType: String    
     fileType: String
+    textimages: [Textimage]    
     text: Text!
     active: String!
     prevId: Int
@@ -260,12 +290,16 @@ const typeDefs = `
   }
    type Textimage {
     id: ID!
-    textfile: Textfile!
     subdir: String
     src: String
     active: String!
     prevId: Int
     user: User!   
+  }
+  type Filetoimagerelation {
+    id: ID!
+    textfileId: String!
+    textimageId: String!
   }
   type Audiofile {
     id: ID!
@@ -301,6 +335,7 @@ const typeDefs = `
   type Elicitationset {
     id: ID!
     title: String!
+    elicitationfiles: [Elicitationfile]
     active: String!
     prevId: Int
     user: User!
@@ -330,8 +365,14 @@ const typeDefs = `
     vowels_Q: [Vowel]
     texts_Q: [Text]
     text_Q(id:ID!): Text
+    texttofilerelations_Q: [Texttofilerelation]
+    texttofilerelation_Q(id:ID!): Texttofilerelation
+    texttoaudiosetrelations_Q: [Texttoaudiosetrelation]
+    texttoaudiosetrelation_Q(id:ID!): Texttoaudiosetrelation
     textfiles_Q: [Textfile]
     textfile_Q(id:ID!): Textfile
+    filetoimagerelation_Q(id:ID!): Filetoimagerelation
+    filetoimagerelations_Q: [Filetoimagerelation]
     textimages_Q: [Textimage]
     textimage_Q(id:ID!): Textimage
     audiosets_Q: [Audioset]
@@ -395,29 +436,46 @@ const resolvers = {
   },
   Text: {
     user: text => { return User.findOne({ where: {id: text.userId} }) },
+    textfiles: text => { return text.getTextfiles() },
+    audiosets: text => { return text.getAudiosets() },
   },
 
   Textfile: {
     user: textfile => { return User.findOne({ where: {id: textfile.userId} }) },
-    text: textfile => { return Text.findOne({ where: {id: textfile.textId } }) },
+    textimages: textfile => { return textfile.getTextimagefiles() },
   },
   Textimage: {
     user: textimage => { return User.findOne({ where: {id: textimage.userId} }) },
-    textfile: textimage => { return Textfile.findOne({ where: {id: textimage.textfileId} }) },  
   },
+  Audioset: {
+    user: audioset => { return User.findOne({ where: {id: audioset.userId} }) },
+    audiofiles: async audioset => { 
+      let afiles = await audioset.getAudiofiles() 
+      let i = 0
+      while (i < afiles.length) {
+        afiles[i].src = process.env.STATICMEDIAPATH + afiles[i].subdir + "/" + afiles[i].src
+        i++
+      }
+      return afiles      
+    },
+  }, 
   Audiofile: {
     user: audiofile => { return User.findOne({ where: {id: audiofile.userId} }) },
   }, 
-  Audioset: {
-    user: audioset => { return User.findOne({ where: {id: audioset.userId} }) },
-    text: audioset => { return Text.findOne({ where: {id: audioset.textId} }) },
-    audiofiles: audioset => { return audioset.getAudiofiles() },
+  Elicitationset: {
+    user: elicitationset => { return User.findOne({ where: {id: elicitationset.userId} }) },
+    elicitationfiles: async elicitationset => { 
+      let elfiles = await elicitationset.getElicitationfiles() 
+      let i = 0
+      while (i < elfiles.length) {
+        elfiles[i].src = process.env.STATICELICITATIONSPATH + elfiles[i].src
+        i++
+      }
+      return elfiles      
+    },
   }, 
   Elicitationfile: {
     user: elicitationfile => { return User.findOne({ where: {id: elicitationfile.userId} }) },
-  }, 
-  Elicitationset: {
-    user: elicitationset => { return User.findOne({ where: {id: elicitationset.userId} }) },
   }, 
   Query: {
     authenticateUser_Q: (_, args, context) => authenticateUser_R(context, authenticateUser_C),
@@ -440,8 +498,14 @@ const resolvers = {
     vowels_Q: (_, args, context) => vowels_R(args, vowels_C),
     text_Q: (_, args, context) => text_R(args, text_C),
     texts_Q: (_, args, context) => texts_R(args, texts_C),
+    texttofilerelation_Q: (_, args, context) => texttofilerelation_R(args, texttofilerelation_C),
+    texttofilerelations_Q: (_, args, context) => texttofilerelations_R(args, texttofilerelations_C),
+    texttoaudiosetrelation_Q: (_, args, context) => texttoaudiosetrelation_R(args, texttoaudiosetrelation_C),
+    texttoaudiosetrelations_Q: (_, args, context) => texttoaudiosetrelations_R(args, texttoaudiosetrelations_C),
     textfile_Q: (_, args, context) => textfile_R(args, textfile_C),
-    textfiles_Q: (_, args, context) => textfiles_R(args, textfiles_C), 
+    textfiles_Q: (_, args, context) => textfiles_R(args, textfiles_C),
+    filetoimagerelation_Q: (_, args, context) => filetoimagerelation_R(args, filetoimagerelation_C),
+    filetoimagerelations_Q: (_, args, context) => filetoimagerelations_R(args, filetoimagerelations_C),
     textimage_Q: (_, args, context) => textimage_R(args, textimage_C),
     textimages_Q: (_, args, context) => textimages_R(args, textimages_C),
     audioset_Q: (_, args, context) => audioset_R(args, audioset_C),

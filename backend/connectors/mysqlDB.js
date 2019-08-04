@@ -176,7 +176,7 @@ const Text = sequelize.define('text', {
   cycle: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
-  userId: { type: Sequelize.STRING }   
+  userId: { type: Sequelize.STRING }
 },
 {
   charset: 'utf8mb4',
@@ -184,38 +184,75 @@ const Text = sequelize.define('text', {
 });
 Text.belongsTo(User, { foreignKey: 'userId' });
 
+const Texttofilerelation = sequelize.define('texttofilerelation', {
+  textId: { type: Sequelize.STRING },
+  textfileId: { type: Sequelize.STRING },
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+
+const Audioset = sequelize.define('audioset', {
+  title: { type: Sequelize.STRING },
+  speaker: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  textId: { type: Sequelize.STRING },
+  userId: { type: Sequelize.STRING }   
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Audioset.belongsTo(User, { foreignKey: 'userId' });
+
+const Texttoaudiosetrelation = sequelize.define('texttoaudiosetrelation', {
+  textId: { type: Sequelize.STRING },
+  audiosetId: { type: Sequelize.STRING },
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+
 const Textfile = sequelize.define('textfile', {
   subdir: { type: Sequelize.STRING },
   src: { type: Sequelize.STRING },
   resType: { type: Sequelize.STRING },
   msType: { type: Sequelize.STRING },
   fileType: { type: Sequelize.STRING },
-  textID: { type: Sequelize.STRING }, 
+  textID: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
-  userId: { type: Sequelize.STRING }   
+  userId: { type: Sequelize.STRING }
 },
 {
   charset: 'utf8mb4',
   collate: 'utf8mb4_unicode_ci'
 });
 Textfile.belongsTo(User, { foreignKey: 'userId' });
-Textfile.belongsTo(Text, { foreignKey: 'textId' });
+
+const Filetoimagerelation = sequelize.define('filetoimagerelation', {
+  textfileId: { type: Sequelize.STRING },
+  textimageId: { type: Sequelize.STRING },
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
 
 const Textimage = sequelize.define('textimage', {
-  textfileId: { type: Sequelize.STRING },
   subdir: { type: Sequelize.STRING },
   src: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
-  userId: { type: Sequelize.STRING }   
+  userId: { type: Sequelize.STRING }
 },
 {
   charset: 'utf8mb4',
   collate: 'utf8mb4_unicode_ci'
 });
 Textimage.belongsTo(User, { foreignKey: 'userId' });
-Textimage.belongsTo(Textfile, { foreignKey: 'textfileId' });
 
 const Audiofile = sequelize.define('audiofile', {
   subdir: { type: Sequelize.STRING },
@@ -230,19 +267,6 @@ const Audiofile = sequelize.define('audiofile', {
   collate: 'utf8mb4_unicode_ci'
 });
 Audiofile.belongsTo(User, { foreignKey: 'userId' });
-// then an audioset type
-const Audioset = sequelize.define('audioset', {
-  title: { type: Sequelize.STRING },
-  speaker: { type: Sequelize.STRING },
-  active: { type: Sequelize.STRING(1) },
-  textId: { type: Sequelize.STRING },
-  userId: { type: Sequelize.STRING }   
-},
-{
-  charset: 'utf8mb4',
-  collate: 'utf8mb4_unicode_ci'
-});
-Audioset.belongsTo(User, { foreignKey: 'userId' });
 
 const Audiorelation = sequelize.define('audiorelation', {
   audiosetId: { type: Sequelize.STRING, unique: 'audio' },
@@ -253,7 +277,64 @@ const Audiorelation = sequelize.define('audiorelation', {
   collate: 'utf8mb4_unicode_ci'
 });
 
-// Set up relationships that will be used later
+const Elicitationset = sequelize.define('elicitationset', {
+  title: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  userId: { type: Sequelize.STRING },
+  prevID: { type: Sequelize.INTEGER }
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Elicitationset.belongsTo(User, { foreignKey: 'userId' });
+
+const Elicitationrelation = sequelize.define('elicitationrelation', {
+  elicitationsetId: { type: Sequelize.STRING, unique: 'elicitation' },
+  elicitationfileId: { type: Sequelize.STRING, unique: 'elicitation' },
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+
+const Elicitationfile = sequelize.define('elicitationfile', {
+  src: { type: Sequelize.STRING },
+  type: { type: Sequelize.STRING },
+  direct: { type: Sequelize.STRING },
+  active: { type: Sequelize.STRING(1) },
+  userId: { type: Sequelize.STRING }
+},
+{
+  charset: 'utf8mb4',
+  collate: 'utf8mb4_unicode_ci'
+});
+Elicitationfile.belongsTo(User, { foreignKey: 'userId' });
+
+Text.belongsToMany( Textfile, {
+  through: "texttofilerelations", //this can be string or a model,
+  foreignKey: 'TextId'
+})
+Text.belongsToMany( Audioset, {
+  through: "texttoaudiosetrelations", //this can be string or a model,
+  foreignKey: 'TextId'
+})
+Textfile.belongsToMany( Text, {
+  through: "texttofilerelations", //this can be string or a model,
+  foreignKey: 'TextfileId'
+})
+Textfile.belongsToMany( Textimage, {
+  through: "filetoimagerelations", //this can be string or a model,
+  foreignKey: 'TextfileId'
+})
+Textimage.belongsToMany( Textfile, {
+  through: "filetoimagerelations", //this can be string or a model,
+  foreignKey: 'TextimageId'
+})
+Audioset.belongsToMany( Text, {
+  through: "texttoaudiosetrelations", //this can be string or a model,
+  foreignKey: 'AudiosetId'
+})
 Audioset.belongsToMany( Audiofile, {
   //as: [SetToFile],
   through: "audiorelations", //this can be string or a model,
@@ -264,39 +345,14 @@ Audiofile.belongsToMany( Audioset, {
   through: "audiorelations",
   foreignKey: 'AudiofileId'
 })
-// then an elicitations type
-const Elicitationrelation = sequelize.define('elicitationrelation', {
-  elicitationsetId: { type: Sequelize.STRING, unique: 'elicitation' },
-  elicitationfileId: { type: Sequelize.STRING, unique: 'elicitation' },
-},
-{
-  charset: 'utf8mb4',
-  collate: 'utf8mb4_unicode_ci'
-});
-const Elicitationset = sequelize.define('elicitationset', {
-  title: { type: Sequelize.STRING },
-  active: { type: Sequelize.STRING(1) },
-  userId: { type: Sequelize.STRING }, 
-  prevId: { type: Sequelize.INTEGER }   
-},
-{
-  charset: 'utf8mb4',
-  collate: 'utf8mb4_unicode_ci'
-});
-Elicitationset.belongsTo(User, { foreignKey: 'userId' });
-
-const Elicitationfile = sequelize.define('elicitationfile', {
-  src: { type: Sequelize.STRING },
-  type: { type: Sequelize.STRING },
-  direct: { type: Sequelize.STRING },
-  active: { type: Sequelize.STRING(1) },
-  userId: { type: Sequelize.STRING }   
-},
-{
-  charset: 'utf8mb4',
-  collate: 'utf8mb4_unicode_ci'
-});
-Elicitationfile.belongsTo(User, { foreignKey: 'userId' });
+Elicitationset.belongsToMany( Elicitationfile, {
+  through: "elicitationrelations", //this can be string or a model,
+  foreignKey: 'elicitationsetId'
+})
+Elicitationfile.belongsToMany( Elicitationset, {
+  through: "elicitationrelations",
+  foreignKey: 'elicitationfileId'
+})
 
 const authenticateUser_C = input => {
   //return User.find({ _id: input.id }, { roles: 1 }); // do not feed password back to query, password stays in database
@@ -351,8 +407,6 @@ const loginUser_C = input => {
   // do not feed password back to query, password stays in database
 }
 
-
-
 const addUser_C = input => {
   input.roles = ["view"]; // assign a dummy roles at first time user is created
   let user = new User(input);
@@ -381,7 +435,6 @@ const getUserFromToken_C = input => {
     return user.dataValues
   })
 };
-
 
 const updateUser_C = input => {
   // don't let user update his own role, only admin can update roles
@@ -818,7 +871,6 @@ const updateBibliography_C = input => {
   }) //then
 } //updateBibliography_C
 
-
 const updateRoot_C = input => {
   return sequelize.transaction(t => {
     return User.findOne({
@@ -987,19 +1039,16 @@ const users_C = input => {
     return(error)
   })
 }
-
 const spelling_C = input => {
   return Spelling.findOne({
     where: { id: input.id }
   })
 }
-
 const spellings_C = input => {
   return Spelling.findAll({
     where: { }
   })
 }
-
 const consonants_C = input => {
   return Consonant.findAll({
     where: { }
@@ -1017,6 +1066,26 @@ const text_C = input => {
 }
 const texts_C = input => {
   return Text.findAll({
+    where: { }
+  })
+}
+const texttofilerelation_C = input => {
+  return Texttofilerelation.findOne({
+    where: { id: input.id }
+  })
+}
+const texttofilerelations_C = input => {
+  return Texttofilerelation.findAll({
+    where: { }
+  })
+}
+const texttoaudiosetrelation_C = input => {
+  return Texttoaudiosetrelation.findOne({
+    where: { id: input.id }
+  })
+}
+const texttoaudiosetrelations_C = input => {
+  return Texttoaudiosetrelation.findAll({
     where: { }
   })
 }
@@ -1040,16 +1109,36 @@ const textimages_C = input => {
     where: { }
   })
 }
-const audiofile_C = input => {
-  return Audiofile.findOne({
+const filetoimagerelation_C = input => {
+  return Filetoimagerelation.findOne({
     where: { id: input.id }
   })
 }
-const audiofiles_C = input => {
-  return Audiofile.findAll({
+const filetoimagerelations_C = input => {
+  return Filetoimagerelation.findAll({
     where: { }
   })
 }
+const audiofile_C = async input => {
+  afile = await Audiofile.findOne({
+    where: { id: input.id }
+  })
+  afile.src = process.env.STATICMEDIAPATH + afiles[i].subdir + "/" + afile.src
+  return afile
+}
+
+const audiofiles_C = async input => {
+  afiles = await Audiofile.findAll({
+    where: { }
+  })
+  let i = 0
+  while (i < afiles.length) {
+    afiles[i].src = process.env.STATICMEDIAPATH + afiles[i].subdir + "/" + afiles[i].src
+    i++
+  }
+  return afiles
+}
+
 const audioset_C = input => {
   return Audioset.findOne({
     where: { id: input.id }
@@ -1060,7 +1149,6 @@ const audiosets_C = input => {
     where: { }
   })
 }
-
 const audiorelation_C = input => {
   return Audiorelation.findOne({
     where: { id: input.id }
@@ -1071,16 +1159,25 @@ const audiorelations_C = input => {
     where: { }
   })
 }
-const elicitationfile_C = input => {
-  return Elicitationfile.findOne({
+const elicitationfile_C = async input => {
+  elfile = await Elicitationfile.findOne({
     where: { id: input.id }
   })
+  elfile.src = process.env.STATICELICITATIONSPATH + elfile.src
+  return elfile
 }
-const elicitationfiles_C = input => {
-  return Elicitationfile.findAll({
+const elicitationfiles_C = async input => {
+  elfiles = await Elicitationfile.findAll({
     where: { }
   })
+  let i = 0
+  while (i < elfiles.length) {
+    elfiles[i].src = process.env.STATICELICITATIONSPATH + elfiles[i].src
+    i++
+  }
+  return elfiles
 }
+
 const elicitationset_C = input => {
   return Elicitationset.findOne({
     where: { id: input.id }
@@ -1112,7 +1209,10 @@ module.exports = {
   Vowel,
   Text,
   Textfile,
+  Texttofilerelation,
+  Texttoaudiosetrelation,
   Textimage,
+  Filetoimagerelation,
   Audiofile,
   Audioset,
   Audiorelation,
@@ -1157,10 +1257,16 @@ module.exports = {
   vowels_C,
   text_C,
   texts_C,
+  texttofilerelation_C,
+  texttofilerelations_C,
+  texttoaudiosetrelation_C,
+  texttoaudiosetrelations_C,
   textfile_C,
   textfiles_C,
   textimage_C,
   textimages_C,
+  filetoimagerelation_C,
+  filetoimagerelations_C,
   audiofile_C,
   audiofiles_C,
   audioset_C,
