@@ -39,34 +39,6 @@ class AudioList extends Component {
     }
   }
 
-  // async loadAudioSets() {
-  //   try {
-  //     //assumes audiofiles will all be located in the texts directory
-  //     const staticPath = 'http://localhost:3500/texts/';
-  //     const response = await fetch(`http://localhost:4000/audiosets?_embed=audiofiles`);
-  //     if (!response.ok) {
-  //       throw Error(response.statusText);
-  //     }
-  //     const json = await response.json();
-  //     //console.log(json);
-  //     // Find audio files for each audioset from the static server
-  //     let i = 0;
-  //     while (i < json.length) {
-  //       let j = 0;
-  //       while (j < json[i]["audiofiles"].length) {
-  //      json[i]["audiofiles"][j]["src"] = staticPath + json[i]["audiofiles"][j]["subdir"] + "/" + json[i]["audiofiles"][j]["src"];
-  //         j++;
-  //       }
-  //       json[i]["key"] = json[i]["id"];
-  //       i++;
-  //     }
-  //     console.log(json);
-  //     this.setState({ loading: false, data: json });
-  //   } catch (error) {
-  //     console.log("This is my Error: " + error);
-  //     this.setState({ error: error });
-  //   }
-  // }
   render() {
 
     const columns = [
