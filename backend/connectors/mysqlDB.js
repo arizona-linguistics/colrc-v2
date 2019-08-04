@@ -221,7 +221,7 @@ const Textfile = sequelize.define('textfile', {
   resType: { type: Sequelize.STRING },
   msType: { type: Sequelize.STRING },
   fileType: { type: Sequelize.STRING },
-  textID: { type: Sequelize.STRING },
+  textId: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
   userId: { type: Sequelize.STRING }
@@ -1089,26 +1089,45 @@ const texttoaudiosetrelations_C = input => {
     where: { }
   })
 }
-const textfile_C = input => {
-  return Textfile.findOne({
+const textfile_C = async input => {
+  tfile = await Textfile.findOne({
     where: { id: input.id }
   })
+  tfile.src = process.env.STATICMEDIAPATH + tfile.subdir + "/" + tfile.src
+  return tfile
 }
-const textfiles_C = input => {
-  return Textfile.findAll({
+const textfiles_C = async input => {
+  tfiles = await Textfile.findAll({
     where: { }
   })
+  let i = 0
+  while (i < tfiles.length) {
+    tfiles[i].src = process.env.STATICMEDIAPATH + tfiles[i].subdir + "/" + tfiles[i].src
+    i++
+  }
+  return tfiles
 }
-const textimage_C = input => {
-  return Textimage.findOne({
+
+const textimage_C = async input => {
+  ifile = await Textimage.findOne({
     where: { id: input.id }
   })
+  ifile.src = process.env.STATICMEDIAPATH + ifile.subdir + "/" + ifile.src
+  return ifile
 }
-const textimages_C = input => {
-  return Textimage.findAll({
+const textimages_C = async input => {
+  ifiles = await Textimage.findAll({
     where: { }
   })
+  let i = 0
+  while (i < ifiles.length) {
+    ifiles[i].src = process.env.STATICMEDIAPATH + ifiles[i].subdir + "/" + ifiles[i].src
+    i++
+  }
+  return ifiles
 }
+
+
 const filetoimagerelation_C = input => {
   return Filetoimagerelation.findOne({
     where: { id: input.id }
@@ -1123,7 +1142,7 @@ const audiofile_C = async input => {
   afile = await Audiofile.findOne({
     where: { id: input.id }
   })
-  afile.src = process.env.STATICMEDIAPATH + afiles[i].subdir + "/" + afile.src
+  afile.src = process.env.STATICMEDIAPATH + afiles.subdir + "/" + afile.src
   return afile
 }
 
