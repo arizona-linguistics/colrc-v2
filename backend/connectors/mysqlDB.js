@@ -1119,16 +1119,26 @@ const filetoimagerelations_C = input => {
     where: { }
   })
 }
-const audiofile_C = input => {
-  return Audiofile.findOne({
+const audiofile_C = async input => {
+  afile = await Audiofile.findOne({
     where: { id: input.id }
   })
+  afile.src = process.env.STATICMEDIAPATH + afiles[i].subdir + "/" + afile.src
+  return afile
 }
-const audiofiles_C = input => {
-  return Audiofile.findAll({
+
+const audiofiles_C = async input => {
+  afiles = await Audiofile.findAll({
     where: { }
   })
+  let i = 0
+  while (i < afiles.length) {
+    afiles[i].src = process.env.STATICMEDIAPATH + afiles[i].subdir + "/" + afiles[i].src
+    i++
+  }
+  return afiles
 }
+
 const audioset_C = input => {
   return Audioset.findOne({
     where: { id: input.id }
@@ -1149,7 +1159,6 @@ const audiorelations_C = input => {
     where: { }
   })
 }
-
 const elicitationfile_C = async input => {
   elfile = await Elicitationfile.findOne({
     where: { id: input.id }
@@ -1157,7 +1166,6 @@ const elicitationfile_C = async input => {
   elfile.src = process.env.STATICELICITATIONSPATH + elfile.src
   return elfile
 }
-
 const elicitationfiles_C = async input => {
   elfiles = await Elicitationfile.findAll({
     where: { }

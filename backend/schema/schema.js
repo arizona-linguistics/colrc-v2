@@ -449,7 +449,15 @@ const resolvers = {
   },
   Audioset: {
     user: audioset => { return User.findOne({ where: {id: audioset.userId} }) },
-    audiofiles: audioset => { return audioset.getAudiofiles() },
+    audiofiles: async audioset => { 
+      let afiles = await audioset.getAudiofiles() 
+      let i = 0
+      while (i < afiles.length) {
+        afiles[i].src = process.env.STATICMEDIAPATH + afiles[i].subdir + "/" + afiles[i].src
+        i++
+      }
+      return afiles      
+    },
   }, 
   Audiofile: {
     user: audiofile => { return User.findOne({ where: {id: audiofile.userId} }) },

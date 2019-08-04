@@ -6,37 +6,14 @@ import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { withRouter } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import { getAudioSetsQuery } from '../queries/queries';
-//we will need to get the path to the static server, which is in our .env file
 
 class AudioList extends Component {
   constructor() {
     super();
-    this.buildAudioLink = this.buildAudioLink.bind(this)
     this.state = {
     	data: [],
     	loading: true
      };
-  }
-
-  buildAudioLink() {
-    const staticPath = "http://localhost:3500/texts/"
-    console.log("the static path is " + staticPath)
-    let data = this.props.getAudioSetsQuery.audiosets_Q;
-    if (data) {
-      let i = 0;
-      while (i < data.length) {
-        let j = 0;
-        while (j < data[i]["audiofiles"].length) {
-          data[i]["audiofiles"][j]["src"] = staticPath + data[i]["audiofiles"][j]["subdir"] + "/" + data[i]["audiofiles"][j]["src"];
-            j++;
-        }
-        data[i]["key"] = data[i]["id"];
-        i++;
-      } 
-      return data
-    } else {
-      return []
-    }
   }
 
   render() {
@@ -67,7 +44,7 @@ class AudioList extends Component {
     const dataOrError = this.state.error ?
          <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
          <ReactTable
-           data={this.buildAudioLink()}
+           data={this.props.getAudioSetsQuery.audiosets_Q}
            loading={this.props.getAudioSetsQuery.loading}
            columns={columns}
            filterable
