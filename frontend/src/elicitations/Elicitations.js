@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import matchSorter from 'match-sorter';
 import AudioPlayer from "../utilities/AudioPlayer";
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { graphql, compose } from 'react-apollo';
