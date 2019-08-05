@@ -283,7 +283,6 @@ type Texttoaudiosetrelation {
     msType: String    
     fileType: String
     textimages: [Textimage]    
-    text: Text!
     active: String!
     prevId: Int
     user: User!   
@@ -436,14 +435,31 @@ const resolvers = {
   },
   Text: {
     user: text => { return User.findOne({ where: {id: text.userId} }) },
-    textfiles: text => { return text.getTextfiles() },
+    textfiles: async text => {
+      let tfiles = await text.getTextfiles()
+      let i = 0
+      while (i < tfiles.length) {
+        tfiles[i].src = process.env.STATICMEDIAPATH + tfiles[i].subdir + "/" + tfiles[i].src
+        i++
+      }
+      return tfiles
+    },
     audiosets: text => { return text.getAudiosets() },
   },
 
   Textfile: {
     user: textfile => { return User.findOne({ where: {id: textfile.userId} }) },
-    textimages: textfile => { return textfile.getTextimagefiles() },
+    textimages: async textfile => {
+      let ifiles = await textfile.getTextimages()
+      let i = 0
+      while (i < ifiles.length) {
+        ifiles[i].src = process.env.STATICMEDIAPATH + ifiles[i].subdir + "/" + ifiles[i].src
+        i++
+      }
+      return ifiles
+    },
   },
+
   Textimage: {
     user: textimage => { return User.findOne({ where: {id: textimage.userId} }) },
   },
