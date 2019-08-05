@@ -563,7 +563,24 @@ const getTextQuery = gql`
       id 
       title
       speaker
-      cycle 
+      cycle
+      textfiles {
+        src
+        subdir
+        resType
+        fileType
+        msType
+        fileimages {
+          src
+        }
+      } 
+      audiosets {
+        title 
+        speaker
+        audiofiles {
+          src
+        }
+      }
       active
       prevId
       user {
@@ -572,21 +589,7 @@ const getTextQuery = gql`
     }
   }
 `;
-const getTextsQuery = gql`
-  {
-    texts_Q {
-      id 
-      title
-      speaker
-      cycle 
-      active
-      prevId
-      user {
-        username
-      }
-    }
-  }
-`;
+
 const getTextFileQuery = gql`
   query($id: ID) {
     textfile_Q(id: $id) {
@@ -652,27 +655,7 @@ const getTextImageQuery = gql`
     }
   }
 `;
-const getTextImagesQuery = gql`
-  {
-    textImages_Q {
-      id 
-      textfile {
-        subdir
-        src
-        resType
-        msType
-        fileType
-      }
-      subdir
-      src
-      active
-      prevId
-      user {
-        username
-      }
-    }
-  }
-`;
+
 const getAudioSetQuery = gql`
   query($id: ID) {
     audioset_Q(id: $id) {
@@ -786,5 +769,86 @@ const getElicitationsQuery = gql`
     }
   }
 `;
-export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, getSpellingQuery, addSpellingMutation, deleteSpellingMutation, updateSpellingMutation, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery };
+const getElicitationSetsQuery = gql`
+  {
+    elicitationsets_Q {
+      id
+      title
+      elicitationfiles {
+        id
+        src
+        type
+        direct
+        active
+      }
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+
+const getTextImagesQuery = gql `
+{
+  textimages_Q {
+    id
+    src
+    subdir
+    active
+    prevId
+    user {
+      username
+    }
+  }
+}
+`
+const getTextsQuery = gql`
+  {
+    texts_Q {
+      id
+      title
+      speaker
+      cycle
+      textfiles {
+        id
+        subdir
+        src
+        resType
+        msType
+        fileType
+        active
+        prevId
+        textimages {
+          id
+          subdir
+          src
+          active
+          prevId
+        }
+      }
+      audiosets {
+        id
+        title
+        speaker
+        audiofiles {
+          id 
+          subdir
+          src
+          type
+          direct
+          active
+        }
+      }
+      active
+      prevId
+      user {
+        username
+      }
+    }
+  }
+`;
+
+export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, addSpellingMutation, deleteSpellingMutation, updateSpellingMutation, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery, getElicitationSetsQuery };
 
