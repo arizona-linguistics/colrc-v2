@@ -88,6 +88,34 @@ const rootTestCase = {
     expected: { data: { root_Q: { english: "†  boots. (n.)" } } }
 }
 
+const spellingTestCase = {
+  id: 'spelling_Q(id: "5") { nicodemus } returns the fifth spelling entry',
+  query: `
+    query($id: ID!) {
+      spelling_Q(id: $id) {
+          nicodemus
+      }
+    }
+  `,
+  variables: { id: "5"},
+  context: {},
+  expected: { data: { spelling_Q: { nicodemus: "ch'" } } }
+}
+
+const bibliographyTestCase = {
+  id: 'bibliography_Q(id: "3") { title } returns the title of the third bibliography entry',
+  query: `
+    query($id: ID!) {
+      bibliography_Q(id: $id) {
+          title
+      }
+    }
+  `,
+  variables: { id: "3"},
+  context: {},
+  expected: { data: { bibliography_Q: { title: "The left periphery in Coeur d'Alene Evidence from the Reichard Manuscripts" } } }
+}
+
 const stemTestCase = {
     id: 'stem_Q(id: "3") { doak } returns the third stem',
     query: `
@@ -172,9 +200,8 @@ const usersTestCase = {
   context: { headers: { token: "" }},
   expected: { data: { users_Q: [
       { username: "original" },
-      { username: "amyfou" },
-      { username: "amytest" },
-      { username: "avf" }
+      { username: "view" },
+      { username: "dummy" },
       ]
     } }
 }
@@ -189,7 +216,7 @@ describe('Test Cases', () => {
       await sequelize.close()
     })
 
-    const cases = [affixTestCase, usersTestCase, rootTestCase, stemTestCase, userExistsTestCase, textTestCase, textFileTestCase, textImageTestCase]
+    const cases = [affixTestCase, usersTestCase, rootTestCase, stemTestCase, userExistsTestCase, textTestCase, textFileTestCase, textImageTestCase, spellingTestCase, bibliographyTestCase]
     //const schema = makeExecutableSchema({ typeDefs: typeDefs, resolvers: { Query: { affix_Q: (_, args, context) => affix_R(args, affix_C), } })
 
     cases.forEach(obj => {
