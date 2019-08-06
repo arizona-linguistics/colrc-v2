@@ -172,8 +172,9 @@ const usersTestCase = {
   context: { headers: { token: "" }},
   expected: { data: { users_Q: [
       { username: "original" },
-      { username: "view" },
-      { username: "owner" }
+      { username: "update" },
+      { username: "owner" },
+      { username: "view" }
       ]
     } }
 }
