@@ -81,8 +81,9 @@ class UpdateRoles extends Component {
       .required('Required'),  
     });
     const roleOptions = [
-      {key: 'owner', text: 'owner', value: 'owner'},
       {key: 'admin', text: 'admin', value: 'admin'},
+      {key: 'owner', text: 'owner', value: 'owner'},
+      {key: 'update', text: 'update', value: 'update'},
       {key: 'view', text: 'view', value: 'view'} 
     ]
     return (     
@@ -95,8 +96,9 @@ class UpdateRoles extends Component {
             <Header as='h4' textAlign='center'>
               Select a new role for this user.
             </Header>
-            <div>'admin' = can update all information on this site, including user roles.</div>  
-            <div>'owner' = can update all information on this site, except user roles.</div>  
+            <div>'admin' = can update all information on this site, including user roles.</div> 
+            <div>'update' = can update all information on this site except user roles.</div>             
+            <div>'owner' = reserved to allow update access to individual areas.</div>  
             <div>'view' = cannot update information on this site.</div>
           </Message>
           {this.state.error && (
