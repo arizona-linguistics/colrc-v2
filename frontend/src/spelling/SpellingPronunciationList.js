@@ -55,7 +55,7 @@ class SpellingPronunciationList extends Component {
           // the state variable 'admin' to true.  Else, set it to false. 
           await this.setState({
             // if the roles array includes admin, set state to logged in as admin
-            admin: user.roles.includes("admin"),
+            admin: user.roles.includes("admin")  || user.roles.includes("owner") || user.roles.includes("update"),
             fields: {
               first: user.first,
               last: user.last,

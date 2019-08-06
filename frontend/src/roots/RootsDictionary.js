@@ -56,7 +56,7 @@ class RootsDictionary extends Component {
       // set the state with user info based on token, and if the user has an 'admin' role, set 
       // the state variable 'admin' to true.  Else, set it to false. 
       await this.setState({
-        admin: user.roles.includes("admin"),
+        admin: user.roles.includes("admin") || user.roles.includes("owner") || user.roles.includes("update"),
         fields: {
           first: user.first,
           last: user.last,
@@ -79,7 +79,8 @@ class RootsDictionary extends Component {
         }
       })
       console.log(this.state)
-      console.log("and here's the role " + this.state.fields.roles)
+      console.log("and here's the role ")
+      console.log(this.state.fields.roles)
       }
     } catch(error) {
       console.log(error)
