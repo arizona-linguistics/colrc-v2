@@ -141,7 +141,7 @@ const textImageTestCase = {
     `,
     variables: { id: "1"},
     context: {},
-    expected: { data: { textimage_Q: { src: "CallingOnesKind__Tom_Typed1.png" } } }
+    expected: { data: { textimage_Q: { src: "http://localhost:3500/texts/CallingOnesKind/CallingOnesKind__Tom_Typed_Images/CallingOnesKind__Tom_Typed1.png" } } }
 }
 
 const userExistsTestCase = {
@@ -172,9 +172,8 @@ const usersTestCase = {
   context: { headers: { token: "" }},
   expected: { data: { users_Q: [
       { username: "original" },
-      { username: "amyfou" },
-      { username: "amytest" },
-      { username: "avf" }
+      { username: "view" },
+      { username: "dummy" }
       ]
     } }
 }
