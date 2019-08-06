@@ -173,7 +173,7 @@ const usersTestCase = {
   expected: { data: { users_Q: [
       { username: "original" },
       { username: "view" },
-      { username: "dummy" }
+      { username: "owner" }
       ]
     } }
 }
