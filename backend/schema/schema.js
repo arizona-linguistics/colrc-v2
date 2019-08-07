@@ -352,7 +352,7 @@ type Texttoaudiosetrelation {
     users_Q: [User]
     affixes_Q: [Affix]
     affix_Q(id:ID!): Affix
-    roots_Q: [Root]
+    roots_Q(active: String): [Root]
     root_Q(id:ID!): Root
     stems_Q: [Stem]
     stem_Q(id:ID!): Stem
@@ -544,21 +544,21 @@ const resolvers = {
     updateUser_M: (_, args, context) => updateUser_R(context,args,updateUser_C),
     //check jwt token, validate if user is admin then update any other user's roles
     updateUserAdmin_M: (_, args, context) => updateUserAdmin_R(context,args,["admin","owner"],updateUserAdmin_C),
-    addAffix_M: (_, args, context) => addAffix_R(context, args, ["admin","owner"], addAffix_C),
-    addBibliography_M: (_, args, context) => addBibliography_R(context, args, ["admin","owner"], addBibliography_C),
-    addRoot_M: (_, args, context) => addRoot_R(context, args, ["admin","owner"], addRoot_C),
-    addSpelling_M: (_, args, context) => addSpelling_R(context, args, ["admin","owner"], addSpelling_C),
-    addStem_M: (_, args, context) => addStem_R(context, args, ["admin","owner"], addStem_C),
-    deleteAffix_M: (_, args, context) => deleteAffix_R(context, args, ["admin","owner"], deleteAffix_C),
-    deleteBibliography_M: (_, args, context) => deleteBibliography_R(context, args, ["admin","owner"], deleteBibliography_C),
-    deleteRoot_M: (_, args, context) => deleteRoot_R(context, args, ["admin","owner"], deleteRoot_C),
-    deleteSpelling_M: (_, args, context) => deleteSpelling_R(context, args, ["admin","owner"], deleteSpelling_C),
-    deleteStem_M: (_, args, context) => deleteStem_R(context, args, ["admin","owner"], deleteStem_C),
-    updateAffix_M:(_, args, context) => updateAffix_R(context, args, ["admin","owner"], updateAffix_C),
-    updateBibliography_M:(_, args, context) => updateBibliography_R(context, args, ["admin","owner"], updateBibliography_C),
-    updateRoot_M:(_, args, context) => updateRoot_R(context, args, ["admin","owner"], updateRoot_C),
-    updateSpelling_M:(_, args, context) => updateSpelling_R(context, args, ["admin","owner"], updateSpelling_C),
-    updateStem_M:(_, args, context) => updateStem_R(context, args, ["admin","owner"], updateStem_C),
+    addAffix_M: (_, args, context) => addAffix_R(context, args, ["admin","owner","update"], addAffix_C),
+    addBibliography_M: (_, args, context) => addBibliography_R(context, args, ["admin","owner","update"], addBibliography_C),
+    addRoot_M: (_, args, context) => addRoot_R(context, args, ["admin","owner","update"], addRoot_C),
+    addSpelling_M: (_, args, context) => addSpelling_R(context, args, ["admin","owner","update"], addSpelling_C),
+    addStem_M: (_, args, context) => addStem_R(context, args, ["admin","owner","update"], addStem_C),
+    deleteAffix_M: (_, args, context) => deleteAffix_R(context, args, ["admin","owner","update"], deleteAffix_C),
+    deleteBibliography_M: (_, args, context) => deleteBibliography_R(context, args, ["admin","owner","update"], deleteBibliography_C),
+    deleteRoot_M: (_, args, context) => deleteRoot_R(context, args, ["admin","owner","update"], deleteRoot_C),
+    deleteSpelling_M: (_, args, context) => deleteSpelling_R(context, args, ["admin","owner","update"], deleteSpelling_C),
+    deleteStem_M: (_, args, context) => deleteStem_R(context, args, ["admin","owner","update"], deleteStem_C),
+    updateAffix_M:(_, args, context) => updateAffix_R(context, args, ["admin","owner","update"], updateAffix_C),
+    updateBibliography_M:(_, args, context) => updateBibliography_R(context, args, ["admin","owner","update"], updateBibliography_C),
+    updateRoot_M:(_, args, context) => updateRoot_R(context, args, ["admin","owner","update"], updateRoot_C),
+    updateSpelling_M:(_, args, context) => updateSpelling_R(context, args, ["admin","owner","update"], updateSpelling_C),
+    updateStem_M:(_, args, context) => updateStem_R(context, args, ["admin","owner","update"], updateStem_C),
   }
 };
 

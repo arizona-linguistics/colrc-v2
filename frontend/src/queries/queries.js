@@ -77,8 +77,8 @@ const getUsersQuery = gql`
 `;
 
 const getRootsQuery = gql`
-  {
-    roots_Q {
+  query($active: String){
+    roots_Q(active: $active) {
       id
       root
       number
@@ -94,6 +94,7 @@ const getRootsQuery = gql`
     }
   }
 `;
+
 
 const getBibliographiesQuery = gql`
 {

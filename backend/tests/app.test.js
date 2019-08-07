@@ -113,7 +113,7 @@ const bibliographyTestCase = {
   `,
   variables: { id: "3"},
   context: {},
-  expected: { data: { bibliography_Q: { title: "The left periphery in Coeur d'Alene Evidence from the Reichard Manuscripts" } } }
+  expected: { data: { bibliography_Q: { title: "Formal notes on Coeur d'Alene clause structure" } } }
 }
 
 const stemTestCase = {
@@ -200,8 +200,9 @@ const usersTestCase = {
   context: { headers: { token: "" }},
   expected: { data: { users_Q: [
       { username: "original" },
-      { username: "view" },
-      { username: "owner" }
+      { username: "update" },
+      { username: "owner" },
+      { username: "view" }
       ]
     } }
 }

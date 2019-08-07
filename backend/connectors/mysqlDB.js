@@ -1005,8 +1005,12 @@ const root_C = input => {
 }
 
 const roots_C = input => {
+  let wherecond = {}
+  if (input.active) {
+    wherecond.active = input.active
+  }
   return Root.findAll({
-    where: { }
+    where: wherecond
   })
 }
 
