@@ -133,6 +133,19 @@ const getBibliographyQuery = gql`
   }
 `;
 
+const getSpellingQuery = gql`
+  query($id: ID) {
+    spelling_Q(id: $id) {
+      id
+      reichard
+      nicodemus
+      salish
+      english
+      note
+    }
+  }
+`;
+
 const getSpellingsQuery = gql`
   {
     spellings_Q {
@@ -837,5 +850,5 @@ const getTextsQuery = gql`
   }
 `;
 
-export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, addSpellingMutation, deleteSpellingMutation, updateSpellingMutation, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery, getElicitationSetsQuery };
+export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, getSpellingQuery, addSpellingMutation, deleteSpellingMutation, updateSpellingMutation, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery, getElicitationSetsQuery };
 

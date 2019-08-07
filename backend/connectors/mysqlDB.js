@@ -73,7 +73,7 @@ const User = sequelize.define('user', {
   first: { type: Sequelize.STRING },
   last: { type: Sequelize.STRING },
   username: { type: Sequelize.STRING },
-  email: { type: Sequelize.STRING },
+  email: { type: Sequelize.STRING, unique: true },
   password: { type: Sequelize.STRING },
   roles: { type: Sequelize.STRING },
 },
