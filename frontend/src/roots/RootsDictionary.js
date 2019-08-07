@@ -49,39 +49,52 @@ class RootsDictionary extends Component {
     try {
       const token = localStorage.getItem('TOKEN')
       if (token) {
-      let userQuery = await this.props.client.query({
-        query: getUserFromToken,
-      })
-      const user = userQuery.data.getUserFromToken_Q
-      // set the state with user info based on token, and if the user has an 'admin' role, set 
-      // the state variable 'admin' to true.  Else, set it to false. 
-      await this.setState({
-        admin: user.roles.includes("admin") || user.roles.includes("owner") || user.roles.includes("update"),
-        fields: {
-          first: user.first,
-          last: user.last,
-          email: user.email,
-          username: user.username,
-          roles: user.roles
-        }
-      }) 
-      console.log("My user is " + user)
-      console.log(this.state)
-    } else {
-      await this.setState({
-        admin: false,
-        fields: {
-          first: "anonymous",
-          last: "anonymous",
-          email: "anonymous",
-          username: "anonymous",
-          roles: ["view"]
-        }
-      })
-      console.log(this.state)
-      console.log("and here's the role ")
-      console.log(this.state.fields.roles)
+        let userQuery = await this.props.client.query({
+          query: getUserFromToken,
+        })
+        const user = userQuery.data.getUserFromToken_Q
+        // set the state with user info based on token, and if the user has an 'admin' role, set 
+        // the state variable 'admin' to true.  Else, set it to false. 
+        await this.setState({
+          admin: user.roles.includes("admin") || user.roles.includes("owner") || user.roles.includes("update"),
+          fields: {
+            first: user.first,
+            last: user.last,
+            email: user.email,
+            username: user.username,
+            roles: user.roles
+          }
+        }) 
+        console.log("My user is " + user)
+        console.log(this.state)
+      } else {
+        await this.setState({
+          admin: false,
+          fields: {
+            first: "anonymous",
+            last: "anonymous",
+            email: "anonymous",
+            username: "anonymous",
+            roles: ["view"]
+          }
+        })
+        console.log(this.state)
+        console.log("and here's the role ")
+        console.log(this.state.fields.roles)
+      } 
+      // now we're going to get only active roots if we are not admin, else 
+      // we will get all the roots
+      let rootvars = {}
+      if (!this.state.fields.roles.includes("admin")){
+        rootvars.active = 'Y'
       }
+      const getRoots = await this.props.client.query({
+        query: getRootsQuery,
+        variables: rootvars 
+      })
+      this.setState({
+        data: getRoots.data.roots_Q
+      })
     } catch(error) {
       console.log(error)
     }
@@ -349,7 +362,7 @@ class RootsDictionary extends Component {
     const dataOrError = this.state.error ?
       <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
       <ReactTable
-        data={this.props.getRootsQuery.roots_Q}
+        data={this.state.data}
         loading={this.props.getRootsQuery.loading}
         columns={columns}
         filterable

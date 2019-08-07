@@ -352,7 +352,7 @@ type Texttoaudiosetrelation {
     users_Q: [User]
     affixes_Q: [Affix]
     affix_Q(id:ID!): Affix
-    roots_Q: [Root]
+    roots_Q(active: String): [Root]
     root_Q(id:ID!): Root
     stems_Q: [Stem]
     stem_Q(id:ID!): Stem
