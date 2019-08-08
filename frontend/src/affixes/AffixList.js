@@ -18,7 +18,8 @@ class AffixList extends Component {
 	  this.state = {
       //set up an empty array and a loading state for react-table
     	data: [],
-    	loading: true,
+      loading: true,
+      affixvars: {},
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       typeSelected: false,
 		  salishSelected: false,
@@ -80,18 +81,19 @@ class AffixList extends Component {
         }
       // now we're going to get only active affixes if we are not admin, else 
       // we will get all the affixes
-      let affixvars = {}
+      // let affixvars = {}
       if (!this.state.fields.roles.includes("admin")){
-        affixvars.active = 'Y'
+        this.state.affixvars.active = 'Y'
       }
       const getAffixes = await this.props.client.query({
         query: getAffixesQuery,
-        variables: affixvars 
+        variables: this.state.affixvars 
       })
       this.setState({
         data: getAffixes.data.affixes_Q,
         loading: false
       })
+      
     } catch(error) {
       console.log(error)
     }
@@ -137,7 +139,7 @@ class AffixList extends Component {
           id: id
         },
       //after setting the flag, refetch the affixes from the db
-		  refetchQueries: [{ query: getAffixesQuery }]
+		  refetchQueries: [{ query: getAffixesQuery, variables: this.state.affixvars }]
       });
       //then send the user back to the affixlist display
       this.props.history.push('/affixes');
