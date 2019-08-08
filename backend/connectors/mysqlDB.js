@@ -21,7 +21,7 @@ const sequelize = new Sequelize(
       collate: 'utf8mb4_unicode_ci',
       timestamps: true
     },
-    logging:false
+    // logging:false
   });
 
 sequelize
@@ -981,14 +981,22 @@ const affix_C = input => {
 }
 
 const affixes_C = input => {
+  let wherecond = {}
+  if (input.active) {
+    wherecond.active = input.active
+  }
   return Affix.findAll({
-    where: { }
+    where: wherecond
   })
 }
 
 const bibliographies_C = input => {
+  let wherecond = {}
+  if (input.active) {
+    wherecond.active = input.active
+  }
   return Bibliography.findAll({
-    where: { }
+    where: wherecond
   })
 }
 
@@ -1021,8 +1029,12 @@ const stem_C = input => {
 }
 
 const stems_C = input => {
+  let wherecond = {}
+  if (input.active) {
+    wherecond.active = input.active
+  }
   return Stem.findAll({
-    where: { }
+    where: wherecond
   })
 }
 
@@ -1049,8 +1061,12 @@ const spelling_C = input => {
   })
 }
 const spellings_C = input => {
+  let wherecond = {}
+  if (input.active) {
+    wherecond.active = input.active
+  }
   return Spelling.findAll({
-    where: { }
+    where: wherecond
   })
 }
 const consonants_C = input => {

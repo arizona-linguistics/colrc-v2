@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 const getStemsQuery = gql`
-  {
-    stems_Q {
+  query($active: String){
+    stems_Q(active: $active) {
       id
       category
       reichard
@@ -43,8 +43,8 @@ const getUserFromToken = gql`
   }
 `;
 const getAffixesQuery = gql`
-  {
-    affixes_Q {
+  query($active: String){
+    affixes_Q(active: $active) {
       id
       type
       salish
@@ -97,8 +97,8 @@ const getRootsQuery = gql`
 
 
 const getBibliographiesQuery = gql`
-{
-  bibliographies_Q {
+query($active: String){
+  bibliographies_Q(active: $active) {
     id
     author
     year
@@ -148,8 +148,8 @@ const getSpellingQuery = gql`
 `;
 
 const getSpellingsQuery = gql`
-  {
-    spellings_Q {
+  query($active: String){
+    spellings_Q (active: $active){
       id
       reichard
       nicodemus

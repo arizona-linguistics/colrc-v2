@@ -82,6 +82,21 @@ class StemList extends Component {
           console.log(this.state)
           console.log("and here's the role " + this.state.fields.roles)
         }
+      // now we're going to get only active stems if we are not admin, else 
+      // we will get all the stems
+      let stemvars = {}
+      if (!this.state.fields.roles.includes("admin")){
+        stemvars.active = 'Y'
+      }
+      const getStems = await this.props.client.query({
+        query: getStemsQuery,
+        variables: stemvars 
+      })
+      this.setState({
+        data: getStems.data.stems_Q,
+        loading: false
+      })
+
     } catch(error) {
       console.log(error)
     }
@@ -408,8 +423,8 @@ class StemList extends Component {
 		const dataOrError = this.state.error ?
      <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
 			<ReactTable
-				data={this.props.getStemsQuery.stems_Q}
-				loading={this.props.getStemsQuery.loading}
+				data={this.state.data}
+				loading={this.state.loading}
 				columns = {columns}
 				defaultPageSize = {10}
 				className = "-striped -highlight left"
