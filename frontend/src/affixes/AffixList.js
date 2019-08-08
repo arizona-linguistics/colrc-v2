@@ -78,6 +78,20 @@ class AffixList extends Component {
           console.log(this.state)
           console.log("and here's the role " + this.state.fields.roles)
         }
+      // now we're going to get only active affixes if we are not admin, else 
+      // we will get all the affixes
+      let affixvars = {}
+      if (!this.state.fields.roles.includes("admin")){
+        affixvars.active = 'Y'
+      }
+      const getAffixes = await this.props.client.query({
+        query: getAffixesQuery,
+        variables: affixvars 
+      })
+      this.setState({
+        data: getAffixes.data.affixes_Q,
+        loading: false
+      })
     } catch(error) {
       console.log(error)
     }
@@ -357,8 +371,8 @@ class AffixList extends Component {
     const dataOrError = this.state.error ?
       <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
       <ReactTable
-			  data={this.props.getAffixesQuery.affixes_Q}
-			  loading={this.props.getAffixesQuery.loading}
+			  data={this.state.data}
+			  loading={this.state.loading}
         columns={columns}
         defaultPageSize={10}
         className="-striped -highlight left"

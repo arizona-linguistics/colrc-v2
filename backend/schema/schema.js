@@ -350,16 +350,16 @@ type Texttoaudiosetrelation {
     getUserFromToken_Q: User
     loginUser_Q(email:String!,password:String!): [LoginUser]
     users_Q: [User]
-    affixes_Q: [Affix]
+    affixes_Q(active: String, search: String): [Affix]
     affix_Q(id:ID!): Affix
-    roots_Q(active: String): [Root]
+    roots_Q(active: String, search: String): [Root]
     root_Q(id:ID!): Root
-    stems_Q: [Stem]
+    stems_Q(active: String, search: String): [Stem]
     stem_Q(id:ID!): Stem
-    bibliographies_Q: [Bibliography]
+    bibliographies_Q(active: String, search: String): [Bibliography]
     bibliography_Q(id:ID!): Bibliography
     spelling_Q(id:ID!): Spelling
-    spellings_Q: [Spelling]
+    spellings_Q(active: String, search: String): [Spelling]
     consonants_Q: [Consonant]
     vowels_Q: [Vowel]
     texts_Q: [Text]

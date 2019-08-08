@@ -80,6 +80,20 @@ class SpellingPronunciationList extends Component {
           console.log(this.state)
           console.log("and here's the role " + this.state.fields.roles)
         }
+      // now we're going to get only active roots if we are not admin, else 
+      // we will get all the roots
+      let spellvars = {}
+      if (!this.state.fields.roles.includes("admin")){
+        spellvars.active = 'Y'
+      }
+      const getSpellings = await this.props.client.query({
+        query: getSpellingsQuery,
+        variables: spellvars 
+      })
+      this.setState({
+        data: getSpellings.data.spellings_Q,
+        loading: false
+      })
     } catch(error) {
       console.log(error)
     }
@@ -326,8 +340,8 @@ class SpellingPronunciationList extends Component {
     const dataOrError = this.state.error ?
       <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
       <ReactTable
-        data={this.props.getSpellingsQuery.spellings_Q}
-        loading={this.props.getSpellingsQuery.loading}
+        data={this.state.data}
+        loading={this.state.loading}
         columns={columns}
         filterable
         defaultPageSize={20}
