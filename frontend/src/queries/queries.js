@@ -97,8 +97,8 @@ const getRootsQuery = gql`
 
 
 const getBibliographiesQuery = gql`
-{
-  bibliographies_Q {
+query($active: String){
+  bibliographies_Q(active: $active) {
     id
     author
     year
@@ -148,8 +148,8 @@ const getSpellingQuery = gql`
 `;
 
 const getSpellingsQuery = gql`
-  {
-    spellings_Q {
+  query($active: String){
+    spellings_Q (active: $active){
       id
       reichard
       nicodemus

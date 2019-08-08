@@ -356,10 +356,10 @@ type Texttoaudiosetrelation {
     root_Q(id:ID!): Root
     stems_Q(active: String, search: String): [Stem]
     stem_Q(id:ID!): Stem
-    bibliographies_Q: [Bibliography]
+    bibliographies_Q(active: String, search: String): [Bibliography]
     bibliography_Q(id:ID!): Bibliography
     spelling_Q(id:ID!): Spelling
-    spellings_Q: [Spelling]
+    spellings_Q(active: String, search: String): [Spelling]
     consonants_Q: [Consonant]
     vowels_Q: [Vowel]
     texts_Q: [Text]

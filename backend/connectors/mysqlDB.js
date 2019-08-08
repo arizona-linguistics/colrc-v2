@@ -1000,8 +1000,12 @@ const affixes_C = input => {
 }
 
 const bibliographies_C = input => {
+  let wherecond = {}
+  if (input.active) {
+    wherecond.active = input.active
+  }
   return Bibliography.findAll({
-    where: { }
+    where: wherecond
   })
 }
 
@@ -1088,8 +1092,12 @@ const spelling_C = input => {
   })
 }
 const spellings_C = input => {
+  let wherecond = {}
+  if (input.active) {
+    wherecond.active = input.active
+  }
   return Spelling.findAll({
-    where: { }
+    where: wherecond
   })
 }
 const consonants_C = input => {
