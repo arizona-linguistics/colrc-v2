@@ -4,11 +4,14 @@ import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import DecoratedTextSpan from '../utilities/DecoratedTextSpan';
 import ReactTable from "react-table";
 import matchSorter from 'match-sorter';
+import { withRouter } from 'react-router-dom';
+import { graphql, compose, withApollo } from 'react-apollo';
+import { getRootsQuery, getStemsQuery, getAffixesQuery } from '../queries/queries';
 
 class Search extends Component {
 
 	constructor(props) {
-    	super(props);
+    super(props);
 		this.onSubmit = this.onFormSubmit.bind(this);
 		this.onInputChange = this.onInputChange.bind(this);
 		this.loadSearchInfo = this.loadSearchInfo.bind(this);
@@ -36,26 +39,42 @@ class Search extends Component {
 				data: [],
     			loading: false
     		}
-
 		};
 	}
-
 
 	loadSearchInfo = async (searchArea) => {
 		try {
 			const {address, fields} = this.state[`${searchArea}`];
 			const searchField = fields[0];
-			const fetchAddress = `${address}?${searchField}_like=${this.state.fields.searchtext}`;
-			console.log(address);
+			//const fetchAddress = `${address}?${searchField}_like=${this.state.fields.searchtext}`;
 			console.log(searchField);
-			console.log(fetchAddress);
-	    	const response = await fetch(fetchAddress);
-	      	if (!response.ok) {
-	        	throw Error(response.statusText);
-	    	}
-	      	const json = await response.json();
-	      	const loadingKey = `${searchArea}.loading`;
-	      	const dataKey = `${searchArea}.data`;
+      let response = ''
+      let json = ''
+      const variables = {
+        active: "Y", 
+        search: `${this.state.fields.searchtext}`     
+      }
+      if (searchArea === 'roots'){
+        response = await this.props.client.query({
+          query: getRootsQuery,
+          variables: variables
+        })
+        json = response.data.roots_Q
+      } else if (searchArea === 'stems'){
+          response = await this.props.client.query({
+          query: getStemsQuery,
+          variables: variables
+        })
+        json = response.data.stems_Q
+      } else if (searchArea === 'affixes'){
+        response = await this.props.client.query({
+          query: getAffixesQuery,
+          variables: variables
+        })
+        json = response.data.affixes_Q
+      }
+	    const loadingKey = `${searchArea}.loading`;
+	    const dataKey = `${searchArea}.data`;
 			const searchState = Object.assign({}, this.state);
 			searchState[`${searchArea}`]['loading'] = false;
 			searchState[`${searchArea}`]['data'] = json;
@@ -64,7 +83,7 @@ class Search extends Component {
 	    } catch (error) {
 	    	console.log("This is my Error: " + error);
 	    	const errorKey = `${searchArea}.error`;
-	      	this.setState({ [`${searchArea}.error`]: error });
+	      this.setState({ [`${searchArea}.error`]: error });
 	    }
 	};
 
@@ -92,196 +111,183 @@ class Search extends Component {
 	};
 
 	render() {
-
-	  	const getColumnWidth = (rows, accessor, headerText) => {
-	  	  	const maxWidth = 600;
-	  	  	const magicSpacing = 18;
-	  	  	const cellLength = Math.max(
-	  	    	...rows.map(row => (`${row[accessor]}` || '').length),
-	  	    	headerText.length,
-	  	  	);
-	  	  	return Math.min(maxWidth, cellLength * magicSpacing);
-  		};
-
 		//set up the columns for the search results from roots
 		const rootColumns = [{
-			    accessor: 'id',
-		        show: false
-		  	},
-	    	{
-			    Header: 'Root',
-			    accessor: 'root',
-			    filterMethod: (filter, rows) =>
-		        	matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
-		            filterAll: true,
-			    width: getColumnWidth(this.state.roots.data, 'root', 'Root'),
-		  	},
-		  	{
-			    Header: '#',
-			    accessor: 'number',
-			    filterMethod: (filter, rows) =>
-		        	matchSorter(rows, filter.value, { keys: ["#"], threshold: matchSorter.rankings.CONTAINS }),
-		            filterAll: true,
-			    width: getColumnWidth(this.state.roots.data, 'number', '#'),
-		  	},
-		  	{
-			    Header: 'Salish',
-			    accessor: 'salish',
-			    filterMethod: (filter, rows) =>
-		        	matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
-		            filterAll: true,
-		  	},
+  			accessor: 'id',
+  		  show: false
+		  },
+	    {
+		    Header: 'Root',
+		    accessor: 'root',
+		    filterMethod: (filter, rows) =>
+	        matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
+	      filterAll: true,
+	  	},
+	  	{
+		    Header: '#',
+		    accessor: 'number',
+		    filterMethod: (filter, rows) =>
+	        matchSorter(rows, filter.value, { keys: ["#"], threshold: matchSorter.rankings.CONTAINS }),
+	      filterAll: true,
+        width: 50
+	  	},
+	  	{
+		    Header: 'Salish',
+		    accessor: 'salish',
+		    filterMethod: (filter, rows) =>
+	        matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
+	      filterAll: true,
+	  	},
 		 	{
-			    Header: 'Nicodemus',
-			    accessor: 'nicodemus',
-			    filterMethod: (filter, rows) =>
-		        	matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
-		            filterAll: true,
-		    Cell: row => ( <DecoratedTextSpan str={row.value} />),
-		  	},
-		  	{
-			    Header: 'English',
-			    accessor: 'english',
-			    filterMethod: (filter, rows) =>
-		        	matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
-		        filterAll: true,
-			    style: { 'white-space': 'unset' },
-		  	}
-	    ];
+		    Header: 'Nicodemus',
+		    accessor: 'nicodemus',
+		    filterMethod: (filter, rows) =>
+	        matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
+	      filterAll: true,
+	      Cell: row => ( <DecoratedTextSpan str={row.value} />),
+	  	},
+	  	{
+		    Header: 'English',
+		    accessor: 'english',
+		    filterMethod: (filter, rows) =>
+	        	matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
+	        filterAll: true,
+		    style: { 'white-space': 'unset' },
+	  	}
+    ];
 
 		//set up columns for stems results
 		const stemsColumns = [{
-				Header: 'Type',
-				accessor: 'category',
-				width: getColumnWidth(this.state.stems.data, 'category', 'Type'),
-				filterMethod: (filter, row) => {
-					if (filter.value === "all") {
-						return true;
-					}
-					return row[filter.id] === filter.value;
-				},
-				Filter: ({filter, onChange}) =>
-					<select onChange = { event => onChange(event.target.value)}
-						style = {{ width: "100%"}}
-						value = {filter ? filter.value : "all"} >
-					<option value = "all" > Show All < /option> 
-					<option value = "verb" > Verbs < /option> 
-					<option value = "noun" > Nouns < /option> 
-					<option value = "other" > Other < /option> 
-					</select>,
-			}, 
-			{
-				Header: 'Reichard',
-				accessor: 'reichard',
-				filterMethod: (filter, rows) =>
-					matchSorter(rows, filter.value, {
-						keys: ["reichard"],
-						threshold: matchSorter.rankings.CONTAINS
-					}),
-				filterAll: true,
-			}, 
-			{
-				Header: 'Doak',
-				accessor: 'doak',
-				filterMethod: (filter, rows) =>
-					matchSorter(rows, filter.value, {
-						keys: ["doak"],
-						threshold: matchSorter.rankings.CONTAINS
-					}),
-				filterAll: true,
-			}, 
-			{
-				Header: 'Salish',
-				accessor: 'salish',
-				filterMethod: (filter, rows) =>
-					matchSorter(rows, filter.value, {
-						keys: ["salish"],
-						threshold: matchSorter.rankings.CONTAINS
-					}),
-				filterAll: true,
-			}, 
-			{
-				Header: 'Nicodemus',
-				accessor: 'nicodemus',
-				filterMethod: (filter, rows) =>
-					matchSorter(rows, filter.value, {
-						keys: ["nicodemus"],
-						threshold: matchSorter.rankings.CONTAINS
-					}),
-		   		Cell: row => ( <DecoratedTextSpan str={row.value} />),
-				filterAll: true,
-			}, 
-			{
-				Header: 'English',
-				accessor: 'english',
-				style: {'white-space': 'unset'},
-				filterMethod: (filter, rows) =>
-					matchSorter(rows, filter.value, {
-						keys: ["english"],
-						threshold: matchSorter.rankings.CONTAINS
-					}),
-				filterAll: true,
-			}, 
-			{
-				Header: 'Note',
-				accessor: 'note',
-				style: {'white-space': 'unset'},
-				filterMethod: (filter, rows) =>
-					matchSorter(rows, filter.value, {
-						keys: ["note"],
-						threshold: matchSorter.rankings.CONTAINS
-					}),
-				filterAll: true,
-			}];
+      Header: 'Category',
+      accessor: 'category',
+      filterMethod: (filter, row) => {
+        if (filter.value === "all") {
+          return true;
+        }
+        return row[filter.id] === filter.value;
+      },
+      Filter: ({filter, onChange}) =>
+        <select onChange = { event => onChange(event.target.value)}
+          style = {{ width: "100%"}}
+          value = {filter ? filter.value : "all"} >
+        <option value = "all" > Show All </option>
+        <option value = "v" > Verbs </option>
+        <option value = "n" > Nouns </option>
+        <option value = "aci" > Other </option>
+        </select>,
+    }, 
+    {
+      Header: 'Reichard',
+      accessor: 'reichard',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, {
+          keys: ["reichard"],
+          threshold: matchSorter.rankings.CONTAINS
+      }),
+      filterAll: true,
+    }, 
+    {
+      Header: 'Doak',
+      accessor: 'doak',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, {
+          keys: ["doak"],
+          threshold: matchSorter.rankings.CONTAINS
+        }),
+      filterAll: true,
+    }, 
+    {
+      Header: 'Salish',
+      accessor: 'salish',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, {
+          keys: ["salish"],
+          threshold: matchSorter.rankings.CONTAINS
+        }),
+      filterAll: true,
+    }, {
+      Header: 'Nicodemus',
+      accessor: 'nicodemus',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, {
+          keys: ["nicodemus"],
+          threshold: matchSorter.rankings.CONTAINS
+        }),
+      filterAll: true,
+      Cell: row => ( <DecoratedTextSpan str={row.value} />),
+    }, 
+    {
+      Header: 'English',
+      accessor: 'english',
+      style: { 'whiteSpace': 'unset'},
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, {
+          keys: ["english"],
+          threshold: matchSorter.rankings.CONTAINS
+        }),
+      filterAll: true,
+    }, 
+    {
+      Header: 'Note',
+      accessor: 'note',
+      style: { 'whiteSpace': 'unset' },
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, {
+          keys: ["note"],
+          threshold: matchSorter.rankings.CONTAINS
+        }),
+      filterAll: true,
+		}];
 		//set up the columns for the affixes results
-	  const columns = [{
-	    Header: 'Type',
-	    accessor: 'type',
-	    width: getColumnWidth(this.state.affixes.data, 'type', 'Type'),
-		filterMethod: (filter, row) => {
-                    if (filter.value === "all") {
-                      return true;
-                    }
-                    return row[filter.id] === filter.value;
-                },
-	    Filter: ({ filter, onChange }) =>
-	            <select
-	              onChange={event => onChange(event.target.value)}
-	              style={{ width: "100%" }}
-	              value={filter ? filter.value : "all"}
-	            >
-	              <option value="all">Show All</option>
-	              <option value="Directional">Directional</option>
-	              <option value="Locative">Locative</option>
-	            </select>,
-	  	},
-	  {
-	    Header: 'Salish',
-	    accessor: 'salish',
-	    filterMethod: (filter, rows) =>
-        	matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
+	  const affixcolumns = [{
+      Header: 'Type',
+      accessor: 'type',
+      width: 100,
+      //setup the dropdown menu for 'type'.
+      filterMethod: (filter, row) => {
+        if (filter.value === "all") {
+          return true;
+        }
+        return row[filter.id] === filter.value;
+      },
+      Filter: ({ filter, onChange }) =>
+        <select
+          onChange={event => onChange(event.target.value)}
+          style={{ width: "100%" }}
+          value={filter ? filter.value : "all"}
+        >
+          <option value="all">Show All</option>
+          <option value="d">Directional ('d')</option>
+          <option value="l">Locative ('l')</option>
+        </select>,
+      },
+      {
+        Header: 'Salish',
+        accessor: 'salish',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
             filterAll: true,
-	  	},
-	  {
-	    Header: 'Nicodemus',
-	    accessor: 'nicodemus',
-	    filterMethod: (filter, rows) =>
-        	matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
-            filterAll: true,
-	  	}, 
-	  {
-	    Header: 'English',
-	    accessor: 'english',
-	    style: { 'white-space': 'unset' }, 
-	    filterMethod: (filter, rows) =>
-        	matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
-            filterAll: true,
-	  	}, 
-	  {
-	    Header: 'Link',
-	    accessor: 'link',
-	    Cell: ({row, original}) => ( this.weblink(original.link, original.page) ),
-	  }
+      },
+      {
+        Header: 'Nicodemus',
+        accessor: 'nicodemus',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+      },
+      {
+        Header: 'English',
+        accessor: 'english',
+        style: { 'whiteSpace': 'unset' },
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+      },
+      {
+        Header: 'Link',
+        accessor: 'link',
+        Cell: ({row, original}) => ( this.weblink(original.link, original.page) ),
+      },
 	  ];
 
 		//build the roots results table
@@ -293,7 +299,7 @@ class Search extends Component {
 		        	loading={this.state.roots.loading}
 		        	columns={rootColumns}
 		        	filterable
-					pageSize = {this.state.roots.data.length > 5 ? 5 : this.state.roots.data.length}
+					   pageSize = {this.state.roots.data.length > 5 ? 5 : this.state.roots.data.length}
 		        	className="-striped -highlight"
 		      	/>
 			: <div style={{color: 'blue' }}>No roots match the search criteria</div> 
@@ -321,7 +327,7 @@ class Search extends Component {
 		      	<ReactTable
 			        data={this.state.affixes.data}
 			        loading={this.state.affixes.loading}
-			        columns={columns}
+			        columns={affixcolumns}
 					pageSize = {this.state.affixes.data.length > 5 ? 5 : this.state.affixes.data.length}
 			        className="-striped -highlight left"
 			        filterable
@@ -370,4 +376,10 @@ class Search extends Component {
 		) 
 	};
 }
-export default Search;
+
+export default compose(
+  withApollo,
+  graphql(getRootsQuery, { name: 'getRootsQuery' }),
+  graphql(getStemsQuery, { name: 'getStemsQuery' }),
+  graphql(getAffixesQuery, { name: 'getAffixesQuery' })
+)(withRouter(Search));

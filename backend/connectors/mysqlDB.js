@@ -21,7 +21,7 @@ const sequelize = new Sequelize(
       collate: 'utf8mb4_unicode_ci',
       timestamps: true
     },
-    logging:false
+    //logging:false
   });
 
 sequelize
@@ -981,8 +981,21 @@ const affix_C = input => {
 }
 
 const affixes_C = input => {
+  let wherecond = {}
+  if (input.search) {
+    wherecond = {
+      [Sequelize.Op.or]: [
+        { salish: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { nicodemus: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { english: { [Sequelize.Op.like]: '%' + input.search + '%' } }
+      ]
+    }
+  }
+  if (input.active) {
+    wherecond.active = input.active
+  }   
   return Affix.findAll({
-    where: { }
+    where: wherecond
   })
 }
 
@@ -1006,6 +1019,16 @@ const root_C = input => {
 
 const roots_C = input => {
   let wherecond = {}
+  if (input.search) {
+    wherecond = {
+      [Sequelize.Op.or]: [
+        { root: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { salish: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { nicodemus: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { english: { [Sequelize.Op.like]: '%' + input.search + '%' } }
+      ]
+    }
+  }
   if (input.active) {
     wherecond.active = input.active
   }
@@ -1020,9 +1043,25 @@ const stem_C = input => {
   })
 }
 
-const stems_C = input => {
+const stems_C = input => { 
+  let wherecond = {}
+  if (input.search) {
+    wherecond = {
+      [Sequelize.Op.or]: [
+        { reichard: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { salish: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { doak: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { nicodemus: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { english: { [Sequelize.Op.like]: '%' + input.search + '%' } },
+        { note: { [Sequelize.Op.like]: '%' + input.search + '%' } }
+      ]
+    }
+  }
+  if (input.active) {
+    wherecond.active = input.active
+  } 
   return Stem.findAll({
-    where: { }
+    where: wherecond
   })
 }
 

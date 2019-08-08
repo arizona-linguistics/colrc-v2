@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 const getStemsQuery = gql`
-  {
-    stems_Q {
+query($active: String, $search: String){
+    stems_Q(active: $active, search: $search) {
       id
       category
       reichard
@@ -43,8 +43,8 @@ const getUserFromToken = gql`
   }
 `;
 const getAffixesQuery = gql`
-  {
-    affixes_Q {
+  query($active: String, $search: String){
+    affixes_Q(active: $active, search: $search) {
       id
       type
       salish
@@ -77,8 +77,8 @@ const getUsersQuery = gql`
 `;
 
 const getRootsQuery = gql`
-  query($active: String){
-    roots_Q(active: $active) {
+  query($active: String, $search: String){
+    roots_Q(active: $active, search: $search) {
       id
       root
       number
