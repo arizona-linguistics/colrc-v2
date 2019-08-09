@@ -185,6 +185,7 @@ class Search extends Component {
           threshold: matchSorter.rankings.CONTAINS
       }),
       filterAll: true,
+      Cell: row => ( <DecoratedTextSpan str={row.value} />),
     }, 
     {
       Header: 'Doak',

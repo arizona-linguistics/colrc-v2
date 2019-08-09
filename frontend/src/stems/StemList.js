@@ -206,6 +206,7 @@ class StemList extends Component {
 			}),
 			filterAll: true,
 			show: reichardSelected,
+      Cell: row => ( <DecoratedTextSpan str={row.value} />),
 		}, 
     {
 			Header: 'Doak',

@@ -17,6 +17,9 @@ class DecoratedTextSpan extends Component {
        else if (decorations[i].type === "underline") {
          children.push(<span style={{ textDecoration: 'underline' }}>{ss}</span>);
        }
+       else if (decorations[i].type === "superscript") {
+        children.push(<span style={{ fontSize: '70%', verticalAlign: 'super' }}>{ss}</span>);
+       }
        else {
          children.push(<span>{ss}</span>);
        }
