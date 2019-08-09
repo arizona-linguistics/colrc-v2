@@ -15,6 +15,7 @@ class StemList extends Component {
 		super();
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
+    this.dropdown = this.dropdown.bind(this);
 		this.state = {
       //set up an empty array and a loading state for react-table
 			data: [],
@@ -157,8 +158,21 @@ class StemList extends Component {
 				this.props.history.push('/stems');
 			}
 	  };
-
-	render() {
+  
+  // translate dropdown values into text
+	dropdown(original) {
+    console.log("I'm in the dropdown function")
+    console.log(original)
+    if (original === 'v') {
+      original = original.replace('v', 'verb')
+    } else if (original === 'n') {
+      original = original.replace('n', 'noun')
+    } else if (original === 'aci') {
+      original = original.replace('aci', 'other')
+    }
+    return(<span>{original}</span>)
+  }
+  render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
 		const { categorySelected, reichardSelected, doakSelected, salishSelected, nicodemusSelected, englishSelected,noteSelected, usernameSelected, editSelected, activeSelected, prevIdSelected, editnoteSelected } = this.state;
 
@@ -195,6 +209,8 @@ class StemList extends Component {
 				<option value = "n" > Nouns </option>
 				<option value = "aci" > Other </option>
 				</select>,
+      show: categorySelected,
+      Cell: ({row, original}) => ( this.dropdown(original.category) )
 		}, 
     {
 			Header: 'Reichard',
