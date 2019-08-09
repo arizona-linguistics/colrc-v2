@@ -5,8 +5,7 @@ import matchSorter from 'match-sorter';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import BibliographyAccordion from "../accordions/BibliographyAccordion";
 import { Link, withRouter } from "react-router-dom";
-import axios from 'axios';
-import { getBibliographiesQuery, deleteBibliographyMutation } from '../queries/queries';
+import { getBibliographiesQuery, deleteBibliographyMutation, getUserFromToken } from '../queries/queries';
 import { graphql, compose } from 'react-apollo';
 
 
@@ -22,6 +21,9 @@ class Bibliography extends Component {
       //set up an empty array and a loading state for react-table
       data: [],
       loading: true,
+      bibvars: {},
+      //assume the user is not logged in as admin, prepare to get user info from token
+      admin: false,
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show main content.  Always initially hide procedural content.
       authorSelected: true,
 		  yearSelected: true,
@@ -41,6 +43,63 @@ class Bibliography extends Component {
       link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
     );
   }
+
+    //get user from token, find out users' roles
+    async componentDidMount() {
+      try {
+        const token = localStorage.getItem('TOKEN')
+          if (token) {
+            let userQuery = await this.props.client.query({
+              query: getUserFromToken,
+            })
+            const user = userQuery.data.getUserFromToken_Q
+            // set the state with user info based on token, and if the user has an 'admin' role, set 
+            // the state variable 'admin' to true.  Else, set it to false. 
+            await this.setState({
+              // if the roles array includes admin, set state to logged in as admin
+              admin: user.roles.includes("admin")  || user.roles.includes("owner") || user.roles.includes("update"),
+              fields: {
+                first: user.first,
+                last: user.last,
+                email: user.email,
+                username: user.username,
+                roles: user.roles
+              }
+            }) 
+            console.log("My user is " + user)
+            console.log(this.state)
+          } else {
+            await this.setState({
+              admin: false,
+              fields: {
+                first: "anonymous",
+                last: "anonymous",
+                email: "anonymous",
+                username: "anonymous",
+                roles: ["view"]
+              }
+            })
+            console.log(this.state)
+            console.log("and here's the role " + this.state.fields.roles)
+          }
+        // now we're going to get only active bibliographies if we are not admin, else 
+        // we will get all the bibliographies
+        if (!this.state.fields.roles.includes("admin")){
+          this.state.affixvars.active = 'Y'
+        }
+        const getBibliographies = await this.props.client.query({
+          query: getBibliographiesQuery,
+          variables: this.state.bibvars 
+        })
+        this.setState({
+          data: getBibliographies.data.bibliographies_Q,
+          loading: false
+        })
+        
+      } catch(error) {
+        console.log(error)
+      }
+    } 
 
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   handleAuthorChange(value) {
@@ -261,8 +320,8 @@ const columns = [{
     const dataOrError = this.state.error ?
      <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
      <ReactTable
-       data={this.props.getBibliographiesQuery.bibliographies_Q}
-       loading={this.props.getBibliographiesQuery.loading}
+       data={this.state.data}
+       loading={this.state.loading}
        columns={columns}
        filterable
        defaultPageSize={10}
@@ -296,5 +355,6 @@ const columns = [{
 
 
 export default compose(
-	graphql(getBibliographiesQuery, { name: 'getBibliographiesQuery' })
+  graphql(getBibliographiesQuery, { name: 'getBibliographiesQuery' }),
+  graphql(deleteBibliographyMutation, { name: 'deleteBibliographyMutation' })  
 )(withRouter(Bibliography));
