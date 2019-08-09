@@ -12,7 +12,7 @@ class TextsList extends Component {
     super();
     this.state = {
     	data: [],
-    	loading: true
+    	loading: true,
      };
   }
 
@@ -166,22 +166,22 @@ sourcefiles(json) {
 	    			? <AudioPlayer key={original.key} title={original.title} speaker={original.speaker} sources={original.sources} /> 
 	    			: (original.type ==="textimages"
 	    				? <Link to={{
-			              	pathname: '/imageviewer/',
-			              	search: '?key=' + original.key + original.src }}
-			              	target="_blank"
-			              	rel="noopener noreferrer" 
+									pathname: '/imageviewer/',
+									search: '?key=' + original.key + original.src }}
+									target="_blank"
+									rel="noopener noreferrer" 
 			          	>
-			            	{original.title}
-			          	</Link>
-				        : <Link to={{
-			          		pathname: '/splitview/',
-			          		search: '?key=' + original.key + original.src }}
-			          		target="_blank"
-			          		rel="noopener noreferrer"
-			          	>
-				          	{original.title}
-				          	</Link>	
-			          	)
+			            {original.title}
+			          </Link>
+				      : <Link to={{
+									pathname: '/splitview/',
+									search: '?key=' + original.key + original.src }}
+									target="_blank"
+									rel="noopener noreferrer"
+			          >
+									{original.title}
+								</Link>	
+			        )
 	    			)
 	    	)
 		},
