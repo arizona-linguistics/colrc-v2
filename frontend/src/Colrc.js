@@ -115,14 +115,14 @@ class Colrc extends Component {
   rightMenuItems = () => {
     const rightItems = [
       { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
-      { to: "/settings", icon: 'cog', content:"Settings", key: 'rsettings'},
-      { to: "/more", icon: 'ellipsis vertical', content:"More Options", key: 'rmore'},
+      // { to: "/settings", icon: 'cog', content:"Settings", key: 'rsettings'},
+      // { to: "/more", icon: 'ellipsis vertical', content:"More Options", key: 'rmore'},
     ]
     if (loggedIn()){
-      rightItems.unshift({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
+      rightItems.push({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
     }
     else {
-      rightItems.unshift({ to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'})
+      rightItems.push({ to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'})
     }
     return rightItems
   }
