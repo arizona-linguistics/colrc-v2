@@ -21,7 +21,7 @@ class Affixes extends Component {
 
 let currentItem; 
     if (this.state.activeItem === "list") {
-      	currentItem = <AffixList />;
+      	currentItem = <AffixList affixState={this.props.affixState} changeAffixState={this.props.changeAffixState}/>;
     }
 	else {
 		currentItem = <AffixMetadata />;

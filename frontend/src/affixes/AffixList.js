@@ -8,13 +8,13 @@ import { withApollo, graphql, compose } from 'react-apollo';
 import { getAffixesQuery, deleteAffixMutation, getUserFromToken } from '../queries/queries';
 
 class AffixList extends Component {
-	constructor() {
+	constructor(props) {
     //get all the props so we can refer to them
-	  super();
+	  super(props);
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
 	  this.weblink = this.weblink.bind(this);
-    this.dropdown = this.dropdown.bind(this);
+    this.affixDropdown = this.affixDropdown.bind(this);
     //set the initial state
 	  this.state = {
       //set up an empty array and a loading state for react-table
@@ -22,16 +22,19 @@ class AffixList extends Component {
       loading: true,
       affixvars: {},
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
-      typeSelected: false,
-		  salishSelected: false,
-		  nicodemusSelected: true,
-		  englishSelected: true,
-		  linkSelected: true,
-      editSelected: false,
-	    usernameSelected: false,
-      activeSelected: false,
-      prevIdSelected: false,
-      editnoteSelected: false,
+      page: this.props.affixState.page,
+      selected: {
+        type: this.props.affixState.selected.type,
+  		  salish: this.props.affixState.selected.salish,
+  		  nicodemus: this.props.affixState.selected.nicodemus,
+  		  english: this.props.affixState.selected.english,
+  		  link: this.props.affixState.selected.link,
+        edit: this.props.affixState.selected.edit,
+  	    username: this.props.affixState.selected.username,
+        active: this.props.affixState.selected.active,
+        prevId: this.props.affixState.selected.prevId,
+        editnote: this.props.affixState.selected.editnote,
+      }
 	  };
 	}
 
@@ -102,35 +105,103 @@ class AffixList extends Component {
 
 //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   handleTypeChange(value) {
-   this.setState({ typeSelected: !this.state.typeSelected });
+    const current = this.state.selected
+    current.type = !current.type
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
   };
+
 	handleSalishChange(value) {
-	 this.setState({ salishSelected: !this.state.salishSelected });
+	  const current = this.state.selected
+    current.salish = !current.salish
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
 	};
 	handleNicodemusChange(value) {
-	 this.setState({ nicodemusSelected: !this.state.nicodemusSelected });
+    const current = this.state.selected
+    current.nicodemus = !current.nicodemus
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
 	};
 	handleEnglishChange(value) {
-	 this.setState({ englishSelected: !this.state.englishSelected });
+    const current = this.state.selected
+    current.english = !current.english
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
 	};
 	handleLinkChange(value) {
-	 this.setState({ linkSelected: !this.state.linkSelected });
+    const current = this.state.selected
+    current.link = !current.link
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
 	};
   handleActiveChange(value) {
-   this.setState({ activeSelected: !this.state.activeSelected });
+    const current = this.state.selected
+    current.active = !current.active
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
   };
   handlePrevIdChange(value) {
-   this.setState({ prevIdSelected: !this.state.prevIdSelected });
+    const current = this.state.selected
+    current.prevId = !current.prevId
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
   };
 	handleUserChange(value) {
-	 this.setState({ usernameSelected: !this.state.usernameSelected });
+    const current = this.state.selected
+    current.username = !current.username
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
 	};
   handleEditnoteChange(value) {
-   this.setState({ editnoteSelected: !this.state.editnoteSelected });
+    const current = this.state.selected
+    current.editnote = !current.editnote
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
   };
   handleEditChange(value) {
-   this.setState({ editSelected: !this.state.editSelected });
+    const current = this.state.selected
+    current.edit = !current.edit
+    this.setState({ 
+      page: this.state.page,
+      selected: current
+    });
+    this.props.changeAffixState({selected: this.state.selected}) 
   };
+  handlePageChange(page) {
+    this.setState({
+      page: page,
+      selected: this.state.selected
+    });
+    this.props.changeAffixState({page: this.state.page})
+  }
 // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
   async onDelete(id) {
     console.log("In deletion");
@@ -149,9 +220,7 @@ class AffixList extends Component {
       this.props.history.push('/affixes');
     }
   };
-  dropdown(original) {
-    console.log("I'm in the dropdown function")
-    console.log(original)
+  affixDropdown(original) {
     if (original === 'd') {
       original = original.replace('d', 'directional')
     } else if (original === 'l') {
@@ -165,7 +234,6 @@ class AffixList extends Component {
   }
 	render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
-    const { typeSelected, salishSelected, nicodemusSelected, englishSelected, linkSelected, usernameSelected, editSelected, activeSelected, prevIdSelected, editnoteSelected } = this.state;
     
     const { admin } = this.state
     //provide a function to set column widths dynamically based on the data returned.       
@@ -184,7 +252,6 @@ class AffixList extends Component {
 	    Header: 'Type',
 	    accessor: 'type',
 	    width: 100,
-      show: typeSelected,
       //setup the dropdown menu for 'type'.
 		  filterMethod: (filter, row) => {
         if (filter.value === "all") {
@@ -204,8 +271,8 @@ class AffixList extends Component {
           <option value="lp">Lexical Prefixes</option>
           <option value="ls">Lexical Suffixes</option>
         </select>,
-      show: typeSelected,
-      Cell: ({row, original}) => ( this.dropdown(original.type) )
+      show: this.state.selected.type,
+      Cell: ({row, original}) => ( this.affixDropdown(original.type) )
 	  	},
   	  {
   	    Header: 'Salish',
@@ -213,7 +280,7 @@ class AffixList extends Component {
   	    filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
             filterAll: true,
-        show: salishSelected,
+        show: this.state.selected.salish,
   	  },
   	  {
   	    Header: 'Nicodemus',
@@ -221,7 +288,7 @@ class AffixList extends Component {
   	    filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
-        show: nicodemusSelected,
+        show: this.state.selected.nicodemus,
   	  	},
   	  {
   	    Header: 'English',
@@ -230,13 +297,13 @@ class AffixList extends Component {
   	    filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
-        show: englishSelected,
+        show: this.state.selected.english,
   	  	},
   	  {
   	    Header: 'Link',
   	    accessor: 'link',
   	    Cell: ({row, original}) => ( this.weblink(original.link, original.page) ),
-  	    show: linkSelected,
+  	    show: this.state.selected.link,
   	  },
       {
         Header: 'Active',
@@ -244,7 +311,7 @@ class AffixList extends Component {
         filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
-        show: activeSelected,
+        show: this.state.selected.active,
         width: 50,
       },
       {
@@ -253,7 +320,7 @@ class AffixList extends Component {
         filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
-        show: prevIdSelected,
+        show: this.state.selected.prevId,
         width: 50,
       },
       {
@@ -263,7 +330,7 @@ class AffixList extends Component {
           matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
         width: 75,
-        show: editnoteSelected,
+        show: this.state.selected.editnote,
       },
       {
         Header: 'User Name',
@@ -271,14 +338,14 @@ class AffixList extends Component {
         filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
-        show: usernameSelected,
+        show: this.state.selected.username,
   	    width: 100,
       },
       {
         Header: 'Edit/Delete',
         filterable: false,
         sortable: false,
-        show: editSelected,
+        show: this.state.selected.edit,
         width: 100,
         //get original row id, allow user to call onDelete, or edit.  Linkto passes original affix values into editaffix form via the location string
         Cell: ({row, original}) => (
@@ -313,35 +380,35 @@ class AffixList extends Component {
       <input
         name="type"
         type="checkbox"
-        checked={this.state.typeSelected}
+        checked={this.state.selected.type}
         onChange={this.handleTypeChange.bind(this)}
       />
       <label className="checkBoxLabel">Salish</label>
 		  <input
 		  	name="salish"
         type="checkbox"
-        checked={this.state.salishSelected}
+        checked={this.state.selected.salish}
         onChange={this.handleSalishChange.bind(this)}
       />
       <label className="checkBoxLabel">Nicodemus</label>
       <input
         name="nicodemus"
         type="checkbox"
-        checked={this.state.nicodemusSelected}
+        checked={this.state.selected.nicodemus}
         onChange={this.handleNicodemusChange.bind(this)}
       />
       <label className="checkBoxLabel">English</label>
       <input
         name="english"
         type="checkbox"
-        checked={this.state.englishSelected}
+        checked={this.state.selected.english}
         onChange={this.handleEnglishChange.bind(this)}
       />
       <label className="checkBoxLabel">Link</label>
       <input
         name="link"
         type="checkbox"
-        checked={this.state.linkSelected}
+        checked={this.state.selected.link}
         onChange={this.handleLinkChange.bind(this)}
       />
 {/* Here begin the admin-only checkboxes   */}
@@ -351,35 +418,35 @@ class AffixList extends Component {
         <input
           name="active"
           type="checkbox"
-          checked={this.state.activeSelected}
+          checked={this.state.selected.active}
           onChange={this.handleActiveChange.bind(this)}
         />
         <label className="checkBoxLabel">PrevId</label>
         <input
           name="prevId"
           type="checkbox"
-          checked={this.state.prevIdSelected}
+          checked={this.state.selected.prevId}
           onChange={this.handlePrevIdChange.bind(this)}
         />
         <label className="checkBoxLabel">Edit Note</label>
         <input
           name="editnote"
           type="checkbox"
-          checked={this.state.editnoteSelected}
+          checked={this.state.selected.editnote}
           onChange={this.handleEditnoteChange.bind(this)}
         />
         <label className="checkBoxLabel">User Name</label>
         <input
           name="user.username"
           type="checkbox"
-          checked={this.state.usernameSelected}
+          checked={this.state.selected.username}
           onChange={this.handleUserChange.bind(this)}
         />
         <label className="checkBoxLabel">Edit/Delete</label>
         <input
           name="edit"
           type="checkbox"
-          checked={this.state.editSelected}
+          checked={this.state.selected.edit}
           onChange={this.handleEditChange.bind(this)}
         />
         </div>
@@ -397,6 +464,7 @@ class AffixList extends Component {
         defaultPageSize={10}
         className="-striped -highlight left"
         filterable
+        //onPageChange={page => this.handlePageChange( page )}
       />;
 
 	  return (
