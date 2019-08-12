@@ -21,8 +21,11 @@ export function findDecorations(str) {
   var boldEndIndices = getIndicesOf("</b>", str);
   var underlineIndices = getIndicesOf("<u>", str);
   var underlineEndIndices = getIndicesOf("</u>", str);
+  var superscriptIndices = getIndicesOf("<sup>", str);
+  var superscriptEndIndices = getIndicesOf("</sup>", str);
   var boldLen = boldIndices.length;
   var underlineLen = underlineIndices.length;
+  var superscriptLen = superscriptIndices.length;
 
   for (var i = 0; i < boldLen; i++) {
     decorations.push({ start: boldIndices[i]+3, end: boldEndIndices[i], type: "bold" });
@@ -30,6 +33,10 @@ export function findDecorations(str) {
 
   for (i = 0; i < underlineLen; i++) {
     decorations.push({ start: underlineIndices[i]+3, end: underlineEndIndices[i], type: "underline" });
+  }
+
+ for (i = 0; i < superscriptLen; i++) {
+    decorations.push({ start: superscriptIndices[i]+5, end: superscriptEndIndices[i], type: "superscript" });
   }
 
   decorations.sort(function(a, b){
@@ -47,6 +54,9 @@ export function findDecorations(str) {
     else if (decorations[i].type === "underline") {
       e -= 3;
     }
+    else if (decorations[i].type === "superscript") {
+      e -= 5;
+    }
 
     if (e > s) {
       decorations.push({ start: s, end: e, type: "normal" });
@@ -57,6 +67,9 @@ export function findDecorations(str) {
     }
     else if (decorations[i].type === "underline") {
       s = decorations[i].end + 4;
+    }
+    else if (decorations[i].type === "superscript") {
+      s = decorations[i].end + 6;
     }
   }
   if (s < str.length) {
