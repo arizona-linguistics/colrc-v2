@@ -14,6 +14,7 @@ class AffixList extends Component {
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
 	  this.weblink = this.weblink.bind(this);
+    this.dropdown = this.dropdown.bind(this);
     //set the initial state
 	  this.state = {
       //set up an empty array and a loading state for react-table
@@ -158,7 +159,20 @@ class AffixList extends Component {
       this.props.history.push('/affixes');
     }
   };
-
+  dropdown(original) {
+    console.log("I'm in the dropdown function")
+    console.log(original)
+    if (original === 'd') {
+      original = original.replace('d', 'directional')
+    } else if (original === 'l') {
+      original = original.replace('l', 'locative')
+    } else if (original === 'ls') {
+      original = original.replace('ls', 'lexical suffix')
+    } else if (original === 'lp') {
+      original = original.replace('lp', 'lexical prefix')
+    } 
+    return(<span>{original}</span>)
+  }
 	render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
     const { typeSelected, salishSelected, nicodemusSelected, englishSelected, linkSelected, usernameSelected, editSelected, activeSelected, prevIdSelected, editnoteSelected } = this.state;
@@ -195,9 +209,13 @@ class AffixList extends Component {
           value={filter ? filter.value : "all"}
         >
           <option value="all">Show All</option>
-          <option value="d">Directional ('d')</option>
-          <option value="l">Locative ('l')</option>
+          <option value="d">Directional</option>
+          <option value="l">Locative</option>
+          <option value="lp">Lexical Prefixes</option>
+          <option value="ls">Lexical Suffixes</option>
         </select>,
+      show: typeSelected,
+      Cell: ({row, original}) => ( this.dropdown(original.type) )
 	  	},
   	  {
   	    Header: 'Salish',

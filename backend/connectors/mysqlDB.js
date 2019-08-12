@@ -279,6 +279,8 @@ const Audiorelation = sequelize.define('audiorelation', {
 
 const Elicitationset = sequelize.define('elicitationset', {
   title: { type: Sequelize.STRING },
+  language: { type: Sequelize.STRING },
+  speaker: { type: Sequelize.STRING },  
   active: { type: Sequelize.STRING(1) },
   userId: { type: Sequelize.STRING },
   prevID: { type: Sequelize.INTEGER }
@@ -1254,10 +1256,16 @@ const elicitationset_C = input => {
   })
 }
 const elicitationsets_C = input => {
+  let wherecond = {}
+  if (input.language) {
+    wherecond.language = input.language
+  }
   return Elicitationset.findAll({
-    where: { }
+    where: wherecond
   })
 }
+
+
 const elicitationrelation_C = input => {
   return Elicitationrelation.findOne({
     where: { id: input.id }
