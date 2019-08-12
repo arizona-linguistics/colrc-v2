@@ -15,6 +15,8 @@ class Search extends Component {
 		this.onSubmit = this.onFormSubmit.bind(this);
 		this.onInputChange = this.onInputChange.bind(this);
 		this.loadSearchInfo = this.loadSearchInfo.bind(this);
+    this.affixDropdown = this.affixDropdown.bind(this);
+    this.stemDropdown = this.stemDropdown.bind(this);
 		this.state = {
 			searchWasRun: false,
 			fields: {
@@ -110,6 +112,34 @@ class Search extends Component {
 		this.setState({ fields });
 	};
 
+  affixDropdown(original) {
+    console.log("I'm in the dropdown function")
+    console.log(original)
+    if (original === 'd') {
+      original = original.replace('d', 'directional')
+    } else if (original === 'l') {
+      original = original.replace('l', 'locative')
+    } else if (original === 'ls') {
+      original = original.replace('ls', 'lexical suffix')
+    } else if (original === 'lp') {
+      original = original.replace('lp', 'lexical prefix')
+    } 
+    return(<span>{original}</span>)
+  }
+
+  stemDropdown(original) {
+    console.log("I'm in the dropdown function")
+    console.log(original)
+    if (original === 'v') {
+      original = original.replace('v', 'verb')
+    } else if (original === 'n') {
+      original = original.replace('n', 'noun')
+    } else if (original === 'aci') {
+      original = original.replace('aci', 'other')
+    }
+    return(<span>{original}</span>)
+  }
+
 	render() {
 		//set up the columns for the search results from roots
 		const rootColumns = [{
@@ -175,6 +205,7 @@ class Search extends Component {
         <option value = "n" > Nouns </option>
         <option value = "aci" > Other </option>
         </select>,
+        Cell: ({row, original}) => ( this.stemDropdown(original.category) )
     }, 
     {
       Header: 'Reichard',
@@ -258,9 +289,12 @@ class Search extends Component {
           value={filter ? filter.value : "all"}
         >
           <option value="all">Show All</option>
-          <option value="d">Directional ('d')</option>
-          <option value="l">Locative ('l')</option>
+          <option value="d">Directional</option>
+          <option value="l">Locative</option>
+          <option value="lp">Lexical Prefixes</option>
+          <option value="ls">Lexical Suffixes</option>
         </select>,
+      Cell: ({row, original}) => ( this.affixDropdown(original.type) )
       },
       {
         Header: 'Salish',

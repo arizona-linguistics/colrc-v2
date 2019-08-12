@@ -15,7 +15,7 @@ class StemList extends Component {
 		super();
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
-    this.dropdown = this.dropdown.bind(this);
+    this.stemDropdown = this.stemDropdown.bind(this);
 		this.state = {
       //set up an empty array and a loading state for react-table
 			data: [],
@@ -160,7 +160,7 @@ class StemList extends Component {
 	  };
   
   // translate dropdown values into text
-	dropdown(original) {
+	stemDropdown(original) {
     console.log("I'm in the dropdown function")
     console.log(original)
     if (original === 'v') {
@@ -210,7 +210,7 @@ class StemList extends Component {
 				<option value = "aci" > Other </option>
 				</select>,
       show: categorySelected,
-      Cell: ({row, original}) => ( this.dropdown(original.category) )
+      Cell: ({row, original}) => ( this.stemDropdown(original.category) )
 		}, 
     {
 			Header: 'Reichard',

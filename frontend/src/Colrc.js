@@ -101,14 +101,38 @@ class Colrc extends Component {
     super(props)
     this.rightMenuItems = this.rightMenuItems.bind(this)
     this.changeLoginState = this.changeLoginState.bind(this)
+    this.changeAffixState = this.changeAffixState.bind(this)
     this.state = {
-      login: loggedIn()
+      login: loggedIn(),
+      affixes: {
+        page: 0,
+        selected: {
+          type: false,
+          salish: false,
+          english: true,
+          nicodemus: true,
+          link: false,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+          editnote: false
+        }
+      }
     }
   }
 
   changeLoginState(loginState) {
     this.setState({
       login: loginState
+    })
+  }
+  async changeAffixState(affixState){
+    await this.setState({
+      affixes: {
+        selected: affixState.selected,
+        page: affixState.page
+      }
     })
   }
 
@@ -142,7 +166,7 @@ class Colrc extends Component {
                 <Route path="/spelling" component={SpellingPronunciation} />
                 <Route path="/roots" component={Roots} />
                 <Route path="/stems" component={Stems} />
-                <Route path="/affixes" component={Affixes} />
+                <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
                 <Route path="/audio" component={Audio} />
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={Texts} />
