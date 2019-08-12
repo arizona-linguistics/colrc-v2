@@ -4,16 +4,18 @@ import matchSorter from 'match-sorter';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Icon } from 'semantic-ui-react';
+import { Formik, Form } from 'formik';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { getAffixesQuery, deleteAffixMutation, getUserFromToken } from '../queries/queries';
 
 class AffixList extends Component {
-	constructor() {
+	constructor(props) {
     //get all the props so we can refer to them
-	  super();
+	  super(props);
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
-	  this.weblink = this.weblink.bind(this);
+    this.weblink = this.weblink.bind(this);
+    this.onDelete = this.onDelete.bind(this);
     //set the initial state
 	  this.state = {
       //set up an empty array and a loading state for react-table
@@ -73,8 +75,8 @@ class AffixList extends Component {
               roles: user.roles
             }
           }) 
-          console.log("My user is " + user)
-          console.log(this.state)
+          console.log("My user is ")
+          console.log(this.state.fields)
         } else {
           await this.setState({
             admin: false,
@@ -86,8 +88,7 @@ class AffixList extends Component {
               roles: ["view"]
             }
           })
-          console.log(this.state)
-          console.log("and here's the role " + this.state.fields.roles)
+          console.log("here's the anonymous user role " + this.state.fields.roles)
         }
       // now we're going to get only active affixes if we are not admin, else 
       // we will get all the affixes
@@ -103,7 +104,6 @@ class AffixList extends Component {
         data: getAffixes.data.affixes_Q,
         loading: false
       })
-      
     } catch(error) {
       console.log(error)
     }
@@ -141,7 +141,7 @@ class AffixList extends Component {
    this.setState({ editSelected: !this.state.editSelected });
   };
 // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
-  async onDelete(id) {
+  async onDelete(id, setSubmitting) {
     console.log("In deletion");
     try {
       await this.props.deleteAffixMutation({
@@ -151,10 +151,13 @@ class AffixList extends Component {
       //after setting the flag, refetch the affixes from the db
 		  refetchQueries: [{ query: getAffixesQuery, variables: this.state.affixvars }]
       });
+      setSubmitting(false)
+      console.log(setSubmitting)
       //then send the user back to the affixlist display
       this.props.history.push('/affixes');
     } catch (err) {
       console.log(err.graphQLErrors[0].message);
+      setSubmitting(false)
       this.props.history.push('/affixes');
     }
   };
