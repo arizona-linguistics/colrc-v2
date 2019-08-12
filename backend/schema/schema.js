@@ -334,6 +334,8 @@ type Texttoaudiosetrelation {
   type Elicitationset {
     id: ID!
     title: String!
+    speaker: String
+    language: String
     elicitationfiles: [Elicitationfile]
     active: String!
     prevId: Int
@@ -383,7 +385,7 @@ type Texttoaudiosetrelation {
     elicitationfile_Q(id:ID!): Elicitationfile
     elicitationfiles_Q: [Elicitationfile]
     elicitationset_Q(id:ID!): Elicitationset
-    elicitationsets_Q: [Elicitationset]
+    elicitationsets_Q(language: String): [Elicitationset]
     elicitationrelation_Q(id:ID!): Elicitationrelation
     elicitationrelations_Q: [Elicitationrelation]
   }

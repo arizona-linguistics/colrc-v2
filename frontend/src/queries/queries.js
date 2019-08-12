@@ -716,6 +716,8 @@ const getAudioFileQuery = gql`
       }
       elicitation {
         title
+        speaker
+        language
       }
       active
       user {
@@ -771,10 +773,12 @@ const getElicitationsQuery = gql`
   }
 `;
 const getElicitationSetsQuery = gql`
-  {
-    elicitationsets_Q {
+   query($language: String){
+    elicitationsets_Q(language: $language) {
       id
       title
+      speaker
+      language
       elicitationfiles {
         id
         src
