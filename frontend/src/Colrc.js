@@ -105,7 +105,7 @@ class Colrc extends Component {
     this.state = {
       login: loggedIn(),
       affixes: {
-        page: 1,
+        page: 0,
         selected: {
           type: false,
           salish: false,
@@ -127,8 +127,8 @@ class Colrc extends Component {
       login: loginState
     })
   }
-  changeAffixState(affixState){
-    this.setState({
+  async changeAffixState(affixState){
+    await this.setState({
       affixes: {
         selected: affixState.selected,
         page: affixState.page

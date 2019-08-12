@@ -104,103 +104,137 @@ class AffixList extends Component {
   } 
 
 //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
-  handleTypeChange(value) {
+  async handleTypeChange(value) {
     const current = this.state.selected
     current.type = !current.type
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
 
-	handleSalishChange(value) {
+	async handleSalishChange(value) {
 	  const current = this.state.selected
     current.salish = !current.salish
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
 	};
-	handleNicodemusChange(value) {
+	async handleNicodemusChange(value) {
     const current = this.state.selected
     current.nicodemus = !current.nicodemus
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
 	};
-	handleEnglishChange(value) {
+	async handleEnglishChange(value) {
     const current = this.state.selected
     current.english = !current.english
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
 	};
-	handleLinkChange(value) {
+	async handleLinkChange(value) {
     const current = this.state.selected
     current.link = !current.link
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
 	};
-  handleActiveChange(value) {
+  async handleActiveChange(value) {
     const current = this.state.selected
     current.active = !current.active
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-  handlePrevIdChange(value) {
+  async handlePrevIdChange(value) {
     const current = this.state.selected
     current.prevId = !current.prevId
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-	handleUserChange(value) {
+	async handleUserChange(value) {
     const current = this.state.selected
     current.username = !current.username
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
 	};
-  handleEditnoteChange(value) {
+  async handleEditnoteChange(value) {
     const current = this.state.selected
     current.editnote = !current.editnote
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-  handleEditChange(value) {
+  async handleEditChange(value) {
     const current = this.state.selected
     current.edit = !current.edit
-    this.setState({ 
+    await this.setState({ 
       page: this.state.page,
       selected: current
     });
-    this.props.changeAffixState({selected: this.state.selected}) 
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-  handlePageChange(page) {
-    this.setState({
+  async handlePageChange(page) {
+    console.log(page)
+    await this.setState({
       page: page,
       selected: this.state.selected
     });
-    this.props.changeAffixState({page: this.state.page})
+    await this.props.changeAffixState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   }
 // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
   async onDelete(id) {
@@ -464,7 +498,8 @@ class AffixList extends Component {
         defaultPageSize={10}
         className="-striped -highlight left"
         filterable
-        //onPageChange={page => this.handlePageChange( page )}
+        page={this.state.page}
+        onPageChange={page => this.handlePageChange(page)}
       />;
 
 	  return (
