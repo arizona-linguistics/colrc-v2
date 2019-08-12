@@ -5,9 +5,8 @@ import matchSorter from 'match-sorter';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import BibliographyAccordion from "../accordions/BibliographyAccordion";
 import { Link, withRouter } from "react-router-dom";
-import axios from 'axios';
-import { getBibliographiesQuery, deleteBibliographyMutation } from '../queries/queries';
-import { graphql, compose } from 'react-apollo';
+import { getBibliographiesQuery, deleteBibliographyMutation, getUserFromToken } from '../queries/queries';
+import { withApollo, graphql, compose } from 'react-apollo';
 
 
 class Bibliography extends Component {
@@ -22,6 +21,9 @@ class Bibliography extends Component {
       //set up an empty array and a loading state for react-table
       data: [],
       loading: true,
+      bibvars: {},
+      //assume the user is not logged in as admin, prepare to get user info from token
+      admin: false,
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show main content.  Always initially hide procedural content.
       authorSelected: true,
 		  yearSelected: true,
@@ -29,6 +31,8 @@ class Bibliography extends Component {
       referenceSelected: true,
 		  linkSelected: true,
       linktextSelected: true,
+      editSelected: false,
+	    usernameSelected: false,
       activeSelected: false,
       prevIdSelected: false,
       usernameSelected: false,
@@ -41,6 +45,63 @@ class Bibliography extends Component {
       link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
     );
   }
+
+    //get user from token, find out users' roles
+    async componentDidMount() {
+      try {
+        const token = localStorage.getItem('TOKEN')
+          if (token) {
+            let userQuery = await this.props.client.query({
+              query: getUserFromToken,
+            })
+            const user = userQuery.data.getUserFromToken_Q
+            // set the state with user info based on token, and if the user has an 'admin' role, set 
+            // the state variable 'admin' to true.  Else, set it to false. 
+            await this.setState({
+              // if the roles array includes admin, set state to logged in as admin
+              admin: user.roles.includes("admin")  || user.roles.includes("owner") || user.roles.includes("update"),
+              fields: {
+                first: user.first,
+                last: user.last,
+                email: user.email,
+                username: user.username,
+                roles: user.roles
+              }
+            }) 
+            console.log("My user is " + user)
+            console.log(this.state)
+          } else {
+            await this.setState({
+              admin: false,
+              fields: {
+                first: "anonymous",
+                last: "anonymous",
+                email: "anonymous",
+                username: "anonymous",
+                roles: ["view"]
+              }
+            })
+            console.log(this.state)
+            console.log("and here's the role " + this.state.fields.roles)
+          }
+        // now we're going to get only active bibliographies if we are not admin, else 
+        // we will get all the bibliographies
+        if (!this.state.fields.roles.includes("admin")){
+          this.state.bibvars.active = 'Y'
+        }
+        const getBibliographies = await this.props.client.query({
+          query: getBibliographiesQuery,
+          variables: this.state.bibvars 
+        })
+        this.setState({
+          data: getBibliographies.data.bibliographies_Q,
+          loading: false,
+        })
+        
+      } catch(error) {
+        console.log(error)
+      }
+    } 
 
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   handleAuthorChange(value) {
@@ -69,6 +130,9 @@ class Bibliography extends Component {
   };
   handleUserChange(value) {
     this.setState({ usernameSelected: !this.state.usernameSelected });
+  };
+  handleEditChange(value) {
+    this.setState({ editSelected: !this.state.editSelected });
   };  
 
   // allow an admin or owner to delete bibliography entry.  Deletion sets the 'active' flag to 'N' on the bibliography, it does not delete anything
@@ -92,9 +156,9 @@ class Bibliography extends Component {
 
 render() {
   //give the render a way to access values for the checkboxes that show/hide columns by setting state
-  const { authorSelected, yearSelected, titleSelected, referenceSelected, linkSelected, linktextSelected, activeSelected, prevIdSelected, usernameSelected  } = this.state;
+  const { authorSelected, yearSelected, titleSelected, referenceSelected, linkSelected, linktextSelected, editSelected, usernameSelected, activeSelected, prevIdSelected  } = this.state;
 
-  //provide a function to set column widths dynamically based on the data returned.       
+    //provide a function to set column widths dynamically based on the data returned.       
   const getColumnWidth = (rows, accessor, headerText) => {
     const maxWidth = 600
     const magicSpacing = 15
@@ -175,8 +239,9 @@ const columns = [{
   Header: 'Edit/Delete',
   filterable: false,
   sortable: false,
+  show: editSelected,
   width: 100,
-  //get original row id, allow user to call onDelete, or edit.  Linkto passes original affix values into editaffix form via the location string
+  //get original row id, allow user to call onDelete, or edit.  Linkto passes original bibliography values into editbib form via the location string
   Cell: ({row, original}) => (
     <div>
       <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
@@ -232,27 +297,39 @@ const columns = [{
         checked={this.state.referenceSelected}
         onChange={this.handleReferenceChange.bind(this)}
       />
-      <label className="checkBoxLabel">User</label>
-      <input
-        name="username"
-        type="checkbox"
-        checked={this.state.usernameSelected}
-        onChange={this.handleUserChange.bind(this)}
-      />
-      <label className="checkBoxLabel">Active</label>
-      <input
-        name="active"
-        type="checkbox"
-        checked={this.state.activeSelected}
-        onChange={this.handleActiveChange.bind(this)}
-      />
-      <label className="checkBoxLabel">PrevId</label>
-      <input
-        name="prevId"
-        type="checkbox"
-        checked={this.state.prevIdSelected}
-        onChange={this.handlePrevIdChange.bind(this)}
-      />      
+{/* Here begin the admin-only checkboxes   */}
+      {this.state.admin && (
+        <div>
+        <label className="checkBoxLabel">Username</label>
+        <input
+          name="user.username"
+          type="checkbox"
+          checked={this.state.usernameSelected}
+          onChange={this.handleUserChange.bind(this)}
+        />
+        <label className="checkBoxLabel">Active</label>
+        <input
+          name="active"
+          type="checkbox"
+          checked={this.state.activeSelected}
+          onChange={this.handleActiveChange.bind(this)}
+        />
+        <label className="checkBoxLabel">PrevId</label>
+        <input
+          name="prevId"
+          type="checkbox"
+          checked={this.state.prevIdSelected}
+          onChange={this.handlePrevIdChange.bind(this)}
+        /> 
+        <label className="checkBoxLabel">Edit/Delete</label>
+        <input
+          name="edit"
+          type="checkbox"
+          checked={this.state.editSelected}
+          onChange={this.handleEditChange.bind(this)}
+        />
+        </div>
+      )}     
     </div>
 	);
 
@@ -261,8 +338,8 @@ const columns = [{
     const dataOrError = this.state.error ?
      <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
      <ReactTable
-       data={this.props.getBibliographiesQuery.bibliographies_Q}
-       loading={this.props.getBibliographiesQuery.loading}
+       data={this.state.data}
+       loading={this.state.loading}
        columns={columns}
        filterable
        defaultPageSize={10}
@@ -273,6 +350,9 @@ const columns = [{
       <div>
       	<BibliographyAccordion />
       	<p></p>
+        <div className='ui content'>
+          <h3>Bibliography List</h3>
+        </div>
         <div className="text-right">
           <Link to={{
             pathname: '/addbib/'
@@ -296,5 +376,6 @@ const columns = [{
 
 
 export default compose(
-	graphql(getBibliographiesQuery, { name: 'getBibliographiesQuery' })
-)(withRouter(Bibliography));
+  graphql(getBibliographiesQuery, { name: 'getBibliographiesQuery' }),
+  graphql(deleteBibliographyMutation, { name: 'deleteBibliographyMutation' })  
+)(withRouter(withApollo(Bibliography)));

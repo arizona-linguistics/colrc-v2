@@ -21,6 +21,16 @@ class AffixList extends Component {
     	data: [],
       loading: true,
       affixvars: {},
+      //assume the user is not logged in as admin, prepare to get user info from token
+      admin: false,
+      fields: {
+        first: '',
+        last: '',
+        email: '',
+        username: '',
+        password: '',
+        roles: []
+      },
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       page: this.props.affixState.page,
       selected: {
