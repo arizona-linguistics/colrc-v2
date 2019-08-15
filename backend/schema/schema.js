@@ -197,9 +197,15 @@ const typeDefs = `
     id: ID!
     root: String!
     number: Int
+    sense: String
     salish: String
     nicodemus: String!
+    symbol: String
     english: String!
+    grammar: String
+    crossref: String
+    variant: String
+    cognate: String
     editnote: String
     active: String!
     prevId: Int
@@ -398,8 +404,8 @@ type Texttoaudiosetrelation {
     updateAffix_M(id:ID!, type:String, salish:String, nicodemus:String!, english:String!, link:String, page:String, editnote:String): Affix
     deleteAffix_M(id:ID!): Affix
 
-    addRoot_M(root:String!, number:Int, salish:String, nicodemus:String!, english:String!, editnote:String): Root
-    updateRoot_M(id:ID!, root:String!, number:Int, salish:String, nicodemus:String!, english:String!, editnote:String): Root
+    addRoot_M(root:String!, number:Int, sense:String, salish:String, nicodemus:String!, symbol:String, english:String!, grammar:String, crossref:String, variant:String, cognate:String, editnote:String): Root
+    updateRoot_M(id:ID!, root:String!, number:Int, sense:String, salish:String, nicodemus:String!, symbol:String, english:String!, grammar:String, crossref:String, variant:String, cognate:String, editnote:String): Root
     deleteRoot_M(id:ID!): Root
 
     addSpelling_M(reichard:String, nicodemus:String!, salish:String, english:String, note:String ): Spelling

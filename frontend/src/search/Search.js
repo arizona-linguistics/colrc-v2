@@ -4,7 +4,7 @@ import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import DecoratedTextSpan from '../utilities/DecoratedTextSpan';
 import ReactTable from "react-table";
 import matchSorter from 'match-sorter';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { getRootsQuery, getStemsQuery, getAffixesQuery } from '../queries/queries';
 
