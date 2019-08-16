@@ -102,6 +102,7 @@ class Colrc extends Component {
     this.rightMenuItems = this.rightMenuItems.bind(this)
     this.changeLoginState = this.changeLoginState.bind(this)
     this.changeAffixState = this.changeAffixState.bind(this)
+    this.changeRootState = this.changeRootState.bind(this)
     this.state = {
       login: loggedIn(),
       affixes: {
@@ -112,6 +113,27 @@ class Colrc extends Component {
           english: true,
           nicodemus: true,
           link: false,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+          editnote: false
+        }
+      },
+      roots: {
+        page: 0,
+        selected: {
+          root: true,
+          number: true,
+          sense: false,
+          salish: false,
+          nicodemus: true,
+          symbol: false,
+          english: true,
+          grammar: false,
+          crossref: false,
+          variant: false,
+          cognate: false,
           edit: false,
           username: false,
           active: false,
@@ -132,6 +154,14 @@ class Colrc extends Component {
       affixes: {
         selected: affixState.selected,
         page: affixState.page
+      }
+    })
+  }
+  async changeRootState(rootState){
+    await this.setState({
+      roots: {
+        selected: rootState.selected,
+        page: rootState.page
       }
     })
   }
@@ -164,7 +194,8 @@ class Colrc extends Component {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/spelling" component={SpellingPronunciation} />
-                <Route path="/roots" component={Roots} />
+                <Route path="/roots" component={() => <Roots rootState={this.state.roots} changeRootState={this.changeRootState} />} />
+                <Route path="/audio" component={Audio} />
                 <Route path="/stems" component={Stems} />
                 <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
                 <Route path="/audio" component={Audio} />
