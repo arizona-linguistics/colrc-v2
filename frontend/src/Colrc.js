@@ -103,10 +103,25 @@ class Colrc extends Component {
     this.changeLoginState = this.changeLoginState.bind(this)
     this.changeAffixState = this.changeAffixState.bind(this)
     this.changeRootState = this.changeRootState.bind(this)
+    this.changeAudioState = this.changeAudioState.bind(this)
     this.state = {
       login: loggedIn(),
+      audio: {
+        page: 0,
+        pageSize: 1,
+      },
       affixes: {
         page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'type',
+          desc: false
+        },{
+          id: 'nicodemus',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
         selected: {
           type: false,
           salish: false,
@@ -122,6 +137,7 @@ class Colrc extends Component {
       },
       roots: {
         page: 0,
+        pageSize: 10,
         selected: {
           root: true,
           number: true,
@@ -139,7 +155,7 @@ class Colrc extends Component {
           active: false,
           prevId: false,
           editnote: false
-        }
+        },
       }
     }
   }
@@ -150,18 +166,25 @@ class Colrc extends Component {
     })
   }
   async changeAffixState(affixState){
-    await this.setState({
-      affixes: {
-        selected: affixState.selected,
-        page: affixState.page
-      }
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.affixes = affixState    
+    await this.setState(currentState)
   }
+
   async changeRootState(rootState){
     await this.setState({
       roots: {
         selected: rootState.selected,
-        page: rootState.page
+        page: rootState.page,
+        pageSize: rootState.pageSize
+      }
+    })
+  }
+  async changeAudioState(audioState){
+    await this.setState({
+      audio: {
+        page: audioState.page,
+        pageSize: audioState.pageSize
       }
     })
   }
@@ -195,10 +218,9 @@ class Colrc extends Component {
                 <Route exact path="/" component={Home} />
                 <Route path="/spelling" component={SpellingPronunciation} />
                 <Route path="/roots" component={() => <Roots rootState={this.state.roots} changeRootState={this.changeRootState} />} />
-                <Route path="/audio" component={Audio} />
                 <Route path="/stems" component={Stems} />
                 <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
-                <Route path="/audio" component={Audio} />
+                <Route path="/audio" component={() => <Audio audioState={this.state.audio} changeAudioState={this.changeAudioState} />} />
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={Texts} />
                 <Route path="/bibliography" component={Bibliography} />
