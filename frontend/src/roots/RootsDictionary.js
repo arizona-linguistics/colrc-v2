@@ -31,6 +31,7 @@ class RootsDictionary extends Component {
       },
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       page: this.props.rootState.page,
+      pageSize: this.props.rootState.pageSize,
       selected: {
         number: this.props.rootState.selected.number,
         sense: this.props.rootState.selected.sense,
@@ -327,6 +328,19 @@ class RootsDictionary extends Component {
     await this.props.changeRootState({
       selected: this.state.selected,
       page: this.state.page
+    })
+  }
+    async handlePageSizeChange(pageSize,page) {
+    console.log(pageSize + ' ' + page)
+    await this.setState({
+      page: page,
+      pageSize: pageSize,
+      selected: this.state.selected
+    });
+    await this.props.changeRootState({
+      selected: this.state.selected,
+      page: this.state.page,
+      pageSize: this.state.pageSize
     })
   }
 
@@ -656,10 +670,11 @@ class RootsDictionary extends Component {
         loading={this.state.loading}
         columns={columns}
         filterable
-        defaultPageSize={10}
+        pageSize={this.state.pageSize}
         className="-striped -highlight"
         page={this.state.page}
         onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
       />;
 
     return (

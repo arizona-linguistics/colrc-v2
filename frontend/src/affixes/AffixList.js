@@ -7,6 +7,7 @@ import { Button, Icon } from 'semantic-ui-react';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { getAffixesQuery, deleteAffixMutation, getUserFromToken } from '../queries/queries';
 
+
 class AffixList extends Component {
 	constructor(props) {
     //get all the props so we can refer to them
@@ -14,7 +15,7 @@ class AffixList extends Component {
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
 	  this.weblink = this.weblink.bind(this);
-    this.affixDropdown = this.affixDropdown.bind(this);
+    this.affixDropdown = this.affixDropdown.bind(this); 
     //set the initial state
 	  this.state = {
       //set up an empty array and a loading state for react-table
@@ -33,6 +34,10 @@ class AffixList extends Component {
       },
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       page: this.props.affixState.page,
+      pageSize: this.props.affixState.pageSize,
+      sorted: this.props.affixState.sorted,
+      //filtered: this.props.affixState.filtered,
+      //resized: this.props.affixState.resized,
       selected: {
         type: this.props.affixState.selected.type,
   		  salish: this.props.affixState.selected.salish,
@@ -115,137 +120,118 @@ class AffixList extends Component {
 
 //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   async handleTypeChange(value) {
-    const current = this.state.selected
-    current.type = !current.type
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.type = !currentState.selected.type
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+  }
 
 	async handleSalishChange(value) {
-	  const current = this.state.selected
-    current.salish = !current.salish
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.salish = !currentState.selected.salish
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+	}
+
 	async handleNicodemusChange(value) {
-    const current = this.state.selected
-    current.nicodemus = !current.nicodemus
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.nicodemus = !currentState.selected.nicodemus
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+	}
+
 	async handleEnglishChange(value) {
-    const current = this.state.selected
-    current.english = !current.english
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.english = !currentState.selected.english
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+	}
+
 	async handleLinkChange(value) {
-    const current = this.state.selected
-    current.link = !current.link
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.link = !currentState.selected.link
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+	}
+
   async handleActiveChange(value) {
-    const current = this.state.selected
-    current.active = !current.active
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.active = !currentState.selected.active
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+  }
+
   async handlePrevIdChange(value) {
-    const current = this.state.selected
-    current.prevId = !current.prevId
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.prevId = !currentState.selected.prevId
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+  }
+
 	async handleUserChange(value) {
-    const current = this.state.selected
-    current.username = !current.username
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.username = !currentState.selected.username
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+	}
+
   async handleEditnoteChange(value) {
-    const current = this.state.selected
-    current.editnote = !current.editnote
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.editnote = !currentState.selected.editnote
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+  }
+
   async handleEditChange(value) {
-    const current = this.state.selected
-    current.edit = !current.edit
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.edit = !currentState.selected.edit
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+  }
+
   async handlePageChange(page) {
     console.log(page)
-    await this.setState({
-      page: page,
-      selected: this.state.selected
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
   }
+
+  async handlePageSizeChange(pageSize,page) {
+    console.log(pageSize + ' ' + page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.pageSize = pageSize
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+  }
+
+  async handleSortChange(newSorted,column,shiftKey) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.sorted = newSorted
+    await this.setState(currentState)
+    await this.props.changeAffixState(currentState)
+  }
+
+//   async handleFilteredChange(filtered,column) {
+//     let currentState = Object.assign({}, this.state) 
+//     console.log('filtered = ' + filtered + ', column = ' + column)
+//     console.log(filtered)
+//     console.log(column)
+//     currentState.filtered = filtered
+//     await this.setState(currentState)
+//     await this.props.changeAffixState(currentState)
+//   }
+
+// async handleResizedChange(newResized, event) {
+//     let currentState = Object.assign({}, this.state) 
+//     currentState.resized = newResized
+//     await this.setState(currentState)
+//     await this.props.changeAffixState(currentState)
+//   }
+
+
+
 // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
   async onDelete(id) {
     console.log("In deletion");
@@ -292,7 +278,8 @@ class AffixList extends Component {
   	};
 
     //set up the table columns.  Header is the column header text, accessor is the name of the column in the db. 
-	  const columns = [{
+	  const columns = [
+    {
 	    Header: 'Type',
 	    accessor: 'type',
 	    width: 100,
@@ -505,11 +492,18 @@ class AffixList extends Component {
 			  data={this.state.data}
 			  loading={this.state.loading}
         columns={columns}
-        defaultPageSize={10}
+        pageSize={this.state.pageSize}
         className="-striped -highlight left"
         filterable
+        filtered={this.state.filtered}
+        sorted={this.state.sorted}
         page={this.state.page}
+        resized={this.state.resized}
         onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        //onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
+        //onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
       />;
 
 	  return (

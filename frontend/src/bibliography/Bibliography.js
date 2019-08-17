@@ -10,9 +10,9 @@ import { withApollo, graphql, compose } from 'react-apollo';
 
 
 class Bibliography extends Component {
-  constructor() {
+  constructor(props) {
     //get all the props so we can refer to them
-    super();
+    super(props);
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
     this.weblink = this.weblink.bind(this);
@@ -25,17 +25,21 @@ class Bibliography extends Component {
       //assume the user is not logged in as admin, prepare to get user info from token
       admin: false,
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show main content.  Always initially hide procedural content.
-      authorSelected: true,
-		  yearSelected: true,
-		  titleSelected: true,
-      referenceSelected: true,
-		  linkSelected: true,
-      linktextSelected: true,
-      editSelected: false,
-	    usernameSelected: false,
-      activeSelected: false,
-      prevIdSelected: false,
-      usernameSelected: false,
+      page: this.props.bibState.page,
+      pageSize: this.props.bibState.pageSize,
+      selected: {
+        author: this.props.bibState.selected.author,
+  		  year: this.props.bibState.selected.year,
+  		  title: this.props.bibState.selected.title,
+        reference: this.props.bibState.selected.reference,
+  		  link: this.props.bibState.selected.link,
+        linktext: this.props.bibState.selected.linktext,
+        edit: this.props.bibState.selected.edit,
+  	    username: this.props.bibState.selected.username,
+        active: this.props.bibState.selected.active,
+        prevId: this.props.bibState.selected.prevId,
+        username: this.props.bibState.selected.author,
+      }
     };
   }
 
