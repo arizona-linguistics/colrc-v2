@@ -16,6 +16,7 @@ class SpellingPronunciationCharts extends Component {
     //get all the props so we can refer to them
     super(props);
     this.heightToNumber = this.heightToNumber.bind(this);
+    this.spellingDropdown = this.spellingDropdown.bind(this); 
     //set the initial state
     this.state = {
       //for each react-table, set data to an empty array and set loading to true.
@@ -49,7 +50,16 @@ class SpellingPronunciationCharts extends Component {
       return 3
     } 
   }
-
+  spellingDropdown(original) {
+    if (original === 'N') {
+      original = original.replace('N', 'Nicodemus')
+    } else if (original === 'R') {
+      original = original.replace('R', 'Reichard')
+    } else if (original === 'S') {
+      original = original.replace('S', 'Salish')
+    } 
+    return(<span>{original}</span>)
+  }
   render() {
     //setup the state values that the show/hide columns checkboxes need
   	const { voiceSelected, mannerSelected, secondarySelected } = this.state;
@@ -78,6 +88,7 @@ class SpellingPronunciationCharts extends Component {
               <option value="R">Reichard</option>
               <option value="all">All</option>
             </select>,
+          Cell: ({row, original}) => ( this.spellingDropdown(original.orthography) )
   			},{
   				Header: () => <div><span title="VL = Voiceless, V = Voiced, RN = Resonant">voice</span></div>,
   			    accessor: 'voice',
@@ -220,6 +231,7 @@ class SpellingPronunciationCharts extends Component {
           <option value="R">R</option>
           <option value="all">All</option>
         </select>,
+        Cell: ({row, original}) => ( this.spellingDropdown(original.orthography) )
 		},
     {
 			Header: 'height',
