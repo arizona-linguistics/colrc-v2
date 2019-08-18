@@ -218,6 +218,7 @@ sourcefiles(json) {
            data={this.props.getTextsQuery.texts_Q}
            loading={this.props.getTextsQuery.loading}
            columns={columns}
+           minSize={1}
            filterable
            page={this.state.page}
            pageSize={this.state.pageSize}

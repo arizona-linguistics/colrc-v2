@@ -107,6 +107,7 @@ class Colrc extends Component {
     this.changeBibliographyState = this.changeBibliographyState.bind(this)
     this.state = {
       login: loggedIn(),
+<<<<<<< HEAD
       texts: {
         page: 0,
         pageSize: 5,
@@ -114,6 +115,11 @@ class Colrc extends Component {
       bibliography: {
         page: 0,
         pageSize: 10,
+=======
+      bibliography: {
+        page: 0,
+        pageSize: 20,
+>>>>>>> f9c2a1e653e919101f574cef2597f9cf1604193f
         sorted: [],
         resized: [],
         filtered: [],
