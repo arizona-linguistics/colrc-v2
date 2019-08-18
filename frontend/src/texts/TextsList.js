@@ -192,6 +192,7 @@ sourcefiles(json) {
            data={this.props.getTextsQuery.texts_Q}
            loading={this.props.getTextsQuery.loading}
            columns={columns}
+           minSize={1}
            filterable
            SubComponent={row => {
            		return (
