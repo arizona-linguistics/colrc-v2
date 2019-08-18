@@ -15,28 +15,33 @@ class AudioList extends Component {
     	loading: true,
       page: this.props.audioState.page,
       pageSize: this.props.audioState.pageSize,
+      filtered: [],
+      sorted: [],
+      resized: [],
      };
   }
   async handlePageChange(page) {
     console.log(page)
-    await this.setState({
-      page: page
-    });
-    await this.props.changeAudioState({
-      page: this.state.page,
-      pageSize: this.state.pageSize
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeAudioState(currentState)
   }
+
   async handlePageSizeChange(pageSize,page) {
     console.log(pageSize + ' ' + page)
-    await this.setState({
-      page: page,
-      pageSize: pageSize,
-    });
-    await this.props.changeAudioState({
-      page: this.state.page,
-      pageSize: this.state.pageSize
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.pageSize = pageSize
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeAudioState(currentState)
+  }
+
+  async handleSortChange(newSorted,column,shiftKey) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.sorted = newSorted
+    await this.setState(currentState)
+    await this.props.changeAudioState(currentState)
   }
 
   render() {
@@ -71,7 +76,7 @@ class AudioList extends Component {
         loading={this.props.getAudioSetsQuery.loading}
         columns={columns}
         filterable
-        pageSizeOptions={[1, 5, 10, 20, 25, 50, 100]}
+        minRows={1}
         pageSize={this.state.pageSize}
         className="-striped -highlight"
         page={this.state.page}
