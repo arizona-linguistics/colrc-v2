@@ -25,20 +25,20 @@ class Bibliography extends Component {
       //assume the user is not logged in as admin, prepare to get user info from token
       admin: false,
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show main content.  Always initially hide procedural content.
-      page: this.props.bibState.page,
-      pageSize: this.props.bibState.pageSize,
+      page: this.props.bibliographyState.page,
+      pageSize: this.props.bibliographyState.pageSize,
       selected: {
-        author: this.props.bibState.selected.author,
-  		  year: this.props.bibState.selected.year,
-  		  title: this.props.bibState.selected.title,
-        reference: this.props.bibState.selected.reference,
-  		  link: this.props.bibState.selected.link,
-        linktext: this.props.bibState.selected.linktext,
-        edit: this.props.bibState.selected.edit,
-  	    username: this.props.bibState.selected.username,
-        active: this.props.bibState.selected.active,
-        prevId: this.props.bibState.selected.prevId,
-        username: this.props.bibState.selected.author,
+        author: this.props.bibliographyState.selected.author,
+  		  year: this.props.bibliographyState.selected.year,
+  		  title: this.props.bibliographyState.selected.title,
+        reference: this.props.bibliographyState.selected.reference,
+  		  link: this.props.bibliographyState.selected.link,
+        linktext: this.props.bibliographyState.selected.linktext,
+        edit: this.props.bibliographyState.selected.edit,
+  	    username: this.props.bibliographyState.selected.username,
+        active: this.props.bibliographyState.selected.active,
+        prevId: this.props.bibliographyState.selected.prevId,
+        username: this.props.bibliographyState.selected.author,
       }
     };
   }

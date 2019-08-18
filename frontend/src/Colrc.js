@@ -104,11 +104,35 @@ class Colrc extends Component {
     this.changeAffixState = this.changeAffixState.bind(this)
     this.changeRootState = this.changeRootState.bind(this)
     this.changeAudioState = this.changeAudioState.bind(this)
+    this.changeBibliographyState = this.changeBibliographyState.bind(this)
     this.state = {
       login: loggedIn(),
+      texts: {
+        page: 0,
+        pageSize: 5,
+      },
+      bibliography: {
+        page: 0,
+        pageSize: 10,
+        sorted: [],
+        resized: [],
+        filtered: [],
+        selected: {
+          author: true,
+          year: true,
+          title: true,
+          reference: true,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+        }
+      },
       audio: {
         page: 0,
-        pageSize: 1,
+        sorted: [],
+        resized: [],
+        filtered: [],
       },
       affixes: {
         page: 0,
@@ -182,21 +206,26 @@ class Colrc extends Component {
     currentState.affixes = affixState    
     await this.setState(currentState)
   }
-
   async changeRootState(rootState){
     let currentState = Object.assign({}, this.state) 
     currentState.roots = rootState    
     await this.setState(currentState)
   }
   async changeAudioState(audioState){
-    await this.setState({
-      audio: {
-        page: audioState.page,
-        pageSize: audioState.pageSize
-      }
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.audio = audioState    
+    await this.setState(currentState)
   }
-
+  async changeBibliographyState(bibliographyState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.bibliography = bibliographyState    
+    await this.setState(currentState)
+  }
+  async changeTextState(textState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.texts = textState    
+    await this.setState(currentState)
+  }
   rightMenuItems = () => {
     const rightItems = [
       { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
@@ -230,8 +259,8 @@ class Colrc extends Component {
                 <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
                 <Route path="/audio" component={() => <Audio audioState={this.state.audio} changeAudioState={this.changeAudioState} />} />
                 <Route path="/contactus" component={ContactUs} />
-                <Route path="/texts" component={Texts} />
-                <Route path="/bibliography" component={Bibliography} />
+                <Route path="/texts" component={() => <Texts textState={this.state.texts} changeTextState={this.changeTextState} />} />
+                <Route path="/bibliography" component={() => <Bibliography bibliographyState={this.state.bibliography} changeBibliographyState={this.changeBibliographyState} />} />
                 <Route path="/addspell" component={AddSpell} />
                 <Route path="/editspell" component={EditSpell} />
                 <Route path="/editroot" component={EditRoot} />
