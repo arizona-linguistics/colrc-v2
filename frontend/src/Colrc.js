@@ -138,6 +138,18 @@ class Colrc extends Component {
       roots: {
         page: 0,
         pageSize: 10,
+        sorted: [{
+          id: 'root',
+          desc: false
+        },{
+          id: 'number',
+          desc: false
+        },{
+          id: 'sense',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
         selected: {
           root: true,
           number: true,
@@ -172,13 +184,9 @@ class Colrc extends Component {
   }
 
   async changeRootState(rootState){
-    await this.setState({
-      roots: {
-        selected: rootState.selected,
-        page: rootState.page,
-        pageSize: rootState.pageSize
-      }
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.roots = rootState    
+    await this.setState(currentState)
   }
   async changeAudioState(audioState){
     await this.setState({
