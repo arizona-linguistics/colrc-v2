@@ -107,9 +107,16 @@ class Colrc extends Component {
     this.changeBibliographyState = this.changeBibliographyState.bind(this)
     this.state = {
       login: loggedIn(),
+      texts: {
+        page: 0,
+        pageSize: 5,
+        sorted: [],
+        resized: [],
+        filtered: [],
+      },
       bibliography: {
         page: 0,
-        pageSize: 20,
+        pageSize: 10,
         sorted: [],
         resized: [],
         filtered: [],
@@ -143,7 +150,7 @@ class Colrc extends Component {
         filtered: [],
         resized: [],
         selected: {
-          type: false,
+          type: true,
           salish: false,
           english: true,
           nicodemus: true,
@@ -217,7 +224,11 @@ class Colrc extends Component {
     currentState.bibliography = bibliographyState    
     await this.setState(currentState)
   }
-
+  async changeTextState(textState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.texts = textState    
+    await this.setState(currentState)
+  }
   rightMenuItems = () => {
     const rightItems = [
       { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
@@ -251,7 +262,7 @@ class Colrc extends Component {
                 <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
                 <Route path="/audio" component={() => <Audio audioState={this.state.audio} changeAudioState={this.changeAudioState} />} />
                 <Route path="/contactus" component={ContactUs} />
-                <Route path="/texts" component={Texts} />
+                <Route path="/texts" component={() => <Texts textState={this.state.texts} changeTextState={this.changeTextState} />} />
                 <Route path="/bibliography" component={() => <Bibliography bibliographyState={this.state.bibliography} changeBibliographyState={this.changeBibliographyState} />} />
                 <Route path="/addspell" component={AddSpell} />
                 <Route path="/editspell" component={EditSpell} />
