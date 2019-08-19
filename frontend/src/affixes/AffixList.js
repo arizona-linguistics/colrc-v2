@@ -100,7 +100,7 @@ class AffixList extends Component {
         query: getAffixesQuery,
         variables: this.state.affixvars 
       })
-      this.setState({
+      await this.setState({
         data: getAffixes.data.affixes_Q,
         loading: false
       })
@@ -109,9 +109,9 @@ class AffixList extends Component {
     }
   } 
 
-componentWillUnmount() {
+async componentWillUnmount() {
   let currentState = Object.assign({}, this.state) 
-  this.props.changeAffixState(currentState)
+  await this.props.changeAffixState(currentState)
 }
 
  //weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.

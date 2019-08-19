@@ -27,6 +27,9 @@ class Bibliography extends Component {
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show main content.  Always initially hide procedural content.
       page: this.props.bibliographyState.page,
       pageSize: this.props.bibliographyState.pageSize,
+      sorted: this.props.bibliographyState.sorted,
+      filtered: this.props.bibliographyState.filtered,
+      resized: this.props.bibliographyState.resized,
       selected: {
         author: this.props.bibliographyState.selected.author,
   		  year: this.props.bibliographyState.selected.year,
@@ -94,7 +97,7 @@ class Bibliography extends Component {
           query: getBibliographiesQuery,
           variables: this.state.bibvars 
         })
-        this.setState({
+        await this.setState({
           data: getBibliographies.data.bibliographies_Q,
           loading: false,
         })
@@ -104,62 +107,67 @@ class Bibliography extends Component {
       }
     } 
 
+async componentWillUnmount() {
+  let currentState = Object.assign({}, this.state) 
+  await this.props.changeBibliographyState(currentState)
+}
+
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
 
   async handleAuthorChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.author = !currentState.selected.author
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+    
   }
   async handleYearChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.year = !currentState.selected.year
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+
   }
   async handleTitleChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.title = !currentState.selected.title
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+
   }
   async handleReferenceChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.reference = !currentState.selected.reference
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+
   }
   async handleActiveChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.active = !currentState.selected.active
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+
   }
   async handlePrevIdChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.prevId = !currentState.selected.prevId
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+
   }
   async handleUserChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.username = !currentState.selected.username
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+
   }
   async handleEditChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.edit = !currentState.selected.edit
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+
   }
   async handlePageChange(page) {
     console.log(page)
     let currentState = Object.assign({}, this.state) 
     currentState.page = page
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+
   }
 
   async handlePageSizeChange(pageSize,page) {
@@ -168,14 +176,27 @@ class Bibliography extends Component {
     currentState.pageSize = pageSize
     currentState.page = page
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
   }
 
   async handleSortChange(newSorted,column,shiftKey) {
     let currentState = Object.assign({}, this.state) 
     currentState.sorted = newSorted
     await this.setState(currentState)
-    await this.props.changeBibliographyState(currentState)
+  }
+
+  async handleFilteredChange(filtered,column) {
+    let currentState = Object.assign({}, this.state) 
+    console.log('filtered = ' + filtered + ', column = ' + column)
+    console.log(filtered)
+    console.log(column)
+    currentState.filtered = filtered
+    await this.setState(currentState)
+  }
+
+async handleResizedChange(newResized, event) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.resized = newResized
+    await this.setState(currentState)
   }
 
 
@@ -311,7 +332,6 @@ const columns = [{
   //setup the checkbox bar that allows users to show/hide columns
 	const CheckboxBibliography = () => (
 		<div className="checkBoxMenu">
-      <label className="checkBoxLabel">Type</label>
 		  <label className="checkBoxLabel">Author</label>
       <input
         name="author"
@@ -386,13 +406,16 @@ const columns = [{
         columns={columns}
         filterable
         className="-striped -highlight"
-        //filtered={this.state.filtered}
-        //sorted={this.state.sorted}
-        //page={this.state.page}
-        //resized={this.state.resized}
-        //onPageChange={page => this.handlePageChange(page)}
-        //onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
-        //onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        filtered={this.state.filtered}
+        sorted={this.state.sorted}
+        page={this.state.page}
+        resized={this.state.resized}
+        pageSize={this.state.pageSize}
+        onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
+        onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
      />;
 
     return (
@@ -403,14 +426,18 @@ const columns = [{
           <h3>Bibliography List</h3>
         </div>
         <div className="text-right">
-          <Link to={{
-            pathname: '/addbib/'
-          }} >
-            <Button icon labelPosition='left' size='small'>
-              <Icon name='plus' />
-              Add an entry
-            </Button>
-          </Link>
+        { this.state.admin && (
+          <div>
+            <Link to={{
+              pathname: '/addbib/'
+            }} >
+              <Button icon labelPosition='left' size='small'>
+                <Icon name='plus' />
+                Add an entry
+              </Button>
+            </Link>
+          </div>
+        )}
         </div>
         <p> </p>
 		    <SimpleKeyboard />
