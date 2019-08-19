@@ -40,9 +40,15 @@ sequelize
 const Root = sequelize.define('root', {
   root: { type: Sequelize.STRING },
   number: { type: Sequelize.INTEGER },
+  sense: {type: Sequelize.STRING},
   salish: { type: Sequelize.STRING },
   nicodemus: { type: Sequelize.STRING },
+  symbol: {type: Sequelize.STRING},
   english: { type: Sequelize.STRING },
+  grammar: { type: Sequelize.STRING},
+  crossref: { type: Sequelize.STRING},
+  variant: { type: Sequelize.STRING},
+  cognate: { type: Sequelize.STRING},
   editnote: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
@@ -541,9 +547,15 @@ const addRoot_C = input => {
       let root = new Root ({
         root: input.root,
         number: input.number,
+        sense: input.sense,
         salish: input.salish,
         nicodemus: input.nicodemus,
+        symbol: input.symbol,
         english: input.english,
+        grammar: input.grammar,
+        crossref: input.crossref,
+        variant: input.variant,
+        cognate: input.cognate,
         editnote: input.editnote,
         active: 'Y',
         prevId: null,
@@ -556,6 +568,7 @@ const addRoot_C = input => {
     }
   }) //then
 } //addRoot_C
+
 
 const addStem_C = input => {
   return User.findOne({
@@ -897,15 +910,21 @@ const updateRoot_C = input => {
         .then( () => {
           // 'deleted' the old root, now add the new root
           let newRoot = new Root({
-              root: input.root,
-              number: input.number,
-              salish: input.salish,
-              nicodemus: input.nicodemus,
-              english: input.english,
-              editnote: input.editnote,
-              active: 'Y',
-              prevId: input.id,
-              userId: input.myid
+            root: input.root,
+            number: input.number,
+            sense: input.sense,
+            salish: input.salish,
+            nicodemus: input.nicodemus,
+            symbol: input.symbol,
+            english: input.english,
+            grammar: input.grammar,
+            crossref: input.crossref,
+            variant: input.variant,
+            cognate: input.cognate,
+            editnote: input.editnote,
+            active: 'Y',
+            prevId: input.id,
+            userId: input.myid
           })
           return newRoot.save({transaction: t})
         })

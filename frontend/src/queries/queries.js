@@ -82,12 +82,17 @@ const getRootsQuery = gql`
       id
       root
       number
+      sense
       salish
       nicodemus
+      symbol
       english
+      grammar
+      crossref
+      variant
+      cognate
       editnote
       active
-      prevId
       user {
         username
       }
@@ -545,11 +550,17 @@ const getRootQuery = gql`
       id
       root
       number
+      sense
       salish
       nicodemus
+      symbol
       english
-      active
+      grammar
+      crossref
+      variant
+      cognate
       editnote
+      active
       prevId
       user {
         username
@@ -561,7 +572,7 @@ const getRootQuery = gql`
 const getTextQuery = gql`
   query($id: ID) {
     text_Q(id: $id) {
-      id 
+      id
       title
       speaker
       cycle
@@ -574,9 +585,9 @@ const getTextQuery = gql`
         fileimages {
           src
         }
-      } 
+      }
       audiosets {
-        title 
+        title
         speaker
         audiofiles {
           src
@@ -594,7 +605,7 @@ const getTextQuery = gql`
 const getTextFileQuery = gql`
   query($id: ID) {
     textfile_Q(id: $id) {
-      id 
+      id
       subdir
       src
       resType
@@ -604,7 +615,7 @@ const getTextFileQuery = gql`
         title
         speaker
         cycle
-      } 
+      }
       active
       prevId
       user {
@@ -616,7 +627,7 @@ const getTextFileQuery = gql`
 const getTextFilesQuery = gql`
   {
     textfiles_Q {
-      id 
+      id
       subdir
       src
       resType
@@ -626,7 +637,7 @@ const getTextFilesQuery = gql`
         title
         speaker
         cycle
-      } 
+      }
       active
       prevId
       user {
@@ -638,7 +649,7 @@ const getTextFilesQuery = gql`
 const getTextImageQuery = gql`
   query($id: ID) {
     textImage_Q(id: $id) {
-      id 
+      id
       textfile {
         subdir
         src
@@ -660,7 +671,7 @@ const getTextImageQuery = gql`
 const getAudioSetQuery = gql`
   query($id: ID) {
     audioset_Q(id: $id) {
-      id 
+      id
       title
       speaker
       text {
@@ -705,7 +716,7 @@ const getAudioSetsQuery = gql`
 const getAudioFileQuery = gql`
   query($id: ID) {
     audiofile_Q(id: $id) {
-      id 
+      id
       src
       type
       direct
@@ -729,7 +740,7 @@ const getAudioFileQuery = gql`
 const getAudioFilesQuery = gql`
  {
     audiofiles_Q {
-      id 
+      id
       src
       type
       direct
@@ -751,7 +762,7 @@ const getAudioFilesQuery = gql`
 const getElicitationQuery = gql`
   query($id: ID) {
     elicitation_Q(id: $id) {
-      id 
+      id
       title
       active
       user {
@@ -763,7 +774,7 @@ const getElicitationQuery = gql`
 const getElicitationsQuery = gql`
  {
     elicitations_Q {
-      id 
+      id
       title
       active
       user {
@@ -838,7 +849,7 @@ const getTextsQuery = gql`
         title
         speaker
         audiofiles {
-          id 
+          id
           subdir
           src
           type
@@ -856,4 +867,3 @@ const getTextsQuery = gql`
 `;
 
 export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, getSpellingQuery, addSpellingMutation, deleteSpellingMutation, updateSpellingMutation, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery, getElicitationSetsQuery };
-

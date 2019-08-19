@@ -101,8 +101,94 @@ class Colrc extends Component {
     super(props)
     this.rightMenuItems = this.rightMenuItems.bind(this)
     this.changeLoginState = this.changeLoginState.bind(this)
+    this.changeAffixState = this.changeAffixState.bind(this)
+    this.changeRootState = this.changeRootState.bind(this)
+    this.changeAudioState = this.changeAudioState.bind(this)
+    this.changeBibliographyState = this.changeBibliographyState.bind(this)
     this.state = {
-      login: loggedIn()
+      login: loggedIn(),
+      bibliography: {
+        page: 0,
+        pageSize: 20,
+        sorted: [],
+        resized: [],
+        filtered: [],
+        selected: {
+          author: true,
+          year: true,
+          title: true,
+          reference: true,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+        }
+      },
+      audio: {
+        page: 0,
+        sorted: [],
+        resized: [],
+        filtered: [],
+      },
+      affixes: {
+        page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'type',
+          desc: false
+        },{
+          id: 'nicodemus',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
+        selected: {
+          type: false,
+          salish: false,
+          english: true,
+          nicodemus: true,
+          link: false,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+          editnote: false
+        }
+      },
+      roots: {
+        page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'root',
+          desc: false
+        },{
+          id: 'number',
+          desc: false
+        },{
+          id: 'sense',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
+        selected: {
+          root: true,
+          number: true,
+          sense: false,
+          salish: false,
+          nicodemus: true,
+          symbol: false,
+          english: true,
+          grammar: false,
+          crossref: false,
+          variant: false,
+          cognate: false,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+          editnote: false
+        },
+      }
     }
   }
 
@@ -110,6 +196,26 @@ class Colrc extends Component {
     this.setState({
       login: loginState
     })
+  }
+  async changeAffixState(affixState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.affixes = affixState    
+    await this.setState(currentState)
+  }
+  async changeRootState(rootState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.roots = rootState    
+    await this.setState(currentState)
+  }
+  async changeAudioState(audioState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.audio = audioState    
+    await this.setState(currentState)
+  }
+  async changeBibliographyState(bibliographyState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.bibliography = bibliographyState    
+    await this.setState(currentState)
   }
 
   rightMenuItems = () => {
@@ -140,13 +246,13 @@ class Colrc extends Component {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/spelling" component={SpellingPronunciation} />
-                <Route path="/roots" component={Roots} />
+                <Route path="/roots" component={() => <Roots rootState={this.state.roots} changeRootState={this.changeRootState} />} />
                 <Route path="/stems" component={Stems} />
-                <Route path="/affixes" component={Affixes} />
-                <Route path="/audio" component={Audio} />
+                <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
+                <Route path="/audio" component={() => <Audio audioState={this.state.audio} changeAudioState={this.changeAudioState} />} />
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={Texts} />
-                <Route path="/bibliography" component={Bibliography} />
+                <Route path="/bibliography" component={() => <Bibliography bibliographyState={this.state.bibliography} changeBibliographyState={this.changeBibliographyState} />} />
                 <Route path="/addspell" component={AddSpell} />
                 <Route path="/editspell" component={EditSpell} />
                 <Route path="/editroot" component={EditRoot} />

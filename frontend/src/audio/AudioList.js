@@ -8,12 +8,40 @@ import { graphql, compose } from 'react-apollo';
 import { getAudioSetsQuery } from '../queries/queries';
 
 class AudioList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
     	data: [],
-    	loading: true
+    	loading: true,
+      page: this.props.audioState.page,
+      pageSize: this.props.audioState.pageSize,
+      filtered: [],
+      sorted: [],
+      resized: [],
      };
+  }
+  async handlePageChange(page) {
+    console.log(page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeAudioState(currentState)
+  }
+
+  async handlePageSizeChange(pageSize,page) {
+    console.log(pageSize + ' ' + page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.pageSize = pageSize
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeAudioState(currentState)
+  }
+
+  async handleSortChange(newSorted,column,shiftKey) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.sorted = newSorted
+    await this.setState(currentState)
+    await this.props.changeAudioState(currentState)
   }
 
   render() {
@@ -42,15 +70,19 @@ class AudioList extends Component {
     ];
 
     const dataOrError = this.state.error ?
-         <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
-         <ReactTable
-           data={this.props.getAudioSetsQuery.audiosets_Q}
-           loading={this.props.getAudioSetsQuery.loading}
-           columns={columns}
-           filterable
-           defaultPageSize={5}
-           className="-striped -highlight"
-         />;
+      <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
+      <ReactTable
+        data={this.props.getAudioSetsQuery.audiosets_Q}
+        loading={this.props.getAudioSetsQuery.loading}
+        columns={columns}
+        filterable
+        minRows={1}
+        pageSize={this.state.pageSize}
+        className="-striped -highlight"
+        page={this.state.page}
+        onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+      />;
 
     return (
       <div className='ui content'>

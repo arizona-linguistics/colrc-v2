@@ -8,8 +8,8 @@ import RootsMetadata from "./RootsMetadata";
 class Roots extends Component {
 	constructor(props) {
 	    super(props);
-	    this.state = { 
-	    	activeItem: 'dictionary', 
+	    this.state = {
+	    	activeItem: 'dictionary',
 	    };
 	    this.handleItemClick = this.handleItemClick.bind(this);
 	  };
@@ -19,9 +19,9 @@ class Roots extends Component {
     render() {
 		const { activeItem } = this.state;
 
-let currentItem; 
+let currentItem;
     if (this.state.activeItem === "dictionary") {
-      	currentItem = <RootsDictionary />;
+			currentItem = <RootsDictionary rootState={this.props.rootState} changeRootState={this.props.changeRootState}/>;
     }
     else if (this.state.activeItem === "history") {
 		currentItem = <RootsHistory />;
@@ -32,19 +32,19 @@ let currentItem;
     return (
         <div className='ui content'>
 	      	<Menu size='mini'>
-		        <Menu.Item 
+		        <Menu.Item
 					name='dictionary'
 					active={activeItem === 'dictionary'}
 					onClick={this.handleItemClick}>
 					Dictionary
 		        </Menu.Item>
-		        <Menu.Item 
-			        name='history' 
-			        active={activeItem === 'history'} 
+		        <Menu.Item
+			        name='history'
+			        active={activeItem === 'history'}
 			        onClick={this.handleItemClick}>
-			        History 
+			        History
 		        </Menu.Item>
-		        <Menu.Item 
+		        <Menu.Item
 					name='metadata'
 					active={activeItem === 'metadata'}
 					onClick={this.handleItemClick}>
