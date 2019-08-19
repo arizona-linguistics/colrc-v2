@@ -251,7 +251,7 @@ async handleResizedChange(newResized, event) {
   }
 	render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
-    
+
     const { admin } = this.state
     //provide a function to set column widths dynamically based on the data returned.       
    	const getColumnWidth = (rows, accessor, headerText) => {
