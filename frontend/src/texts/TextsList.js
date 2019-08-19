@@ -213,27 +213,30 @@ sourcefiles(json) {
 		},
     ];
     const dataOrError = this.state.error ?
-         <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
-         <ReactTable
-           data={this.props.getTextsQuery.texts_Q}
-           loading={this.props.getTextsQuery.loading}
-           columns={columns}
-           minSize={1}
-           filterable
-           page={this.state.page}
-           pageSize={this.state.pageSize}
-           sorted={this.state.sorted}
-           SubComponent={row => {
-           		return (
-           		<ReactTable
-           			data={row.original.sourcefiles}
-           			columns={subcolumns}
-          			defaultPageSize={row.original.sourcefiles.length}
-           			showPagination={false}
-           			/>
-           		);
-           	}} 
-	   	  />
+      <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
+    <ReactTable
+        data={this.props.getTextsQuery.texts_Q}
+        loading={this.props.getTextsQuery.loading}
+        columns={columns}
+        minSize={1}
+        filterable
+        page={this.state.page}
+        pageSize={this.state.pageSize}
+        sorted={this.state.sorted}
+        onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        SubComponent={row => {
+       		return (
+       		<ReactTable
+       			data={row.original.sourcefiles}
+       			columns={subcolumns}
+      			defaultPageSize={row.original.sourcefiles.length}
+       			showPagination={false}
+       			/>
+       		);
+       	}} 
+ 	  />
     return (
       <div className='ui content'>
         <h3>Texts</h3>

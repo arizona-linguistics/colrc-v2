@@ -110,6 +110,9 @@ class Colrc extends Component {
       texts: {
         page: 0,
         pageSize: 5,
+        sorted: [],
+        resized: [],
+        filtered: [],
       },
       bibliography: {
         page: 0,
@@ -147,7 +150,7 @@ class Colrc extends Component {
         filtered: [],
         resized: [],
         selected: {
-          type: false,
+          type: true,
           salish: false,
           english: true,
           nicodemus: true,
