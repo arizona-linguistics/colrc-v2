@@ -20,7 +20,7 @@ class Texts extends Component {
 
 let currentItem; 
     if (this.state.activeItem === "list") {
-      	currentItem = <TextsList />;
+        currentItem = <TextsList textState={this.props.textState} changeTextState={this.props.changeTextState}/>;
     }
 	else {
 		currentItem = <TextsMetadata />;
