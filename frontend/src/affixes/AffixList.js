@@ -8,6 +8,8 @@ import { withApollo, graphql, compose } from 'react-apollo';
 import { getAffixesQuery, deleteAffixMutation, getUserFromToken } from '../queries/queries';
 
 class AffixList extends Component {
+  _isMounted = false
+
 	constructor(props) {
     //get all the props so we can refer to them
 	  super(props);
@@ -22,15 +24,7 @@ class AffixList extends Component {
       loading: true,
       affixvars: {},
       //assume the user is not logged in as admin, prepare to get user info from token
-      admin: false,
-      fields: {
-        first: '',
-        last: '',
-        email: '',
-        username: '',
-        password: '',
-        roles: []
-      },
+      admin: this.props.admin,
       //get initial state for the checkboxes that allow show/hide columns from Colrc.js.  
       page: this.props.affixState.page,
       pageSize: this.props.affixState.pageSize,
@@ -49,71 +43,44 @@ class AffixList extends Component {
         prevId: this.props.affixState.selected.prevId,
         editnote: this.props.affixState.selected.editnote,
       }
-	  };
+	  }
 	}
 
   //get user from token, find out users' roles
   async componentDidMount() {
+    this._isMounted = true
     try {
-      const token = localStorage.getItem('TOKEN')
-        if (token) {
-          let userQuery = await this.props.client.query({
-            query: getUserFromToken,
-          })
-          const user = userQuery.data.getUserFromToken_Q
-          // set the state with user info based on token, and if the user has an 'admin' role, set 
-          // the state variable 'admin' to true.  Else, set it to false. 
-          await this.setState({
-            // if the roles array includes admin, set state to logged in as admin
-            admin: user.roles.includes("admin")  || user.roles.includes("owner") || user.roles.includes("update"),
-            fields: {
-              first: user.first,
-              last: user.last,
-              email: user.email,
-              username: user.username,
-              roles: user.roles
-            }
-          }) 
-          console.log("My user is " + user)
-          console.log(this.state)
-        } else {
-          await this.setState({
-            admin: false,
-            fields: {
-              first: "anonymous",
-              last: "anonymous",
-              email: "anonymous",
-              username: "anonymous",
-              roles: ["view"]
-            }
-          })
-          console.log(this.state)
-          console.log("and here's the role " + this.state.fields.roles)
-        }
       // now we're going to get only active affixes if we are not admin, else 
       // we will get all the affixes
       // let affixvars = {}
-      if (!this.state.fields.roles.includes("admin")){
-        this.state.affixvars.active = 'Y'
+      if (!this.state.admin){
+        let currentState = Object.assign({}, this.state) 
+        currentState.affixvars.active = 'Y'
+        if (this._isMounted) {
+          await this.setState(currentState)
+        }
       }
       const getAffixes = await this.props.client.query({
         query: getAffixesQuery,
         variables: this.state.affixvars 
       })
-      this.setState({
-        data: getAffixes.data.affixes_Q,
-        loading: false
-      })
-      
+      let currentState = Object.assign({}, this.state)
+      currentState.data = getAffixes.data.affixes_Q
+      currentState.loading = false
+      if (this._isMounted) {
+        await this.setState(currentState)
+      } 
     } catch(error) {
       console.log(error)
     }
   } 
 
-componentWillUnmount() {
-  let currentState = Object.assign({}, this.state) 
-  this.props.changeAffixState(currentState)
-}
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("affixList is unmounting")
+    //let currentState = Object.assign({}, this.state) 
+    //await this.props.changeAffixState(currentState)
+  }
 
  //weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.
   weblink(link, page) {

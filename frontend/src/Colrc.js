@@ -32,7 +32,7 @@ import './stylesheets/NavBar.css';
 import './stylesheets/Colrc.css';
 import './stylesheets/AccordionTables.css';
 import { ApolloClient } from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider, withApollo, graphql, compose } from 'react-apollo';
 import Users from './users/Users';
 import ChangePassword from './users/ChangePassword';
 import UserProfile from './users/UserProfile';
@@ -47,6 +47,7 @@ import { setContext } from 'apollo-link-context';
 import { split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+import {  getUserFromToken } from './queries/queries';
 
 const { createApolloFetch } = require('apollo-fetch');
 
@@ -94,8 +95,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-
 class Colrc extends Component {
+  _isMounted = false
 
   constructor(props) {
     super(props)
@@ -107,6 +108,14 @@ class Colrc extends Component {
     this.changeBibliographyState = this.changeBibliographyState.bind(this)
     this.state = {
       login: loggedIn(),
+      user: {
+        first: '',
+        last: '',
+        email: '',
+        username: '',
+        password: '',
+        roles: []
+      },
       texts: {
         page: 0,
         pageSize: 5,
@@ -199,12 +208,66 @@ class Colrc extends Component {
     }
   }
 
-  changeLoginState(loginState) {
-    this.setState({
-      login: loginState
-    })
+  async componentDidMount() {
+    this._isMounted = true
+    await this.checkUserRole()
   }
+
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("COLRC is unmounting")
+  }
+
+  changeLoginState(loginState) {
+    let currentState = Object.assign({}, this.state)
+    currentState.login = loginState
+    this.setState(currentState)
+  }
+
+  async checkUserRole() {
+    this._isMounted = true  
+    try {
+      const token = localStorage.getItem('TOKEN')
+      if (token) {
+        let userQuery = await client.query({
+          query: getUserFromToken,
+        })
+        const user = userQuery.data.getUserFromToken_Q
+        // set the state with user info based on token, and if the user has an 'admin' role, set 
+        // the state variable 'admin' to true.  Else, set it to false. 
+        let currentState = Object.assign({}, this.state)
+        currentState.admin = user.roles.includes("admin")  || user.roles.includes("owner") || user.roles.includes("update")
+        currentState.fields = {
+          first: user.first,
+          last: user.last,
+          email: user.email,
+          username: user.username,
+          roles: user.roles
+        }
+        await this.setState(currentState) 
+        console.log("My user is " + user)
+        console.log(this.state)
+      } else {
+        let currentState = Object.assign({}, this.state)
+        currentState.admin = false
+        currentState.fields = {
+          first: 'anonymous',
+          last: 'anonymous',
+          email: 'anonymous',
+          username: 'anonymous',
+          roles: ['view']
+        }
+        await this.setState(currentState) 
+        console.log(this.state)
+        console.log("and here's the role " + this.state.fields.roles)
+      }
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
   async changeAffixState(affixState){
+    this._isMounted = true   
     let currentState = Object.assign({}, this.state) 
     currentState.affixes = affixState    
     await this.setState(currentState)
@@ -259,7 +322,7 @@ class Colrc extends Component {
                 <Route path="/spelling" component={SpellingPronunciation} />
                 <Route path="/roots" component={() => <Roots rootState={this.state.roots} changeRootState={this.changeRootState} />} />
                 <Route path="/stems" component={Stems} />
-                <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
+                <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} admin={this.state.admin}/> } />
                 <Route path="/audio" component={() => <Audio audioState={this.state.audio} changeAudioState={this.changeAudioState} />} />
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={() => <Texts textState={this.state.texts} changeTextState={this.changeTextState} />} />
