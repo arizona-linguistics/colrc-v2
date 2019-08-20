@@ -120,6 +120,23 @@ class Colrc extends Component {
           editnote: false
         }
       },
+      stems: {
+        page: 0,
+        selected: {
+          category: true,
+  				reichard: false,
+  				doak: false,
+  				salish: false,
+  				nicodemus: true,
+  				english: true,
+  				note: false,
+  				edit: false,
+  				username: false,
+  				active: false,
+  				prevId: false,
+  				editnote: false,
+        }
+      },
       roots: {
         page: 0,
         selected: {
@@ -165,6 +182,14 @@ class Colrc extends Component {
       }
     })
   }
+  async changeStemState(stemState){
+    await this.setState({
+      roots: {
+        selected: stemState.selected,
+        page: stemState.page
+      }
+    })
+  }
 
   rightMenuItems = () => {
     const rightItems = [
@@ -196,7 +221,7 @@ class Colrc extends Component {
                 <Route path="/spelling" component={SpellingPronunciation} />
                 <Route path="/roots" component={() => <Roots rootState={this.state.roots} changeRootState={this.changeRootState} />} />
                 <Route path="/audio" component={Audio} />
-                <Route path="/stems" component={Stems} />
+                <Route path="/stems" component={() => <Stems stemState={this.state.stems} changeStemState={this.changeStemState} />} />
                 <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
                 <Route path="/audio" component={Audio} />
                 <Route path="/contactus" component={ContactUs} />
