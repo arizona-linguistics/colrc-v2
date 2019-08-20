@@ -517,12 +517,20 @@ class RootsDictionary extends Component {
           <Link to={{
             pathname: '/editroot/',
             search: '?id=' + original.id +
-            '&root=' + original.root +
             '&number=' + original.number +
+            '&sense=' + original.sense +
+            '&root=' + original.root +
             '&salish=' + original.salish +
             '&nicodemus=' + original.nicodemus +
-            '&english=' + original.english
+            '&symbol=' + original.symbol +
+            '&english=' + original.english +
+            '&grammar=' + original.grammar +
+            '&crossref=' + original.crossref +
+            '&variant=' + original.variant +
+            '&cognate=' + original.cognate +
+            '&editnote=' + original.editnote
           }} >
+
           <Button icon floated='right'>
             <Icon name='edit' />
           </Button>
