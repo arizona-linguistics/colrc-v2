@@ -31,6 +31,7 @@ class RootsDictionary extends Component {
       },
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       page: this.props.rootState.page,
+      pageSize: this.props.rootState.pageSize,
       selected: {
         number: this.props.rootState.selected.number,
         sense: this.props.rootState.selected.sense,
@@ -111,225 +112,122 @@ class RootsDictionary extends Component {
 
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   async handleRootChange(value) {
-    const current = this.state.selected
-    current.root = !current.root
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.root = !currentState.selected.root
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleNumberChange(value) {
-    const current = this.state.selected
-    current.number = !current.number
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.number = !currentState.selected.number
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleSenseChange(value) {
-    const current = this.state.selected
-    current.sense = !current.sense
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.sense = !currentState.selected.sense
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleSalishChange(value) {
-    const current = this.state.selected
-    current.salish = !current.salish
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.salish = !currentState.selected.salish
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleNicodemusChange(value) {
-    const current = this.state.selected
-    current.nicodemus = !current.nicodemus
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.nicodemus = !currentState.selected.nicodemus
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleSymbolChange(value) {
-    const current = this.state.selected
-    current.symbol = !current.symbol
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.symbol = !currentState.selected.symbol
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleEnglishChange(value) {
-    const current = this.state.selected
-    current.english = !current.english
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.english = !currentState.selected.english
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleGrammarChange(value) {
-    const current = this.state.selected
-    current.grammar = !current.grammar
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.grammar = !currentState.selected.grammar
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleCrossrefChange(value) {
-    const current = this.state.selected
-    current.crossref = !current.crossref
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.crossref = !currentState.selected.crossref
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleVariantChange(value) {
-    const current = this.state.selected
-    current.variant = !current.variant
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.variant = !currentState.selected.variant
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleCognateChange(value) {
-    const current = this.state.selected
-    current.cognate = !current.cognate
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
-  async handleActiveChange(value) {
-    const current = this.state.selected
-    current.active = !current.active
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.cognate = !currentState.selected.cognate
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
+   async handleActiveChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.active = !currentState.selected.active
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handlePrevIdChange(value) {
-    const current = this.state.selected
-    current.prevId = !current.prevId
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.prevId = !currentState.selected.prevId
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleEditNoteChange(value) {
-    const current = this.state.selected
-    current.editnote = !current.editnote
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.editnote = !currentState.selected.editnote
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handleUserChange(value) {
-    const current = this.state.selected
-    current.username = !current.username
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
-  async handleEditChange(value) {
-    const current = this.state.selected
-    current.edit = !current.edit
-    await this.setState({
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
-
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.username = !currentState.selected.username
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
+   async handleEditChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.edit = !currentState.selected.edit
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   async handlePageChange(page) {
     console.log(page)
-    await this.setState({
-      page: page,
-      selected: this.state.selected
-    });
-    await this.props.changeRootState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
   }
-
+  async handlePageSizeChange(pageSize,page) {
+    console.log(pageSize + ' ' + page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.pageSize = pageSize
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
+  async handleSortChange(newSorted,column,shiftKey) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.sorted = newSorted
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
   // allow an admin or owner to delete roots.  Deletion sets the 'active' flag to 'N' on the stems, it does not delete anything
   async onDelete(id) {
     console.log("In deletion");
@@ -369,14 +267,14 @@ class RootsDictionary extends Component {
       filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-      width: getColumnWidth(this.state.data, 'root', 'Root'),
+      width: 50,
       show: this.state.selected.root,
   	},
 	  {
 	    Header: '#',
 	    accessor: 'number',
 	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["#"], threshold: matchSorter.rankings.CONTAINS }),
+        matchSorter(rows, filter.value, { keys: ["number"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
 	    width: 50,
 	    show: this.state.selected.number,
@@ -388,8 +286,8 @@ class RootsDictionary extends Component {
 	    filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["sense"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-	    width: getColumnWidth(this.state.data, 'sense', 'Sense'),
-	    show: this.state.selected.number,
+	    width: 50,
+	    show: this.state.selected.sense,
 	  },
 	  {
 	    Header: 'Salish',
@@ -397,6 +295,7 @@ class RootsDictionary extends Component {
 	    filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
+      width: 100,
       show: this.state.selected.salish,
 	  },
 	  {
@@ -413,7 +312,7 @@ class RootsDictionary extends Component {
 	    filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["symbol"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-	    width: getColumnWidth(this.state.data, 'symbol', 'Symbol'),
+	    width: 50,
 	    show: this.state.selected.symbol,
 	  },
 	  {
@@ -422,7 +321,6 @@ class RootsDictionary extends Component {
 	    filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-      //this should allow text in this column to break on whitespace and wrap, rather than overflowing
 	    style: { 'whiteSpace': 'unset' },
 		  show: this.state.selected.english,
 	  },
@@ -432,22 +330,22 @@ class RootsDictionary extends Component {
 	    filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["grammar"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-	    width: 50,
+	    width: 75,
       style: { 'whiteSpace': 'unset' },
 	    show: this.state.selected.grammar,
 	  },
     {
-	    Header: 'Crossref',
+	    Header: 'Xref',
 	    accessor: 'crossref',
 	    filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["crossref"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-	    width: 50,
+	    width: 75,
       style: { 'whiteSpace': 'unset' },
 	    show: this.state.selected.crossref,
 	  },
     {
-	    Header: 'Variant',
+	    Header: 'Var.',
 	    accessor: 'variant',
 	    filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["variant"], threshold: matchSorter.rankings.CONTAINS }),
@@ -490,7 +388,7 @@ class RootsDictionary extends Component {
       filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-      width: 75,
+      width: 100,
       show: this.state.selected.editnote,
     },
     {
@@ -557,6 +455,13 @@ class RootsDictionary extends Component {
         checked={this.state.selected.number}
         onChange={this.handleNumberChange.bind(this)}
       />
+      <label className="checkBoxLabel">Sense</label>
+      <input
+        name="sense"
+        type="checkbox"
+        checked={this.state.selected.sense}
+        onChange={this.handleSenseChange.bind(this)}
+      />
 		  <label className="checkBoxLabel">Salish</label>
 		  <input
 		  	name="salish"
@@ -592,7 +497,7 @@ class RootsDictionary extends Component {
         checked={this.state.selected.grammar}
         onChange={this.handleGrammarChange.bind(this)}
       />
-      <label className="checkBoxLabel">Crossref</label>
+      <label className="checkBoxLabel">Xref</label>
       <input
         name="crossref"
         type="checkbox"
@@ -663,11 +568,16 @@ class RootsDictionary extends Component {
         data={this.state.data}
         loading={this.state.loading}
         columns={columns}
+        pageSize={this.state.pageSize}
+        className="-striped -highlight left"
         filterable
-        defaultPageSize={10}
-        className="-striped -highlight"
+        filtered={this.state.filtered}
+        //sorted={this.state.sorted}
         page={this.state.page}
+        resized={this.state.resized}
         onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        //onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
       />;
 
     return (

@@ -8,13 +8,15 @@ import { withApollo, graphql, compose } from 'react-apollo';
 import { getAffixesQuery, deleteAffixMutation, getUserFromToken } from '../queries/queries';
 
 class AffixList extends Component {
+  _isMounted = false
+
 	constructor(props) {
     //get all the props so we can refer to them
 	  super(props);
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
 	  this.weblink = this.weblink.bind(this);
-    this.affixDropdown = this.affixDropdown.bind(this);
+    this.affixDropdown = this.affixDropdown.bind(this); 
     //set the initial state
 	  this.state = {
       //set up an empty array and a loading state for react-table
@@ -22,17 +24,13 @@ class AffixList extends Component {
       loading: true,
       affixvars: {},
       //assume the user is not logged in as admin, prepare to get user info from token
-      admin: false,
-      fields: {
-        first: '',
-        last: '',
-        email: '',
-        username: '',
-        password: '',
-        roles: []
-      },
-      //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
+      admin: this.props.admin,
+      //get initial state for the checkboxes that allow show/hide columns from Colrc.js.  
       page: this.props.affixState.page,
+      pageSize: this.props.affixState.pageSize,
+      sorted: this.props.affixState.sorted,
+      filtered: this.props.affixState.filtered,
+      resized: this.props.affixState.resized,
       selected: {
         type: this.props.affixState.selected.type,
   		  salish: this.props.affixState.selected.salish,
@@ -45,207 +43,149 @@ class AffixList extends Component {
         prevId: this.props.affixState.selected.prevId,
         editnote: this.props.affixState.selected.editnote,
       }
-	  };
-	}
-
- //weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.
-	weblink(link, page) {
-		return (
-			link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
-		);
+	  }
 	}
 
   //get user from token, find out users' roles
   async componentDidMount() {
+    this._isMounted = true
     try {
-      const token = localStorage.getItem('TOKEN')
-        if (token) {
-          let userQuery = await this.props.client.query({
-            query: getUserFromToken,
-          })
-          const user = userQuery.data.getUserFromToken_Q
-          // set the state with user info based on token, and if the user has an 'admin' role, set 
-          // the state variable 'admin' to true.  Else, set it to false. 
-          await this.setState({
-            // if the roles array includes admin, set state to logged in as admin
-            admin: user.roles.includes("admin")  || user.roles.includes("owner") || user.roles.includes("update"),
-            fields: {
-              first: user.first,
-              last: user.last,
-              email: user.email,
-              username: user.username,
-              roles: user.roles
-            }
-          }) 
-          console.log("My user is " + user)
-          console.log(this.state)
-        } else {
-          await this.setState({
-            admin: false,
-            fields: {
-              first: "anonymous",
-              last: "anonymous",
-              email: "anonymous",
-              username: "anonymous",
-              roles: ["view"]
-            }
-          })
-          console.log(this.state)
-          console.log("and here's the role " + this.state.fields.roles)
-        }
       // now we're going to get only active affixes if we are not admin, else 
       // we will get all the affixes
       // let affixvars = {}
-      if (!this.state.fields.roles.includes("admin")){
-        this.state.affixvars.active = 'Y'
+      if (!this.state.admin){
+        let currentState = Object.assign({}, this.state) 
+        currentState.affixvars.active = 'Y'
+        if (this._isMounted) {
+          await this.setState(currentState)
+        }
       }
       const getAffixes = await this.props.client.query({
         query: getAffixesQuery,
         variables: this.state.affixvars 
       })
-      this.setState({
-        data: getAffixes.data.affixes_Q,
-        loading: false
-      })
-      
+      let currentState = Object.assign({}, this.state)
+      currentState.data = getAffixes.data.affixes_Q
+      currentState.loading = false
+      if (this._isMounted) {
+        await this.setState(currentState)
+      } 
     } catch(error) {
       console.log(error)
     }
   } 
 
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("affixList is unmounting")
+    //let currentState = Object.assign({}, this.state) 
+    //await this.props.changeAffixState(currentState)
+  }
+
+ //weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.
+  weblink(link, page) {
+    return (
+      link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
+    );
+  }
+
 //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   async handleTypeChange(value) {
-    const current = this.state.selected
-    current.type = !current.type
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.type = !currentState.selected.type
+    await this.setState(currentState)
+  }
 
 	async handleSalishChange(value) {
-	  const current = this.state.selected
-    current.salish = !current.salish
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.salish = !currentState.selected.salish
+    await this.setState(currentState)
+	}
+
 	async handleNicodemusChange(value) {
-    const current = this.state.selected
-    current.nicodemus = !current.nicodemus
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.nicodemus = !currentState.selected.nicodemus
+    await this.setState(currentState)
+	}
+
 	async handleEnglishChange(value) {
-    const current = this.state.selected
-    current.english = !current.english
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.english = !currentState.selected.english
+    await this.setState(currentState)
+	}
+
 	async handleLinkChange(value) {
-    const current = this.state.selected
-    current.link = !current.link
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.link = !currentState.selected.link
+    await this.setState(currentState)
+	}
+
   async handleActiveChange(value) {
-    const current = this.state.selected
-    current.active = !current.active
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.active = !currentState.selected.active
+    await this.setState(currentState)
+  }
+
   async handlePrevIdChange(value) {
-    const current = this.state.selected
-    current.prevId = !current.prevId
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.prevId = !currentState.selected.prevId
+    await this.setState(currentState)
+  }
+
 	async handleUserChange(value) {
-    const current = this.state.selected
-    current.username = !current.username
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-	};
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.username = !currentState.selected.username
+    await this.setState(currentState)
+	}
+
   async handleEditnoteChange(value) {
-    const current = this.state.selected
-    current.editnote = !current.editnote
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.editnote = !currentState.selected.editnote
+    await this.setState(currentState)
+  }
+
   async handleEditChange(value) {
-    const current = this.state.selected
-    current.edit = !current.edit
-    await this.setState({ 
-      page: this.state.page,
-      selected: current
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
-  };
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.edit = !currentState.selected.edit
+    await this.setState(currentState)
+  }
+
   async handlePageChange(page) {
     console.log(page)
-    await this.setState({
-      page: page,
-      selected: this.state.selected
-    });
-    await this.props.changeAffixState({
-      selected: this.state.selected,
-      page: this.state.page
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.page = page
+    await this.setState(currentState)
   }
+
+  async handlePageSizeChange(pageSize,page) {
+    console.log(pageSize + ' ' + page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.pageSize = pageSize
+    currentState.page = page
+    await this.setState(currentState)
+  }
+
+  async handleSortChange(newSorted,column,shiftKey) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.sorted = newSorted
+    await this.setState(currentState)
+  }
+
+  async handleFilteredChange(filtered,column) {
+    let currentState = Object.assign({}, this.state) 
+    console.log('filtered = ' + filtered + ', column = ' + column)
+    console.log(filtered)
+    console.log(column)
+    currentState.filtered = filtered
+    await this.setState(currentState)
+  }
+
+async handleResizedChange(newResized, event) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.resized = newResized
+    await this.setState(currentState)
+  }
+
 // allow an admin or owner to delete affixes.  Deletion sets the 'active' flag to 'N' on the affix, it does not delete anything
   async onDelete(id) {
     console.log("In deletion");
@@ -278,7 +218,7 @@ class AffixList extends Component {
   }
 	render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
-    
+
     const { admin } = this.state
     //provide a function to set column widths dynamically based on the data returned.       
    	const getColumnWidth = (rows, accessor, headerText) => {
@@ -292,7 +232,8 @@ class AffixList extends Component {
   	};
 
     //set up the table columns.  Header is the column header text, accessor is the name of the column in the db. 
-	  const columns = [{
+	  const columns = [
+    {
 	    Header: 'Type',
 	    accessor: 'type',
 	    width: 100,
@@ -505,11 +446,18 @@ class AffixList extends Component {
 			  data={this.state.data}
 			  loading={this.state.loading}
         columns={columns}
-        defaultPageSize={10}
+        pageSize={this.state.pageSize}
         className="-striped -highlight left"
         filterable
+        filtered={this.state.filtered}
+        sorted={this.state.sorted}
         page={this.state.page}
+        resized={this.state.resized}
         onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
+        onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
       />;
 
 	  return (

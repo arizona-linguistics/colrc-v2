@@ -10,9 +10,9 @@ import { withApollo, graphql, compose } from 'react-apollo';
 
 
 class Bibliography extends Component {
-  constructor() {
+  constructor(props) {
     //get all the props so we can refer to them
-    super();
+    super(props);
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
     this.weblink = this.weblink.bind(this);
@@ -25,27 +25,23 @@ class Bibliography extends Component {
       //assume the user is not logged in as admin, prepare to get user info from token
       admin: false,
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show main content.  Always initially hide procedural content.
-      authorSelected: true,
-		  yearSelected: true,
-		  titleSelected: true,
-      referenceSelected: true,
-		  linkSelected: true,
-      linktextSelected: true,
-      editSelected: false,
-	    usernameSelected: false,
-      activeSelected: false,
-      prevIdSelected: false,
-      usernameSelected: false,
+      page: this.props.bibliographyState.page,
+      pageSize: this.props.bibliographyState.pageSize,
+      sorted: [],
+      filtered: [],
+      resized: [],
+      selected: {
+        author: this.props.bibliographyState.selected.author,
+  		  year: this.props.bibliographyState.selected.year,
+  		  title: this.props.bibliographyState.selected.title,
+        reference: this.props.bibliographyState.selected.reference,
+        edit: this.props.bibliographyState.selected.edit,
+  	    username: this.props.bibliographyState.selected.username,
+        active: this.props.bibliographyState.selected.active,
+        prevId: this.props.bibliographyState.selected.prevId,
+      }
     };
   }
-
-//weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.
-  weblink(link, page) {
-    return (
-      link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
-    );
-  }
-
     //get user from token, find out users' roles
     async componentDidMount() {
       try {
@@ -84,16 +80,18 @@ class Bibliography extends Component {
             console.log(this.state)
             console.log("and here's the role " + this.state.fields.roles)
           }
-        // now we're going to get only active bibliographies if we are not admin, else 
-        // we will get all the bibliographies
+        //now we're going to get only active bibliographies if we are not admin, else 
+        //we will get all the bibliographies
         if (!this.state.fields.roles.includes("admin")){
-          this.state.bibvars.active = 'Y'
+          let currentState = Object.assign({}, this.state) 
+          currentState.bibvars.active = 'Y'
+          await this.setState(currentState)
         }
         const getBibliographies = await this.props.client.query({
           query: getBibliographiesQuery,
           variables: this.state.bibvars 
         })
-        this.setState({
+        await this.setState({
           data: getBibliographies.data.bibliographies_Q,
           loading: false,
         })
@@ -101,45 +99,91 @@ class Bibliography extends Component {
       } catch(error) {
         console.log(error)
       }
-    } 
+  } 
 
+  async componentWillUnmount() {
+    let currentState = Object.assign({}, this.state) 
+    await this.props.changeBibliographyState(currentState)
+  }
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
-  handleAuthorChange(value) {
-    this.setState({ authorSelected: !this.state.authorSelected });
-  };
-  handleYearChange(value) {
-    this.setState({ yearSelected: !this.state.yearSelected });
-  };
-  handleTitleChange(value) {
-    this.setState({ titleSelected: !this.state.titleSelected });
-  };
-  handleReferenceChange(value) {
-    this.setState({ referenceSelected: !this.state.referenceSelected });
-  };
-  handleLinkChange(value) {
-    this.setState({ linkSelected: !this.state.linkSelected });
-  };
-  handleLinktextChange(value) {
-    this.setState({ linktextSelected: !this.state.linktextSelected });
-  };
-  handleActiveChange(value) {
-    this.setState({ activeSelected: !this.state.activeSelected });
-  };
-  handlePrevIdChange(value) {
-    this.setState({ prevIdSelected: !this.state.prevIdSelected });
-  };
-  handleUserChange(value) {
-    this.setState({ usernameSelected: !this.state.usernameSelected });
-  };
-  handleEditChange(value) {
-    this.setState({ editSelected: !this.state.editSelected });
-  };  
+//weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.
+  weblink(link, page) {
+    return (
+      link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
+    );
+  }
+  async handleAuthorChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.author = !currentState.selected.author
+    await this.setState(currentState)
+  }
+  async handleYearChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.year = !currentState.selected.year
+    await this.setState(currentState)
+  }
+  async handleTitleChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.title = !currentState.selected.title
+    await this.setState(currentState)
+  }
+  async handleReferenceChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.reference = !currentState.selected.reference
+    await this.setState(currentState)
+  }
+  async handleActiveChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.active = !currentState.selected.active
+    await this.setState(currentState)
+  }
+  async handlePrevIdChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.prevId = !currentState.selected.prevId
+    await this.setState(currentState)
+  }
+  async handleUserChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.username = !currentState.selected.username
+    await this.setState(currentState)
+  }
+  async handleEditChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.edit = !currentState.selected.edit
+    await this.setState(currentState)
+  }
+  async handlePageChange(page) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.page = page
+    await this.setState(currentState)
+  }
+  async handlePageSizeChange(pageSize,page) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.pageSize = pageSize
+    currentState.page = page
+    await this.setState(currentState)
+  }
+  async handleSortChange(newSorted,column,shiftKey) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.sorted = newSorted
+    await this.setState(currentState)
+  }
+  async handleFilteredChange(filtered,column) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.filtered = filtered
+    await this.setState(currentState)
+  }
+  async handleResizedChange(newResized, event) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.resized = newResized
+    await this.setState(currentState)
+  }
 
   // allow an admin or owner to delete bibliography entry.  Deletion sets the 'active' flag to 'N' on the bibliography, it does not delete anything
   async onDelete(id){
     console.log("In deletion");
     try {
-      this.props.deleteBibliographyMutation({
+      await this.props.deleteBibliographyMutation({
         variables: {
         id: id
       },
@@ -155,10 +199,8 @@ class Bibliography extends Component {
   };
 
 render() {
-  //give the render a way to access values for the checkboxes that show/hide columns by setting state
-  const { authorSelected, yearSelected, titleSelected, referenceSelected, linkSelected, linktextSelected, editSelected, usernameSelected, activeSelected, prevIdSelected  } = this.state;
 
-    //provide a function to set column widths dynamically based on the data returned.       
+  //provide a function to set column widths dynamically based on the data returned.       
   const getColumnWidth = (rows, accessor, headerText) => {
     const maxWidth = 600
     const magicSpacing = 15
@@ -174,72 +216,71 @@ const columns = [{
   Header: 'Author',
   accessor: 'author',
   style: { 'whiteSpace': 'unset'},
-  show: authorSelected,
+  show: this.state.selected.author,
   filterMethod: (filter, rows) =>
     matchSorter(rows, filter.value, { keys: ["author"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-      
   },
-{
+  {
   Header: 'Year',
   accessor: 'year',
   maxWidth: 100,
-  show: yearSelected,
+  show: this.state.selected.year,
   filterMethod: (filter, rows) =>
       matchSorter(rows, filter.value, { keys: ["year"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
   },
-{
+  {
   Header: 'Title',
   accessor: 'title',
-  show: titleSelected,
+  show: this.state.selected.title,
   style: { 'whiteSpace': 'unset'},
   Cell: ({row, original}) => ( this.weblink(original.link, original.title) ),
   filterMethod: (filter, rows) =>
       matchSorter(rows, filter.value, { keys: ["title"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
   },
-{
+  {
   Header: 'Reference',
   accessor: 'reference',
-  show: referenceSelected,
+  show: this.state.selected.reference,
   style: { 'whiteSpace': 'unset' }, //allows text to wrap in a cell
   filterMethod: (filter, rows) =>
       matchSorter(rows, filter.value, { keys: ["reference"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
   },
-{
+  {
   Header: 'Active',
   accessor: 'active',
   filterMethod: (filter, rows) =>
     matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
   filterAll: true,
-  show: activeSelected,
+  show: this.state.selected.active,
   width: 50,
-},
-{
+  },
+  {
   Header: 'PrevID',
   accessor: 'prevId',
   filterMethod: (filter, rows) =>
     matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
   filterAll: true,
-  show: prevIdSelected,
+  show: this.state.selected.prevId,
   width: 50,
-},
-{
+  },
+  {
   Header: 'User Name',
   accessor: 'user.username',
   filterMethod: (filter, rows) =>
     matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
   filterAll: true,
-  show: usernameSelected,
+  show: this.state.selected.username,
   width: 100,
-},
-{
+  },
+  {
   Header: 'Edit/Delete',
   filterable: false,
   sortable: false,
-  show: editSelected,
+  show: this.state.selected.edit,
   width: 100,
   //get original row id, allow user to call onDelete, or edit.  Linkto passes original bibliography values into editbib form via the location string
   Cell: ({row, original}) => (
@@ -273,28 +314,28 @@ const columns = [{
       <input
         name="author"
         type="checkbox"
-        checked={this.state.authorSelected}
+        checked={this.state.selected.author}
         onChange={this.handleAuthorChange.bind(this)}
       />
 		  <label className="checkBoxLabel">Year</label>
       <input
         name="year"
         type="checkbox"
-        checked={this.state.yearSelected}
+        checked={this.state.selected.year}
         onChange={this.handleYearChange.bind(this)}
       />
       <label className="checkBoxLabel">Title</label>
       <input
         name="title"
         type="checkbox"
-        checked={this.state.titleSelected}
+        checked={this.state.selected.title}
         onChange={this.handleTitleChange.bind(this)}
       />
       <label className="checkBoxLabel">Reference</label>
       <input
         name="reference"
         type="checkbox"
-        checked={this.state.referenceSelected}
+        checked={this.state.selected.reference}
         onChange={this.handleReferenceChange.bind(this)}
       />
 {/* Here begin the admin-only checkboxes   */}
@@ -304,28 +345,28 @@ const columns = [{
         <input
           name="user.username"
           type="checkbox"
-          checked={this.state.usernameSelected}
+          checked={this.state.selected.username}
           onChange={this.handleUserChange.bind(this)}
         />
         <label className="checkBoxLabel">Active</label>
         <input
           name="active"
           type="checkbox"
-          checked={this.state.activeSelected}
+          checked={this.state.selected.active}
           onChange={this.handleActiveChange.bind(this)}
         />
         <label className="checkBoxLabel">PrevId</label>
         <input
           name="prevId"
           type="checkbox"
-          checked={this.state.prevIdSelected}
+          checked={this.state.selected.prevId}
           onChange={this.handlePrevIdChange.bind(this)}
         /> 
         <label className="checkBoxLabel">Edit/Delete</label>
         <input
           name="edit"
           type="checkbox"
-          checked={this.state.editSelected}
+          checked={this.state.selected.edit}
           onChange={this.handleEditChange.bind(this)}
         />
         </div>
@@ -338,12 +379,19 @@ const columns = [{
     const dataOrError = this.state.error ?
      <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
      <ReactTable
-       data={this.state.data}
-       loading={this.state.loading}
-       columns={columns}
-       filterable
-       defaultPageSize={10}
-       className="-striped -highlight"
+        data={this.state.data}
+        loading={this.state.loading}
+        columns={columns}
+        filterable
+        className="-striped -highlight"
+        filtered={this.state.filtered}
+        sorted={this.state.sorted}
+        pageSize={this.state.pageSize}
+        page={this.state.page}
+        resized={this.state.resized}
+        onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
      />;
 
     return (

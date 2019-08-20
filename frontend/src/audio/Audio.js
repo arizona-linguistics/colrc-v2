@@ -20,7 +20,7 @@ class Audio extends Component {
 
 	let currentItem; 
     	if (this.state.activeItem === "list") {
-      		currentItem = <AudioList />;
+        currentItem = <AudioList audioState={this.props.audioState} changeAudioState={this.props.changeAudioState}/>;
     	}
 		else {
 			currentItem = <AudioMetadata />;

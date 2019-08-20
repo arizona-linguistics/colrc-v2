@@ -8,11 +8,14 @@ import { getTextsQuery } from '../queries/queries';
 
 
 class TextsList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
     	data: [],
     	loading: true,
+      page: this.props.textState.page,
+      pageSize: this.props.textState.pageSize,
+      sorted: this.props.textState.sorted,
      };
   }
 
@@ -29,6 +32,29 @@ class TextsList extends Component {
     console.log(newData)
   }
 
+  async handlePageChange(page) {
+    console.log(page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeTextState(currentState)
+  }
+
+  async handlePageSizeChange(pageSize,page) {
+    console.log(pageSize + ' ' + page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.pageSize = pageSize
+    currentState.page = page
+    await this.setState(currentState)
+    await this.props.changeTextState(currentState)
+  }
+
+  async handleSortChange(newSorted,column,shiftKey) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.sorted = newSorted
+    await this.setState(currentState)
+    await this.props.changeTextState(currentState)
+  }
 
 sourcefiles(json) {
 	//you have the data from getTextsQuery, call it json.  
@@ -187,23 +213,30 @@ sourcefiles(json) {
 		},
     ];
     const dataOrError = this.state.error ?
-         <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
-         <ReactTable
-           data={this.props.getTextsQuery.texts_Q}
-           loading={this.props.getTextsQuery.loading}
-           columns={columns}
-           filterable
-           SubComponent={row => {
-           		return (
-           		<ReactTable
-           			data={row.original.sourcefiles}
-           			columns={subcolumns}
-          			defaultPageSize={row.original.sourcefiles.length}
-           			showPagination={false}
-           			/>
-           		);
-           	}} 
-	   	  />
+      <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
+    <ReactTable
+        data={this.props.getTextsQuery.texts_Q}
+        loading={this.props.getTextsQuery.loading}
+        columns={columns}
+        minSize={1}
+        filterable
+        page={this.state.page}
+        pageSize={this.state.pageSize}
+        sorted={this.state.sorted}
+        onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        SubComponent={row => {
+       		return (
+       		<ReactTable
+       			data={row.original.sourcefiles}
+       			columns={subcolumns}
+      			defaultPageSize={row.original.sourcefiles.length}
+       			showPagination={false}
+       			/>
+       		);
+       	}} 
+ 	  />
     return (
       <div className='ui content'>
         <h3>Texts</h3>

@@ -6,6 +6,8 @@ import AffixMetadata from "./AffixMetadata";
 
 
 class Affixes extends Component {
+  _isMounted = false
+
 	constructor(props) {
 	    super(props);
 	    this.state = { 
@@ -14,33 +16,44 @@ class Affixes extends Component {
 	    this.handleItemClick = this.handleItemClick.bind(this);
 	  };
 
-	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  componentDidMount() {
+    this._isMounted = true
+  }
 
-    render() {
-		const { activeItem } = this.state;	
+	handleItemClick = (e, { name }) => {
+    if (this._isMounted) {
+      this.setState({ activeItem: name })
+    }
+  }
+  
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
-let currentItem; 
+render() {
+	const { activeItem } = this.state;	
+
+  let currentItem; 
     if (this.state.activeItem === "list") {
-      	currentItem = <AffixList affixState={this.props.affixState} changeAffixState={this.props.changeAffixState}/>;
+      	currentItem = <AffixList affixState={this.props.affixState} changeAffixState={this.props.changeAffixState} admin={this.props.admin}/>;
     }
 	else {
 		currentItem = <AffixMetadata />;
 	};
     return (
         <div className='ui content'>
-
 	      	<Menu size='mini'>
 		        <Menu.Item 
-					name='list'
-					active={activeItem === 'list'}
-					onClick={this.handleItemClick}>
-					Affix List
+    					name='list'
+    					active={activeItem === 'list'}
+    					onClick={this.handleItemClick}>
+    					Affix List
 		        </Menu.Item>
 		        <Menu.Item 
-					name='metadata'
-					active={activeItem === 'metadata'}
-					onClick={this.handleItemClick}>
-					Metadata
+    					name='metadata'
+    					active={activeItem === 'metadata'}
+    					onClick={this.handleItemClick}>
+    					Metadata
 		        </Menu.Item>
 	      	</Menu>
 	      	<p></p>

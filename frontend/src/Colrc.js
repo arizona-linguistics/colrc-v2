@@ -32,7 +32,7 @@ import './stylesheets/NavBar.css';
 import './stylesheets/Colrc.css';
 import './stylesheets/AccordionTables.css';
 import { ApolloClient } from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider, withApollo, graphql, compose } from 'react-apollo';
 import Users from './users/Users';
 import ChangePassword from './users/ChangePassword';
 import UserProfile from './users/UserProfile';
@@ -47,6 +47,7 @@ import { setContext } from 'apollo-link-context';
 import { split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+import {  getUserFromToken } from './queries/queries';
 
 const { createApolloFetch } = require('apollo-fetch');
 
@@ -94,8 +95,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-
 class Colrc extends Component {
+  _isMounted = false
 
   constructor(props) {
     super(props)
@@ -103,12 +104,62 @@ class Colrc extends Component {
     this.changeLoginState = this.changeLoginState.bind(this)
     this.changeAffixState = this.changeAffixState.bind(this)
     this.changeRootState = this.changeRootState.bind(this)
+    this.changeAudioState = this.changeAudioState.bind(this)
+    this.changeBibliographyState = this.changeBibliographyState.bind(this)
     this.state = {
       login: loggedIn(),
+      user: {
+        first: '',
+        last: '',
+        email: '',
+        username: '',
+        password: '',
+        roles: []
+      },
+      texts: {
+        page: 0,
+        pageSize: 5,
+        sorted: [],
+        resized: [],
+        filtered: [],
+      },
+      bibliography: {
+        page: 0,
+        pageSize: 10,
+        sorted: [],
+        resized: [],
+        filtered: [],
+        selected: {
+          author: true,
+          year: true,
+          title: true,
+          reference: true,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+        }
+      },
+      audio: {
+        page: 0,
+        sorted: [],
+        resized: [],
+        filtered: [],
+      },
       affixes: {
         page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'type',
+          desc: false
+        },{
+          id: 'nicodemus',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
         selected: {
-          type: false,
+          type: true,
           salish: false,
           english: true,
           nicodemus: true,
@@ -139,6 +190,19 @@ class Colrc extends Component {
       },
       roots: {
         page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'root',
+          desc: false
+        },{
+          id: 'number',
+          desc: false
+        },{
+          id: 'sense',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
         selected: {
           root: true,
           number: true,
@@ -156,39 +220,94 @@ class Colrc extends Component {
           active: false,
           prevId: false,
           editnote: false
-        }
+        },
       }
     }
   }
 
-  changeLoginState(loginState) {
-    this.setState({
-      login: loginState
-    })
+  async componentDidMount() {
+    this._isMounted = true
+    await this.checkUserRole()
   }
-  async changeAffixState(affixState){
-    await this.setState({
-      affixes: {
-        selected: affixState.selected,
-        page: affixState.page
+
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("COLRC is unmounting")
+  }
+
+  changeLoginState(loginState) {
+    let currentState = Object.assign({}, this.state)
+    currentState.login = loginState
+    this.setState(currentState)
+  }
+
+  async checkUserRole() {
+    this._isMounted = true  
+    try {
+      const token = localStorage.getItem('TOKEN')
+      if (token) {
+        let userQuery = await client.query({
+          query: getUserFromToken,
+        })
+        const user = userQuery.data.getUserFromToken_Q
+        // set the state with user info based on token, and if the user has an 'admin' role, set 
+        // the state variable 'admin' to true.  Else, set it to false. 
+        let currentState = Object.assign({}, this.state)
+        currentState.admin = user.roles.includes("admin")  || user.roles.includes("owner") || user.roles.includes("update")
+        currentState.fields = {
+          first: user.first,
+          last: user.last,
+          email: user.email,
+          username: user.username,
+          roles: user.roles
+        }
+        await this.setState(currentState) 
+        console.log("My user is " + user)
+        console.log(this.state)
+      } else {
+        let currentState = Object.assign({}, this.state)
+        currentState.admin = false
+        currentState.fields = {
+          first: 'anonymous',
+          last: 'anonymous',
+          email: 'anonymous',
+          username: 'anonymous',
+          roles: ['view']
+        }
+        await this.setState(currentState) 
+        console.log(this.state)
+        console.log("and here's the role " + this.state.fields.roles)
       }
-    })
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  async changeAffixState(affixState){
+    this._isMounted = true   
+    let currentState = Object.assign({}, this.state) 
+    currentState.affixes = affixState    
+    await this.setState(currentState)
   }
   async changeRootState(rootState){
-    await this.setState({
-      roots: {
-        selected: rootState.selected,
-        page: rootState.page
-      }
-    })
+    let currentState = Object.assign({}, this.state) 
+    currentState.roots = rootState    
+    await this.setState(currentState)
   }
-  async changeStemState(stemState){
-    await this.setState({
-      roots: {
-        selected: stemState.selected,
-        page: stemState.page
-      }
-    })
+  async changeAudioState(audioState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.audio = audioState    
+    await this.setState(currentState)
+  }
+  async changeBibliographyState(bibliographyState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.bibliography = bibliographyState    
+    await this.setState(currentState)
+  }
+  async changeTextState(textState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.texts = textState    
+    await this.setState(currentState)
   }
 
   rightMenuItems = () => {
@@ -220,13 +339,12 @@ class Colrc extends Component {
                 <Route exact path="/" component={Home} />
                 <Route path="/spelling" component={SpellingPronunciation} />
                 <Route path="/roots" component={() => <Roots rootState={this.state.roots} changeRootState={this.changeRootState} />} />
-                <Route path="/audio" component={Audio} />
-                <Route path="/stems" component={() => <Stems stemState={this.state.stems} changeStemState={this.changeStemState} />} />
-                <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} />} />
-                <Route path="/audio" component={Audio} />
+                <Route path="/stems" component={Stems} />
+                <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} admin={this.state.admin}/> } />
+                <Route path="/audio" component={() => <Audio audioState={this.state.audio} changeAudioState={this.changeAudioState} />} />
                 <Route path="/contactus" component={ContactUs} />
-                <Route path="/texts" component={Texts} />
-                <Route path="/bibliography" component={Bibliography} />
+                <Route path="/texts" component={() => <Texts textState={this.state.texts} changeTextState={this.changeTextState} />} />
+                <Route path="/bibliography" component={() => <Bibliography bibliographyState={this.state.bibliography} changeBibliographyState={this.changeBibliographyState} />} />
                 <Route path="/addspell" component={AddSpell} />
                 <Route path="/editspell" component={EditSpell} />
                 <Route path="/editroot" component={EditRoot} />
