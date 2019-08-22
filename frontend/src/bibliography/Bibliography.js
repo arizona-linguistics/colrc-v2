@@ -27,9 +27,9 @@ class Bibliography extends Component {
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show main content.  Always initially hide procedural content.
       page: this.props.bibliographyState.page,
       pageSize: this.props.bibliographyState.pageSize,
-      sorted: this.props.bibliographyState.sorted,
-      filtered: this.props.bibliographyState.filtered,
-      resized: this.props.bibliographyState.resized,
+      sorted: [],
+      filtered: [],
+      resized: [],
       selected: {
         author: this.props.bibliographyState.selected.author,
   		  year: this.props.bibliographyState.selected.year,
@@ -42,14 +42,6 @@ class Bibliography extends Component {
       }
     };
   }
-
-//weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.
-  weblink(link, page) {
-    return (
-      link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
-    );
-  }
-
     //get user from token, find out users' roles
     async componentDidMount() {
       try {
@@ -88,10 +80,12 @@ class Bibliography extends Component {
             console.log(this.state)
             console.log("and here's the role " + this.state.fields.roles)
           }
-        // now we're going to get only active bibliographies if we are not admin, else 
-        // we will get all the bibliographies
+        //now we're going to get only active bibliographies if we are not admin, else 
+        //we will get all the bibliographies
         if (!this.state.fields.roles.includes("admin")){
-          this.state.bibvars.active = 'Y'
+          let currentState = Object.assign({}, this.state) 
+          currentState.bibvars.active = 'Y'
+          await this.setState(currentState)
         }
         const getBibliographies = await this.props.client.query({
           query: getBibliographiesQuery,
@@ -105,106 +99,91 @@ class Bibliography extends Component {
       } catch(error) {
         console.log(error)
       }
-    } 
+  } 
 
-async componentWillUnmount() {
-  let currentState = Object.assign({}, this.state) 
-  await this.props.changeBibliographyState(currentState)
-}
-
+  async componentWillUnmount() {
+    let currentState = Object.assign({}, this.state) 
+    await this.props.changeBibliographyState(currentState)
+  }
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
-
+//weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.
+  weblink(link, page) {
+    return (
+      link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
+    );
+  }
   async handleAuthorChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.author = !currentState.selected.author
     await this.setState(currentState)
-    
   }
   async handleYearChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.year = !currentState.selected.year
     await this.setState(currentState)
-
   }
   async handleTitleChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.title = !currentState.selected.title
     await this.setState(currentState)
-
   }
   async handleReferenceChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.reference = !currentState.selected.reference
     await this.setState(currentState)
-
   }
   async handleActiveChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.active = !currentState.selected.active
     await this.setState(currentState)
-
   }
   async handlePrevIdChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.prevId = !currentState.selected.prevId
     await this.setState(currentState)
-
   }
   async handleUserChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.username = !currentState.selected.username
     await this.setState(currentState)
-
   }
   async handleEditChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.edit = !currentState.selected.edit
     await this.setState(currentState)
-
   }
   async handlePageChange(page) {
-    console.log(page)
     let currentState = Object.assign({}, this.state) 
     currentState.page = page
     await this.setState(currentState)
-
   }
-
   async handlePageSizeChange(pageSize,page) {
-    console.log(pageSize + ' ' + page)
     let currentState = Object.assign({}, this.state) 
     currentState.pageSize = pageSize
     currentState.page = page
     await this.setState(currentState)
   }
-
   async handleSortChange(newSorted,column,shiftKey) {
     let currentState = Object.assign({}, this.state) 
     currentState.sorted = newSorted
     await this.setState(currentState)
   }
-
   async handleFilteredChange(filtered,column) {
     let currentState = Object.assign({}, this.state) 
-    console.log('filtered = ' + filtered + ', column = ' + column)
-    console.log(filtered)
-    console.log(column)
     currentState.filtered = filtered
     await this.setState(currentState)
   }
-
-async handleResizedChange(newResized, event) {
+  async handleResizedChange(newResized, event) {
     let currentState = Object.assign({}, this.state) 
     currentState.resized = newResized
     await this.setState(currentState)
   }
 
-
   // allow an admin or owner to delete bibliography entry.  Deletion sets the 'active' flag to 'N' on the bibliography, it does not delete anything
   async onDelete(id){
     console.log("In deletion");
     try {
-      this.props.deleteBibliographyMutation({
+      await this.props.deleteBibliographyMutation({
         variables: {
         id: id
       },
@@ -241,9 +220,8 @@ const columns = [{
   filterMethod: (filter, rows) =>
     matchSorter(rows, filter.value, { keys: ["author"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-      
   },
-{
+  {
   Header: 'Year',
   accessor: 'year',
   maxWidth: 100,
@@ -252,7 +230,7 @@ const columns = [{
       matchSorter(rows, filter.value, { keys: ["year"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
   },
-{
+  {
   Header: 'Title',
   accessor: 'title',
   show: this.state.selected.title,
@@ -262,7 +240,7 @@ const columns = [{
       matchSorter(rows, filter.value, { keys: ["title"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
   },
-{
+  {
   Header: 'Reference',
   accessor: 'reference',
   show: this.state.selected.reference,
@@ -271,7 +249,7 @@ const columns = [{
       matchSorter(rows, filter.value, { keys: ["reference"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
   },
-{
+  {
   Header: 'Active',
   accessor: 'active',
   filterMethod: (filter, rows) =>
@@ -279,8 +257,8 @@ const columns = [{
   filterAll: true,
   show: this.state.selected.active,
   width: 50,
-},
-{
+  },
+  {
   Header: 'PrevID',
   accessor: 'prevId',
   filterMethod: (filter, rows) =>
@@ -288,8 +266,8 @@ const columns = [{
   filterAll: true,
   show: this.state.selected.prevId,
   width: 50,
-},
-{
+  },
+  {
   Header: 'User Name',
   accessor: 'user.username',
   filterMethod: (filter, rows) =>
@@ -297,8 +275,8 @@ const columns = [{
   filterAll: true,
   show: this.state.selected.username,
   width: 100,
-},
-{
+  },
+  {
   Header: 'Edit/Delete',
   filterable: false,
   sortable: false,
@@ -408,14 +386,12 @@ const columns = [{
         className="-striped -highlight"
         filtered={this.state.filtered}
         sorted={this.state.sorted}
+        pageSize={this.state.pageSize}
         page={this.state.page}
         resized={this.state.resized}
-        pageSize={this.state.pageSize}
         onPageChange={page => this.handlePageChange(page)}
         onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
         onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
-        onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
-        onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
      />;
 
     return (
