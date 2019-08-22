@@ -5,10 +5,12 @@ import matchSorter from 'match-sorter';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
 import { graphql, compose, withApollo } from 'react-apollo';
-import { getRootsQuery, deleteRootMutation, getUserFromToken } from '../queries/queries';
+import { getRootsQuery, deleteRootMutation } from '../queries/queries';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 
 class RootsDictionary extends Component {
+  _isMounted = false
+
   constructor(props) {
     //get all the props so we can refer to them
     super(props);
@@ -20,16 +22,8 @@ class RootsDictionary extends Component {
     	data: [],
       loading: true,
        //assume the user is not logged in as admin, prepare to get user info from token
-      admin: false,
-      fields: {
-        first: '',
-        last: '',
-        email: '',
-        username: '',
-        password: '',
-        roles: []
-      },
-      //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
+      admin: this.props.admin,
+      //get initial state for the checkboxes that allow show/hide columns from Colrc.js.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       page: this.props.rootState.page,
       pageSize: this.props.rootState.pageSize,
       selected: {
@@ -55,59 +49,32 @@ class RootsDictionary extends Component {
 
   //get user from token, find out users' roles
   async componentDidMount() {
+    this._isMounted = true
     try {
-      const token = localStorage.getItem('TOKEN')
-        if (token) {
-          let userQuery = await this.props.client.query({
-            query: getUserFromToken,
-          })
-          const user = userQuery.data.getUserFromToken_Q
-          // set the state with user info based on token, and if the user has an 'admin' role, set
-          // the state variable 'admin' to true.  Else, set it to false.
-          await this.setState({
-            admin: user.roles.includes("admin") || user.roles.includes("owner") || user.roles.includes("update"),
-            fields: {
-              first: user.first,
-              last: user.last,
-              email: user.email,
-              username: user.username,
-              roles: user.roles
-            }
-          })
-          console.log("My user is " + user)
-          console.log(this.state)
-        } else {
-          await this.setState({
-            admin: false,
-            fields: {
-              first: "anonymous",
-              last: "anonymous",
-              email: "anonymous",
-              username: "anonymous",
-              roles: ["view"]
-            }
-          })
-          console.log(this.state)
-          console.log("and here's the role ")
-          console.log(this.state.fields.roles)
-        }
-      // now we're going to get only active roots if we are not admin, else
+      let variables = {}
+      if (!this.state.admin){
+        variables.active = 'Y'
+      }   
+      // now we're going to get only active roots if we are not admin, else 
       // we will get all the roots
-      let rootvars = {}
-      if (!this.state.fields.roles.includes("admin")){
-        rootvars.active = 'Y'
-      }
       const getRoots = await this.props.client.query({
         query: getRootsQuery,
-        variables: rootvars
+        variables: variables
       })
-      this.setState({
-        data: getRoots.data.roots_Q,
-        loading: false
-      })
+      let currentState = Object.assign({}, this.state)
+      currentState.data = getRoots.data.roots_Q
+      currentState.loading = false
+      if (this._isMounted) {
+        await this.setState(currentState)
+      } 
     } catch(error) {
       console.log(error)
     }
+  }
+
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("RootsDictionary is unmounting")
   }
 
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
@@ -232,12 +199,16 @@ class RootsDictionary extends Component {
   async onDelete(id) {
     console.log("In deletion");
     try {
+      let variables = {}
+      if (!this.state.admin) {
+        variables.active = 'Y'
+      }
       await this.props.deleteRootMutation({
         variables: {
           id: id
         },
     //after setting the flag, refetch the roots from the db
-		refetchQueries: [{ query: getRootsQuery }]
+    refetchQueries: [{ query: getRootsQuery, variables: variables }]
       });
       //then send the user back to the rootsdictionary display
       this.props.history.push('/roots');
@@ -248,187 +219,188 @@ class RootsDictionary extends Component {
   };
 
   render() {
-
-  //provide a function to set column widths dynamically based on the data returned.
-  const getColumnWidth = (rows, accessor, headerText) => {
-  	const maxWidth = 600
-  	const magicSpacing = 18
-  	const cellLength = Math.max(
-  	   ...rows.map(row => (`${row[accessor]}` || '').length),
-  	  headerText.length,
-  	  )
-  	  return Math.min(maxWidth, cellLength * magicSpacing)
-  };
-
-   //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
-	 const columns = [{
-      Header: 'Root',
-      accessor: 'root',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      width: 50,
-      show: this.state.selected.root,
-  	},
-	  {
-	    Header: '#',
-	    accessor: 'number',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["number"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 50,
-	    show: this.state.selected.number,
-      Cell: ({row, original}) => (original.number === 0 ? '' : original.number)
-	  },
-    {
-	    Header: 'Sense',
-	    accessor: 'sense',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["sense"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 50,
-	    show: this.state.selected.sense,
-	  },
-	  {
-	    Header: 'Salish',
-	    accessor: 'salish',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      width: 100,
-      show: this.state.selected.salish,
-	  },
-	  {
-	    Header: 'Nicodemus',
-	    accessor: 'nicodemus',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    show: this.state.selected.nicodemus,
-	  },
-    {
-	    Header: 'Symbol',
-	    accessor: 'symbol',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["symbol"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 50,
-	    show: this.state.selected.symbol,
-	  },
-	  {
-	    Header: 'English',
-	    accessor: 'english',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    style: { 'whiteSpace': 'unset' },
-		  show: this.state.selected.english,
-	  },
-    {
-	    Header: 'Grammar',
-	    accessor: 'grammar',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["grammar"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 75,
-      style: { 'whiteSpace': 'unset' },
-	    show: this.state.selected.grammar,
-	  },
-    {
-	    Header: 'Xref',
-	    accessor: 'crossref',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["crossref"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 75,
-      style: { 'whiteSpace': 'unset' },
-	    show: this.state.selected.crossref,
-	  },
-    {
-	    Header: 'Var.',
-	    accessor: 'variant',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["variant"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 50,
-      style: { 'whiteSpace': 'unset' },
-	    show: this.state.selected.variant,
-	  },
-    {
-	    Header: 'Cognate',
-	    accessor: 'cognate',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["cognate"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 50,
-      style: { 'whiteSpace': 'unset' },
-	    show: this.state.selected.cognate,
-	  },
-    {
-      Header: 'Active',
-      accessor: 'active',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      show: this.state.selected.active,
-      width: 50,
-    },
-    {
-      Header: 'PrevID',
-      accessor: 'prevId',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      show: this.state.selected.prevId,
-      width: 50,
-    },
-    {
-      Header: 'Edit Note',
-      accessor: 'editnote',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      width: 100,
-      show: this.state.selected.editnote,
-    },
-    {
-      Header: 'User Name',
-      accessor: 'user.username',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      show: this.state.selected.username,
-	    width: 100,
-    },
-    {
-      Header: 'Edit/Delete',
-      filterable: false,
-      sortable: false,
-      width: 100,
-      show: this.state.selected.edit,
-      //get original row id, allow user to call onDelete, or edit.  Linkto passes original root values into editroot form via the location string
-      Cell: ({row, original}) => (
-        <div>
-          <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
-              <Icon name='trash' />
-          </Button>
-          <Link to={{
-            pathname: '/editroot/',
-            search: '?id=' + original.id +
-            '&root=' + original.root +
-            '&number=' + original.number +
-            '&salish=' + original.salish +
-            '&nicodemus=' + original.nicodemus +
-            '&english=' + original.english
-          }} >
-          <Button icon floated='right'>
-            <Icon name='edit' />
-          </Button>
-          </Link>
-        </div>
+    //give the render a way to access values for the checkboxes that show/hide columns by setting state
+    const { admin } = this.state
+    //provide a function to set column widths dynamically based on the data returned.
+    const getColumnWidth = (rows, accessor, headerText) => {
+      const maxWidth = 600
+      const magicSpacing = 18
+      const cellLength = Math.max(
+        ...rows.map(row => (`${row[accessor]}` || '').length),
+        headerText.length,
         )
-      }
-    ];
+        return Math.min(maxWidth, cellLength * magicSpacing)
+    };
+
+    //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
+    const columns = [{
+        Header: 'Root',
+        accessor: 'root',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 50,
+        show: this.state.selected.root,
+      },
+      {
+        Header: '#',
+        accessor: 'number',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["number"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 50,
+        show: this.state.selected.number,
+        Cell: ({row, original}) => (original.number === 0 ? '' : original.number)
+      },
+      {
+        Header: 'Sense',
+        accessor: 'sense',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["sense"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 50,
+        show: this.state.selected.sense,
+      },
+      {
+        Header: 'Salish',
+        accessor: 'salish',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 100,
+        show: this.state.selected.salish,
+      },
+      {
+        Header: 'Nicodemus',
+        accessor: 'nicodemus',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        show: this.state.selected.nicodemus,
+      },
+      {
+        Header: 'Symbol',
+        accessor: 'symbol',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["symbol"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 50,
+        show: this.state.selected.symbol,
+      },
+      {
+        Header: 'English',
+        accessor: 'english',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        style: { 'whiteSpace': 'unset' },
+        show: this.state.selected.english,
+      },
+      {
+        Header: 'Grammar',
+        accessor: 'grammar',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["grammar"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 75,
+        style: { 'whiteSpace': 'unset' },
+        show: this.state.selected.grammar,
+      },
+      {
+        Header: 'Xref',
+        accessor: 'crossref',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["crossref"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 75,
+        style: { 'whiteSpace': 'unset' },
+        show: this.state.selected.crossref,
+      },
+      {
+        Header: 'Var.',
+        accessor: 'variant',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["variant"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 50,
+        style: { 'whiteSpace': 'unset' },
+        show: this.state.selected.variant,
+      },
+      {
+        Header: 'Cognate',
+        accessor: 'cognate',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["cognate"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 50,
+        style: { 'whiteSpace': 'unset' },
+        show: this.state.selected.cognate,
+      },
+      {
+        Header: 'Active',
+        accessor: 'active',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        show: this.state.selected.active,
+        width: 50,
+      },
+      {
+        Header: 'PrevID',
+        accessor: 'prevId',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        show: this.state.selected.prevId,
+        width: 50,
+      },
+      {
+        Header: 'Edit Note',
+        accessor: 'editnote',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        width: 100,
+        show: this.state.selected.editnote,
+      },
+      {
+        Header: 'User Name',
+        accessor: 'user.username',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+        show: this.state.selected.username,
+        width: 100,
+      },
+      {
+        Header: 'Edit/Delete',
+        filterable: false,
+        sortable: false,
+        width: 100,
+        show: this.state.selected.edit,
+        //get original row id, allow user to call onDelete, or edit.  Linkto passes original root values into editroot form via the location string
+        Cell: ({row, original}) => (
+          <div>
+            <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
+                <Icon name='trash' />
+            </Button>
+            <Link to={{
+              pathname: '/editroot/',
+              search: '?id=' + original.id +
+              '&root=' + original.root +
+              '&number=' + original.number +
+              '&salish=' + original.salish +
+              '&nicodemus=' + original.nicodemus +
+              '&english=' + original.english
+            }} >
+            <Button icon floated='right'>
+              <Icon name='edit' />
+            </Button>
+            </Link>
+          </div>
+          )
+        }
+      ];
 
   //setup the checkbox bar that allows users to show/hide columns
   const CheckboxRoot = () => (
@@ -510,7 +482,7 @@ class RootsDictionary extends Component {
         checked={this.state.selected.cognate}
         onChange={this.handleCognateChange.bind(this)}
       />
-{/* Here begin the admin-only checkboxes         */}
+{/* Here begin the admin-only checkboxes    */}
       {this.state.admin && (
         <div>
         <label className="checkBoxLabel">Active</label>
@@ -564,12 +536,14 @@ class RootsDictionary extends Component {
         className="-striped -highlight left"
         filterable
         filtered={this.state.filtered}
-        //sorted={this.state.sorted}
+        sorted={this.state.sorted}
         page={this.state.page}
         resized={this.state.resized}
         onPageChange={page => this.handlePageChange(page)}
         onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
-        //onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
+        onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
       />;
 
     return (
