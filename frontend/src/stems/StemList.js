@@ -10,9 +10,9 @@ import { Button, Icon } from 'semantic-ui-react';
 
 class StemList extends Component {
 
-	constructor() {
+	constructor(props) {
     //get all the props so we can refer to them
-		super();
+		super(props);
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
     this.stemDropdown = this.stemDropdown.bind(this);
@@ -31,18 +31,21 @@ class StemList extends Component {
         roles: []
       },
       //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
-			categorySelected: false,
-      reichardSelected: false,
-			doakSelected: false,
-			salishSelected: false,
-			nicodemusSelected: true,
-			englishSelected: true,
-			noteSelected: false,
-      editSelected: false,
-      usernameSelected: false,
-      activeSelected: false,
-      prevIdSelected: false,
-      editnoteSelected: false,
+			page: this.props.stemState.page,
+			selected: {
+				category: this.props.stemState.selected.category,
+				reichard: this.props.stemState.selected.reichard,
+				doak: this.props.stemState.selected.doak,
+				salish: this.props.stemState.selected.salish,
+				nicodemus: this.props.stemState.selected.nicodemus,
+				english: this.props.stemState.selected.english,
+				note: this.props.stemState.selected.note,
+				edit: this.props.stemState.selected.edit,
+				username: this.props.stemState.selected.username,
+				active: this.props.stemState.selected.active,
+				prevId: this.props.stemState.selected.prevId,
+				editnote: this.props.stemState.selected.editnote,
+			}
 		};
 	}
 //get user from token, find out users' roles
@@ -54,8 +57,8 @@ class StemList extends Component {
             query: getUserFromToken,
           })
           const user = userQuery.data.getUserFromToken_Q
-          // set the state with user info based on token, and if the user has an 'admin' role, set 
-          // the state variable 'admin' to true.  Else, set it to false. 
+          // set the state with user info based on token, and if the user has an 'admin' role, set
+          // the state variable 'admin' to true.  Else, set it to false.
           await this.setState({
             // if the roles array includes admin, set state to logged in as admin
             admin: user.roles.includes("admin") || user.roles.includes("owner") || user.roles.includes("update"),
@@ -66,7 +69,7 @@ class StemList extends Component {
               username: user.username,
               roles: user.roles
             }
-          }) 
+          })
           console.log("My user is " + user)
           console.log(this.state)
         } else {
@@ -83,7 +86,7 @@ class StemList extends Component {
           console.log(this.state)
           console.log("and here's the role " + this.state.fields.roles)
         }
-      // now we're going to get only active stems if we are not admin, else 
+      // now we're going to get only active stems if we are not admin, else
       // we will get all the stems
       let stemvars = {}
       if (!this.state.fields.roles.includes("admin")){
@@ -91,7 +94,7 @@ class StemList extends Component {
       }
       const getStems = await this.props.client.query({
         query: getStemsQuery,
-        variables: stemvars 
+        variables: stemvars
       })
       this.setState({
         data: getStems.data.stems_Q,
@@ -101,46 +104,153 @@ class StemList extends Component {
     } catch(error) {
       console.log(error)
     }
-  } 
+  }
 
-//handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
-  handleCategoryChange(value) {
-    this.setState({ categorySelected: !this.state.categorySelected });
-  };
-	handleReichardChange(value) {
-		this.setState({ reichardSelected: !this.state.reichardSelected });
+	//handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
+	async handleCategoryChange(value) {
+		const current = this.state.selected
+		current.category = !current.category
+		await this.setState({
+			page: this.state.page,
+			selected: current
+		});
+		await this.props.changeStemState({
+			selected: this.state.selected,
+			page: this.state.page
+		})
 	};
-	handleDoakChange(value) {
-    this.setState({ doakSelected: !this.state.doakSelected });
-	};
-	handleSalishChange(value) {
-		this.setState({ salishSelected: !this.state.salishSelected });
-	};
-	handleNicodemusChange(value) {
-		this.setState({ nicodemusSelected: !this.state.nicodemusSelected });
-	};
-	handleEnglishChange(value) {
-		this.setState({ englishSelected: !this.state.englishSelected });
-	};
-	handleNoteChange(value) {
-		this.setState({ noteSelected: !this.state.noteSelected });
-	};
-  handleActiveChange(value) {
-   this.setState({ activeSelected: !this.state.activeSelected });
+	async handleReichardChange(value) {
+    const current = this.state.selected
+    current.reichard = !current.reichard
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-  handlePrevIdChange(value) {
-   this.setState({ prevIdSelected: !this.state.prevIdSelected });
+	async handleDoakChange(value) {
+    const current = this.state.selected
+    current.doak = !current.doak
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-  handleUserChange(value) {
-   this.setState({ usernameSelected: !this.state.usernameSelected });
+	async handleSalishChange(value) {
+    const current = this.state.selected
+    current.salish = !current.salish
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-  handleEditnoteChange(value) {
-   this.setState({ editnoteSelected: !this.state.editnoteSelected });
+	async handleNicodemusChange(value) {
+    const current = this.state.selected
+    current.nicodemus = !current.nicodemus
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-  handleEditChange(value) {
-   this.setState({ editSelected: !this.state.editSelected });
+	async handleEnglishChange(value) {
+    const current = this.state.selected
+    current.english = !current.english
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
   };
-  // allow an admin or owner to delete stems.  Deletion sets the 'active' flag to 'N' on the stem, it does not really delete anything
+	async handleNoteChange(value) {
+    const current = this.state.selected
+    current.note = !current.note
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
+  };
+	async handleEditChange(value) {
+    const current = this.state.selected
+    current.edit = !current.edit
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
+  };async handleUserChange(value) {
+    const current = this.state.selected
+    current.username = !current.username
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
+  };
+	async handleActiveChange(value) {
+    const current = this.state.selected
+    current.active = !current.active
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
+  };
+	async handlePrevIdChange(value) {
+    const current = this.state.selected
+    current.prevId = !current.prevId
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
+  };
+	async handleEditNoteChange(value) {
+    const current = this.state.selected
+    current.editnote = !current.editnote
+    await this.setState({
+      page: this.state.page,
+      selected: current
+    });
+    await this.props.changeStemState({
+      selected: this.state.selected,
+      page: this.state.page
+    })
+  };
+	// allow an admin or owner to delete stems.  Deletion sets the 'active' flag to 'N' on the stem, it does not really delete anything
 	async onDelete(id) {
 	    console.log("In deletion");
 	    try {
@@ -158,7 +268,7 @@ class StemList extends Component {
 				this.props.history.push('/stems');
 			}
 	  };
-  
+
   // translate dropdown values into text
 	stemDropdown(original) {
     console.log("I'm in the dropdown function")
@@ -173,11 +283,9 @@ class StemList extends Component {
     return(<span>{original}</span>)
   }
   render() {
-    //give the render a way to access values for the checkboxes that show/hide columns by setting state
-		const { categorySelected, reichardSelected, doakSelected, salishSelected, nicodemusSelected, englishSelected,noteSelected, usernameSelected, editSelected, activeSelected, prevIdSelected, editnoteSelected } = this.state;
 
     const { admin } = this.state
-    //provide a function to set column widths dynamically based on the data returned.   
+    //provide a function to set column widths dynamically based on the data returned.
 		const getColumnWidth = (rows, accessor, headerText) => {
 			const maxWidth = 600
 			const magicSpacing = 22
@@ -188,7 +296,7 @@ class StemList extends Component {
 			return Math.min(maxWidth, cellLength * magicSpacing)
 		};
 
-   //set up the table columns.  Header is the column header text, accessor is the name of the column in the db. 
+   //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
 		const columns = [{
 			Header: 'Category',
 			accessor: 'category',
@@ -209,9 +317,9 @@ class StemList extends Component {
 				<option value = "n" > Nouns </option>
 				<option value = "aci" > Other </option>
 				</select>,
-      show: categorySelected,
+      show: this.state.selected.category,
       Cell: ({row, original}) => ( this.stemDropdown(original.category) )
-		}, 
+		},
     {
 			Header: 'Reichard',
 			accessor: 'reichard',
@@ -221,9 +329,9 @@ class StemList extends Component {
   				threshold: matchSorter.rankings.CONTAINS
 			}),
 			filterAll: true,
-			show: reichardSelected,
+			show: this.state.selected.reichard,
       Cell: row => ( <DecoratedTextSpan str={row.value} />),
-		}, 
+		},
     {
 			Header: 'Doak',
 			accessor: 'doak',
@@ -233,8 +341,8 @@ class StemList extends Component {
 					threshold: matchSorter.rankings.CONTAINS
 				}),
 			filterAll: true,
-			show: doakSelected,
-		}, 
+			show: this.state.selected.doak,
+		},
     {
 			Header: 'Salish',
 			accessor: 'salish',
@@ -244,7 +352,7 @@ class StemList extends Component {
 					threshold: matchSorter.rankings.CONTAINS
 				}),
 			filterAll: true,
-			show: salishSelected,
+			show: this.state.selected.salish,
 		}, {
 			Header: 'Nicodemus',
 			accessor: 'nicodemus',
@@ -256,8 +364,8 @@ class StemList extends Component {
 			filterAll: true,
       //some Nicodemus entries have markup like <underline></underline>.  DecoratedTextSpan interprets this.
 		  Cell: row => ( <DecoratedTextSpan str={row.value} />),
-			show: nicodemusSelected,
-		}, 
+			show: this.state.selected.nicodemus,
+		},
     {
 			Header: 'English',
 			accessor: 'english',
@@ -269,8 +377,8 @@ class StemList extends Component {
 					threshold: matchSorter.rankings.CONTAINS
 				}),
 			filterAll: true,
-			show: englishSelected,
-		}, 
+			show: this.state.selected.english,
+		},
     {
 			Header: 'Note',
 			accessor: 'note',
@@ -281,7 +389,7 @@ class StemList extends Component {
 					threshold: matchSorter.rankings.CONTAINS
 				}),
 			filterAll: true,
-			show: noteSelected,
+			show: this.state.selected.note,
 		},
 		{
       Header: 'Active',
@@ -289,7 +397,7 @@ class StemList extends Component {
       filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
-      show: activeSelected,
+      show: this.state.selected.active,
       width: 50,
 		},
 		{
@@ -298,7 +406,7 @@ class StemList extends Component {
       filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-      show: prevIdSelected,
+      show: this.state.selected.prevId,
       width: 50,
     },
     {
@@ -307,7 +415,7 @@ class StemList extends Component {
       filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-      show: usernameSelected,
+      show: this.state.selected.username,
 	    width: 100,
     },
     {
@@ -315,7 +423,7 @@ class StemList extends Component {
       filterable: false,
       sortable: false,
       width: 100,
-      show: editSelected,
+      show: this.state.selected.edit,
       //get original row id, allow user to call onDelete, or edit.  Linkto passes original root values into editroot form via the location string
       Cell: ({row, original}) => (
         <div>
@@ -348,49 +456,49 @@ class StemList extends Component {
       <input
         name="category"
         type="checkbox"
-        checked={this.state.categorySelected}
+        checked={this.state.selected.category}
         onChange={this.handleCategoryChange.bind(this)}
       />
       <label className="checkBoxLabel">Reichard</label>
       <input
         name="reichard"
         type="checkbox"
-        checked={this.state.reichardSelected}
+        checked={this.state.selected.reichard}
         onChange={this.handleReichardChange.bind(this)}
       />
       <label className="checkBoxLabel">Doak</label>
       <input
         name="doak"
         type="checkbox"
-        checked={this.state.doakSelected}
+        checked={this.state.selected.doak}
         onChange={this.handleDoakChange.bind(this)}
       />
       <label className="checkBoxLabel">Salish</label>
       <input
         name="salish"
         type="checkbox"
-        checked={this.state.salishSelected}
+        checked={this.state.selected.salish}
         onChange={this.handleSalishChange.bind(this)}
       />
       <label className="checkBoxLabel">Nicodemus</label>
       <input
         name="nicodemus"
         type="checkbox"
-        checked={this.state.nicodemusSelected}
+        checked={this.state.selected.nicodemus}
         onChange={this.handleNicodemusChange.bind(this)}
       />
       <label className="checkBoxLabel">English</label>
       <input
         name="english"
         type="checkbox"
-        checked={this.state.englishSelected}
+        checked={this.state.selected.english}
         onChange={this.handleEnglishChange.bind(this)}
       />
       <label className="checkBoxLabel">Note</label>
       <input
         name="note"
         type="checkbox"
-        checked={this.state.noteSelected}
+        checked={this.state.selected.note}
         onChange={this.handleNoteChange.bind(this)}
       />
 {/* Here begin the admin-only checkboxes   */}
@@ -400,35 +508,35 @@ class StemList extends Component {
         <input
           name="active"
           type="checkbox"
-          checked={this.state.activeSelected}
+          checked={this.state.selected.active}
           onChange={this.handleActiveChange.bind(this)}
         />
         <label className="checkBoxLabel">PrevId</label>
         <input
           name="prevId"
           type="checkbox"
-          checked={this.state.prevIdSelected}
+          checked={this.state.selected.prevId}
           onChange={this.handlePrevIdChange.bind(this)}
         />
         <label className="checkBoxLabel">Edit Note</label>
         <input
           name="editnote"
           type="checkbox"
-          checked={this.state.editnoteSelected}
-          onChange={this.handleEditnoteChange.bind(this)}
+          checked={this.state.selected.editnote}
+          onChange={this.handleEditNoteChange.bind(this)}
         />
         <label className="checkBoxLabel">User Name</label>
         <input
           name="user.username"
           type="checkbox"
-          checked={this.state.usernameSelected}
+          checked={this.state.selected.username}
           onChange={this.handleUserChange.bind(this)}
         />
         <label className="checkBoxLabel">Edit/Delete</label>
         <input
           name="edit"
           type="checkbox"
-          checked={this.state.editSelected}
+          checked={this.state.selected.edit}
           onChange={this.handleEditChange.bind(this)}
         />
         </div>
@@ -447,7 +555,7 @@ class StemList extends Component {
 				className = "-striped -highlight left"
 				filterable
 			/>;
-		return ( 
+		return (
       <div className = 'ui content'>
         <h3>Stem List</h3>
 			  <div className="text-right">
@@ -474,7 +582,7 @@ class StemList extends Component {
 }
 
 export default compose(
-  withApollo, 
+  withApollo,
 	graphql(getStemsQuery, { name: 'getStemsQuery' }),
 	graphql(deleteStemMutation, { name: 'deleteStemMutation' })
 )(withRouter(StemList));

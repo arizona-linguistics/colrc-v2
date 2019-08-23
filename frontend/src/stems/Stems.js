@@ -7,8 +7,8 @@ import StemsMetadata from "./StemsMetadata";
 class Stems extends Component {
 	constructor(props) {
 	    super(props);
-	    this.state = { 
-	    	activeItem: 'list', 
+	    this.state = {
+	    	activeItem: 'list',
 	    };
 	    this.handleItemClick = this.handleItemClick.bind(this);
 	  };
@@ -16,11 +16,11 @@ class Stems extends Component {
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
     render() {
-		const { activeItem } = this.state;	
+		const { activeItem } = this.state;
 
-let currentItem; 
+let currentItem;
     if (this.state.activeItem === "list") {
-      	currentItem = <StemList />;
+			currentItem = <StemList stemState={this.props.stemState} changeStemState={this.props.changeStemState}/>;
     }
 	else {
 		currentItem = <StemsMetadata />;
@@ -28,13 +28,13 @@ let currentItem;
     return (
       <div className='ui content'>
 	      <Menu size='mini'>
-		      <Menu.Item 
+		      <Menu.Item
 					  name='list'
 					  active={activeItem === 'list'}
 					  onClick={this.handleItemClick}>
 					    Stem Lists
 		      </Menu.Item>
-		      <Menu.Item 
+		      <Menu.Item
 					  name='metadata'
 					  active={activeItem === 'metadata'}
 					  onClick={this.handleItemClick}>
@@ -48,7 +48,7 @@ let currentItem;
       );
     }
 }
-  
+
 
 
 export default Stems;
