@@ -5,10 +5,12 @@ import matchSorter from 'match-sorter';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
 import { graphql, compose, withApollo } from 'react-apollo';
-import { getRootsQuery, deleteRootMutation, getUserFromToken } from '../queries/queries';
+import { getRootsQuery, deleteRootMutation } from '../queries/queries';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 
 class RootsDictionary extends Component {
+  _isMounted = false
+
   constructor(props) {
     //get all the props so we can refer to them
     super(props);
@@ -20,16 +22,8 @@ class RootsDictionary extends Component {
     	data: [],
       loading: true,
        //assume the user is not logged in as admin, prepare to get user info from token
-      admin: false,
-      fields: {
-        first: '',
-        last: '',
-        email: '',
-        username: '',
-        password: '',
-        roles: []
-      },
-      //set up initial state for the checkboxes that allow show/hide columns.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
+      admin: this.props.admin,
+      //get initial state for the checkboxes that allow show/hide columns from Colrc.js.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       page: this.props.rootState.page,
       pageSize: this.props.rootState.pageSize,
       selected: {
@@ -55,59 +49,32 @@ class RootsDictionary extends Component {
 
   //get user from token, find out users' roles
   async componentDidMount() {
+    this._isMounted = true
     try {
-      const token = localStorage.getItem('TOKEN')
-        if (token) {
-          let userQuery = await this.props.client.query({
-            query: getUserFromToken,
-          })
-          const user = userQuery.data.getUserFromToken_Q
-          // set the state with user info based on token, and if the user has an 'admin' role, set
-          // the state variable 'admin' to true.  Else, set it to false.
-          await this.setState({
-            admin: user.roles.includes("admin") || user.roles.includes("owner") || user.roles.includes("update"),
-            fields: {
-              first: user.first,
-              last: user.last,
-              email: user.email,
-              username: user.username,
-              roles: user.roles
-            }
-          })
-          console.log("My user is " + user)
-          console.log(this.state)
-        } else {
-          await this.setState({
-            admin: false,
-            fields: {
-              first: "anonymous",
-              last: "anonymous",
-              email: "anonymous",
-              username: "anonymous",
-              roles: ["view"]
-            }
-          })
-          console.log(this.state)
-          console.log("and here's the role ")
-          console.log(this.state.fields.roles)
-        }
-      // now we're going to get only active roots if we are not admin, else
+      let variables = {}
+      if (!this.state.admin){
+        variables.active = 'Y'
+      }   
+      // now we're going to get only active roots if we are not admin, else 
       // we will get all the roots
-      let rootvars = {}
-      if (!this.state.fields.roles.includes("admin")){
-        rootvars.active = 'Y'
-      }
       const getRoots = await this.props.client.query({
         query: getRootsQuery,
-        variables: rootvars
+        variables: variables
       })
-      this.setState({
-        data: getRoots.data.roots_Q,
-        loading: false
-      })
+      let currentState = Object.assign({}, this.state)
+      currentState.data = getRoots.data.roots_Q
+      currentState.loading = false
+      if (this._isMounted) {
+        await this.setState(currentState)
+      } 
     } catch(error) {
       console.log(error)
     }
+  }
+
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("RootsDictionary is unmounting")
   }
 
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
@@ -232,12 +199,16 @@ class RootsDictionary extends Component {
   async onDelete(id) {
     console.log("In deletion");
     try {
+      let variables = {}
+      if (!this.state.admin) {
+        variables.active = 'Y'
+      }
       await this.props.deleteRootMutation({
         variables: {
           id: id
         },
     //after setting the flag, refetch the roots from the db
-		refetchQueries: [{ query: getRootsQuery }]
+    refetchQueries: [{ query: getRootsQuery, variables: variables }]
       });
       //then send the user back to the rootsdictionary display
       this.props.history.push('/roots');
@@ -434,10 +405,10 @@ class RootsDictionary extends Component {
           </Button>
           </Link>
         </div>
-        )
-      }
-    ];
-
+      )
+    }
+  ]
+   
   //setup the checkbox bar that allows users to show/hide columns
   const CheckboxRoot = () => (
 		<div className="checkBoxMenu">
@@ -518,7 +489,7 @@ class RootsDictionary extends Component {
         checked={this.state.selected.cognate}
         onChange={this.handleCognateChange.bind(this)}
       />
-{/* Here begin the admin-only checkboxes         */}
+{/* Here begin the admin-only checkboxes    */}
       {this.state.admin && (
         <div>
         <label className="checkBoxLabel">Active</label>
@@ -572,12 +543,14 @@ class RootsDictionary extends Component {
         className="-striped -highlight left"
         filterable
         filtered={this.state.filtered}
-        //sorted={this.state.sorted}
+        sorted={this.state.sorted}
         page={this.state.page}
         resized={this.state.resized}
         onPageChange={page => this.handlePageChange(page)}
         onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
-        //onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
+        onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
       />;
 
     return (

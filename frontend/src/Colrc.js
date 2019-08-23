@@ -3,7 +3,7 @@ import { Grid } from 'semantic-ui-react';
 import MainMenu from './MainMenu';
 import NavBar from './NavBar';
 import Roots from './roots/Roots';
-import SpellingPronunciation from './spelling/SpellingPronunciation';
+import SpellingPronounciation from './spelling/SpellingPronunciation';
 import AddSpell from './spelling/AddSpell';
 import EditSpell from './spelling/EditSpell';
 import Home from './home/Home';
@@ -221,6 +221,36 @@ class Colrc extends Component {
           prevId: false,
           editnote: false
         },
+      },
+      stems: {
+        page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'category',
+          desc: false
+        },{
+          id: 'nicodemus',
+          desc: false
+        },{
+          id: 'english',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
+        selected: {
+          cateory: false,
+          reichard: false,
+          doak: false,
+          salish: false,
+          nicodemus: true,
+          english: true,
+          note: false,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+          editnote: false
+        },
       }
     }
   }
@@ -262,7 +292,7 @@ class Colrc extends Component {
           roles: user.roles
         }
         await this.setState(currentState) 
-        console.log("My user is " + user)
+        console.log("My user is " + user.first + " " + user.last) 
         console.log(this.state)
       } else {
         let currentState = Object.assign({}, this.state)
@@ -337,14 +367,14 @@ class Colrc extends Component {
             <Grid.Column>
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/spelling" component={SpellingPronunciation} />
-                <Route path="/roots" component={() => <Roots rootState={this.state.roots} changeRootState={this.changeRootState} />} />
-                <Route path="/stems" component={Stems} />
+                <Route path="/spelling" component={() => <SpellingPronounciation spellingState={this.state.spelling} changeSpellingState={this.changeSpellingState}  admin={this.state.admin}/> } />
+                <Route path="/roots" component={() => <Roots rootState={this.state.roots} changeRootState={this.changeRootState}  admin={this.state.admin}/> } />
+                <Route path="/stems" component={() => <Stems stemState={this.state.stems} changeStemState={this.changeStemState}  admin={this.state.admin}/> } />
                 <Route path="/affixes" component={() => <Affixes affixState={this.state.affixes} changeAffixState={this.changeAffixState} admin={this.state.admin}/> } />
-                <Route path="/audio" component={() => <Audio audioState={this.state.audio} changeAudioState={this.changeAudioState} />} />
+                <Route path="/audio" component={() => <Audio audioState={this.state.audio} changeAudioState={this.changeAudioState} admin={this.state.admin} />} />
                 <Route path="/contactus" component={ContactUs} />
                 <Route path="/texts" component={() => <Texts textState={this.state.texts} changeTextState={this.changeTextState} />} />
-                <Route path="/bibliography" component={() => <Bibliography bibliographyState={this.state.bibliography} changeBibliographyState={this.changeBibliographyState} />} />
+                <Route path="/bibliography" component={() => <Bibliography bibliographyState={this.state.bibliography} changeBibliographyState={this.changeBibliographyState}  admin={this.state.admin}/> } />
                 <Route path="/addspell" component={AddSpell} />
                 <Route path="/editspell" component={EditSpell} />
                 <Route path="/editroot" component={EditRoot} />

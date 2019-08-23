@@ -402,14 +402,18 @@ const columns = [{
           <h3>Bibliography List</h3>
         </div>
         <div className="text-right">
-          <Link to={{
-            pathname: '/addbib/'
-          }} >
-            <Button icon labelPosition='left' size='small'>
-              <Icon name='plus' />
-              Add an entry
-            </Button>
-          </Link>
+        { this.state.admin && (
+          <div>
+            <Link to={{
+              pathname: '/addbib/'
+            }} >
+              <Button icon labelPosition='left' size='small'>
+                <Icon name='plus' />
+                Add an entry
+              </Button>
+            </Link>
+          </div>
+        )}
         </div>
         <p> </p>
 		    <SimpleKeyboard />

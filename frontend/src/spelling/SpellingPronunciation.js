@@ -5,7 +5,7 @@ import SpellingPronunciationList from './SpellingPronunciationList';
 import SpellingPronunciationCharts from './SpellingPronunciationCharts';
 
 
-class SpellingPronunciation extends Component {
+class SpellingPronounciation extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -51,4 +51,4 @@ class SpellingPronunciation extends Component {
   }
 }
 
-export default SpellingPronunciation;
+export default SpellingPronounciation;

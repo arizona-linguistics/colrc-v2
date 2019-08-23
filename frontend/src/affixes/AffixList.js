@@ -4,8 +4,9 @@ import matchSorter from 'match-sorter';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Icon } from 'semantic-ui-react';
+import { Formik, Form } from 'formik';
 import { withApollo, graphql, compose } from 'react-apollo';
-import { getAffixesQuery, deleteAffixMutation, getUserFromToken } from '../queries/queries';
+import { getAffixesQuery, deleteAffixMutation } from '../queries/queries';
 
 class AffixList extends Component {
   _isMounted = false
@@ -22,7 +23,6 @@ class AffixList extends Component {
       //set up an empty array and a loading state for react-table
     	data: [],
       loading: true,
-      affixvars: {},
       //assume the user is not logged in as admin, prepare to get user info from token
       admin: this.props.admin,
       //get initial state for the checkboxes that allow show/hide columns from Colrc.js.  
@@ -50,19 +50,15 @@ class AffixList extends Component {
   async componentDidMount() {
     this._isMounted = true
     try {
+      let variables = {}
+      if (!this.state.admin){
+        variables.active = 'Y'
+      }    
       // now we're going to get only active affixes if we are not admin, else 
       // we will get all the affixes
-      // let affixvars = {}
-      if (!this.state.admin){
-        let currentState = Object.assign({}, this.state) 
-        currentState.affixvars.active = 'Y'
-        if (this._isMounted) {
-          await this.setState(currentState)
-        }
-      }
       const getAffixes = await this.props.client.query({
         query: getAffixesQuery,
-        variables: this.state.affixvars 
+        variables: variables
       })
       let currentState = Object.assign({}, this.state)
       currentState.data = getAffixes.data.affixes_Q
@@ -190,12 +186,16 @@ async handleResizedChange(newResized, event) {
   async onDelete(id) {
     console.log("In deletion");
     try {
+      let variables = {}
+      if (!this.state.admin) {
+        variables.active = 'Y'
+      }
       await this.props.deleteAffixMutation({
         variables: {
           id: id
         },
       //after setting the flag, refetch the affixes from the db
-		  refetchQueries: [{ query: getAffixesQuery, variables: this.state.affixvars }]
+      refetchQueries: [{ query: getAffixesQuery, variables: variables }]
       });
       //then send the user back to the affixlist display
       this.props.history.push('/affixes');
@@ -218,7 +218,6 @@ async handleResizedChange(newResized, event) {
   }
 	render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
-
     const { admin } = this.state
     //provide a function to set column widths dynamically based on the data returned.       
    	const getColumnWidth = (rows, accessor, headerText) => {
