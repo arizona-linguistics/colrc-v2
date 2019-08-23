@@ -171,6 +171,23 @@ class Colrc extends Component {
           editnote: false
         }
       },
+      stems: {
+        page: 0,
+        selected: {
+          category: true,
+  				reichard: false,
+  				doak: false,
+  				salish: false,
+  				nicodemus: true,
+  				english: true,
+  				note: false,
+  				edit: false,
+  				username: false,
+  				active: false,
+  				prevId: false,
+  				editnote: false,
+        }
+      },
       roots: {
         page: 0,
         pageSize: 10,
@@ -322,6 +339,7 @@ class Colrc extends Component {
     currentState.texts = textState    
     await this.setState(currentState)
   }
+
   rightMenuItems = () => {
     const rightItems = [
       { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},

@@ -9,8 +9,8 @@ class Stems extends Component {
 
 	constructor(props) {
 	    super(props);
-	    this.state = { 
-	    	activeItem: 'list', 
+	    this.state = {
+	    	activeItem: 'list',
 	    };
 	    this.handleItemClick = this.handleItemClick.bind(this);
 	};
@@ -61,7 +61,5 @@ render() {
 		);
   }
 }
-  
-
 
 export default Stems;

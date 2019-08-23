@@ -219,189 +219,196 @@ class RootsDictionary extends Component {
   };
 
   render() {
-    //give the render a way to access values for the checkboxes that show/hide columns by setting state
-    const { admin } = this.state
-    //provide a function to set column widths dynamically based on the data returned.
-    const getColumnWidth = (rows, accessor, headerText) => {
-      const maxWidth = 600
-      const magicSpacing = 18
-      const cellLength = Math.max(
-        ...rows.map(row => (`${row[accessor]}` || '').length),
-        headerText.length,
-        )
-        return Math.min(maxWidth, cellLength * magicSpacing)
-    };
 
-    //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
-    const columns = [{
-        Header: 'Root',
-        accessor: 'root',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 50,
-        show: this.state.selected.root,
-      },
-      {
-        Header: '#',
-        accessor: 'number',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["number"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 50,
-        show: this.state.selected.number,
-        Cell: ({row, original}) => (original.number === 0 ? '' : original.number)
-      },
-      {
-        Header: 'Sense',
-        accessor: 'sense',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["sense"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 50,
-        show: this.state.selected.sense,
-      },
-      {
-        Header: 'Salish',
-        accessor: 'salish',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 100,
-        show: this.state.selected.salish,
-      },
-      {
-        Header: 'Nicodemus',
-        accessor: 'nicodemus',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.nicodemus,
-      },
-      {
-        Header: 'Symbol',
-        accessor: 'symbol',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["symbol"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 50,
-        show: this.state.selected.symbol,
-      },
-      {
-        Header: 'English',
-        accessor: 'english',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        style: { 'whiteSpace': 'unset' },
-        show: this.state.selected.english,
-      },
-      {
-        Header: 'Grammar',
-        accessor: 'grammar',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["grammar"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 75,
-        style: { 'whiteSpace': 'unset' },
-        show: this.state.selected.grammar,
-      },
-      {
-        Header: 'Xref',
-        accessor: 'crossref',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["crossref"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 75,
-        style: { 'whiteSpace': 'unset' },
-        show: this.state.selected.crossref,
-      },
-      {
-        Header: 'Var.',
-        accessor: 'variant',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["variant"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 50,
-        style: { 'whiteSpace': 'unset' },
-        show: this.state.selected.variant,
-      },
-      {
-        Header: 'Cognate',
-        accessor: 'cognate',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["cognate"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 50,
-        style: { 'whiteSpace': 'unset' },
-        show: this.state.selected.cognate,
-      },
-      {
-        Header: 'Active',
-        accessor: 'active',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.active,
-        width: 50,
-      },
-      {
-        Header: 'PrevID',
-        accessor: 'prevId',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.prevId,
-        width: 50,
-      },
-      {
-        Header: 'Edit Note',
-        accessor: 'editnote',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 100,
-        show: this.state.selected.editnote,
-      },
-      {
-        Header: 'User Name',
-        accessor: 'user.username',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.username,
-        width: 100,
-      },
-      {
-        Header: 'Edit/Delete',
-        filterable: false,
-        sortable: false,
-        width: 100,
-        show: this.state.selected.edit,
-        //get original row id, allow user to call onDelete, or edit.  Linkto passes original root values into editroot form via the location string
-        Cell: ({row, original}) => (
-          <div>
-            <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
-                <Icon name='trash' />
-            </Button>
-            <Link to={{
-              pathname: '/editroot/',
-              search: '?id=' + original.id +
-              '&root=' + original.root +
-              '&number=' + original.number +
-              '&salish=' + original.salish +
-              '&nicodemus=' + original.nicodemus +
-              '&english=' + original.english
-            }} >
-            <Button icon floated='right'>
-              <Icon name='edit' />
-            </Button>
-            </Link>
-          </div>
-          )
-        }
-      ];
+  //provide a function to set column widths dynamically based on the data returned.
+  const getColumnWidth = (rows, accessor, headerText) => {
+  	const maxWidth = 600
+  	const magicSpacing = 18
+  	const cellLength = Math.max(
+  	   ...rows.map(row => (`${row[accessor]}` || '').length),
+  	  headerText.length,
+  	  )
+  	  return Math.min(maxWidth, cellLength * magicSpacing)
+  };
 
+   //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
+	 const columns = [{
+      Header: 'Root',
+      accessor: 'root',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      width: 50,
+      show: this.state.selected.root,
+  	},
+	  {
+	    Header: '#',
+	    accessor: 'number',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["number"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    width: 50,
+	    show: this.state.selected.number,
+      Cell: ({row, original}) => (original.number === 0 ? '' : original.number)
+	  },
+    {
+	    Header: 'Sense',
+	    accessor: 'sense',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["sense"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    width: 50,
+	    show: this.state.selected.sense,
+	  },
+	  {
+	    Header: 'Salish',
+	    accessor: 'salish',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      width: 100,
+      show: this.state.selected.salish,
+	  },
+	  {
+	    Header: 'Nicodemus',
+	    accessor: 'nicodemus',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    show: this.state.selected.nicodemus,
+	  },
+    {
+	    Header: 'Symbol',
+	    accessor: 'symbol',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["symbol"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    width: 50,
+	    show: this.state.selected.symbol,
+	  },
+	  {
+	    Header: 'English',
+	    accessor: 'english',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    style: { 'whiteSpace': 'unset' },
+		  show: this.state.selected.english,
+	  },
+    {
+	    Header: 'Grammar',
+	    accessor: 'grammar',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["grammar"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    width: 75,
+      style: { 'whiteSpace': 'unset' },
+	    show: this.state.selected.grammar,
+	  },
+    {
+	    Header: 'Xref',
+	    accessor: 'crossref',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["crossref"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    width: 75,
+      style: { 'whiteSpace': 'unset' },
+	    show: this.state.selected.crossref,
+	  },
+    {
+	    Header: 'Var.',
+	    accessor: 'variant',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["variant"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    width: 50,
+      style: { 'whiteSpace': 'unset' },
+	    show: this.state.selected.variant,
+	  },
+    {
+	    Header: 'Cognate',
+	    accessor: 'cognate',
+	    filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["cognate"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+	    width: 50,
+      style: { 'whiteSpace': 'unset' },
+	    show: this.state.selected.cognate,
+	  },
+    {
+      Header: 'Active',
+      accessor: 'active',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.active,
+      width: 50,
+    },
+    {
+      Header: 'PrevID',
+      accessor: 'prevId',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.prevId,
+      width: 50,
+    },
+    {
+      Header: 'Edit Note',
+      accessor: 'editnote',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      width: 100,
+      show: this.state.selected.editnote,
+    },
+    {
+      Header: 'User Name',
+      accessor: 'user.username',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.username,
+	    width: 100,
+    },
+    {
+      Header: 'Edit/Delete',
+      filterable: false,
+      sortable: false,
+      width: 100,
+      show: this.state.selected.edit,
+      //get original row id, allow user to call onDelete, or edit.  Linkto passes original root values into editroot form via the location string
+      Cell: ({row, original}) => (
+        <div>
+          <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
+              <Icon name='trash' />
+          </Button>
+          <Link to={{
+            pathname: '/editroot/',
+            search: '?id=' + original.id +
+            '&number=' + original.number +
+            '&sense=' + original.sense +
+            '&root=' + original.root +
+            '&salish=' + original.salish +
+            '&nicodemus=' + original.nicodemus +
+            '&symbol=' + original.symbol +
+            '&english=' + original.english +
+            '&grammar=' + original.grammar +
+            '&crossref=' + original.crossref +
+            '&variant=' + original.variant +
+            '&cognate=' + original.cognate +
+            '&editnote=' + original.editnote
+          }} >
+
+          <Button icon floated='right'>
+            <Icon name='edit' />
+          </Button>
+          </Link>
+        </div>
+      )
+    }
+  ]
+   
   //setup the checkbox bar that allows users to show/hide columns
   const CheckboxRoot = () => (
 		<div className="checkBoxMenu">

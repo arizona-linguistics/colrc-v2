@@ -69,7 +69,7 @@ class StemList extends Component {
     } catch(error) {
       console.log(error)
     }
-  } 
+  }
 
   async componentWillUnmount() {
     this._isMounted = false;
@@ -185,6 +185,7 @@ async handleResizedChange(newResized, event) {
     await this.setState(currentState)
   }
   // allow an admin or owner to delete stems.  Deletion sets the 'active' flag to 'N' on the stem, it does not really delete anything
+
 	async onDelete(id) {
 	    console.log("In deletion");
 	    try {
@@ -206,7 +207,7 @@ async handleResizedChange(newResized, event) {
 				this.props.history.push('/stems');
 			}
 	  };
-  
+
   // translate dropdown values into text
 	stemDropdown(original) {
     console.log("I'm in the dropdown function")
@@ -222,8 +223,9 @@ async handleResizedChange(newResized, event) {
   }
   render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
+
     const { admin } = this.state
-    //provide a function to set column widths dynamically based on the data returned.   
+    //provide a function to set column widths dynamically based on the data returned.
 		const getColumnWidth = (rows, accessor, headerText) => {
 			const maxWidth = 600
 			const magicSpacing = 22
@@ -234,7 +236,7 @@ async handleResizedChange(newResized, event) {
 			return Math.min(maxWidth, cellLength * magicSpacing)
 		};
 
-   //set up the table columns.  Header is the column header text, accessor is the name of the column in the db. 
+   //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
 		const columns = [{
 			Header: 'Category',
 			accessor: 'category',
@@ -257,7 +259,7 @@ async handleResizedChange(newResized, event) {
 				</select>,
       show: this.state.selected.category,
       Cell: ({row, original}) => ( this.stemDropdown(original.category) )
-		}, 
+		},
     {
 			Header: 'Reichard',
 			accessor: 'reichard',
@@ -269,7 +271,7 @@ async handleResizedChange(newResized, event) {
 			filterAll: true,
 			show: this.state.selected.reichard,
       Cell: row => ( <DecoratedTextSpan str={row.value} />),
-		}, 
+		},
     {
 			Header: 'Doak',
 			accessor: 'doak',
@@ -531,7 +533,7 @@ async handleResizedChange(newResized, event) {
 }
 
 export default compose(
-  withApollo, 
+  withApollo,
 	graphql(getStemsQuery, { name: 'getStemsQuery' }),
 	graphql(deleteStemMutation, { name: 'deleteStemMutation' })
 )(withRouter(StemList));
