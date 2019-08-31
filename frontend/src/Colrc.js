@@ -180,9 +180,6 @@ class Colrc extends Component {
           id: 'root',
           desc: false
         },{
-          id: 'number',
-          desc: false
-        },{
           id: 'sense',
           desc: false
         }],
@@ -190,7 +187,6 @@ class Colrc extends Component {
         resized: [],
         selected: {
           root: true,
-          number: true,
           sense: false,
           salish: false,
           nicodemus: true,
@@ -292,6 +288,19 @@ class Colrc extends Component {
       }
     } catch(error) {
       console.log(error)
+      if (error.graphQLErrors && error.graphQLErrors[0].message ==="jwt expired") {
+        localStorage.removeItem("TOKEN")
+        let currentState = Object.assign({}, this.state)
+        currentState.admin = false
+        currentState.fields = {
+          first: 'anonymous',
+          last: 'anonymous',
+          email: 'anonymous',
+          username: 'anonymous',
+          roles: ['view']
+        }
+        await this.setState(currentState) 
+      }
     }
   }
 
