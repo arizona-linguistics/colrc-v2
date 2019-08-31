@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import AudioPlayer from "../utilities/AudioPlayer";
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
+import matchSorter from 'match-sorter';
 import { withRouter, Link } from 'react-router-dom';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { getTextsQuery } from '../queries/queries';
@@ -174,14 +175,32 @@ sourcefiles(json) {
       {
         Header: 'Title',
         accessor: 'title',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, {
+            keys: ["title"],
+            threshold: matchSorter.rankings.CONTAINS
+          }),
+        filterAll: true,
       },
       {
-        Header: 'Speaker',
+        Header: 'Narrator',
         accessor: 'speaker',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, {
+            keys: ["speaker"],
+            threshold: matchSorter.rankings.CONTAINS
+          }),
+        filterAll: true,
       },
       {
         Header: 'Cycle',
         accessor: 'cycle',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, {
+            keys: ["cycle"],
+            threshold: matchSorter.rankings.CONTAINS
+          }),
+        filterAll: true,
       },
   ];
 

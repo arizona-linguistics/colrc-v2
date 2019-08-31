@@ -27,13 +27,12 @@ class RootsDictionary extends Component {
       page: this.props.rootState.page,
       pageSize: this.props.rootState.pageSize,
       selected: {
-        number: this.props.rootState.selected.number,
         sense: this.props.rootState.selected.sense,
         root: this.props.rootState.selected.root,
   		  salish: this.props.rootState.selected.salish,
   		  nicodemus: this.props.rootState.selected.nicodemus,
-        symbol: this.props.rootState.selected.symbol,
   		  english: this.props.rootState.selected.english,
+        symbol: this.props.rootState.selected.symbol,
   		  grammar: this.props.rootState.selected.grammar,
         crossref: this.props.rootState.selected.crossref,
         variant: this.props.rootState.selected.variant,
@@ -84,12 +83,6 @@ class RootsDictionary extends Component {
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
-  async handleNumberChange(value) {
-    let currentState = Object.assign({}, this.state) 
-    currentState.selected.number = !currentState.selected.number
-    await this.setState(currentState)
-    await this.props.changeRootState(currentState)
-  }
   async handleSenseChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.sense = !currentState.selected.sense
@@ -108,15 +101,15 @@ class RootsDictionary extends Component {
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
-  async handleSymbolChange(value) {
-    let currentState = Object.assign({}, this.state) 
-    currentState.selected.symbol = !currentState.selected.symbol
-    await this.setState(currentState)
-    await this.props.changeRootState(currentState)
-  }
   async handleEnglishChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.english = !currentState.selected.english
+    await this.setState(currentState)
+    await this.props.changeRootState(currentState)
+  }
+  async handleSymbolChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.symbol = !currentState.selected.symbol
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
@@ -220,45 +213,23 @@ class RootsDictionary extends Component {
 
   render() {
 
-  //provide a function to set column widths dynamically based on the data returned.
-  const getColumnWidth = (rows, accessor, headerText) => {
-  	const maxWidth = 600
-  	const magicSpacing = 18
-  	const cellLength = Math.max(
-  	   ...rows.map(row => (`${row[accessor]}` || '').length),
-  	  headerText.length,
-  	  )
-  	  return Math.min(maxWidth, cellLength * magicSpacing)
-  };
-
    //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
 	 const columns = [{
       Header: 'Root',
       accessor: 'root',
       filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
+        matchSorter(rows, filter.value, { keys: ["root", "number"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
-      width: 50,
+      width: 75,
+      Cell: ({row, original}) => (<span>√{original.root}<span style={{ fontSize: '70%', verticalAlign: 'super' }}>{original.number === 0 ? '' : original.number}</span></span>),
       show: this.state.selected.root,
   	},
-	  {
-	    Header: '#',
-	    accessor: 'number',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["number"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 50,
-	    show: this.state.selected.number,
-      Cell: ({row, original}) => (original.number === 0 ? '' : original.number)
-	  },
     {
 	    Header: 'Sense',
 	    accessor: 'sense',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["sense"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
 	    width: 50,
 	    show: this.state.selected.sense,
+      Cell: ({row, original}) => (<span style={{ fontSize: '70%' }}>{original.sense}</span>),
 	  },
 	  {
 	    Header: 'Salish',
@@ -277,15 +248,6 @@ class RootsDictionary extends Component {
       filterAll: true,
 	    show: this.state.selected.nicodemus,
 	  },
-    {
-	    Header: 'Symbol',
-	    accessor: 'symbol',
-	    filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["symbol"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-	    width: 50,
-	    show: this.state.selected.symbol,
-	  },
 	  {
 	    Header: 'English',
 	    accessor: 'english',
@@ -295,6 +257,15 @@ class RootsDictionary extends Component {
 	    style: { 'whiteSpace': 'unset' },
 		  show: this.state.selected.english,
 	  },
+    {
+      Header: 'Symbol',
+      accessor: 'symbol',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["symbol"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      width: 50,
+      show: this.state.selected.symbol,
+    },
     {
 	    Header: 'Grammar',
 	    accessor: 'grammar',
@@ -419,13 +390,6 @@ class RootsDictionary extends Component {
         checked={this.state.selected.root}
         onChange={this.handleRootChange.bind(this)}
       />
-		  <label className="checkBoxLabel">#</label>
-		  <input
-		  	name="number"
-        type="checkbox"
-        checked={this.state.selected.number}
-        onChange={this.handleNumberChange.bind(this)}
-      />
       <label className="checkBoxLabel">Sense</label>
       <input
         name="sense"
@@ -447,19 +411,19 @@ class RootsDictionary extends Component {
         checked={this.state.selected.nicodemus}
         onChange={this.handleNicodemusChange.bind(this)}
       />
-      <label className="checkBoxLabel">Symbol</label>
-      <input
-        name="symbol"
-        type="checkbox"
-        checked={this.state.selected.symbol}
-        onChange={this.handleSymbolChange.bind(this)}
-      />
       <label className="checkBoxLabel">English</label>
       <input
         name="english"
         type="checkbox"
         checked={this.state.selected.english}
         onChange={this.handleEnglishChange.bind(this)}
+      />
+      <label className="checkBoxLabel">Symbol</label>
+      <input
+        name="symbol"
+        type="checkbox"
+        checked={this.state.selected.symbol}
+        onChange={this.handleSymbolChange.bind(this)}
       />
       <label className="checkBoxLabel">Grammar</label>
       <input
@@ -539,17 +503,17 @@ class RootsDictionary extends Component {
         data={this.state.data}
         loading={this.state.loading}
         columns={columns}
-        pageSize={this.state.pageSize}
+        //pageSize={this.state.pageSize}
         className="-striped -highlight left"
         filterable
         //filtered={this.state.filtered}
-        sorted={this.state.sorted}
-        page={this.state.page}
-        resized={this.state.resized}
-        onPageChange={page => this.handlePageChange(page)}
-        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
-        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
-        onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
+        //sorted={this.state.sorted}
+        //page={this.state.page}
+        //resized={this.state.resized}
+        //onPageChange={page => this.handlePageChange(page)}
+        //onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        //onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        //onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
         //onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
       />;
 
