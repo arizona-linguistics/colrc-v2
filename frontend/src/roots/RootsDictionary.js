@@ -199,16 +199,16 @@ class RootsDictionary extends Component {
   async onDelete(id) {
     console.log("In deletion");
     try {
-      let variables = {}
-      if (!this.state.admin) {
-        variables.active = 'Y'
-      }
+      // let variables = {}
+      // if (!this.state.admin) {
+      //   variables.active = 'Y'
+      // }
       await this.props.deleteRootMutation({
         variables: {
           id: id
         },
-    //after setting the flag, refetch the roots from the db
-    refetchQueries: [{ query: getRootsQuery, variables: variables }]
+        //after setting the flag, refetch the roots from the db
+        refetchQueries: [{ query: getRootsQuery }]
       });
       //then send the user back to the rootsdictionary display
       this.props.history.push('/roots');
@@ -542,7 +542,7 @@ class RootsDictionary extends Component {
         pageSize={this.state.pageSize}
         className="-striped -highlight left"
         filterable
-        filtered={this.state.filtered}
+        //filtered={this.state.filtered}
         sorted={this.state.sorted}
         page={this.state.page}
         resized={this.state.resized}
@@ -550,7 +550,7 @@ class RootsDictionary extends Component {
         onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
         onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
         onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
-        onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
+        //onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
       />;
 
     return (

@@ -265,6 +265,8 @@ const typeDefs = `
     title: String!
     speaker: String
     cycle: String
+    rnumber: String
+    tnumber: String
     textfiles: [Textfile]
     audiosets: [Audioset]
     active: String!

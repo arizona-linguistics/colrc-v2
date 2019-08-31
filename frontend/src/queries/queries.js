@@ -576,6 +576,8 @@ const getTextQuery = gql`
       title
       speaker
       cycle
+      rnumber
+      tnumber
       textfiles {
         src
         subdir
@@ -615,6 +617,8 @@ const getTextFileQuery = gql`
         title
         speaker
         cycle
+        rnumber
+        tnumber
       }
       active
       prevId
@@ -637,6 +641,8 @@ const getTextFilesQuery = gql`
         title
         speaker
         cycle
+        rnumber
+        tnumber
       }
       active
       prevId
@@ -678,6 +684,8 @@ const getAudioSetQuery = gql`
         title
         speaker
         cycle
+        rnumber
+        tnumber
       }
       active
       user {
@@ -696,6 +704,8 @@ const getAudioSetsQuery = gql`
         title
         speaker
         cycle
+        rnumber
+        tnumber
       }
       audiofiles {
         id
@@ -724,6 +734,8 @@ const getAudioFileQuery = gql`
         title
         speaker
         cycle
+        rnumber
+        tnumber
       }
       elicitation {
         title
@@ -748,6 +760,8 @@ const getAudioFilesQuery = gql`
         title
         speaker
         cycle
+        rnumber
+        tnumber
       }
       elicitation {
         title
@@ -827,6 +841,8 @@ const getTextsQuery = gql`
       title
       speaker
       cycle
+      rnumber
+      tnumber
       textfiles {
         id
         subdir
