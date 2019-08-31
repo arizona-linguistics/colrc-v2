@@ -35,7 +35,7 @@ class AddRoot extends Component {
 						cognate: values.cognate,
 		        editnote: values.editnote,
 					},
-					//refetchQueries: [{ query:getRootsQuery }]
+					refetchQueries: [{ query:getRootsQuery }]
 				});
 			setSubmitting(false)
       this.props.history.push('/roots');

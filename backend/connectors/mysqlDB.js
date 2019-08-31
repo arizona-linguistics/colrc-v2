@@ -180,6 +180,8 @@ const Text = sequelize.define('text', {
   title: { type: Sequelize.STRING },
   speaker: { type: Sequelize.STRING },
   cycle: { type: Sequelize.STRING },
+  rnumber: { type: Sequelize.STRING },
+  tnumber: { type: Sequelize.STRING },  
   active: { type: Sequelize.STRING(1) },
   prevId: { type: Sequelize.INTEGER },
   userId: { type: Sequelize.STRING }

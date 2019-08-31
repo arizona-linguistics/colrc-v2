@@ -240,7 +240,7 @@ async handleResizedChange(newResized, event) {
 		const columns = [{
 			Header: 'Category',
 			accessor: 'category',
-			width: getColumnWidth(this.state.data, 'category', 'Type'),
+			width: 100,
       //build dropdown list for this column
 			filterMethod: (filter, row) => {
 				if (filter.value === "all") {

@@ -11,7 +11,7 @@ class Roots extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { 
-			activeItem: 'list', 
+			activeItem: 'dictionary', 
 		};
 		this.handleItemClick = this.handleItemClick.bind(this);
 	};
