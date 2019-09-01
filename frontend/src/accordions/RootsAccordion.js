@@ -7,42 +7,100 @@ import {
 } from 'react-accessible-accordion';
 
 class RootsAccordion extends Component {
-
-    render() {
-  		const rootsIntro = 
-		    <Accordion>
-		        <AccordionItem>
-		            <AccordionItemTitle>
-		                <div className="u-position-relative">
-		                Introduction
-		                <div className="accordion__arrow" role="presentation" />
-		                </div>
-		            </AccordionItemTitle>
-		            <AccordionItemBody>
-			            <p>The root dictionary presented here was compiled by John Lyon and Rebecca Greene-Wood and contains nearly 1,400 roots and about 7690 "word" forms. The data come from Lawrence Nicodemus's Coeur d'Alene dictionary. The original work was published by UMOPL and can be found at <a href="http://meltr.org/Publications/" target="_blank" rel="noopener noreferrer">Lyon and Greene-Wood 2007</a>. All material is copyrighted by the Coeur d'Alene Tribe and may not be copied in any format without written permission from the Coeur d'Alene Tribe.
-					    </p>
+  render() {
+  	const rootsIntro = 
+		  <Accordion>
+		    <AccordionItem>
+		      <AccordionItemTitle>
+		        <div className="u-position-relative">
+		          Introduction
+		        <div className="accordion__arrow" role="presentation" />
+		        </div>
+		      </AccordionItemTitle>
+		      <AccordionItemBody>
+			     <span>The root dictionary presented here was compiled by John Lyon and Rebecca Greene-Wood and contains nearly 1,400 roots and about 7690 "word" forms. The data come from Lawrence Nicodemus's Coeur d'Alene dictionary. The original work was published by UMOPL and can be found at <a href="http://meltr.org/Publications/" target="_blank" rel="noopener noreferrer">Lyon and Greene-Wood 2007</a>. All material is copyrighted by the Coeur d'Alene Tribe and may not be copied in any format without written permission from the Coeur d'Alene Tribe.</span>
 					</AccordionItemBody>
 				</AccordionItem>
 				<AccordionItem>
-		            <AccordionItemTitle>
-		            	<div className="u-position-relative">
+		      <AccordionItemTitle>
+		        <div className="u-position-relative">
 				    	Guide to Entries
-		                <div className="accordion__arrow" role="presentation" />
-		                </div>
-				    </AccordionItemTitle>
-				    <AccordionItemBody>
-					    <p>For reasons of searchability and clarity of presentation, the organization of the dictionary has been altered from its original form. Within a root header, the entries are organized beginning with the least complex and move towards more complex forms. Each entry is separated by a new line and numbered. The entries first appear in the Salishan orthography, then the Nicodemus, and finally an English translation. Nicodemus sometimes identifies the simplest forms as (stem), but not in all cases. Intransitive and simple nominalized forms directly follow, then reduplicated forms, complex forms (those with lexical suffixes), and finally transitive forms and compounds. The following symbols are used to separate the different types of entries: intransitive (†), transitive (‡), complex (//), and compound (§) entries. Entries begin with a root skeleton followed by the transliterated Coeur d'Alene, followed by Nicodemus's English translation, grammatical notations, and additional information.
-					    </p>
-		            </AccordionItemBody>
-		        </AccordionItem>
-		    </Accordion>
-	;
+		        <div className="accordion__arrow" role="presentation" />
+		        </div>
+				  </AccordionItemTitle>
+				  <AccordionItemBody>
+					  <span>For reasons of searchability and clarity of presentation, the organization of the dictionary has been altered from its original form.  Roots with multiple entries are numbered.  A single roots may be listed with multiple senses, and these senses are numbered - check the 'senses' column to view these numbers. Entries are displayed using the Nicodemus orthography, with their English translations.  Select 'Salish' to view the entry written in the Salish orthography, with morpheme boundaries indicated.</span>
+            <p></p>
+            <span>Grammatical information provided by Lawrence Nicodemus appears in the 'grammar' column.  Nicodemus sometimes identifies the simplest forms as (stem), but not in all cases. By default, entries are ordered from simplest to most complex form, starting with those indicated as (stem). Intransitive and simple nominalized forms directly follow, then reduplicated forms, complex forms (those with lexical suffixes), and finally transitive forms and compounds.</span>
+            <p></p>
+            <span>Symbols used to separate different kinds of entries can be found in the 'Symbols' column: intransitive (†), transitive (‡), complex (//), and compound (§) entries. Entries begin with a root skeleton followed by the transliterated Coeur d'Alene, followed by Nicodemus's English translation, grammatical notations, and additional information.</span>
+		      </AccordionItemBody>
+		    </AccordionItem>
+        <AccordionItem>
+          <AccordionItemTitle>
+            <div className="u-position-relative">
+              Guide to Symbols and Abbreviations
+            <div className="accordion__arrow" role="presentation" />
+            </div>
+          </AccordionItemTitle>
+          <AccordionItemBody>
+            <div>The following symbols and abbreviations are used in this Dictionary:
+            <ul className="ul-left-aligned">
+              <li>√ — Lexical root</li>
+              <li>+ — Boundary of derivational affix</li>
+              <li>- — Boundary of inflectional affix</li>
+              <li>= — Boundary of lexical affix</li>
+              <li>' — Glottalization</li>
+              <li>‿ — Ligature (following proclitic set of intransitive pronouns)</li>
+              <li>† — Intransitive entry</li>
+              <li>‡ — Transitive entry</li>
+              <li>// — Complex entry</li>
+              <li>§ — Compound entry</li>
+              <li>[ ] — Brackets for editorial emendations and special notes</li>
+              <li>adj — Adjective</li>
+              <li>adv — Adverb</li>
+              <li>conj — Conjunction</li>
+              <li>dim — Diminutive</li>
+              <li>etym — Etymology</li>
+              <li>excl — Exclamation</li>
+              <li>gr — Greeting</li>
+              <li>h/h — Him, her</li>
+              <li>h/h/i — Him, her, it</li>
+              <li>h/s/i — He, she, it</li>
+              <li>imp — Imperative</li>
+              <li>interj — Interjection</li>
+              <li>lit — Literally</li>
+              <li>l.w. — Loan word (lexical borrowing)</li>
+              <li>metaph — Metaphorically</li>
+              <li>N — Nicodemus</li>
+              <li>n — Noun</li>
+              <li>neg — Negative</li>
+              <li>onom — Onomatopoeic</li>
+              <li>orig — Originally</li>
+              <li>pl — Plural</li>
+              <li>pref — Prefix</li>
+              <li>prep — Preposition</li>
+              <li>pro(n) — Pronoun</li>
+              <li>qu — Question</li>
+              <li>ref — Referring to</li>
+              <li>sg — Singular</li>
+              <li>suf(f) — Suffix</li>
+              <li>v — Verb</li>
+              <li>vi — Verb-intransitive</li>
+              <li>vt — Verb-transitive</li>
+              <li>w/c — Which</li>
+              <li>xref — Cross-reference</li>
+            </ul>
+            </div>
+          </AccordionItemBody>
+        </AccordionItem>
+		  </Accordion>
     return (
-        <div className='ui content'>
-        	{rootsIntro}
-      	</div>
-      );
-    }
+      <div className='ui content'>
+        {rootsIntro}
+      </div>
+    );
+  }
 }
 
 export default RootsAccordion;

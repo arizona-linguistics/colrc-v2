@@ -77,9 +77,6 @@ const NavBarMobile = ({
       style={{ minHeight: "100vh" }}
     >
         <Menu fixed="top" inverted>
-          <Menu.Item key="tophome">
-            <Icon name="home" />
-          </Menu.Item >
           <Menu.Item key="side" onClick={onToggle}>
             <Icon name="sidebar" />
           </Menu.Item>

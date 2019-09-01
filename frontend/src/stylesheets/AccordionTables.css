@@ -3,11 +3,14 @@
 * COLRC styles, adapted from https://www.npmjs.com/package/react-accessible-accordion
 * ----------------------------------------------
 **/
+.ul-left-aligned {
+  text-align: left;
+}
 .indentQuote {
 	margin: 40px;
 }
 .imageCenter {
-  	display: block;
+  display: block;
 	margin-left: auto;
 	margin-right: auto;
 	width: 50%;
