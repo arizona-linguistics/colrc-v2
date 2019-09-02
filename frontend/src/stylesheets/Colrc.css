@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.ul-left-aligned {
+  text-align: left;
+  list-style-type: circle; 
+}
+
 .Grid {
 	padding: 10px;
 }
