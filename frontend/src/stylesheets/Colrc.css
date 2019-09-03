@@ -109,3 +109,9 @@
 .confirmButton {
   border-style: hidden !important;
 }
+
+.ui.localSearch.input {
+  float: 'right';
+  align: 'right';
+  text-align: 'right';
+}

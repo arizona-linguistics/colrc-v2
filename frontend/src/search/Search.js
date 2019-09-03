@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon } from 'semantic-ui-react';
+import { Input, Form, Button, Icon } from 'semantic-ui-react';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import DecoratedTextSpan from '../utilities/DecoratedTextSpan';
 import ReactTable from "react-table";
@@ -377,20 +377,20 @@ class Search extends Component {
 
 	return(
 		<div className="ui content">
-			<Form onSubmit={this.onFormSubmit} width={14}>
+			<Form onSubmit={this.onFormSubmit}>
 				<Form.Group>	
 					<Button floated='left' icon labelPosition='left' color='blue' disabled={this.state.fields.searchtext.length < 1} >
 	      			<Icon name='search' />
 	     				 Search
 					</Button>		
-					<Form.Input 
+					<Input 
 					  name='searchtext'
 					  autoFocus
 						value={this.state.fields.searchtext}
 					  onChange={this.onInputChange}
           	ref={(input) => { this.searchInput = input; }} 
 					>
-	  			</Form.Input>
+	  			</Input>
   			</Form.Group>
 			</Form>
 			<p></p>

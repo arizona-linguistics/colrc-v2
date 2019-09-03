@@ -23,7 +23,7 @@ class RootsDictionary extends Component {
       //set up an empty array and a loading state for react-table
       searchWasRun: false,
       fields: {
-        searchtext: this.props.location.state.searchtext ? this.props.location.state.searchtext : '',
+        searchtext: this.props.location.state && this.props.location.state.searchtext ? this.props.location.state.searchtext : '',
       },
       fieldErrors: {},
       roots: {
@@ -549,6 +549,25 @@ class RootsDictionary extends Component {
 		</div>
 	  );
 
+  const localSearch = (
+    <Form onSubmit={this.onFormSubmit}>
+      <Form.Group> 
+        <Button floated='left' icon labelPosition='left' color='blue' disabled={this.state.fields.searchtext.length < 1} >
+            <Icon name='search' />
+             Search
+        </Button> 
+        <Input 
+          placeholder='Search'
+          name='searchtext'
+          autoFocus
+          value={this.state.fields.searchtext}
+          onChange={this.onInputChange}
+          ref={(input) => { this.searchInput = input; }} 
+        >
+        </Input>   
+      </Form.Group>
+    </Form>
+  )
     //now build the table.  If successful, the table will populate, if error the error message will appear.
     const dataOrError = this.state.error ?
       <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
@@ -575,21 +594,6 @@ class RootsDictionary extends Component {
         <h3>Lyon and Green-Wood's Root Dictionary</h3>
         <p></p>
         <div className="text-right">
-        <Form onSubmit={this.onFormSubmit} width={14}>
-          <Form.Group>    
-            <Input 
-              icon='search'
-              placeholder='Search'
-              size='small'
-              name='searchtext'
-              autoFocus
-              value={this.state.fields.searchtext}
-              onChange={this.onInputChange}
-              ref={(input) => { this.searchInput = input; }} 
-            >
-            </Input>
-          </Form.Group>
-        </Form>
           { this.state.admin && (
             <div>
               <Link to={{
@@ -605,7 +609,7 @@ class RootsDictionary extends Component {
         </div>
     		<p></p>
     		<SimpleKeyboard />
-    		<p></p>
+        {localSearch}
     		<CheckboxRoot />
         {dataOrError}
       </div>
