@@ -257,104 +257,104 @@ class AffixList extends Component {
         </select>,
       show: this.state.selected.type,
       Cell: ({row, original}) => ( this.affixDropdown(original.type) )
-	  	},
-  	  {
-  	    Header: 'Salish',
-  	    accessor: 'salish',
-  	    filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
-            filterAll: true,
-        show: this.state.selected.salish,
-  	  },
-  	  {
-  	    Header: 'Nicodemus',
-  	    accessor: 'nicodemus',
-  	    filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.nicodemus,
-  	  	},
-  	  {
-  	    Header: 'English',
-  	    accessor: 'english',
-  	    style: { 'whiteSpace': 'unset' },
-  	    filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.english,
-  	  	},
-  	  {
-  	    Header: 'Link',
-  	    accessor: 'link',
-  	    Cell: ({row, original}) => ( this.weblink(original.link, original.page) ),
-  	    show: this.state.selected.link,
-  	  },
-      {
-        Header: 'Active',
-        accessor: 'active',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.active,
-        width: 50,
+	  },
+    {
+      Header: 'Salish',
+      accessor: 'salish',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
+          filterAll: true,
+      show: this.state.selected.salish,
+    },
+    {
+      Header: 'Nicodemus',
+      accessor: 'nicodemus',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.nicodemus,
       },
-      {
-        Header: 'PrevID',
-        accessor: 'prevId',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.prevId,
-        width: 50,
+    {
+      Header: 'English',
+      accessor: 'english',
+      style: { 'whiteSpace': 'unset' },
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.english,
       },
-      {
-        Header: 'Edit Note',
-        accessor: 'editnote',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        width: 75,
-        show: this.state.selected.editnote,
-      },
-      {
-        Header: 'User Name',
-        accessor: 'user.username',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
-        show: this.state.selected.username,
-  	    width: 100,
-      },
-      {
-        Header: 'Edit/Delete',
-        filterable: false,
-        sortable: false,
-        show: this.state.selected.edit,
-        width: 100,
-        //get original row id, allow user to call onDelete, or edit.  Linkto passes original affix values into editaffix form via the location string
-        Cell: ({row, original}) => (
-          <div>
-            <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
-                <Icon name='trash' />
-            </Button>
-            <Link to={{
-              pathname: '/editaffix/',
-              search: '?id=' + original.id +
-              '&type=' + original.type +
-              '&salish=' + original.salish +
-              '&nicodemus=' + original.nicodemus +
-              '&english=' + original.english +
-              '&link=' + original.link +
-              '&page=' + original.page +
-              '&editnote=' + original.editnote 
-            }} >
-            <Button icon floated='right'>
-            	<Icon name='edit' />
-            </Button>
-            </Link>
-          </div>
-        )
-      }
+    {
+      Header: 'Link',
+      accessor: 'link',
+      Cell: ({row, original}) => ( this.weblink(original.link, original.page) ),
+      show: this.state.selected.link,
+    },
+    {
+      Header: 'Active',
+      accessor: 'active',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.active,
+      width: 50,
+    },
+    {
+      Header: 'PrevID',
+      accessor: 'prevId',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.prevId,
+      width: 50,
+    },
+    {
+      Header: 'Edit Note',
+      accessor: 'editnote',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      width: 75,
+      show: this.state.selected.editnote,
+    },
+    {
+      Header: 'User Name',
+      accessor: 'user.username',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.username,
+      width: 100,
+    },
+    {
+      Header: 'Edit/Delete',
+      filterable: false,
+      sortable: false,
+      show: this.state.selected.edit,
+      width: 100,
+      //get original row id, allow user to call onDelete, or edit.  Linkto passes original affix values into editaffix form via the location string
+      Cell: ({row, original}) => (
+        <div>
+          <Button icon floated='right' onClick={() => this.onDelete(original.id)}>
+              <Icon name='trash' />
+          </Button>
+          <Link to={{
+            pathname: '/editaffix/',
+            search: '?id=' + original.id +
+            '&type=' + original.type +
+            '&salish=' + original.salish +
+            '&nicodemus=' + original.nicodemus +
+            '&english=' + original.english +
+            '&link=' + original.link +
+            '&page=' + original.page +
+            '&editnote=' + original.editnote 
+          }} >
+          <Button icon floated='right'>
+            <Icon name='edit' />
+          </Button>
+          </Link>
+        </div>
+      )
+    }
 	  ];
 
   //setup the checkbox bar that allows users to show/hide columns

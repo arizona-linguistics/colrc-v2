@@ -60,7 +60,7 @@ class AddRoot extends Component {
 	render() {
 		return (
 			<div>
-				<h3>Add a Root</h3>
+				<h3>Add an Elicitation</h3>
 				<p>
 					Fill in the fields below to add a new root to the dictionary.
 				</p>

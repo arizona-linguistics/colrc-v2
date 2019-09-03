@@ -153,13 +153,17 @@ class Colrc extends Component {
       },
       elicitations: {
         page: 0,
+        pageSize: 10,
         sorted: [],
         resized: [],
         filtered: [],
-        sorted:[{
-          id: 'title',
-          desc: false
-        }]
+        selected: {
+          username: false,
+          active: false,
+          prevId: false,
+          edit: true,
+          editnote: false,
+        }
       },
       affixes: {
         page: 0,

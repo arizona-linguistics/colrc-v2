@@ -9,7 +9,7 @@ import { withApollo, graphql, compose } from 'react-apollo';
 import { getElicitationSetsQuery } from '../queries/queries';
 
 class Elicitations extends Component {
-  isMounted = false
+  _isMounted = false
   
   constructor(props) {
     super(props);
@@ -25,13 +25,11 @@ class Elicitations extends Component {
       filtered: this.props.elicitationState.filtered,
       resized: this.props.elicitationState.resized,
       selected: {
-        title: this.props.elicitationState.selected.title,
-        audio: this.props.elicitationState.selected.audio,
-        transcription: this.props.elicitationState.selected.transcription,
         username: this.props.elicitationState.selected.username,
         active: this.props.elicitationState.selected.active,
         prevId: this.props.elicitationState.selected.prevId,
         edit: this.props.elicitationState.selected.edit,
+        editnote: this.props.elicitationState.selected.editnote,
       }
     };
   }
@@ -62,7 +60,7 @@ class Elicitations extends Component {
 
   async componentWillUnmount() {
     this._isMounted = false;
-    console.log("affixList is unmounting")
+    console.log("Elicitations is unmounting")
   }
 
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
@@ -87,6 +85,12 @@ class Elicitations extends Component {
   async handleEditChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.edit = !currentState.selected.edit
+    await this.setState(currentState)
+  }
+
+  async handleEditnoteChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.editnote = !currentState.selected.editnote
     await this.setState(currentState)
   }
 
@@ -201,20 +205,21 @@ class Elicitations extends Component {
       show: this.state.selected.edit,
       width: 100,
       //get original row id, allow user to call onDelete, or edit.  Linkto passes original elicitation values into editelicitation form via the location string
-        Cell: ({row, original}) => (
-          <div>
-            <Link to={{
-              pathname: '/editelicitation/',
-              search: '?id=' + original.id +
-              '&type=' + original.title +
-              '&salish=' + original.transcription
-            }} >
-            <Button icon floated='right'>
-              <Icon name='edit' />
-            </Button>
-            </Link>
-          </div>
-        )
+      Cell: ({row, original}) => (
+        <div>
+          <Link to={{
+            pathname: '/editelicitation/',
+            search: '?id=' + original.id +
+            '&title=' + original.title +
+            '&transcription=' + original.transcription +
+            '&editnote=' + original.editnote
+          }} >
+          <Button icon floated='right'>
+            <Icon name='edit' />
+          </Button>
+          </Link>
+        </div>
+      )
     }
     ];
 
@@ -248,6 +253,13 @@ class Elicitations extends Component {
             name="edit"
             type="checkbox"
             checked={this.state.selected.edit}
+            onChange={this.handleEditChange.bind(this)}
+          />
+          <label className="checkBoxLabel">Edit Note</label>
+          <input
+            name="editnote"
+            type="checkbox"
+            checked={this.state.selected.editnote}
             onChange={this.handleEditChange.bind(this)}
           />
         </div>
