@@ -226,9 +226,9 @@ class SpellingPronunciationCharts extends Component {
           style={{ width: "100%" }}
           value={filter ? filter.value : "N"}
         >
-          <option value="N">N</option>
-          <option value="S">S</option>
-          <option value="R">R</option>
+          <option value="N">Nicodemus</option>
+          <option value="S">Salish</option>
+          <option value="R">Reichard</option>
           <option value="all">All</option>
         </select>,
         Cell: ({row, original}) => ( this.spellingDropdown(original.orthography) )

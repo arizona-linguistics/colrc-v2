@@ -741,6 +741,7 @@ const getAudioFileQuery = gql`
         title
         speaker
         language
+        transcription
       }
       active
       user {
@@ -765,6 +766,7 @@ const getAudioFilesQuery = gql`
       }
       elicitation {
         title
+        speaker
       }
       active
       user {
@@ -773,30 +775,7 @@ const getAudioFilesQuery = gql`
     }
   }
 `;
-const getElicitationQuery = gql`
-  query($id: ID) {
-    elicitation_Q(id: $id) {
-      id
-      title
-      active
-      user {
-        username
-      }
-    }
-  }
-`;
-const getElicitationsQuery = gql`
- {
-    elicitations_Q {
-      id
-      title
-      active
-      user {
-        username
-      }
-    }
-  }
-`;
+
 const getElicitationSetsQuery = gql`
    query($language: String){
     elicitationsets_Q(language: $language) {
@@ -804,6 +783,7 @@ const getElicitationSetsQuery = gql`
       title
       speaker
       language
+      transcription
       elicitationfiles {
         id
         src
@@ -812,6 +792,7 @@ const getElicitationSetsQuery = gql`
         active
       }
       active
+      editnote
       prevId
       user {
         username
@@ -882,4 +863,4 @@ const getTextsQuery = gql`
   }
 `;
 
-export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, getSpellingQuery, addSpellingMutation, deleteSpellingMutation, updateSpellingMutation, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationQuery, getElicitationsQuery, getElicitationSetsQuery };
+export { getUserToken, getUserFromToken, getStemsQuery, addStemMutation, deleteStemMutation, updateStemMutation, getAffixesQuery, addAffixMutation, deleteAffixMutation, updateAffixMutation, getUsersQuery, getRootsQuery, getUserQuery, getRootQuery, addUserMutation, updateUserMutation, updateUserAdminMutation, addRootMutation, updateRootMutation, deleteRootMutation, getBibliographiesQuery, getBibliographyQuery, getSpellingsQuery, getSpellingQuery, addSpellingMutation, deleteSpellingMutation, updateSpellingMutation, getConsonantsQuery, getVowelsQuery, addBibliographyMutation, deleteBibliographyMutation, updateBibliographyMutation, getTextQuery, getTextsQuery, getTextFileQuery, getTextFilesQuery, getTextImageQuery,getTextImagesQuery, getAudioSetQuery, getAudioSetsQuery, getAudioFileQuery, getAudioFilesQuery, getElicitationSetsQuery };
