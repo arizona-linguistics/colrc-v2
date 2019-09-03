@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import matchSorter from 'match-sorter';
 import AudioPlayer from "../utilities/AudioPlayer";
+import ElicitationsAccordion from '../accordions/ElicitationsAccordion';
 import { withRouter } from 'react-router-dom';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { withApollo, graphql, compose } from 'react-apollo';
@@ -87,7 +88,8 @@ class Elicitations extends Component {
       Cell: ({row, original}) => ( <AudioPlayer key={original.key} title={original.title} speaker={original.speaker} language={original.language} sources={original.elicitationfiles} />),
     }, 
     { 
-      Header: 'Transcription'
+      Header: 'Transcription',
+      accessor: 'transcription',
     }
     ]
 
@@ -105,6 +107,7 @@ class Elicitations extends Component {
     return (
       <div className='ui content'>
         <h3>Elicitations</h3>
+        <ElicitationsAccordion />
         <p></p>
         {dataOrError}
 		    <p></p>
