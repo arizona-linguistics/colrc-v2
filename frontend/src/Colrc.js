@@ -16,6 +16,7 @@ import Bibliography from './bibliography/Bibliography';
 import EditRoot from './roots/EditRoot';
 import AddRoot from './roots/AddRoot';
 import Elicitations from './elicitations/Elicitations';
+import EditElicitation from './elicitations/EditElicitation';
 import EditBib from './bibliography/EditBib';
 import AddBib from './bibliography/AddBib';
 import EditStem from './stems/EditStem';
@@ -106,6 +107,8 @@ class Colrc extends Component {
     this.changeRootState = this.changeRootState.bind(this)
     this.changeAudioState = this.changeAudioState.bind(this)
     this.changeBibliographyState = this.changeBibliographyState.bind(this)
+    this.changeStemState = this.changeStemState.bind(this)
+    this.changeElicitationState = this.changeElicitationState.bind(this)
     this.state = {
       login: loggedIn(),
       user: {
@@ -146,6 +149,16 @@ class Colrc extends Component {
         resized: [],
         filtered: [],
       },
+      elicitations: {
+        page: 0,
+        sorted: [],
+        resized: [],
+        filtered: [],
+        sorted:[{
+          id: 'title',
+          desc: false
+        }]
+      },
       affixes: {
         page: 0,
         pageSize: 10,
@@ -173,6 +186,16 @@ class Colrc extends Component {
       },
       stems: {
         page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'category',
+          desc: false
+        },{
+          id: 'nicodemus',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
         selected: {
           category: true,
   				reichard: false,
@@ -222,36 +245,6 @@ class Colrc extends Component {
           editnote: false
         },
       },
-      stems: {
-        page: 0,
-        pageSize: 10,
-        sorted: [{
-          id: 'category',
-          desc: false
-        },{
-          id: 'nicodemus',
-          desc: false
-        },{
-          id: 'english',
-          desc: false
-        }],
-        filtered: [],
-        resized: [],
-        selected: {
-          cateory: false,
-          reichard: false,
-          doak: false,
-          salish: false,
-          nicodemus: true,
-          english: true,
-          note: false,
-          edit: false,
-          username: false,
-          active: false,
-          prevId: false,
-          editnote: false
-        },
-      }
     }
   }
 
@@ -319,6 +312,12 @@ class Colrc extends Component {
     currentState.affixes = affixState    
     await this.setState(currentState)
   }
+  async changeStemState(stemState){
+    this._isMounted = true   
+    let currentState = Object.assign({}, this.state) 
+    currentState.stem = stemState    
+    await this.setState(currentState)
+  }
   async changeRootState(rootState){
     let currentState = Object.assign({}, this.state) 
     currentState.roots = rootState    
@@ -327,6 +326,12 @@ class Colrc extends Component {
   async changeAudioState(audioState){
     let currentState = Object.assign({}, this.state) 
     currentState.audio = audioState    
+    await this.setState(currentState)
+  }
+  async changeElicitationState(elicitationState){
+    this._isMounted = true   
+    let currentState = Object.assign({}, this.state) 
+    currentState.elicitation = elicitationState    
     await this.setState(currentState)
   }
   async changeBibliographyState(bibliographyState){
@@ -385,7 +390,8 @@ class Colrc extends Component {
                 <Route path="/addstem" component={AddStem} />
                 <Route path="/editaffix" component={EditAffix} />
                 <Route path="/addaffix" component={AddAffix}  />
-                <Route path="/elicitations" component={Elicitations} />
+                <Route path="/editelicitation" component={EditElicitation}  />
+                <Route path="/elicitations" component={() => <Elicitations elicitationState={this.state.elicitations} changeElicitationState={this.changeElicitationState}  admin={this.state.admin}/> } />
                 <Route path="/imageviewer" component={ImageViewer} />
                 <Route path="/splitview" component={SplitView} />
                 <Route path="/search" component={Search}  />

@@ -2,84 +2,153 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import matchSorter from 'match-sorter';
 import AudioPlayer from "../utilities/AudioPlayer";
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
+import { Button, Icon } from 'semantic-ui-react'
 import { withApollo, graphql, compose } from 'react-apollo';
-import { getElicitationSetsQuery, getUserFromToken } from '../queries/queries';
+import { getElicitationSetsQuery } from '../queries/queries';
 
 class Elicitations extends Component {
-  constructor() {
-    super();
+  isMounted = false
+  
+  constructor(props) {
+    super(props);
     this.state = {
     	data: [],
-    	loading: true
-     };
+      loading: true,
+      //assume the user is not logged in as admin, prepare to get user info from token
+      admin: this.props.admin,
+      //get initial state for the checkboxes that allow show/hide columns from Colrc.js.
+      page: this.props.elicitationState.page,
+      pageSize: this.props.elicitationState.pageSize,
+      sorted: this.props.elicitationState.sorted,
+      filtered: this.props.elicitationState.filtered,
+      resized: this.props.elicitationState.resized,
+      selected: {
+        title: this.props.elicitationState.selected.title,
+        audio: this.props.elicitationState.selected.audio,
+        transcription: this.props.elicitationState.selected.transcription,
+        username: this.props.elicitationState.selected.username,
+        active: this.props.elicitationState.selected.active,
+        prevId: this.props.elicitationState.selected.prevId,
+        edit: this.props.elicitationState.selected.edit,
+      }
+    };
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
-      const token = localStorage.getItem('TOKEN')
-        if (token) {
-          let userQuery = await this.props.client.query({
-            query: getUserFromToken,
-          })
-          const user = userQuery.data.getUserFromToken_Q
-          // set the state with user info based on token, and if the user has an 'admin' role, set 
-          // the state variable 'admin' to true.  Else, set it to false. 
-          await this.setState({
-            // if the roles array includes admin, set state to logged in as admin
-            admin: user.roles.includes("admin") || user.roles.includes("owner") || user.roles.includes("update"),
-            fields: {
-              first: user.first,
-              last: user.last,
-              email: user.email,
-              username: user.username,
-              roles: user.roles
-            }
-          }) 
-          console.log("My user is " + user)
-          console.log(this.state)
-        } else {
-          await this.setState({
-            admin: false,
-            fields: {
-              first: "anonymous",
-              last: "anonymous",
-              email: "anonymous",
-              username: "anonymous",
-              roles: ["view"]
-            }
-          })
-          console.log(this.state)
-          console.log("and here's the role " + this.state.fields.roles)
-        }
-      // now we're going to get only active stems if we are not admin, else 
-      // we will get all the stems
+      let variables = {}
+      if (!this.state.admin){
+        variables.active = 'Y'
+      }    
+      // now we're going to get only active elicitations if we are not admin, else 
+      // we will get all the elicitations
       const getElicitationSets = await this.props.client.query({
         query: getElicitationSetsQuery,
-        variables: { language: "Coeur d'Alene"} 
+        variables: variables 
       })
-      this.setState({
-        data: getElicitationSets.data.elicitationsets_Q,
-        loading: false
-      })
-
+      let currentState = Object.assign({}, this.state)
+      currentState.data = getElicitationSets.data.elicitationsets_Q
+      currentState.loading = false
+      if (this._isMounted) {
+        await this.setState(currentState)
+      }
     } catch(error) {
       console.log(error)
     }
   } 
 
-  render() {
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("affixList is unmounting")
+  }
 
+  //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
+  async handleActiveChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.active = !currentState.selected.active
+    await this.setState(currentState)
+  }
+
+  async handlePrevIdChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.prevId = !currentState.selected.prevId
+    await this.setState(currentState)
+  }
+
+	async handleUserChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.username = !currentState.selected.username
+    await this.setState(currentState)
+  }
+  
+  async handleEditChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.edit = !currentState.selected.edit
+    await this.setState(currentState)
+  }
+
+  async handlePageChange(page) {
+    console.log(page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.page = page
+    await this.setState(currentState)
+  }
+
+  async handlePageSizeChange(pageSize,page) {
+    console.log(pageSize + ' ' + page)
+    let currentState = Object.assign({}, this.state) 
+    currentState.pageSize = pageSize
+    currentState.page = page
+    await this.setState(currentState)
+  }
+
+  async handleSortChange(newSorted,column,shiftKey) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.sorted = newSorted
+    await this.setState(currentState)
+  }
+
+  async handleFilteredChange(filtered,column) {
+    let currentState = Object.assign({}, this.state) 
+    console.log('filtered = ' + filtered + ', column = ' + column)
+    console.log(filtered)
+    console.log(column)
+    currentState.filtered = filtered
+    await this.setState(currentState)
+  }
+
+  async handleResizedChange(newResized, event) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.resized = newResized
+    await this.setState(currentState)
+  }
+
+  render() {
+    //give the render a way to access values for the checkboxes that show/hide columns by setting state
+    const { admin } = this.state
+     //provide a function to set column widths dynamically based on the data returned.       
+   	const getColumnWidth = (rows, accessor, headerText) => {
+  	  const maxWidth = 600
+  	  const magicSpacing = 15
+  	  const cellLength = Math.max(
+  	    ...rows.map(row => (`${row[accessor]}` || '').length),
+  	    headerText.length,
+  	  )
+  	  return Math.min(maxWidth, cellLength * magicSpacing)
+    };
+    //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
     const columns = [
     {
       Header: 'Item',
       accessor: 'title',
+      width: 300,
       filterMethod: (filter, rows) =>
         matchSorter(rows, filter.value, { keys: ["title"], threshold: matchSorter.rankings.CONTAINS }),
       filterAll: true,
       style: { 'whiteSpace': 'unset'},
-      width: 300
     },
     {
       Header: 'Audio',
@@ -88,35 +157,140 @@ class Elicitations extends Component {
     }, 
     { 
       Header: 'Transcription'
+    },
+    {
+      Header: 'Active',
+      accessor: 'active',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.active,
+      width: 50,
+    },
+    {
+      Header: 'PrevID',
+      accessor: 'prevId',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.prevId,
+      width: 50,
+    },
+    {
+      Header: 'User Name',
+      accessor: 'user.username',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      show: this.state.selected.username,
+      width: 100,
+    },
+    {
+      Header: 'Edit Note',
+      accessor: 'editnote',
+      filterMethod: (filter, rows) =>
+        matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
+      filterAll: true,
+      width: 75,
+      show: this.state.selected.editnote,
+    },
+    {
+      Header: 'Edit',
+      filterable: false,
+      sortable: false,
+      show: this.state.selected.edit,
+      width: 100,
+      //get original row id, allow user to call onDelete, or edit.  Linkto passes original elicitation values into editelicitation form via the location string
+        Cell: ({row, original}) => (
+          <div>
+            <Link to={{
+              pathname: '/editelicitation/',
+              search: '?id=' + original.id +
+              '&type=' + original.title +
+              '&salish=' + original.transcription
+            }} >
+            <Button icon floated='right'>
+              <Icon name='edit' />
+            </Button>
+            </Link>
+          </div>
+        )
     }
-    ]
+    ];
 
+     //setup the checkbox bar that allows users to show/hide columns, viewable only to admin.
+	  const CheckboxElicitation = () => (
+      this.state.admin && (
+        <div className="checkBoxMenu">
+          <label className="checkBoxLabel">Active</label>
+          <input
+            name="active"
+            type="checkbox"
+            checked={this.state.selected.active}
+            onChange={this.handleActiveChange.bind(this)}
+          />
+          <label className="checkBoxLabel">PrevId</label>
+          <input
+            name="prevId"
+            type="checkbox"
+            checked={this.state.selected.prevId}
+            onChange={this.handlePrevIdChange.bind(this)}
+          />
+          <label className="checkBoxLabel">User Name</label>
+          <input
+            name="user.username"
+            type="checkbox"
+            checked={this.state.selected.username}
+            onChange={this.handleUserChange.bind(this)}
+          />
+          <label className="checkBoxLabel">Edit</label>
+          <input
+            name="edit"
+            type="checkbox"
+            checked={this.state.selected.edit}
+            onChange={this.handleEditChange.bind(this)}
+          />
+        </div>
+      )
+    );
+      
+
+    //now build the table.  If successful, the table will populate, if error the error message will appear.
     const dataOrError = this.state.error ?
-         <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
-         <ReactTable
-           data={this.state.data}
-           loading={this.state.data.loading}
-           columns={columns}
-           filterable
-           defaultPageSize={5}
-           className="-striped -highlight"         
-         />;
+      <div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
+      <ReactTable
+        data={this.state.data}
+        loading={this.state.data.loading}
+        columns={columns}
+        pageSize={this.state.pageSize}
+        className="-striped -highlight left"
+        filterable
+        filtered={this.state.filtered}
+        sorted={this.state.sorted}
+        page={this.state.page}
+        resized={this.state.resized}
+        onPageChange={page => this.handlePageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        onResizedChange={(newResized, event) => this.handleResizedChange(newResized, event)}
+        onFilteredChange={(filtered, column) => this.handleFilteredChange(filtered,column)}
+      />;
 
     return (
       <div className='ui content'>
         <h3>Elicitations</h3>
         <p></p>
+        <CheckboxElicitation />
+		    <p></p>
         {dataOrError}
 		    <p></p>
-		    <SimpleKeyboard / >
-		    <p></p>
+		    <SimpleKeyboard />
+        <p></p>
       </div>
     );
   }
 }
 
 export default compose(
-  withApollo,
-  graphql(getElicitationSetsQuery, { name: 'getElicitationSetsQuery' }),
-  graphql(getUserFromToken, { name: 'getUserFromToken_Q' }),  
-)(withRouter(Elicitations));
+  graphql(getElicitationSetsQuery, { name: 'getElicitationSetsQuery' }),  
+)(withRouter(withApollo(Elicitations)));

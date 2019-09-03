@@ -176,7 +176,7 @@ class AffixList extends Component {
     await this.setState(currentState)
   }
 
-async handleResizedChange(newResized, event) {
+  async handleResizedChange(newResized, event) {
     let currentState = Object.assign({}, this.state) 
     currentState.resized = newResized
     await this.setState(currentState)
@@ -216,6 +216,7 @@ async handleResizedChange(newResized, event) {
     } 
     return(<span>{original}</span>)
   }
+
 	render() {
     //give the render a way to access values for the checkboxes that show/hide columns by setting state
     const { admin } = this.state
@@ -229,7 +230,6 @@ async handleResizedChange(newResized, event) {
   	  )
   	  return Math.min(maxWidth, cellLength * magicSpacing)
   	};
-
     //set up the table columns.  Header is the column header text, accessor is the name of the column in the db. 
 	  const columns = [
     {
