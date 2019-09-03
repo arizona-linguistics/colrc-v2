@@ -45,7 +45,7 @@ render() {
 					name='list'
 					active={activeItem === 'list'}
 					onClick={this.handleItemClick}>
-						Stem Lists
+						Stem List
 				</Menu.Item>
 				<Menu.Item 
 					name='metadata'

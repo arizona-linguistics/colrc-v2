@@ -121,8 +121,10 @@ class Colrc extends Component {
       },
       texts: {
         page: 0,
-        pageSize: 5,
-        sorted: [],
+        pageSize: 10,
+        sorted: [{
+          id: 'rnumber',
+        }],
         resized: [],
         filtered: [],
       },
@@ -184,41 +186,11 @@ class Colrc extends Component {
           editnote: false
         }
       },
-      stems: {
-        page: 0,
-        pageSize: 10,
-        sorted: [{
-          id: 'category',
-          desc: false
-        },{
-          id: 'nicodemus',
-          desc: false
-        }],
-        filtered: [],
-        resized: [],
-        selected: {
-          category: true,
-  				reichard: false,
-  				doak: false,
-  				salish: false,
-  				nicodemus: true,
-  				english: true,
-  				note: false,
-  				edit: false,
-  				username: false,
-  				active: false,
-  				prevId: false,
-  				editnote: false,
-        }
-      },
       roots: {
         page: 0,
         pageSize: 10,
         sorted: [{
           id: 'root',
-          desc: false
-        },{
-          id: 'number',
           desc: false
         },{
           id: 'sense',
@@ -228,7 +200,6 @@ class Colrc extends Component {
         resized: [],
         selected: {
           root: true,
-          number: true,
           sense: false,
           salish: false,
           nicodemus: true,
@@ -245,6 +216,33 @@ class Colrc extends Component {
           editnote: false
         },
       },
+      stems: {
+        page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'category',
+          desc: false
+        },{
+          id: 'nicodemus',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
+        selected: {
+          category: true,
+          reichard: false,
+          doak: false,
+          salish: false,
+          nicodemus: true,
+          english: true,
+          note: false,
+          edit: false,
+          username: false,
+          active: false,
+          prevId: false,
+          editnote: false
+        },
+      }
     }
   }
 
@@ -303,6 +301,19 @@ class Colrc extends Component {
       }
     } catch(error) {
       console.log(error)
+      if (error.graphQLErrors && error.graphQLErrors[0].message ==="jwt expired") {
+        localStorage.removeItem("TOKEN")
+        let currentState = Object.assign({}, this.state)
+        currentState.admin = false
+        currentState.fields = {
+          first: 'anonymous',
+          last: 'anonymous',
+          email: 'anonymous',
+          username: 'anonymous',
+          roles: ['view']
+        }
+        await this.setState(currentState) 
+      }
     }
   }
 
@@ -342,6 +353,11 @@ class Colrc extends Component {
   async changeTextState(textState){
     let currentState = Object.assign({}, this.state) 
     currentState.texts = textState    
+    await this.setState(currentState)
+  }
+  async changeStemState(stemState){
+    let currentState = Object.assign({}, this.state) 
+    currentState.stems = stemState    
     await this.setState(currentState)
   }
 

@@ -101,10 +101,10 @@ class Bibliography extends Component {
       }
   } 
 
-  async componentWillUnmount() {
-    let currentState = Object.assign({}, this.state) 
-    await this.props.changeBibliographyState(currentState)
-  }
+  // async componentWillUnmount() {
+  //   let currentState = Object.assign({}, this.state) 
+  //   await this.props.changeBibliographyState(currentState)
+  // }
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
 //weblink combines whatever is in the link field with whatever is in the page field to make a single element that's a weblink with 'page' as the thing the user sees and 'link' as the destination.
   weblink(link, page) {
@@ -384,14 +384,14 @@ const columns = [{
         columns={columns}
         filterable
         className="-striped -highlight"
-        filtered={this.state.filtered}
-        sorted={this.state.sorted}
-        pageSize={this.state.pageSize}
-        page={this.state.page}
-        resized={this.state.resized}
-        onPageChange={page => this.handlePageChange(page)}
-        onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
-        onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
+        //filtered={this.state.filtered}
+        //sorted={this.state.sorted}
+        //pageSize={this.state.pageSize}
+        //page={this.state.page}
+        //resized={this.state.resized}
+        //onPageChange={page => this.handlePageChange(page)}
+        //onPageSizeChange={(pageSize,page) => this.handlePageSizeChange(pageSize,page)}
+        //onSortedChange={(newSorted,column,shiftKey) => this.handleSortChange(newSorted,column,shiftKey)}
      />;
 
     return (
