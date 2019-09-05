@@ -53,6 +53,7 @@ class Elicitations extends Component {
       currentState.loading = false
       if (this._isMounted) {
         await this.setState(currentState)
+        console.log("isMounted has happened")
       }
     } catch(error) {
       console.log(error)
@@ -82,16 +83,16 @@ class Elicitations extends Component {
     currentState.selected.username = !currentState.selected.username
     await this.setState(currentState)
   }
-  
-  async handleEditChange(value) {
-    let currentState = Object.assign({}, this.state) 
-    currentState.selected.edit = !currentState.selected.edit
-    await this.setState(currentState)
-  }
 
   async handleEditnoteChange(value) {
     let currentState = Object.assign({}, this.state) 
     currentState.selected.editnote = !currentState.selected.editnote
+    await this.setState(currentState)
+  }
+
+  async handleEditChange(value) {
+    let currentState = Object.assign({}, this.state) 
+    currentState.selected.edit = !currentState.selected.edit
     await this.setState(currentState)
   }
 
@@ -168,7 +169,8 @@ class Elicitations extends Component {
 
      //setup the checkbox bar that allows users to show/hide columns, viewable only to admin.
 	  const CheckboxElicitation = () => (
-      this.state.admin && (
+      <div>
+      {this.state.admin && (
         <div className="checkBoxMenu">
           <label className="checkBoxLabel">Active</label>
           <input
@@ -203,10 +205,11 @@ class Elicitations extends Component {
             name="editnote"
             type="checkbox"
             checked={this.state.selected.editnote}
-            onChange={this.handleEditChange.bind(this)}
+            onChange={this.handleEditnoteChange.bind(this)}
           />
         </div>
-      )
+      )}
+      </div>
     );
       
 
