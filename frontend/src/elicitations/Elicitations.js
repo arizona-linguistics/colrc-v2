@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import matchSorter from 'match-sorter';
 import AudioPlayer from "../utilities/AudioPlayer";
-import { withRouter, Link } from 'react-router-dom';
+import ElicitationsAccordion from '../accordions/ElicitationsAccordion';
+import { withRouter } from 'react-router-dom';
 import SimpleKeyboard from "../utilities/SimpleKeyboard";
 import { Button, Icon } from 'semantic-ui-react'
 import { withApollo, graphql, compose } from 'react-apollo';
@@ -160,66 +161,8 @@ class Elicitations extends Component {
       Cell: ({row, original}) => ( <AudioPlayer key={original.key} title={original.title} speaker={original.speaker} language={original.language} sources={original.elicitationfiles} />),
     }, 
     { 
-      Header: 'Transcription'
-    },
-    {
-      Header: 'Active',
-      accessor: 'active',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      show: this.state.selected.active,
-      width: 50,
-    },
-    {
-      Header: 'PrevID',
-      accessor: 'prevId',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["prevId"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      show: this.state.selected.prevId,
-      width: 50,
-    },
-    {
-      Header: 'User Name',
-      accessor: 'user.username',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      show: this.state.selected.username,
-      width: 100,
-    },
-    {
-      Header: 'Edit Note',
-      accessor: 'editnote',
-      filterMethod: (filter, rows) =>
-        matchSorter(rows, filter.value, { keys: ["editnote"], threshold: matchSorter.rankings.CONTAINS }),
-      filterAll: true,
-      width: 75,
-      show: this.state.selected.editnote,
-    },
-    {
-      Header: 'Edit',
-      filterable: false,
-      sortable: false,
-      show: this.state.selected.edit,
-      width: 100,
-      //get original row id, allow user to call onDelete, or edit.  Linkto passes original elicitation values into editelicitation form via the location string
-      Cell: ({row, original}) => (
-        <div>
-          <Link to={{
-            pathname: '/editelicitation/',
-            search: '?id=' + original.id +
-            '&title=' + original.title +
-            '&transcription=' + original.transcription +
-            '&editnote=' + original.editnote
-          }} >
-          <Button icon floated='right'>
-            <Icon name='edit' />
-          </Button>
-          </Link>
-        </div>
-      )
+      Header: 'Transcription',
+      accessor: 'transcription',
     }
     ];
 
@@ -291,6 +234,7 @@ class Elicitations extends Component {
     return (
       <div className='ui content'>
         <h3>Elicitations</h3>
+        <ElicitationsAccordion />
         <p></p>
         <CheckboxElicitation />
 		    <p></p>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Icon } from 'semantic-ui-react';
+import { Input, Form, Button, Icon } from 'semantic-ui-react';
 import ReactTable from "react-table";
 import matchSorter from 'match-sorter';
 import { Link } from "react-router-dom";
@@ -16,9 +16,19 @@ class RootsDictionary extends Component {
     super(props);
     //bind the functions we've defined
     this.onDelete = this.onDelete.bind(this);
+    this.onSubmit = this.onFormSubmit.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
     //set the initial state
     this.state = {
       //set up an empty array and a loading state for react-table
+      searchWasRun: false,
+      fields: {
+        searchtext: this.props.location.state.searchtext ? this.props.location.state.searchtext : '',
+      },
+      fieldErrors: {},
+      roots: {
+        fields: ['nicodemus', 'salish', 'english'],
+      },
     	data: [],
       loading: true,
        //assume the user is not logged in as admin, prepare to get user info from token
@@ -49,11 +59,15 @@ class RootsDictionary extends Component {
   //get user from token, find out users' roles
   async componentDidMount() {
     this._isMounted = true
+    console.log(this.props)
     try {
       let variables = {}
       if (!this.state.admin){
         variables.active = 'Y'
-      }   
+      }  
+      if (this.state.fields.searchtext.length > 0){
+        variables.search = this.state.fields.searchtext 
+      } 
       // now we're going to get only active roots if we are not admin, else 
       // we will get all the roots
       const getRoots = await this.props.client.query({
@@ -211,8 +225,47 @@ class RootsDictionary extends Component {
     }
   };
 
-  render() {
+  loadSearchInfo = async (searchArea) => {
+    try {
+      const {fields} = this.state[`${searchArea}`];
+      const searchField = fields[0];
+      console.log(searchField);
+      let response = ''
+      let json = ''
+      const variables = {
+        active: "Y", 
+        search: `${this.state.fields.searchtext}`     
+      }
+      response = await this.props.client.query({
+        query: getRootsQuery,
+        variables: variables
+      })
+      json = response.data.roots_Q
+      const searchState = Object.assign({}, this.state);
+      searchState['loading'] = false;
+      searchState['data'] = json;
+      console.log(searchState);
+      this.setState(searchState);
+      } catch (error) {
+        console.log("This is my Error: " + error);
+        this.setState({ error: error });
+      }
+  };
 
+  onFormSubmit = async (evt) => {
+    evt.preventDefault();
+    this.state.searchWasRun = true;
+    console.log("In search form submission");
+    this.loadSearchInfo('roots');
+  };
+
+  onInputChange = (evt) => {
+    const fields = Object.assign({}, this.state.fields);
+    fields[evt.target.name] = evt.target.value;
+    this.setState({ fields });
+  };
+
+  render() {
    //set up the table columns.  Header is the column header text, accessor is the name of the column in the db.
 	 const columns = [{
       Header: 'Root',
@@ -522,6 +575,21 @@ class RootsDictionary extends Component {
         <h3>Lyon and Green-Wood's Root Dictionary</h3>
         <p></p>
         <div className="text-right">
+        <Form onSubmit={this.onFormSubmit} width={14}>
+          <Form.Group>    
+            <Input 
+              icon='search'
+              placeholder='Search'
+              size='small'
+              name='searchtext'
+              autoFocus
+              value={this.state.fields.searchtext}
+              onChange={this.onInputChange}
+              ref={(input) => { this.searchInput = input; }} 
+            >
+            </Input>
+          </Form.Group>
+        </Form>
           { this.state.admin && (
             <div>
               <Link to={{

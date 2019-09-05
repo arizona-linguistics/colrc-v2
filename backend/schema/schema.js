@@ -342,9 +342,11 @@ type Texttoaudiosetrelation {
   type Elicitationset {
     id: ID!
     title: String!
-    speaker: String
     language: String
+    speaker: String
+    transcription: String
     elicitationfiles: [Elicitationfile]
+    editnote: String
     active: String!
     prevId: Int
     user: User!

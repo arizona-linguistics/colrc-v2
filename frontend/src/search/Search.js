@@ -105,16 +105,12 @@ class Search extends Component {
 	}
 
 	onInputChange = (evt) => {
-		console.log("Change event called on " + evt.target.value);
 		const fields = Object.assign({}, this.state.fields);
-		console.log(evt.target.name);
 		fields[evt.target.name] = evt.target.value;
 		this.setState({ fields });
 	};
 
   affixDropdown(original) {
-    console.log("I'm in the dropdown function")
-    console.log(original)
     if (original === 'd') {
       original = original.replace('d', 'directional')
     } else if (original === 'l') {
@@ -128,8 +124,6 @@ class Search extends Component {
   }
 
   stemDropdown(original) {
-    console.log("I'm in the dropdown function")
-    console.log(original)
     if (original === 'v') {
       original = original.replace('v', 'verb')
     } else if (original === 'n') {
@@ -152,14 +146,7 @@ class Search extends Component {
 		    filterMethod: (filter, rows) =>
 	        matchSorter(rows, filter.value, { keys: ["root"], threshold: matchSorter.rankings.CONTAINS }),
 	      filterAll: true,
-	  	},
-	  	{
-		    Header: '#',
-		    accessor: 'number',
-		    filterMethod: (filter, rows) =>
-	        matchSorter(rows, filter.value, { keys: ["#"], threshold: matchSorter.rankings.CONTAINS }),
-	      filterAll: true,
-        width: 50
+        Cell: ({row, original}) => (<span>√{original.root}<span style={{ fontSize: '70%', verticalAlign: 'super' }}>{original.number === 0 ? '' : original.number}</span></span>),
 	  	},
 	  	{
 		    Header: 'Salish',
@@ -182,7 +169,7 @@ class Search extends Component {
 		    filterMethod: (filter, rows) =>
 	        	matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
 	        filterAll: true,
-		    style: { 'white-space': 'unset' },
+		    style: { 'whiteSpace': 'unset' },
 	  	}
     ];
 
@@ -328,22 +315,25 @@ class Search extends Component {
 		//build the roots results table
 	     const rootsDataOrError = this.state.roots.error ?
 	      	<div style={{ color: 'red' }}>Oops! Something went wrong!</div> :
-	      	( this.state.roots.data.length > 0 ?
-		      	<ReactTable
-		        	data={this.state.roots.data}
-		        	loading={this.state.roots.loading}
-		        	columns={rootColumns}
-		        	filterable
-					   pageSize = {this.state.roots.data.length > 5 ? 5 : this.state.roots.data.length}
-		        	className="-striped -highlight"
-		      	/>
-			: <div style={{color: 'blue' }}>No roots match the search criteria</div> 
-			);
+          ( this.state.roots.loading ? 
+            <div style={{ color: 'blue' }}>Searching...</div> :
+  	      	( this.state.roots.data.length > 0 ?
+  		      	<ReactTable
+  		        	data={this.state.roots.data}
+  		        	loading={this.state.roots.loading}
+  		        	columns={rootColumns}
+  		        	filterable
+  					    pageSize = {this.state.roots.data.length > 5 ? 5 : this.state.roots.data.length}
+  		        	className="-striped -highlight"
+  		      	/>
+  			: <div style={{color: 'blue' }}>No roots match the search criteria</div> 
+  			)
+      );
 
 		//build the stems results table
 		const stemsDataOrError = this.state.stems.error ?
 			<div style = {{	color: 'red' }}> Oops!Something went wrong!</div> : 
-      		( this.state.stems.data.length > 0 ?
+      ( this.state.stems.data.length > 0 ?
 				<ReactTable
 					data = {this.state.stems.data}
 					loading = {this.state.stems.loading}
@@ -352,8 +342,8 @@ class Search extends Component {
 					className = "-striped -highlight left"
 					filterable
 					/>
-			: <div style={{color: 'blue' }}>No stems match the search criteria</div> 
-			);
+  			: <div style={{color: 'blue' }}>No stems match the search criteria</div>
+      )
 
 		//build the affixes results table
 	    const affixesDataOrError = this.state.affixes.error ?
@@ -363,7 +353,7 @@ class Search extends Component {
 			        data={this.state.affixes.data}
 			        loading={this.state.affixes.loading}
 			        columns={affixcolumns}
-					pageSize = {this.state.affixes.data.length > 5 ? 5 : this.state.affixes.data.length}
+					    pageSize = {this.state.affixes.data.length > 5 ? 5 : this.state.affixes.data.length}
 			        className="-striped -highlight left"
 			        filterable
 			      />			
@@ -372,13 +362,13 @@ class Search extends Component {
 
 		const searchWasRun = this.state.searchWasRun ?
 			<div className="search results">
-				<p>Results from Root Dictionary</p>
+				<p>Results from Root Dictionary | go to the <Link to={{pathname: "/roots", state: {searchtext: this.state.fields.searchtext}}}>Root Dictionary</Link></p>
 				{rootsDataOrError}
 				<p></p>
-				<p>Results from Stem Lists</p>
+				<p>Results from Stem Lists | go to the <Link to="/stems">Stem List</Link></p>
 				{stemsDataOrError}
 				<p></p>
-				<p>Results from Affix Lists</p>
+				<p>Results from Affix Lists | go to the <Link to="/affixes">Affix List</Link></p>
 				{affixesDataOrError}
 			</div> 
 			: <div className="no search">
@@ -386,22 +376,22 @@ class Search extends Component {
 			</div>;
 
 	return(
-		<div classname="ui content">
+		<div className="ui content">
 			<Form onSubmit={this.onFormSubmit} width={14}>
 				<Form.Group>	
 					<Button floated='left' icon labelPosition='left' color='blue' disabled={this.state.fields.searchtext.length < 1} >
-	      				<Icon name='search' />
+	      			<Icon name='search' />
 	     				 Search
 					</Button>		
 					<Form.Input 
-					    name='searchtext'
-					    autoFocus
+					  name='searchtext'
+					  autoFocus
 						value={this.state.fields.searchtext}
-					    onChange={this.onInputChange}
-          				ref={(input) => { this.searchInput = input; }} 
-					    >
-	  				</Form.Input>
-  				</Form.Group>
+					  onChange={this.onInputChange}
+          	ref={(input) => { this.searchInput = input; }} 
+					>
+	  			</Form.Input>
+  			</Form.Group>
 			</Form>
 			<p></p>
 			<SimpleKeyboard />

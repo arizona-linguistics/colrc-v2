@@ -288,7 +288,9 @@ const Audiorelation = sequelize.define('audiorelation', {
 const Elicitationset = sequelize.define('elicitationset', {
   title: { type: Sequelize.STRING },
   language: { type: Sequelize.STRING },
-  speaker: { type: Sequelize.STRING },  
+  speaker: { type: Sequelize.STRING },
+  transcription: { type: Sequelize.STRING },
+  editnote: { type: Sequelize.STRING },
   active: { type: Sequelize.STRING(1) },
   userId: { type: Sequelize.STRING },
   prevID: { type: Sequelize.INTEGER }
