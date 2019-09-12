@@ -7,7 +7,7 @@ import { addUserMutation, getUserToken } from '../queries/queries';
 import { withRouter } from 'react-router-dom';
 
 class Register extends Component {
-
+  _isMounted = false
   constructor(props) {
     super(props);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -15,6 +15,15 @@ class Register extends Component {
 		this.state = {
       login: false,
     };
+  }
+
+  async componentDidMount() {
+    this._isMounted = true
+  }
+
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("Register is unmounting")
   }
 
 	onFormSubmit = async (values, setSubmitting) => {
@@ -40,6 +49,7 @@ class Register extends Component {
         }
         //if query succeeds, set the JWT token and end the submission process
         const token = queryUserToken.data.loginUser_Q[0].password
+        localStorage.removeItem('TOKEN')
         localStorage.setItem('TOKEN', token)
         setSubmitting(false)
         this.props.changeLoginState(true)
@@ -57,19 +67,25 @@ class Register extends Component {
         })
         setSubmitting(false)
       }
-      this.setState({
-        login: true
-      })
+      if (this._isMounted) {
+        this.setState({
+          login: true
+        })
+      }
       console.log(login)
 		} catch (result) {
       console.log(result)
       setSubmitting(false)
       if (result instanceof TypeError) {
-        this.setState({ error: 'Invalid Username or Password'})
+        if (this._isMounted) {
+          this.setState({ error: 'Invalid Username or Password'})
+        }
       }
       else if (result.graphQLErrors) {
         console.log(result.graphQLErrors[0].message);
-        this.setState({ error: result.graphQLErrors[0].message });        
+        if (this._isMounted) {
+          this.setState({ error: result.graphQLErrors[0].message }); 
+        }       
       } else {
         console.log(result.message)
         this.setState({ error: result.message })
@@ -225,7 +241,7 @@ class Register extends Component {
                 {errors.passwordConfirmation && touched.passwordConfirmation && !login &&(
                 <div className="input-feedback">{errors.passwordConfirmation}</div>
                 )}
-              <Button color="primary" size="large" type="submit" disabled={isSubmitting}>
+              <Button color="blue" size="large" type="submit" disabled={isSubmitting}>
                 Submit
               </Button>
             </Form>

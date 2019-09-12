@@ -5,8 +5,10 @@ import { withApollo, graphql, compose } from 'react-apollo';
 import { getUserToken, getUserFromToken } from '../queries/queries';
 
 class Users extends Component {
+  _isMounted = false
   constructor(props) {
     super(props);
+    this.userMessage = this.userMessage.bind(this)
     this.state = {
       fields: {
         first: '',
@@ -20,30 +22,50 @@ class Users extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       let userQuery = await this.props.client.query({
         query: getUserFromToken,
       })
       const user = userQuery.data.getUserFromToken_Q
-      this.setState({
-        fields: {
-          first: user.first,
-          last: user.last,
-          email: user.email,
-          username: user.username,
-          password: user.password
-        }
-      }) 
+      if (this._isMounted) {
+        this.setState({
+          fields: {
+            first: user.first,
+            last: user.last,
+            email: user.email,
+            username: user.username,
+            password: user.password
+          }
+        })
+      } 
       console.log(user)
       console.log(this.state)
+      console.log(this.props.getUserState())
     } catch(error) {
       console.log(error)
     }
   } 
 
+  async componentWillUnmount() {
+    this._isMounted = false;
+    console.log("Users is unmounting")
+  }
+
   handleClick(e) {
     console.log('this is:', this);
-    this.props.history.push('./.');
+    this.props.history.push('/');
+  }
+
+  userMessage = async () => {
+    await this.props.checkUserRole()
+    const user=this.props.getUserState()
+    console.log(user)
+    const username=user.username
+    console.log(username)
+    console.log(`You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`)
+    //return `You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`
+   return <div>`${username}`</div>
   }
 
 render() {
@@ -54,20 +76,20 @@ render() {
               User Actions
           </Header>
           <Message>
-            You are currently logged in as <div style={{ color: 'blue' }}>{this.state.fields.username}</div>  You can update your user profile, change your password, or log out.
+            I am a message
           </Message>
           <Segment stacked textAlign='center'>
-            <Button size='large' primary onClick={(e) => this.props.history.push('../userprofile')}>
+            <Button size='large' color='blue' onClick={(e) => this.props.history.push('/userprofile')}>
               Update Your Profile
             </Button>
-            <Button size='large' secondary path='../changepassword' onClick={(e) => this.props.history.push('../changepassword')}>
+            <Button size='large' color='black' path='/changepassword' onClick={(e) => this.props.history.push('/changepassword')}>
               Change Your Password
             </Button>
-            <Button size='large' primary 
+            <Button size='large' color='blue' 
               onClick={(e) => { 
                 localStorage.removeItem('TOKEN')
                 this.props.changeLoginState(false)
-                this.props.history.push('./.')
+                this.props.history.push('/')
               }}>
               Logout
             </Button>

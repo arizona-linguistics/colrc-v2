@@ -375,24 +375,28 @@ class Search extends Component {
 				<h3>Ready for a search!</h3>
 			</div>;
 
+  const searchForm = (
+    <Form onSubmit={this.onFormSubmit}>
+      <Form.Group inline> 
+        <Button icon labelPosition='left' color='blue' disabled={this.state.fields.searchtext.length < 1} >
+            <Icon name='search' />
+             Search
+        </Button>   
+        <Input 
+          name='searchtext'
+          autoFocus
+          value={this.state.fields.searchtext}
+          onChange={this.onInputChange}
+          ref={(input) => { this.searchInput = input; }} 
+        >
+        </Input>
+      </Form.Group>
+    </Form> 
+  )
+
 	return(
 		<div className="ui content">
-			<Form onSubmit={this.onFormSubmit}>
-				<Form.Group>	
-					<Button floated='left' icon labelPosition='left' color='blue' disabled={this.state.fields.searchtext.length < 1} >
-	      			<Icon name='search' />
-	     				 Search
-					</Button>		
-					<Input 
-					  name='searchtext'
-					  autoFocus
-						value={this.state.fields.searchtext}
-					  onChange={this.onInputChange}
-          	ref={(input) => { this.searchInput = input; }} 
-					>
-	  			</Input>
-  			</Form.Group>
-			</Form>
+      {searchForm}
 			<p></p>
 			<SimpleKeyboard />
 			<p></p>

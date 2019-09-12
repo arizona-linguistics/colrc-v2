@@ -32,7 +32,8 @@ class RootsDictionary extends Component {
     	data: [],
       loading: true,
        //assume the user is not logged in as admin, prepare to get user info from token
-      admin: this.props.admin,
+      admin: true,
+      //admin: this.props.admin,
       //get initial state for the checkboxes that allow show/hide columns from Colrc.js.  Always default to show Nicodemus and English.  Always initially hide scary-looking orthographies like salish.
       page: this.props.rootState.page,
       pageSize: this.props.rootState.pageSize,
@@ -64,11 +65,11 @@ class RootsDictionary extends Component {
       let variables = {}
       if (!this.state.admin){
         variables.active = 'Y'
-      }  
+      }
       if (this.state.fields.searchtext.length > 0){
-        variables.search = this.state.fields.searchtext 
-      } 
-      // now we're going to get only active roots if we are not admin, else 
+        variables.search = this.state.fields.searchtext
+      }
+      // now we're going to get only active roots if we are not admin, else
       // we will get all the roots
       const getRoots = await this.props.client.query({
         query: getRootsQuery,
@@ -79,7 +80,7 @@ class RootsDictionary extends Component {
       currentState.loading = false
       if (this._isMounted) {
         await this.setState(currentState)
-      } 
+      }
     } catch(error) {
       console.log(error)
     }
@@ -92,112 +93,112 @@ class RootsDictionary extends Component {
 
   //handleChange functions are used to manage the show/hide columns checkboxes.  Each column needs one.
   async handleRootChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.root = !currentState.selected.root
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleSenseChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.sense = !currentState.selected.sense
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleSalishChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.salish = !currentState.selected.salish
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleNicodemusChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.nicodemus = !currentState.selected.nicodemus
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleEnglishChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.english = !currentState.selected.english
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleSymbolChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.symbol = !currentState.selected.symbol
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleGrammarChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.grammar = !currentState.selected.grammar
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleCrossrefChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.crossref = !currentState.selected.crossref
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleVariantChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.variant = !currentState.selected.variant
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleCognateChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.cognate = !currentState.selected.cognate
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
    async handleActiveChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.active = !currentState.selected.active
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handlePrevIdChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.prevId = !currentState.selected.prevId
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleEditNoteChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.editnote = !currentState.selected.editnote
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleUserChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.username = !currentState.selected.username
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
    async handleEditChange(value) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.selected.edit = !currentState.selected.edit
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handlePageChange(page) {
     console.log(page)
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.page = page
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handlePageSizeChange(pageSize,page) {
     console.log(pageSize + ' ' + page)
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.pageSize = pageSize
     currentState.page = page
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
   }
   async handleSortChange(newSorted,column,shiftKey) {
-    let currentState = Object.assign({}, this.state) 
+    let currentState = Object.assign({}, this.state)
     currentState.sorted = newSorted
     await this.setState(currentState)
     await this.props.changeRootState(currentState)
@@ -233,8 +234,8 @@ class RootsDictionary extends Component {
       let response = ''
       let json = ''
       const variables = {
-        active: "Y", 
-        search: `${this.state.fields.searchtext}`     
+        active: "Y",
+        search: `${this.state.fields.searchtext}`
       }
       response = await this.props.client.query({
         query: getRootsQuery,
@@ -432,7 +433,7 @@ class RootsDictionary extends Component {
       )
     }
   ]
-   
+
   //setup the checkbox bar that allows users to show/hide columns
   const CheckboxRoot = () => (
 		<div className="checkBoxMenu">
@@ -551,20 +552,23 @@ class RootsDictionary extends Component {
 
   const localSearch = (
     <Form onSubmit={this.onFormSubmit}>
-      <Form.Group> 
-        <Button floated='left' icon labelPosition='left' color='blue' disabled={this.state.fields.searchtext.length < 1} >
+      <Form.Group>
+        <Button icon labelPosition='left' color='blue' disabled={this.state.fields.searchtext.length < 1} >
             <Icon name='search' />
              Search
-        </Button> 
-        <Input 
+        </Button>
+        <Input
           placeholder='Search'
           name='searchtext'
           autoFocus
           value={this.state.fields.searchtext}
           onChange={this.onInputChange}
-          ref={(input) => { this.searchInput = input; }} 
+          ref={(input) => { this.searchInput = input; }}
         >
-        </Input>   
+        </Input>
+        <Button basic color='blue' size='small'>
+          Clear
+        </Button>
       </Form.Group>
     </Form>
   )

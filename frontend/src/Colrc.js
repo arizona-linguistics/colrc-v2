@@ -106,6 +106,8 @@ class Colrc extends Component {
     this.changeRootState = this.changeRootState.bind(this)
     this.changeAudioState = this.changeAudioState.bind(this)
     this.changeBibliographyState = this.changeBibliographyState.bind(this)
+    this.getUserState = this.getUserState.bind(this)
+    this.checkUserRole = this.checkUserRole.bind(this)
     this.state = {
       login: loggedIn(),
       user: {
@@ -236,6 +238,7 @@ class Colrc extends Component {
   async componentDidMount() {
     this._isMounted = true
     await this.checkUserRole()
+    console.log("COLRC is mounting")
   }
 
   async componentWillUnmount() {
@@ -250,7 +253,6 @@ class Colrc extends Component {
   }
 
   async checkUserRole() {
-    this._isMounted = true  
     try {
       const token = localStorage.getItem('TOKEN')
       if (token) {
@@ -262,7 +264,7 @@ class Colrc extends Component {
         // the state variable 'admin' to true.  Else, set it to false. 
         let currentState = Object.assign({}, this.state)
         currentState.admin = user.roles.includes("admin")  || user.roles.includes("owner") || user.roles.includes("update")
-        currentState.fields = {
+        currentState.user = {
           first: user.first,
           last: user.last,
           email: user.email,
@@ -275,7 +277,7 @@ class Colrc extends Component {
       } else {
         let currentState = Object.assign({}, this.state)
         currentState.admin = false
-        currentState.fields = {
+        currentState.user = {
           first: 'anonymous',
           last: 'anonymous',
           email: 'anonymous',
@@ -284,7 +286,7 @@ class Colrc extends Component {
         }
         await this.setState(currentState) 
         console.log(this.state)
-        console.log("and here's the role " + this.state.fields.roles)
+        console.log("and here's the role " + this.state.user.roles)
       }
     } catch(error) {
       console.log(error)
@@ -292,7 +294,7 @@ class Colrc extends Component {
         localStorage.removeItem("TOKEN")
         let currentState = Object.assign({}, this.state)
         currentState.admin = false
-        currentState.fields = {
+        currentState.user = {
           first: 'anonymous',
           last: 'anonymous',
           email: 'anonymous',
@@ -303,6 +305,11 @@ class Colrc extends Component {
       }
     }
   }
+
+  getUserState() { 
+    console.log(this.state.user)
+    return ( this.state.user )
+  } 
 
   async changeAffixState(affixState){
     this._isMounted = true   
@@ -385,7 +392,7 @@ class Colrc extends Component {
                 <Route path="/imageviewer" component={ImageViewer} />
                 <Route path="/splitview" component={SplitView} />
                 <Route path="/search" component={Search}  />
-                <Route path="/users" component={() => <Users changeLoginState={this.changeLoginState} />} />
+                <Route path="/users" component={() => <Users checkUserRole={this.checkUserRole} changeLoginState={this.changeLoginState} getUserState={this.getUserState} />} />
                 <Route path="/changepassword" component={ChangePassword} />
                 <Route path="/userprofile" component={UserProfile} />
                 <Route path="/register" component={() => <Register changeLoginState={this.changeLoginState} />} />
