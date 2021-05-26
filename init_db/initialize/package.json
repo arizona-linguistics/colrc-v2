@@ -1,0 +1,30 @@
+{
+  "name": "sequelize-testing",
+  "version": "1.0.0",
+  "description": "Sequelize database testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jivens/sequelize.git"
+  },
+  "author": "COLRC Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jivens/sequelize/issues"
+  },
+  "homepage": "https://github.com/jivens/sequelize#readme",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "mysql2": "^1.6.5",
+    "pg": "^7.18.1",
+    "postgres": "^1.0.2",
+    "sequelize": "^5.8.6",
+    "sequelize-temporal": "^1.0.8",
+    "sequelize-version": "0.0.58"
+  }
+}

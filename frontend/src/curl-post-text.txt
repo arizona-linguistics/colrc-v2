@@ -1,8 +1,0 @@
-{
-  "id": 7,
-  "root": "√bc",
-  "number": "3",
-  "salish": "s+búc+buc=šn",
-  "nicodemus": "sbutsbutsshn",
-  "english": "boot. ((lit. a borrowed root), n.)"
-}

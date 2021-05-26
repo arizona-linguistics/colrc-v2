@@ -1,0 +1,1288 @@
+﻿verb:::a:::atsqä'<sup>ä</sup>:::ʔacqeʔ:::acqaʔ:::atsqa':::go out, singular and plural::: :::acqaʔ
+verb:::a:::ats̕x̣:::ʔac'x̣:::ac'x̣:::ats'qh:::look at::: :::ac'x̣
+verb:::a:::ayx̣ʷ:::ʔayx̣ʷ:::ayx̣ʷ(-t):::ayqhw(-t):::be tired::: :::ayx̣ʷ(-t)
+verb:::a:::ax̣il:::ʔax̣il:::ax̣il:::aqhil:::do thus::: :::ax̣il
+verb:::a:::aṛʷ:::ʔaʕʷ:::aʕʷ:::a(w:::be much, many::: :::aʕʷ
+verb:::ɛ/e:::äpɬ:::ʔepɬ:::ɛpɫ:::epɫ:::there is, have::: :::ɛpɫ
+verb:::ɛ/e:::äw:::ʔew:::ɛw(-t):::ew(-t):::oppose::: :::ɛw(-t)
+verb:::ɛ/e:::äm:::ʔem:::ɛm(-t):::em(-t):::share, feed::: :::ɛm(-t)
+verb:::ɛ/e:::äm:::ʔem:::ɛm:::em:::one sits:::omitted from file; Reichard 1939 p. 92:::ɛm
+verb:::ɛ/e:::äkʷn:::ʔekʷn:::ɛkʷn:::ekwn:::say, tell::: :::ɛkʷn
+verb:::ɛ/e:::äx-us:::ʔexʷ-us:::ɛx-us:::ekh-us:::look for, hunt::: :::ɛx-us
+verb:::ɛ/e:::änis:::ʔenis:::ɛnis:::enis:::leave, set out, go away::: :::ɛnis
+verb:::ɛ/e:::äsil:::ʔesil:::ɛsil:::esil:::two::: :::ɛsil
+verb:::ɛ/e:::ätcän̕:::ʔečen̕:::ɛčɛn':::eche'n:::tie up sack::: :::ɛčɛn'
+verb:::ɛ/e:::ängwät:::ʔengʷet:::ɛngʷɛt:::engwet:::belong to::: :::ɛngʷɛt
+verb:::ɛ/e:::ätcin:::ʔečin:::ɛčin:::echin:::do with, put, be the matter::: :::ɛčin
+verb:::ɛ/e:::äl:::ʔel:::ɛl:::el:::move body::: :::ɛl
+verb:::i:::ip̕:::ʔip̕:::ip':::ip':::wipe::: :::ip'
+verb:::i:::im:::ʔim:::im:::im:::try::: :::im
+verb:::i:::im:::ʔim:::im:::im:::gather together::: :::im
+verb:::i:::id:::ʔid:::id:::id:::exchange, barter::: :::id
+verb:::i:::ingwät:::ʔingʷet:::ingʷɛt:::ingwet:::be who, what::: :::ingʷɛt
+verb:::i:::idxʷ:::ʔidxʷ:::idxʷ:::idkhw:::be in form of cross::: :::idxʷ
+verb:::i:::itstc:::ʔicč:::icč:::itsch:::play::: :::icč
+verb:::i:::igw:::ʔigʷ:::igʷ:::igw:::set out for::: :::igʷ
+verb:::i:::ttc̕-ígwụl:::t-č̕igʷl:::tč'-i'gʷəl:::tch'-i'gwl:::climb::: :::tč'-i'gʷəl
+verb:::i:::ixʷụl:::ʔixʷl:::ixʷəl:::ikhwl:::be some::: :::ixʷəl
+verb:::i:::ilk̕ʷ:::ʔilk̕ʷ:::ilk'ʷ:::ilk'w:::store new acquisition::: :::ilk'ʷ
+verb:::i:::iɬn:::ʔiɬn:::iɫn:::iɫn:::eat::: :::iɫn
+verb:::u, ɔ/o:::upEn:::ʔupn:::upən:::upn:::ten::: :::upən
+verb:::u, ɔ/o:::us-ɩlc:::ʔus-lš:::us-əlš:::us-lsh:::dive from land (face in horseshoe curve)::: :::us-əlš
+verb:::u, ɔ/o:::utskʷ:::ʔuckʷ:::uckʷ:::utskw:::bathe, person swims::: :::uckʷ
+verb:::u, ɔ/o:::ukʷ:::ʔukʷ:::ukʷ:::ukw:::carry, bring::: :::ukʷ
+verb:::u, ɔ/o:::ukʷt:::ʔukʷt:::ukʷt:::ukwt:::crawl::: :::ukʷt
+verb:::u, ɔ/o:::ɔqʷs:::ʔoqʷs:::ɔqʷs:::oqws:::drink::: :::ɔqʷs
+verb:::u, ɔ/o:::ɔh-i'<sup>ɩ</sup>t:::ʔoh-iʔt:::ɔh-iʔt:::oh-i't:::have a cold::: :::ɔh-iʔt
+verb:::u, ɔ/o:::ɔr:::ʔor:::ɔr(-t):::or(-t):::be frozen stiff::: :::ɔr(-t)
+verb:::b:::bam:::bam:::bam:::bam:::be intoxicated, be versatile::: :::bam
+verb:::b:::bäm:::bem:::bɛm:::bem:::buzz::: :::bɛm
+verb:::b:::bum:::bum:::bum:::bum:::speed (used of drunks)::: :::bum
+verb:::b:::buts:::buc:::buc:::buts:::be boots (Eng. used for rubber boots)::: :::buc
+verb:::b:::bam:::ʔuubám:::bam(u-):::bam(u-):::go fast and far::: :::bam(u-)
+verb:::p:::pa'axʷ:::paʔx̣:::paʔax̣:::pa'aqh:::think over (cp pax̣ be wise)::: :::paʔax̣
+verb:::p:::paw̕:::paw̕:::paw':::pa'w:::drum on drum::: :::paw'
+verb:::p:::patx̣ʷ:::patx̣ʷ:::patx̣ʷ:::patqhw:::burst forth (as oil, water, pus)::: :::patx̣ʷ
+verb:::p:::pas:::pas:::pas:::pas:::be astonished, bewildered, amaze, wonder::: :::pas
+verb:::p:::pa'as:::paʔs:::paʔas:::pas:::come to surface (cp. pas be astonished)::: :::pas
+verb:::p:::pan̕:::pan̕:::pan':::pa'n:::be spouse::: :::pan'
+verb:::p:::pax̣:::pax̣:::pax̣:::paqh:::be wise, think, reflect - -t, tell myths::: :::pax̣
+verb:::p:::pax̣:::pax̣:::pax̣:::paqh:::rub on rough surface (as strike match)::: :::pax̣
+verb:::p:::pax̣ʷ:::pax̣ʷ:::pax̣ʷ:::paqhw:::scatter, distribute in order::: :::pax̣ʷ
+verb:::p:::par:::par:::par:::par:::be white with powder::: :::par
+verb:::p:::parq̕	(parq̕):::parq':::sail:::parq':::be curved::: :::parq'
+verb:::p:::par̕kʷ:::par̕kʷ:::par'kʷ:::pa'rkw:::pierce::: :::par'kʷ
+verb:::p:::paṛʷ:::paʕʷ:::paʕʷ:::pa(w:::defecate::: :::paʕʷ
+verb:::p:::päw̕:::pew̕:::pɛw':::pe'w:::drum on tin::: :::pɛw'
+verb:::p:::pätqʷ:::petqʷ:::pɛtqʷ:::petqw:::race::: :::pɛtqʷ
+verb:::p:::pä<sup>ä</sup>st-ä'<sup>ä</sup>:::pesteʔ:::pɛst-ɛʔ:::pest-e':::be half, one side::: :::pɛst-ɛʔ
+verb:::p:::pän̕:::pen̕:::pɛn':::pe'n:::bend, be bent::: :::pɛn'
+verb:::p:::päy̕-piy̕:::piy̕:::pɛy'-piy'(-t):::pe'y-pi'y(-t):::be delightful (cp. piy be happy)::: :::pɛy'-piy'(-t)
+verb:::p:::päkʷ:::pekʷ:::pɛkʷ:::pekw:::lay pl. round objects::: :::pɛkʷ
+verb:::p:::päxʷ:::pexʷ:::pɛxʷ:::pekhw:::get small catch of fish::: :::pɛxʷ
+verb:::p:::päxʷ:::pexʷ:::pɛxʷ:::pekhw:::wind-blown::: :::pɛxʷ
+verb:::p:::päq:::peq:::pɛq:::peq:::white, bleached, silver::: :::pɛq
+verb:::p:::tᴇ-päx̣ʷ:::tepex̣ʷ:::tə-pɛx̣ʷ:::t-peqhw:::spit, saliva::: :::tə-pɛx̣ʷ
+verb:::p:::päɬ:::peɬ:::pɛɫ:::peɫ:::be thick layer::: :::pɛɫ
+verb:::p:::pär̕kʷ:::per̕kʷ:::pɛr'kʷ:::pe'rkw:::nail::: :::pɛr'kʷ
+verb:::p:::päṛʷ:::peʕʷ:::pɛʕʷ:::pe(w:::be surplus, plus::: :::pɛʕʷ
+verb:::p:::piw̕:::piw̕:::piw':::pi'w:::move in jerks::: :::piw'
+verb:::p:::piw̕:::piw̕:::piw':::pi'w:::be light in weight (perhaps same as preceding)::: :::piw'
+verb:::p:::pis:::pis:::pis:::pis:::pl. objects are big::: :::pis
+verb:::p:::pitsxʷ:::picxʷ:::picxʷ(-t):::pitskhw(-t):::become angry with defeat or discouragement::: :::picxʷ(-t)
+verb:::p:::piy:::piy:::piy:::piy:::be happy::: :::piy
+verb:::p:::pigw:::pigʷ:::pigʷ:::pigw:::swell, breathe:::(see √piw̕):::pigʷ
+verb:::p:::piɬ:::piɬ:::piɫ:::piɫ:::be scattered::: :::piɫ
+verb:::p:::pih:::pih:::pih:::pih:::rise to surface, separate (as cream):::(only attested with C2 reduplication):::pih
+verb:::p:::pu'us:::puʔs:::puʔus:::pu'us:::swell, bubble, ferment::: :::puʔus
+verb:::p:::put-ä'<sup>ä</sup>:::puteʔ:::put-ɛʔ:::put-e':::respect, honor, worship::: :::put-ɛʔ
+verb:::p:::pus:::pus:::pus(- -t):::pus(- -t):::be a nuisance::: :::pus(- -t)
+verb:::p:::pus:::pus:::pus:::pus:::be engrossed in digestion::: :::pus
+verb:::p:::pụ-pus-intc:::pupusínč:::pə-pus-inč:::p-pus-inch:::be sad, sorry, mournful (seems not to be dim.)::: :::pə-pus-inč
+verb:::p:::puxʷ:::puxʷ:::puxʷ:::pukhw:::blow with mouth::: :::puxʷ
+verb:::p:::puqʷ-ilc:::pqʷil:::puqʷ-ilš:::puqw-ilsh:::come to observe::: :::puqʷ-ilš
+verb:::p:::pulut:::pulut:::pulut:::pulut:::kill, injure::: :::pulut
+verb:::p:::pulk̕ʷ (p̕ulk̕ʷ):::pulk'ʷ:::sail:::pulk'w:::fold sheetlike object::: :::pulk'ʷ
+verb:::p:::puɬ:::puɬ:::puɫ:::puɫ:::foam (prog. dis.)::: :::puɫ
+verb:::p:::pɔs:::pos:::pɔs:::pos:::concentrate (also, 'comical' LN)::: :::pɔs
+verb:::p:::pɩs-ic:::psíš:::pəs-iš:::ps-ish:::gather wood (cp. pis pl. are large)::: :::pəs-iš
+verb:::p':::p̕a'ax̣ʷ:::p̕aʔx̣:::p'aʔax̣:::p'a'aqh:::heal, become well:::(includes glottal stop infix):::p'aʔax̣
+verb:::p':::p̕at̕:::p̕at̕:::p'at':::p'at':::pour mushy stuff, dream (prog. dis.)::: :::p'at'
+verb:::p':::p̕ats̕:::p̕ac̕:::p'ac':::p'ats':::squirt, defecate (prog. dis.)::: :::p'ac'
+verb:::p':::p̕aq̕ʷ:::p̕aq̕ʷ:::p'aq'ʷ:::p'aq'w:::powder::: :::p'aq'ʷ
+verb:::p':::p̕ax̣ʷ-i'<sup>ɩ</sup>t:::p̕ax̣ʷ-iʔt:::p'ax̣ʷ-iʔt:::p'aqhw-i't:::cough::: :::p'ax̣ʷ-iʔt
+verb:::p':::p̕aɬq:::p̕aɬq:::p'aɫq:::p'aɫq:::put away, pack up::: :::p'aɫq
+verb:::p':::p̕ä'<sup>ä</sup>:::p̕eʔ:::p'ɛʔ:::p'e':::squeeze in orgasm::: :::p'ɛʔ
+verb:::p':::p̕ät:::p̕et:::p'ɛt:::p'et:::fall to ground of own weight (as grain)::: :::p'ɛt
+verb:::p':::p̕ät̕:::p̕et̕:::p'ɛt':::p'et':::slip out of place::: :::p'ɛt'
+verb:::p':::p̕än:::p̕en:::p'ɛn:::p'en:::pl. long objects lie::: :::p'ɛn
+verb:::p':::p̕ät̕:::p̕et̕:::p'ɛt':::p'et':::be smooth::: :::p'ɛt'
+verb:::p':::p̕äy̕:::p̕ey̕:::p'ey':::p'e'y:::press, milk::: :::p'ey'
+verb:::p':::p̕ägw:::p̕egʷ:::p'ɛgʷ:::p'egw:::nag::: :::p'ɛgʷ
+verb:::p':::p̕ältc̕:::p̕elč̕:::p'ɛlč':::p'elch':::turn flat thing over (as body)::: :::p'ɛlč'
+verb:::p':::p̕är:::p̕er:::p'ɛr(-t):::p'er(-t):::flood, be in excess, overflow::: :::p'ɛr(-t)
+verb:::p':::p̕i'<sup>ɩ</sup>:::p̕iʔ:::p'iʔ:::p'i':::crush by pressing::: :::p'iʔ
+verb:::p':::p̕its̕:::p̕ic̕:::p'ic':::p'its':::push::: :::p'ic'
+verb:::p':::p̕iy̕:::p̕iy̕:::p'iy':::p'i'y:::squeeze::: :::p'iy'
+verb:::p':::p̕ixʷ:::p̕ixʷ:::p'ixʷ(u-):::p'ikhw(u-):::be bright with own light, (- -t) be bright from reflection::: :::p'ixʷ(u-)
+verb:::p':::p̕iltc̕:::p̕ilč̕:::p'ilč':::p'ilch':::turn round objects::: :::p'ilč'
+verb:::p':::p̕iɬ:::p̕iɬ:::p'iɫ:::p'iɫ:::persons sit::: :::p'iɫ
+verb:::p':::p̕u'ut̕:::p̕uʔt:::p'uʔut':::p'u'ut':::be greasy, oily::: :::p'uʔut'
+verb:::p':::p̕um:::p̕um:::p'um:::p'um:::be mouse-colored::: :::p'um
+verb:::p':::p̕ut̕:::p̕ut̕:::p'ut':::p'ut':::come to an end (as river, road, woods)::: :::p'ut'
+verb:::p':::p̕usq̕ʷ:::p'usq'ʷ:::sail:::p'usq'w:::crumple, collapse:::unverified;  see p̕saq̕ʷ:::p'usq'ʷ
+verb:::p':::p̕uy̕:::p̕uy̕:::p'uy':::p'u'y:::be wrinkled::: :::p'uy'
+verb:::p':::p̕uɬ:::p̕uɬ:::p'uɫ:::p'uɫ:::be poison ivy, use poison ivy::: :::p'uɫ
+verb:::p':::p̕ɔts̕:::p̕oc̕:::p'ɔc':::p'ots':::smash::: :::p'ɔc'
+verb:::p':::p̕ɩtc̕:::p̕ɪč̕:::p'əč'(u-):::p'ch'(u-):::shine, glitter::: :::p'əč'(u-)
+verb:::p':::p̕ɩl:::p̕ɪl:::p'əl:::p'l:::turn (as eyelid)::: :::p'əl
+verb:::p':::p̕ɩp̕ɩl:::p̕ɪp̕ɪl:::p'əp'əl(u-):::p'p'l(u-):::smashed flat::: :::p'əp'əl(u-)
+verb:::p':::p̕ᴇsaq̕ʷ:::p̕saq̕ʷ:::p'əsaq'ʷ:::p'saq'w:::bone breaks::: :::p'əsaq'ʷ
+verb:::m:::may:::may:::may:::may:::predict, foresee (with -qən voice)::: :::may
+verb:::m:::may:::may:::may:::may:::be muddy::: :::may
+verb:::m:::maq̕ʷ:::maq̕ʷ:::maq'ʷ:::maq'w:::pl. objects lie, pile::: :::maq'ʷ
+verb:::m:::max̣ʷ:::max̣ʷ:::max̣ʷ:::maqhw:::cover with snow::: :::max̣ʷ
+verb:::m:::mal̕:::mal̕:::mal'(-p):::ma'l(-p):::be uncomfortably warm (prog. dis.)::: :::mal'(-p)
+verb:::m:::mal̕:::mal̕:::mal':::ma'l:::come to boil (prog. dis.) (same as preceding?)::: :::mal'
+verb:::m:::malq̕ʷ:::malq̕ʷ:::malq'ʷ(u-):::malq'w(u-):::be spherical, make into lump::: :::malq'ʷ(u-)
+verb:::m:::maɬq:::maɬq:::maɫq:::maɫq:::heavy convex object collapses::: :::maɫq
+verb:::m:::mar-im:::marim:::mar-im:::mar-im:::treat for illness::: :::mar-im
+verb:::m:::markʷ-ä'<sup>ä</sup>:::markʷ-eʔ:::markʷ-ɛʔ:::markw-e':::season with food (as camas with blood)::: :::markʷ-ɛʔ
+verb:::m:::mä::: :::mɛ:::me:::be undecided:::unverified:::mɛ
+verb:::m:::mäy:::mey:::mɛy(u-):::mey(u-):::be evident that, know, -p come to know::: :::mɛy(u-)
+verb:::m:::mäy::: :::mɛy:::mey:::arrange:::unverified:::mɛy
+verb:::m:::mäy̕:::mey̕:::mɛy'(- -t):::me'y(- -t):::report::: :::mɛy'(- -t)
+verb:::m:::mäts:::mec:::mɛc:::mets:::be dull::: :::mɛc
+verb:::m:::mäts̕:::mec̕:::mɛc':::mets':::grease::: :::mɛc'
+verb:::m:::mätc̕:::meč̕:::mɛč':::mech':::be well-shaped (as workhorse)::: :::mɛč'
+verb:::m:::män̕::: :::mɛn':::me'n:::rub:::unstressed variant of min̕:::mɛn'
+verb:::m:::mäxʷ:::mexʷ:::mɛxʷ(-t):::mekhw(-t):::laugh::: :::mɛxʷ(-t)
+verb:::m:::mäx̣ʷ:::mex̣ʷ:::mɛxʷ(-t):::mekhw(-t):::be in extreme agony::: :::mɛxʷ(-t)
+verb:::m:::mälk̕ʷ:::melk̕ʷ:::mɛlk'ʷ:::melk'w:::be whole, intact, complete::: :::mɛlk'ʷ
+verb:::m:::mälk̕ʷ:::melk̕ʷ:::mɛlk'ʷ:::melk'w:::curdle::: :::mɛlk'ʷ
+verb:::m:::mäɬ:::meɬ:::mɛɫ:::meɫ:::persons lie::: :::mɛɫ
+verb:::m:::mäṛʷ:::meʕʷ:::mɛʕʷ:::me(w:::smash, ruin::: :::mɛʕʷ
+verb:::m:::mii:::mii:::mii:::mii:::discover, learn:::unstressed variant of mey:::mii
+verb:::m:::mii:::mii(u-):::mii(u-):::mii(u-):::be evident that not::: :::mii(u-)
+verb:::m:::mi'<sup>ɩ</sup>:::miʔ:::miʔ(-t):::mi'(-t):::bore::: :::miʔ(-t)
+verb:::m:::mi'<sup>ɩ</sup>m:::miʔm:::miʔm:::mi'm:::send away, drive off::: :::miʔm
+verb:::m:::miʔt:::miʔt:::miʔt:::mi't:::be middle::: :::miʔt
+verb:::m:::min-s:::min-s:::min-s:::min-s:::turn face away:::unverified:::min-s
+verb:::m:::min̕:::min̕:::min':::mi'n:::smear, paint:::also 'rub':::min'
+verb:::m:::miy:::miy:::miy(u-):::miy(u-):::make clear, know (an idea):::unstressed variant of mey:::miy(u-)
+verb:::m:::miy:::miy:::miy:::miy:::be dignified:::unverified:::miy
+verb:::m:::mik̕ʷ:::mik̕ʷ:::mik'ʷ:::mik'w:::snow::: :::mik'ʷ
+verb:::m:::mixʷ:::mixʷ:::mixʷ:::mikhw:::hang in bunches (earth as it appears from sky)::: :::mixʷ
+verb:::m:::milxʷ:::milxʷ:::milxʷ:::milkhw:::be naked::: :::milxʷ
+verb:::m:::mil̕xʷ:::mil̕xʷ:::mil'xʷ:::mi'lkhw:::smoke tobacco::: :::mil'xʷ
+verb:::m:::miɬ:::miɬ:::miɫ:::miɫ:::rest::: :::miɫ
+verb:::m:::mil̕:::mil̕:::mil':::mi'l:::repair::: :::mil'
+verb:::m:::mil̕:::mil̕:::mil':::mi'l:::distribute (as food at feast)::: :::mil'
+verb:::m:::mil̕:::mil̕:::mil':::mi'l:::wait for::: :::mil'
+verb:::m:::mil̕:::mil̕:::mil':::mi'l:::be aimless::: :::mil'
+verb:::m:::mim-cit:::mumšit:::mum-šit:::mum-shit:::help with burden:::unclear if -šit applicative or part of root  (see čn̕šit):::mum-šit
+verb:::m:::mus:::mus:::mus:::mus:::fumble, feel about::: :::mus
+verb:::m:::mus:::mus:::mus:::mus:::four::: :::mus
+verb:::m:::mul::: :::mul:::mul:::be soil, dirt (prog. dis.):::expect mal or mol:::mul
+verb:::m:::mul:::mul:::mul:::mul:::dip up (prog. dis.):::(R's prog. dis. not verified):::mul
+verb:::m:::mᴐ'<sup>ᴐ</sup>t:::moʔt:::mɔʔt:::mo't:::smoke (prog. dis.)::: :::mɔʔt
+verb:::m:::mᴐq:::moq:::mɔq (- -t):::moq:::be excitable::: :::mɔq (- -t)
+verb:::m:::mᴇntuw̕-il̕c:::mntuw̕:::məntuw'-il'š:::mntu'w-i'lsh:::arrive at destination promptly::: :::məntuw'-il'š
+verb:::m':::m̕iw:::m̕iw:::m'iw:::'miw:::cat meows::: :::m'iw
+verb:::w:::wa'ax̣:::waʔx̣:::waʔax̣:::wa'aqh:::smart (as mucus membrane or skin)::: :::waʔax̣
+verb:::w:::way:::wayq:::way:::way:::bother:::unverified as way:::way
+verb:::w:::wax̣ˑˑˑ:::wax̣:::wax̣:::waqh:::brook murmurs::: :::wax̣
+verb:::w:::wax̣:::wax̣:::wax̣:::waqh:::chap, (u-) having become chapped, (-t) inherently chapped, rough from chapping::: :::wax̣
+verb:::w:::wältc̕:::welč̕:::wɛlč':::welch':::roll solid object::: :::wɛlč'
+verb:::w:::wi'<sup>ɩ</sup>:::wiʔ:::wiʔ:::wi':::cry out, shout::: :::wiʔ
+verb:::w:::wi'<sup>ɩ</sup>p:::wiʔp:::wiʔp:::wi'p:::transform::: :::wiʔp
+verb:::w:::wit:::wit:::wit:::wit:::be full of maggots::: :::wit
+verb:::w:::winc:::winš:::winš:::winsh:::dance wardance::: :::winš
+verb:::w:::wic:::wiš:::wiš:::wish:::build, dwell, poles stand up::: :::wiš
+verb:::w:::wih:::wih:::wih:::wih:::dog barks::: :::wih
+verb:::w:::wụx̣ʷ:::wuxʷ:::wəx̣ʷ:::wqhw:::fire gets draft::: :::wəx̣ʷ
+verb:::w:::wɩl̕:::wəl':::wəl':::w'l:::act unnatural, silly:::unverified glottalization, vowel:::wəl'
+verb:::w:::w'ät:::w'ɛt(u-):::w'ɛt(u-):::'wet(u-):::be just outside door (probably dim. of gʷɛt[?]):::unverified:::w'ɛt(u-)
+verb:::d:::daq̕::: :::daq':::daq':::peer through cracks:::unverified:::daq'
+verb:::d:::dax̣:::dax̣:::dax̣:::daqh:::drive many, round up animals::: :::dax̣
+verb:::d:::daxʷ:::dax̣ʷ:::daxʷ(-p):::dakhw(-p):::hard object breaks in pieces::: :::daxʷ(-p)
+verb:::d:::dar:::dar:::dar:::dar:::pl. solid objects stand::: :::dar
+verb:::d:::däm:::dem:::dɛm:::dem:::be very old::: :::dɛm
+verb:::d:::däs:::des:::dɛs:::des:::camp::: :::dɛs
+verb:::d:::däx̣:::dex̣:::dɛx̣:::deqh:::round up::: :::dɛx̣
+verb:::d:::däx̣:::dex̣:::dɛx̣(-t):::deqh(-t):::pl. go, depart travel::: :::dɛx̣(-t)
+verb:::d:::däxʷ:::dex̣ʷ:::dɛx̣ʷ:::deqhw:::lower, descend, dismount::: :::dɛx̣ʷ
+verb:::d:::däl̕:::del̕:::dɛl':::de'l:::lie down like animal::: :::dɛl'
+verb:::d:::dik̕ʷ:::dik̕ʷ:::dik'ʷ:::dik'w:::cross::: :::dik'ʷ
+verb:::d:::dik̕ʷ-s:::dik̕ʷ:::dik'ʷ-s:::dik'w-s:::turn about in going (cross face):::this includes the face suffix =us:::dik'ʷ-s
+verb:::d:::dilk̕ʷ:::dilk̕ʷ:::dilk'ʷ:::dilk'w:::cover entirely, conceal::: :::dilk'ʷ
+verb:::d:::diɬ:::diɬ:::diɫ:::diɫ:::rustle, shake::: :::diɫ
+verb:::d:::du'ukʷ:::duʔkʷ:::duʔukʷ:::du'ukw:::be stingy, grudge::: :::duʔukʷ
+verb:::d:::dul:::dul:::dul:::dul:::sing warsong::: :::dul
+verb:::d:::dul̕:::dul̕:::dul':::du'l:::run fast, pursue::: :::dul'
+verb:::d:::dᴐq̕ʷ:::doq̕ʷ:::dɔq'ʷ(-t):::doq'w(-t):::wood is rotten::: :::dɔq'ʷ(-t)
+verb:::d:::dᴐlq̕ʷ:::dolq̕ʷ:::dɔlq'ʷ:::dolq'w:::person is strong::: :::dɔlq'ʷ
+verb:::d:::dɩlim:::dlim:::dəlim:::dlim:::gallop go on fours::: :::dəlim
+verb:::t:::tam:::tam:::tam:::tam:::scorch, toast, singe (prog. dis)::: :::tam
+verb:::t:::tatq::: :::tatq:::tatq:::hang strips of smoked fat:::unverified:::tatq
+verb:::t:::tagw:::tagʷ:::taqʷ:::taqw:::buy:::typo, harmony form of √tegʷ:::taqʷ
+verb:::t:::taxʷ::: :::taxʷ:::takhw:::twirl:::unverified:::taxʷ
+verb:::t:::taq:::taq:::taq:::taq:::touch, cover with hand::: :::taq
+verb:::t:::tax̣:::tax̣:::tax̣:::taqh:::be bitter, sharp to taste::: :::tax̣
+verb:::t:::tal̕q:::tal̕q:::tal'q:::ta'lq:::touch with foot, step on, kick::: :::tal'q
+verb:::t:::tar:::tar:::tar:::tar:::untie, loosen::: :::tar
+verb:::t:::tar̕:::tar̕:::tar':::ta'r:::be laid out in trails, have trails::: :::tar'
+verb:::t:::tämxʷ:::temxʷ:::tɛmxʷ:::temkhw:::tree is rotten::: :::tɛmxʷ
+verb:::t:::täwc:::tewš:::tɛwš:::tewsh:::go across::: :::tɛwš
+verb:::t:::täw̕š-ä(tct):::téwšečt:::tɛwš-ɛ(čt):::tewsh-e(cht):::six:::with hand suffix =ičt (stress on root):::tɛwš-ɛ(čt)
+verb:::t:::täd-ɩc:::tédiš:::tɛd-əš:::ted-sh:::squirm:::with suffix -iš:::tɛd-əš
+verb:::t:::tän:::ten:::tɛn:::ten:::pull line, (u-) be tight, (- -t) (clothes) fit tight, (-p) become tight (as rawhide)
+verb:::t:::tän̕:::ten̕:::tɛn':::te'n:::arranged in line::: :::tɛn'
+verb:::t:::täs:::tes:::tɛs(-p):::tes(-p):::bulge::: :::tɛs(-p)
+verb:::t:::tägw:::tegʷ:::tɛgʷ:::tegw:::buy, sell::: :::tɛgʷ
+verb:::t:::tegʷ:::tɛgʷ:::tɛgʷ:::tegw:::fail to reach::: :::tɛgʷ
+verb:::t:::täkʷ:::tekʷ:::tɛkʷ:::tekw:::be stuffy (devoid of air), (u-) room is close, (-p) choke, smother::: :::tɛkʷ
+verb:::t:::täxʷ:::texʷ:::tɛxʷ:::tekhw:::add to a store::: :::tɛxʷ
+verb:::t:::täq:::teq:::tɛq:::teq:::use sharp practise, cheat::: :::tɛq
+verb:::t:::täx̣ʷ:::tex̣ʷ:::tɛx̣ʷ(u-):::teqhw(u-):::stop shaking::: :::tɛx̣ʷ(u-)
+verb:::t:::täx̣ʷ:::tex̣ʷ:::tɛx̣ʷ:::teqhw:::one stops::: :::tɛx̣ʷ
+verb:::t:::täl:::tel:::tɛl(-p):::tel(-p):::soft object breaks off::: :::tɛl(-p)
+verb:::t:::täɬ:::teɬ:::tɛɫ(u-):::teɫ(u-):::be straight, u-tɛ́ɫt, go directly::: :::tɛɫ(u-)
+verb:::t:::ti'<sup>ɩ</sup>:::tiʔ:::tiʔ:::ti':::pound, hit::: :::tiʔ
+verb:::t:::ti'i'<sup>ɩ</sup>:::tiʔiʔ:::tiʔi:::ti'i:::bump:::with noncontrol reduplication:::tiʔi
+verb:::t:::ti'<sup>ɩ</sup>ɬ:::tiʔɬ:::tiʔɫ:::ti'ɫ:::one flies::: :::tiʔɫ
+verb:::t:::tim̕:::tiʔm:::tim':::ti'm:::use:::only one occurrence:::tim'
+verb:::t:::tim̕:::tim̕:::tim':::ti'm:::ground is clear of snow::: :::tim'
+verb:::t:::tiw-ä'<sup>ä</sup>:::tiweʔ:::tiw-ɛʔ:::tiw-e':::indulge:::'award':::tiw-ɛʔ
+verb:::t:::tiy̕-äqʷ:::ty̕eqʷ:::tiy'-ɛqʷ(-t):::ti'y-eqw(-t):::fight::: :::tiy'-ɛqʷ(-t)
+verb:::t:::tikʷ:::tikʷ:::tikʷ:::tikw:::suspect, smell out::: :::tikʷ
+verb:::t:::tixʷ:::tixʷ:::tixʷ:::tikhw:::collect, gather, secure::: :::tixʷ
+verb:::t:::tilp:::tilp:::tilp:::tilp:::break up::: :::tilp
+verb:::t:::tiɬ:::tiɬ:::tiɫ(-t):::tiɫ(-t):::brushy objects sprawl::: :::tiɫ(-t)
+verb:::t:::tu<sup>u</sup>:::tuˑ:::tu:::tu:::crowd, swarm::: :::tu
+verb:::t:::tup:::tup:::tup:::tup:::cool:::only inchoative verified tuʔp:::tup
+verb:::t:::tum::: :::tum:::tum:::pump, suck through tube:::unverified; only in word for 'trout'  stúmiš:::tum
+verb:::t:::tuw̕:::tuw̕:::tuw':::tu'w:::stuff::: :::tuw'
+verb:::t:::tuts::: :::tuc(u-):::tuts(u-):::be wellfed:::unverified:::tuc(u-)
+verb:::t:::tukʷ:::tukʷ:::tukʷ:::tukw:::beat, tick::: :::tukʷ
+verb:::t:::tᴐr:::tor:::tɔr:::tor:::be tough (as meat, leather)::: :::tɔr
+verb:::t:::tᴐr:::tor:::tɔr:::tor:::stretch out, extend (as hand)::: :::tɔr
+verb:::t:::tᴐr-s:::tor:::tɔr-s:::tor-s:::beckon with eye:::with =us 'eye':::tɔr-s
+verb:::t:::twip̕:::twip̕:::twip'(-t):::twip'(-t):::step over obstruction::: :::twip'(-t)
+verb:::t:::twɩl-ats::: :::twel-ac:::twel-ats:::aim, point long thing at:::unverified:::twel-ac
+verb:::t:::tqus::: :::tqus:::tqus:::be defeated, fire goes out::: :::tqus
+verb:::t:::tʀim:::tʕim:::tʕim(-t):::t(im(-t):::shout::: :::tʕim(-t)
+verb:::t:::tʀäh-im:::tʕeh-im:::tʕɛh-im:::t(eh-im:::give warwhoop, yell::: :::tʕɛh-im
+verb:::t':::t̕ap:::t̕ap:::t'ap:::t'ap:::shoot (prog. dis.)::: :::t'ap
+verb:::t':::t̕apq:::t̕apq:::t'apq:::t'apq:::stick pinlike object in::: :::t'apq
+verb:::t':::t̕am̕:::t̕am̕:::t'am':::t'a'm:::make damp, lick, kiss::: :::t'am'
+verb:::t':::t̕as:::t̕as:::t'as:::t'as:::be thin, skinny::: :::t'as
+verb:::t':::t̕asq:::t̕asq:::t'asq:::t'asq:::be weary with waiting:::unverified:::t'asq
+verb:::t':::t̕aq:::t̕aq:::t'aq:::t'aq:::bushy stuff lies::: :::t'aq
+verb:::t':::t̕aq-t:::t̕aqt:::t'aq-t:::t'aq-t:::birds return from migration::: :::t'aq-t
+verb:::t':::t̕ax̣:::t̕ax̣:::t'ax̣(u-):::t'aqh(u-):::be swift::: :::t'ax̣(u-)
+verb:::t':::t̕ax̣t.c:::t̕ax̣tš:::t'ax̣tš:::t'aqhtsh:::be unbearable:::def unverified:::t'ax̣tš
+verb:::t':::t̕aqʷ:::t̕aqʷ:::t'aq'ʷ:::t'aq'w:::slap:::expect unglottalized qʷ:::t'aq'ʷ
+verb:::t':::t̕aq̕ʷ-s:::t̕aq̕ʷs:::t'alq'ʷ-s:::t'alq'w-s:::egg or eye bursts:::no l; takes =us suffix (after root final s):::t'alq'ʷ-s
+verb:::t':::t̕alq̕:::talq̕:::t'alq':::t'alq':::take out (as from the mouth or container)::: :::t'alq'
+verb:::t':::t̕äp:::t̕ep:::t'ɛp:::t'ep:::pl. stop::: :::t'ɛp
+verb:::t':::t̕äm:::t̕em:::t'ɛm(u-,-t):::t'em(u-,-t):::be damp::: :::t'ɛm(u-,-t)
+verb:::t':::t̕äm:::t̕em:::t'ɛm:::t'em:::cut with scissors::: :::t'ɛm
+verb:::t':::t̕äm̕:::t̕em̕:::t'ɛm':::t'e'm:::cut cloth by sliding scissors through::: :::t'ɛm'
+verb:::t':::t̕äc:::t̕eš:::t'ɛš(-t):::t'esh(-t):::be sweet::: :::t'ɛš(-t)
+verb:::t':::t̕ädj:::t̕eǰ:::t'ɛǰ:::t'ej:::pour liquid::: :::t'ɛǰ
+verb:::t':::t̕äkʷ:::t̕ekʷ:::t'ɛkʷ:::t'ekw:::pl. cry out, make noise like colt::: :::t'ɛkʷ
+verb:::t':::t̕äkʷ:::t̕ekʷ:::t'ɛkʷ(u-):::t'ekw(u-):::be watertight::: :::t'ɛkʷ(u-)
+verb:::t':::t̕äkʷ-s:::t̕ekʷs:::t'ɛkʷ-s:::t'ekw-s:::bleed::: :::t'ɛkʷ-s
+verb:::t':::t̕äk̕ʷ:::t̕ek̕ʷ:::t'ɛk'ʷ:::t'ek'w:::one lies::: :::t'ɛk'ʷ
+verb:::t':::t̕äk̕ʷ:::t̕ek̕ʷ:::t'ɛk'ʷ:::t'ek'w:::be lighted::: :::t'ɛk'ʷ
+verb:::t':::t̕äxʷ:::t̕exʷ:::t'ɛxʷ:::t'ekhw:::pl. die, kill pl.::: :::t'ɛxʷ
+verb:::t':::t̕äqʷ:::t̕eqʷ:::t'ɛq'ʷ(u-):::t'eq'w(u-):::go off, explode::: :::t'ɛq'ʷ(u-)
+verb:::t':::t̕äl̕:::t̕el̕:::t'ɛl':::t'e'l:::tear, rip::: :::t'ɛl'
+verb:::t':::t̕im:::t̕im:::t'im:::t'im:::shake hands::: :::t'im
+verb:::t':::t̕im̕:::t̕im̕:::t'im':::t'i'm:::tear cloth from bolt:::unverified:::t'im'
+verb:::t':::t̕id-äm:::t̕idm:::t'id-ɛm:::t'id-em:::frail, fragile::: :::t'id-ɛm
+verb:::t':::t̕its̕:::t̕ic̕:::t'ic':::t'its':::smooth by rubbing::: :::t'ic'
+verb:::t':::t̕ic:::t̕iš:::t'iš:::t'ish:::be sweetened::: :::t'iš
+verb:::t':::t̕itc:::t̕ič:::t'ič:::t'ich:::protrude::: :::t'ič
+verb:::t':::t̕itc̕:::t̕ič̕:::t'ič':::t'ich':::provide food for travel::: :::t'ič'
+verb:::t':::t̕ikʷ:::t̕ikʷ:::t'ikʷ(-t):::t'ikw(-t):::be told, (- -t) parents::: :::t'ikʷ(-t)
+verb:::t':::tixʷ-ụl:::t̕ixʷl:::t'ixʷ-əl:::t'ikhw-l:::be different, abnormal::: :::t'ixʷ-əl
+verb:::t':::t̕um:::t̕um:::t'um:::t'um:::smirk, mouth in sucking position::: :::t'um
+verb:::t':::t̕um̕:::t̕um̕:::t'um':::t'u'm:::pipelike, hollow tube::: :::t'um'
+verb:::t':::t̕uw̕änt:::gʷen:::t'uw'ɛnt:::t'u'went:::be very low (dim. of gʷɛnt):::t-w̕+w̕ént --> tʔuw̕ént --> t̕uw̕ént (gʷ --> w̕ when reduplicated initially):::t'uw'ɛnt
+verb:::t':::t̕uk̕ʷ:::t̕uk̕ʷ:::t'uk'ʷ:::t'uk'w:::be uneven like roots pushing up ground::: :::t'uk'ʷ
+verb:::t':::t̕uxʷ:::t̕uxʷ:::t'uxʷ(-t):::t'ukhw(-t):::one wades::: :::t'uxʷ(-t)
+verb:::t':::t̕uxʷ-ilc:::t̕uxʷ-ilš:::t'uxʷ-ilš:::t'ukhw-ilsh:::one jumps off of::: :::t'uxʷ-ilš
+verb:::t':::t̕ᴐɬ:::t̕oɬ:::t'ɔɫ:::t'oɫ:::be lumpy, sticky with mud::: :::t'ɔɫ
+verb:::t':::t̕ul̕:::t̕ul̕:::t'ul':::t'u'l:::decent, real, human, trained, refined, civilized::: :::t'ul'
+verb:::t':::t̕ul̕:::t̕ul̕:::t'ul':::t'u'l:::get acquainted, have poise, be approachable, well to do::: :::t'ul'
+verb:::t':::t̕ᴐxʷ:::t̕oxʷ:::t'ɔxʷ:::t'okhw:::fear supernatural (witch) power::: :::t'ɔxʷ
+verb:::t':::t̕ᴐqʷ:::t̕oqʷ:::t'ɔqʷ:::t'oqw:::have power, succeed in everything::: :::t'ɔqʷ
+verb:::t':::t̕ɩcsᴐ'<sup>ᴐ</sup>:::t̕išsoʔ:::t'əšsɔʔ:::t'shso':::sneeze::: :::t'əšsɔʔ
+verb:::t':::t̕ụxʷup:::t̕xʷup:::t'əxup:::t'khup:::win, earn::: :::t'əxup
+verb:::t':::t̕ụqʷ::: :::t'əqʷ:::t'qw:::team up, marry:::unverified:::t'əqʷ
+verb:::t':::t̕ᴇp::: :::t'ɛp:::t'ep:::jump aside:::unverified:::t'ɛp
+verb:::t':::t̕ụk̕ʷip:::t̕k̕ʷip:::t'ək'ʷip:::t'k'wip:::start to::: :::t'ək'ʷip
+verb:::t':::t̕ụq̕ʷ::: :::t'əq'ʷ:::t'q'w:::put out light:::√t̕aq̕ʷs:::t'əq'ʷ
+verb:::n:::nas:::nas:::nas(u-):::nas(u-):::wet::: :::nas(u-)
+verb:::n:::naq:::naq:::naq:::naq:::be satiated with food::: :::naq
+verb:::n:::naq̕:::naq̕:::naq':::naq':::organic substance is rotten::: :::naq'
+verb:::n:::naq̕ʷ:::naq̕ʷ:::naq'ʷ:::naq'w:::steal::: :::naq'ʷ
+verb:::n:::nä'<sup>ä</sup>kun:::neʔkʷun:::nɛʔkun:::ne'kun:::think::: :::neʔkʷun
+verb:::n:::näpt:::nept:::nɛpt:::nept:::pl. enter::: :::nɛpt
+verb:::n:::näk̕ʷ-ä'<sup>ä</sup>:::nek̕ʷeʔ:::nɛk'ʷ-ɛʔ:::nek'w-e':::one::: :::nɛk'ʷ-ɛʔ
+verb:::n:::näq̕:::neq̕:::nɛq'(u-):::neq'(u-):::be sticky::: :::nɛq'(u-)
+verb:::n:::när:::ner:::nɛr:::ner:::paint::: :::nɛr
+verb:::n:::niw̕:::niw̕:::niw'(-t):::ni'w(-t):::wind blows::: :::niw'(-t)
+verb:::n:::nitc:::nič:::nič:::nich:::protect::: :::nič
+verb:::n:::nitc̕:::nič̕:::nič':::nich':::cut with blade::: :::nič'
+verb:::n:::nik̕ʷ:::nik̕ʷ:::nik'ʷ:::nik'w:::be tribe::: :::nik'ʷ
+verb:::n:::nuxʷ:::nuxʷ:::nuxʷ(-t):::nukhw(-t):::frog swims::: :::nuxʷ(-t)
+verb:::n:::nᴐts:::noc:::nɔc:::nots:::tender, soft (as meat, rubber)::: :::nɔc
+verb:::n':::ax̣ʷ:::n̕ax̣ʷ:::n'ax̣ʷ(-t):::'naqhw(-t):::downstream::: :::n'ax̣ʷ(-t)
+verb:::n':::n̕-id:::n̕id:::n'-id:::'n-id:::exchange, trade, pay for::: :::n'-id
+verb:::n':::n̕uɬxʷ:::n̕uɬxʷ:::n'uɫxʷ:::'nuɫkhw:::one enters::: :::n'uɫxʷ
+verb:::n':::n̕n̕ᴐy̕-ä'<sup>ä</sup>:::n̕n̕oy̕eʔ:::n'n'ɔy'-ɛʔ:::'n'no'y-e':::weak (dim)::: :::n'n'ɔy'-ɛʔ
+verb:::s:::sa'ax̣:::saʔx̣:::saʔax̣:::sa'aqh:::dissolve::: :::saʔax̣
+verb:::s:::san̕:::san̕:::san'(-t):::sa'n(-t):::tame (prog, dis.), (-p) be drowsy::: :::san'(-t)
+verb:::s:::saq̕:::saq̕:::saq':::saq':::gape, split in two::: :::saq'
+verb:::s:::sax̣:::sax̣:::sax̣:::saqh:::hew, whittle::: :::sax̣
+verb:::s:::saṛʷ:::saʕʷ:::saʕʷ:::sa(w:::flow, (-p) leak::: :::saʕʷ
+verb:::s:::sättc:::setč:::sɛtč:::setch:::twist solid object (as vine, wire)::: :::sɛtč
+verb:::s:::sägwät:::segʷ:::sɛgʷɛt:::segwet:::who?:::√segʷ-et; also occurs alone and with -eʔ, -ɬ:::sɛgʷɛt
+verb:::s:::säxʷ:::sexʷ:::sɛxʷ:::sekhw:::carry on back::: :::sɛxʷ
+verb:::s:::säxʷq:::sexʷq:::sɛxʷq:::sekhwq:::splash::: :::sɛxʷq
+verb:::s:::säx̣ʷ:::sex̣ʷ:::sɛx̣ʷ(u-,-t):::seqhw(u-,-t):::sound of cracking timbers::: :::sɛx̣ʷ(u-,-t)
+verb:::s:::säl:::sel:::sɛl:::sel:::turn, spin in eye, turn swiftly::: :::sɛl
+verb:::s:::sii-siyus:::siysiyus:::sii-siyus:::sii-siyus:::astute, canny, capable, clever, cautious, competent, diligent, discerning, enterprising, prudent, sagacious, shrewed, skillful, successful, intelligent, resourceful, adaptable:::always appears to occur reduplicated:::sii-siyus
+verb:::s:::sip̕-äy̕:::sip̕ey̕:::sip'-ɛy':::sip'-e'y:::be buckskin::: :::sip'-ɛy'
+verb:::s:::sid-ɩst:::sidist:::sidəst:::sidst:::night passes, spend night::: :::sidəst
+verb:::s:::sits:::sic:::sic:::sits:::be new::: :::sic
+verb:::s:::sits̕:::sic̕:::sic':::sits':::be blanket, be blanketed::: :::sic'
+verb:::s:::siy:::siy:::siy:::siy:::exert (see sii-siyus)::: :::siy
+verb:::s:::siy:::siy:::siy:::siy:::cut and gather cedarbark::: :::siy
+verb:::s:::sigw:::sigʷ:::sigʷ:::sigw:::ask for::: :::sigʷ
+verb:::s:::sixʷ:::sixʷ:::sixʷ:::sikhw:::pour solid objects or liquid::: :::sixʷ
+verb:::s:::sil:::sil:::sil:::sil:::turn, cause dizziness::: :::sil
+verb:::s:::sum̕:::sum̕:::sum':::su'm:::smell at, sniff::: :::sum'
+verb:::s:::su'ut̕:::suʔt̕:::suʔut':::su'ut':::stretch::: :::suʔut'
+verb:::s:::suk̕ʷ:::suk̕ʷ:::suk'ʷ:::suk'w:::float with current::: :::suk'ʷ
+verb:::s:::suxʷ:::suxʷ:::suxʷ(-t):::sukhw(-t):::be acquainted with, know::: :::suxʷ(-t)
+verb:::s:::suxʷ-ɩlc:::suxʷ:::suxʷ-əlš:::sukhw-lsh:::fish dives::: :::suxʷ-əlš
+verb:::s:::sul:::sul:::sul(u-):::sul(u-):::be cold (as body, stove, iron, corpse), (-t) be cold (as body, things in refrigerator)::: :::sul(u-)
+verb:::s:::sɩlup:::sil:::səlup:::slup:::spin of itself, set self spinning:::sfx -up nonvolitional:::səlup
+verb:::s:::sɩls-us::: :::səls-us:::sls-us:::houses blow down:::unconfirmed vowel:::səls-us
+verb:::s:::swi'<sup>ɩ</sup>:::swiʔ:::swiʔ:::swi':::be handsome, beautiful (of persons only)::: :::swiʔ
+verb:::s:::slip̕:::slip̕:::slip':::slip':::be wood::: :::slip'
+verb:::c/ts:::tsas:::cas:::cas(-t):::tsas(-t):::be long slender, be fine::: :::cas(-t)
+verb:::c/ts:::tsap̕:::cap̕:::cap':::tsap':::girls 'snap' eyes to show contempt::: :::cap'
+verb:::c/ts:::tsaq:::caq:::caq:::tsaq:::solid object stands upright::: :::caq
+verb:::c/ts:::tsaqip:::caqíp:::caqip:::tsaqip:::follow::: :::caqip
+verb:::c/ts:::tsaqʷ:::caqʷ:::caqʷ:::tsaqw:::long object slips into hollow object::: :::caqʷ
+verb:::c/ts:::tsax̣ʷ:::cax̣ʷ:::cax̣ʷ:::tsaqhw:::increase as by saving::: :::cax̣ʷ
+verb:::c/ts:::tsalxʷ or tsalx̣ʷ:::calxʷ, calx̣ʷ:::calxʷ (calx̣ʷ):::tsalkhw:::claw, dig, dig claws in:::note that Reichard uses ts̕alx̣ʷ, tsalx̣ʷ, tsalxʷ:::calxʷ (calx̣ʷ)
+verb:::c/ts:::tsaʀ:::caʕ:::caʕ:::tsa(:::scream, shriek with pain::: :::caʕ
+verb:::c/ts:::tsaṛʷ:::caʕʷ:::caʕʷ:::tsa(w:::fringe::: :::caʕʷ
+verb:::c/ts:::tsätxʷ:::cetxʷ:::cɛtxʷ:::tsetkhw:::be house::: :::cɛtxʷ
+verb:::c/ts:::tsätc:::ceč:::cɛč:::tsech:::thunder strikes::: :::cɛč
+verb:::c/ts:::tsägw:::cegʷ:::cɛgʷ:::tsegw:::be feather::: :::cɛgʷ
+verb:::c/ts:::tsägw:::cegʷ:::cɛgʷ:::tsegw:::behave, have character::: :::cɛgʷ
+verb:::c/ts:::tsäkʷ:::cek̕ʷ:::cɛk'ʷ:::tsek'w:::drag, pull::: :::cɛk'ʷ
+verb:::c/ts:::tsäxʷ:::cexʷ:::cɛxʷ:::tsekhw:::pet::: :::cɛxʷ
+verb:::c/ts:::tsä'<sup>ä</sup>xʷ:::ceʔxʷ:::cɛʔxʷ:::tse'khw:::caress::: :::cɛʔxʷ
+verb:::c/ts:::tsäxʷ:::cexʷ:::cɛxʷ:::tsekhw:::peel bark off twig::: :::cɛxʷ
+verb:::c/ts:::tsäqʷ:::ceqʷ:::cɛqʷ:::tseqw:::be bright pink (color of tamarack wood)::: :::cɛqʷ
+verb:::c/ts:::tsäls:::cels:::cɛls:::tsels:::sound guilty::: :::cɛls
+verb:::c/ts:::tsi'<sup>ɩ</sup>:::ciʔ:::ciʔ:::tsi':::there near second person::: :::ciʔ
+verb:::c/ts:::tsi'<sup>ɩ</sup>xʷ:::ciʔxʷ:::ciʔxʷ:::tsi'khw:::pl. wade, enter water::: :::ciʔxʷ
+verb:::c/ts:::tsiw̕:::ciw̕:::ciw':::tsi'w:::be youngest child::: :::ciw'
+verb:::c/ts:::tsis:::cis:::cis:::tsis:::be made long and slender::: :::cis
+verb:::c/ts:::tsic:::ciš:::ciš:::tsish:::be long, tall::: :::ciš
+verb:::c/ts:::tsic:::ciš:::ciš(u-):::tsish(u-):::be heated::: :::ciš(u-)
+verb:::c/ts:::tsikʷ:::cikʷ:::cik'ʷ:::tsik'w:::cause blurry look::: :::cik'ʷ
+verb:::c/ts:::tsil:::cil:::cil:::tsil:::five::: :::cil
+verb:::c/ts:::tsih:::cih:::cih:::tsih:::be next to move::: :::cih
+verb:::c/ts:::tsum:::cum:::cum:::tsum:::be surfeited with fat::: :::cum
+verb:::c/ts:::tsuw̕:::cuw̕:::cuw':::tsu'w:::punch::: :::cuw'
+verb:::c/ts:::tsun:::cun:::cun:::tsun:::point, show::: :::cun
+verb:::c/ts:::tsun-tct:::cun-čt:::cun-čt:::tsun-cht:::seven::: :::cun-čt
+verb:::c/ts:::tsus:::cus:::cus:::tsus:::snake rattles::: :::cus
+verb:::c/ts:::tsuy̕:::cuy̕̕:::cuy'(u-, -t):::tsu'y(u-, -t):::be chilly, make gooseflesh::: :::cuy'(u-, -t)
+verb:::c/ts:::tsᴐ'<sup>ᴐ</sup>t:::coʔt:::cɔʔt:::tso't:::sob (prog. dis.)::: :::cɔʔt
+verb:::c/ts:::tsɩtsä:::cceʔ:::cəcɛ:::tstse:::leave alone, unharmed::: :::cəcɛ:
+verb:::c/ts:::tsɩtsäm̕ä'<sup>ä</sup>:::ccémeʔ:::cəcɛm'-ɛʔ:::tstse'm-e':::pl. are small::: :::cəcɛm'-ɛʔ
+verb:::c/ts:::tsụkʷigw:::ckʷigʷt:::cəkʷigʷ(-t):::tskwigw(-t):::see dimly, be indistinct to sight::: :::cəkʷigʷ(-t)
+verb:::c'/ts':::ts̕ap̕q̕:::c̕ap̕aq̕:::c'ap'q':::ts'ap'q':::adhere, stick to (as glue):::evidence of stress on either vowel, i.e., c̕áp̕q̕ and c̕əp̕áq̕ both occur:::c'ap'q'
+verb:::c'/ts':::ts̕am:::c̕am:::c'am:::ts'am:::be nearly pointed (as football, or lemon)::: :::c'am
+verb:::c'/ts':::ts̕aw:::c̕aw:::c'aw(u-):::ts'aw(u-):::be dry, boring, washed out (lit. soaked out)::: :::c'aw(u-)
+verb:::c'/ts':::ts̕aw̕:::c̕aw̕:::c'aw':::ts'a'w:::wash::: :::c'aw'
+verb:::c'/ts':::ts̕aw̕q:::c̕aw̕q:::c'aw'q:::ts'a'wq:::pull out solid object (as nail out of board)::: :::c'aw'q
+verb:::c'/ts':::ts̕aq̕:::c̕aq̕:::c'aq':::ts'aq':::be bunched, clumped::: :::c'aq'
+verb:::c'/ts':::ts̕ax̣ʷ:::c̕ax̣ʷ:::c'ax̣ʷ:::ts'aqhw:::choose::: :::c'ax̣ʷ
+verb:::c'/ts':::ts̕ax̣ʷ:::c̕ax̣ʷ:::c'ax̣ʷ:::ts'aqhw:::promise::: :::c'ax̣ʷ
+verb:::c'/ts':::ts̕al-alqʷ:::c̕əlálqʷ:::c'al-alqʷ:::ts'al-alqw:::play stickgame (c'al one person stands; -alqʷ long object):::√c̕el=alqʷ:::c'al-alqʷ
+verb:::c'/ts':::ts̕alx̣ʷ:::c̕alx̣ʷ:::c'alx̣ʷ:::ts'alqhw:::claw, dig claws in::: :::c'alx̣ʷ
+verb:::c'/ts':::ts̕ar:::c̕ar:::c'ar:::ts'ar:::be ill, hurt, ache::: :::c'ar
+verb:::c'/ts':::ts̕ar:::c̕ar:::c'ar(-t):::ts'ar(-t):::feel cold to touch (stove, ice)::: :::c'ar(-t)
+verb:::c'/ts':::ts̕äp̕:::c̕ep̕:::c'ɛp':::ts'ep':::lightproof::: :::c'ɛp'
+verb:::c'/ts':::ts̕äs:::c̕es:::c'ɛs:::ts'es:::collect by pecking, salvage::: :::c'ɛs
+verb:::c'/ts':::ts̕äsp:::c̕esp:::c'ɛsp:::ts'esp:::annihilate, destroy, consume, use up::: :::c'ɛsp
+verb:::c'/ts':::ts̕ätc:::c̕eč:::c'ɛč:::ts'ech:::count, number::: :::c'ɛč
+verb:::c'/ts':::ts̕äk̕ʷ:::c̕ek̕ʷ:::c'ɛk'ʷ(u-):::ts'ek'w(u-):::be stiff (as bones)::: :::c'ɛk'ʷ(u-)
+verb:::c'/ts':::ts̕äx̣:::c̕ex̣:::c'ɛx̣:::ts'eqh:::fry::: :::c'ɛx̣
+verb:::c'/ts':::ts̕äqʷ:::c̕eqʷ:::c'ɛqʷ:::ts'eqw:::butcher::: :::c'ɛqʷ
+verb:::c'/ts':::ts̕äx̣ʷ:::c̕ex̣ʷ:::c'ɛx̣ʷ:::ts'eqhw:::spark::: :::c'ɛx̣ʷ
+verb:::c'/ts':::ts̕äl:::c̕el:::c'ɛl:::ts'el:::one stands::: :::c'ɛl
+verb:::c'/ts':::ts̕äl̕:::c̕el̕:::c'ɛl':::ts'e'l:::pl. long objects project, stand up::: :::c'ɛl'
+verb:::c'/ts':::ts̕äl̕:::c̕el̕:::c'ɛl'(u-):::ts'e'l(u-):::fear fierce one, (- -t) one is fierce::: :::c'ɛl'(u-)
+verb:::c'/ts':::ts̕ip̕:::c̕ip:::c'ip':::ts'ip':::pinch fine::: :::c'ip'
+verb:::c'/ts':::reichard:::c̕im:::c'im:::ts'im:::grab handful::: :::c'im
+verb:::c'/ts':::ts̕its̕:::c̕ic̕:::c'ic':::ts'its':::pinch skin together::: :::c'ic'
+verb:::c'/ts':::ts̕itc:::c̕ič:::c'ič:::ts'ich:::be prickly, (u-) be rough like file::: :::c'ič
+verb:::c'/ts':::ts̕iy̕:::c̕iy̕:::c'iy':::ts'i'y:::be right side::: :::c'iy'
+verb:::c'/ts':::ts̕ikʷ-ä'<sup>ä</sup>:::c̕íkʷeʔ:::c'ikʷ-ɛʔ:::ts'ikw-e':::be left side::: :::c'ikʷ-ɛʔ
+verb:::c'/ts':::ts̕ixʷ:::c̕ixʷ:::c'ixʷ:::ts'ikhw:::prepare chips by peeling and tying::: :::c'ixʷ
+verb:::c'/ts':::ts̕iɬ:::c̕iɬ:::c'iɫ(u-):::ts'iɫ(u-):::weather is cool::: :::c'iɫ(u-)
+verb:::c'/ts':::ts̕il̕:::c̕il̕:::c'il':::ts'i'l:::be outline, shadow::: :::c'il'
+verb:::c'/ts':::ts̕u'um:::c̕uʔm:::c'uʔum:::ts'u'um:::cry, weep::: :::c'uʔum
+verb:::c'/ts':::ts̕ul̕:::c̕ul̕:::c'ul':::ts'u'l:::break sad news, report death::: :::c'ul'
+verb:::c'/ts':::ts̕ᴐm̕:::c̕om̕:::c'ɔm':::ts'o'm:::suck on solid object::: :::c'ɔm'
+verb:::c'/ts':::ts̕ᴐr:::c̕or:::c'ɔr:::ts'or:::be sour::: :::c'ɔr
+verb:::c'/ts':::ts̕ᴇm:::[no root]:::c'əm:::ts'm:::press make tight (cp. c'am):::the root is √yac̕ ; apparently GAR mis analyzed words such as syačyác̕mšn   brakeman   as having the root c̕əm rather than √yac̕:::c'əm
+verb:::c'/ts':::ts̕ụkʷin:::c̕kʷin:::c'əkʷin:::ts'kwin:::run::: :::c'əkʷin
+verb:::c'/ts':::ts̕uq̕un:::c̕uq̕ʷun:::c'uq'un:::ts'uq'un:::pronounce:::sc̕əq̕ʷc̕úq̕ʷn̕ catechism instruction  ; c̕əq̕ʷúnc he pronounced it:::c'uq'un
+verb:::š/sh:::cap:::šap:::šap:::shap:::tear meat from bone::: :::šap
+verb:::š/sh:::cacagw:::šagʷ:::šašagʷ(-t):::shashagw(-t):::be sharp:::ššágʷt   little bit sharp  ;  šášəgʷt   sharp:::šašagʷ(-t)
+verb:::š/sh:::car:::šar:::šar:::shar:::use no energy, (u-) be inefficient, (-t) be idle::: :::šar
+verb:::š/sh:::car:::šar:::šar:::shar:::be difficult, disobedient, annoying::: :::šar
+verb:::š/sh:::car:::šar:::šar:::shar:::one hangs::: :::šar
+verb:::š/sh:::cartc:::šarč:::šarč:::sharch:::be troublesome::: :::šarč
+verb:::š/sh:::cäp:::šep:::šɛp:::shep:::discriminate, select, sift::: :::šɛp
+verb:::š/sh:::cäm:::šem:::šɛm:::shem:::be in between::: :::šɛm
+verb:::š/sh:::cät:::šet:::šɛt:::shet:::tease::: :::šɛt
+verb:::š/sh:::cät̕:::šet̕:::šɛt':::shet':::beat in contest, level::: :::šɛt'
+verb:::š/sh:::cät̕:::šet̕:::šɛt':::shet':::one long object projects::: :::šɛt'
+verb:::š/sh:::cät̕:::šet̕:::šɛt':::shet':::take care of::: :::šɛt'
+verb:::š/sh:::cät̕:::šet̕:::šɛt':::shet':::surround by enemy::: :::šɛt'
+verb:::š/sh:::cän:::šen:::šɛn:::shen:::labor::: :::šɛn
+verb:::š/sh:::reichard:::šen̕:::šɛn':::she'n:::one flat object lies::: :::šɛn'
+verb:::š/sh:::cäs:::šes:::šɛs:::shes:::be doubtful about, ignorant of, refuse to believe in::: :::šɛs
+verb:::š/sh:::cäts:::šec:::šɛc:::shets:::dig in ground::: :::šɛc
+verb:::š/sh:::cäts̕:::šec̕:::šɛc':::shets':::wait::: :::šɛc'
+verb:::š/sh:::cäts̕:::šec̕:::šɛc'(u-):::shets'(u-):::be firm, solid, permanent::: :::šɛc'(u-)
+verb:::š/sh:::cätc̕:::šeč̕:::šɛč':::shech':::wait (perhaps the last three are the same)::: :::šɛč'
+verb:::š/sh:::cäl:::šel:::šɛl:::shel:::chop, split::: :::šɛl
+verb:::š/sh:::cältc:::šel; šelč:::šɛlč:::shelch:::move in a circle:::k̕ʷey kʷu šell 'you're still going in circles':::šɛlč
+verb:::š/sh:::ci'<sup>ɩ</sup>:::šiʔ:::šiʔ:::shi':::be fastidious::: :::šiʔ
+verb:::š/sh:::ci'<sup>ɩ</sup>t:::šiʔt:::šiʔt:::shi't:::be first, oldest::: :::šiʔt
+verb:::š/sh:::cip:::šip:::šip(-t):::ship(-t):::be slow, deliberate in action::: :::šip(-t)
+verb:::š/sh:::cip:::šip:::šip:::ship:::complete task::: :::šip
+verb:::š/sh:::cip:::šip:::šip:::ship:::possess without interference::: :::šip
+verb:::š/sh:::cim̕:::šim̕:::šim':::shi'm:::benefit::: :::šim'
+verb:::š/sh:::ciw̕:::šiw̕:::šiw':::shi'w:::be girl::: :::šiw'
+verb:::š/sh:::ciɬ:::šiɬ:::šiɫ(u-):::shiɫ(u-):::fit, be exact, correct::: :::šiɫ(u-)
+verb:::š/sh:::cɩcɩl̕:::[no root]:::šəšəl'(u-):::shsh'l(u-):::be very fine::: :::šəšəl'(u-)
+verb:::j:::jar̕:::ǰar̕:::ǰar':::ja'r:::be firm, strong::: :::ǰar'
+verb:::j:::djäm:::ǰem:::ǰɛm:::jem:::pin, brace::: :::ǰɛm
+verb:::j:::djäy̕djiy̕:::ǰey̕:::ǰɛy'ǰiy'(-t):::je'yji'y(-t):::be ugly, homely, unsightly::: :::ǰɛy'ǰiy'(-t)
+verb:::j:::djax̣:::ǰex̣:::ǰax̣:::jaqh:::mark by scratching::: :::ǰax̣
+verb:::j:::tcastq:::častq:::častq:::chastq:::dig camas::: :::častq
+verb:::j:::tcăy:::čay:::čay(u-):::chay(u-):::one is enduring, solid form::: :::čay(u-)
+verb:::j:::tcarq:::čarq:::čarq:::charq:::hang on with arm, deter::: :::čarq
+verb:::j:::tcäm̕:::čem̕:::čɛm':::che'm:::take hold of pl. object::: :::čɛm'
+verb:::j:::tcän̕:::čen̕:::čɛn':::che'n:::take hold of large object::: :::čɛn'
+verb:::j:::tcän̕šit:::čen̕:::čɛn'šit:::che'nshit:::help:::čén̕šeš 'aid; help'; čeɬ hi sčnšítm   I'm going to (go) help him:::čɛn'šit
+verb:::j:::tcän̕xʷ:::čen̕xʷ:::čɛn'xʷ:::che'nkhw:::hit person with slight touch, bump into::: :::čɛn'xʷ
+verb:::j:::tcäc:::češ:::čɛš:::chesh:::accompany::: :::čɛš
+verb:::j:::tcägw (čigʷ)::: :::čɛgʷ:::chegw:::extend:::only examples are unstressed:::čɛgʷ
+verb:::j:::tcäl:::čel:::čɛl:::chel:::await eagerly, anxiously::: :::čɛl
+verb:::j:::tcäl:::̕	čel̕:::čɛl':::che'l:::cough up::: :::čɛl'
+verb:::j:::tcäɬ:::čeɬ:::čɛɫ:::cheɫ:::separate, divorce, part::: :::čɛɫ
+verb:::j:::tci'<sup>ɩ</sup>:::čiʔ:::čiʔ:::chi':::open, uncover, unveil::: :::čiʔ
+verb:::j:::tci'<sup>ɩ</sup>ɬäs:::čiʔɬes:::čiʔɫɛs:::chi'ɫes:::three::: :::čiʔɫɛs
+verb:::j:::tcip:::čip:::čip:::chip:::soften::: :::čip
+verb:::j:::tcim̕:::čim̕:::čim':::chi'm:::disdain,turn away from::: :::čim'
+verb:::j:::tcits:::čic:::čic:::chits:::arrive::: :::čic
+verb:::j:::tcits::: :::čic:::chits:::find::: :::čic
+verb:::j:::tcigw:::čigʷ:::čigʷ:::chigw:::go out onto prairie::: :::čigʷ
+verb:::j:::tciɬ:::čiɬ:::čiɫ:::chiɫ:::give::: :::čiɫ
+verb:::j:::tcil̕:::čil̕:::čil':::chi'l:::nauseate::: :::čil'
+verb:::j:::tcuts::: :::čuc:::chuts:::be light person, behave affectedly::: :::čuc
+verb:::j:::tcɩp:::čip:::čəp(u-):::chp(u-):::be unexpectedly soft:::(čəp is unstressed form):::čəp(u-)
+verb:::j:::tcɩcip:::čšip:::čəšip:::chship:::chase::: :::čəšip
+verb:::j:::tcᴇtcaʀ̕:::čaʕ:::čəčaʕ':::chcha(':::be slender and cylindrical:::with diminutive reduplication and glottalization:::čəčaʕ'
+verb:::j:::tcɩtcip:::čip:::čəčip:::chchip:::be soft and smooth (like fur):::with diminutive reduplication:::čəčip
+verb:::j:::tcɩtcmin:::ččmin:::čəčmin:::chchmin:::throw one object::: :::čəčmin
+verb:::j:::tcɩɬip:::čɬip:::čəɫip:::chɫip:::hunt big game::: :::čəɫip
+verb:::j:::tcụpxʷ:::čepxʷ:::čəpxʷ:::chpkhw:::snap with finger:::čépxʷnc 'he snapped it with his finger':::čəpxʷ
+verb:::č'/ch':::tc̕t:::č̕et:::č'at(u-):::ch'at(u-):::tick, beat::: :::č'at(u-)
+verb:::č'/ch':::tc̕ax̣ʷ:::c̕ax̣:::č'ax̣ʷ:::ch'aqhw:::shove, move to one side:::Felix Aripa:::č'ax̣ʷ
+verb:::č'/ch':::tc̕ar:::č̕ar:::č'ar:::ch'ar:::cut flimsy object with shears::: :::č'ar
+verb:::č'/ch':::tc̕ar:::č̕ar:::č'ar:::ch'ar:::animal swims::: :::č'ar
+verb:::č'/ch':::tc̕ar:::č̕ar:::č'ar:::ch'ar:::band lies without exerting pressure:::as 'furrow', w/ lxs:::č'ar
+verb:::č'/ch':::tcä'<sup>ä</sup>c:::č̕eʔš:::č'aʔš:::ch'a'sh:::condescend:::LN:::č'aʔš
+verb:::č'/ch':::tc̕äp̕xʷ:::č̕ep̕uxʷ:::č'ɛp'xʷ:::ch'ep'khw:::clip, click:::č̕púxʷ 'click'; č̕épxʷ 'pinched':::č'ɛp'xʷ
+verb:::č'/ch':::tc̕äm:::č̕em:::č'ɛm:::ch'em:::be surface::: :::č'ɛm
+verb:::č'/ch':::tc̕äm̕:::č̕em̕:::č'ɛm':::ch'e'm:::be dark (as night)::: :::č'ɛm'
+verb:::č'/ch':::tc̕äw:::č̕ew:::č'ɛw:::ch'ew:::be depressing::: :::č'ɛw
+verb:::č'/ch':::tc̕äw̕:::č̕ew̕:::č'ɛw':::ch'e'w:::be large cylinder shaped::: :::č'ɛw'
+verb:::č'/ch':::tc̕äd:::č̕id; č̕ed:::č'ɛd:::ch'ed:::shade::: :::č'ɛd
+verb:::č'/ch':::tc̕ät̕:::č̕et̕:::č'ɛt':::ch'et':::cut off completely::: :::č'ɛt'
+verb:::č'/ch':::tc̕änp̕:::č̕enp̕:::č'ɛnp':::ch'enp':::clasp, encircle::: :::č'ɛnp'
+verb:::č'/ch':::tc̕än̕:::č̕en̕:::č'ɛn':::ch'e'n:::one round object lies::: :::č'ɛn'
+verb:::č'/ch':::tc̕äs:::č̕es:::č'ɛs(-t):::ch'es(-t):::be bad::: :::č'ɛs(-t)
+verb:::č'/ch':::tc̕äts̕:::č̕ec̕:::č'ɛc':::ch'ets':::one long object lies::: :::č'ɛc'
+verb:::č'/ch':::tc̕äts:::č̕ec:::č'ɛc:::ch'ets:::be stupid::: :::č'ɛc
+verb:::č'/ch':::tc̕äxʷ::: :::č'ɛxʷ:::ch'ekhw:::peck at hard object (as woodpecker)::: :::č'ɛxʷ
+verb:::č'/ch':::tc̕äx̣:::č̕ex̣:::č'ɛx̣:::ch'eqh:::rub against	as 'move aside'::: :::č'ɛx̣
+verb:::č'/ch':::tc̕äl:::č̕el:::č'ɛl:::ch'el:::be bark::: :::č'ɛl
+verb:::č'/ch':::tc̕älxʷ:::č̕elxʷ:::č'ɛlxʷ(x̣ʷ):::ch'elkhw(qhw):::be concave:::upside down, concave side down:::č'ɛlxʷ(x̣ʷ)
+verb:::č'/ch':::tc̕äṛʷ:::č̕eʕʷ:::č'aʕʷ:::ch'a(w:::pray:::R has e (a umlaut):::č'aʕʷ
+verb:::č'/ch':::tc̕ip̕:::c̕ip:::č'ip':::ch'ip':::pinch:::c̕ip̕ or č̕ep̕uxʷ:::č'ip'
+verb:::č'/ch':::tc̕im:::č̕im:::č'im:::ch'im:::grab-some::: :::č'im
+verb:::č'/ch':::tc̕id:::č̕id:::č'id(u-):::ch'id(u-):::be shadowy::: :::č'id(u-)
+verb:::č'/ch':::tc̕it-ä'<sup>ä</sup>:::č̕iteʔ:::č'it-ɛʔ:::ch'it-e':::be near::: :::č'it-ɛʔ
+verb:::č'/ch':::tc̕in̕:::č̕in:::č'in':::ch'i'n:::be dangerous:::LN, R's texts have no glottalization on C2:::č'in'
+verb:::č'/ch':::tc̕ixʷ:::č̕ixʷ:::č'ixʷ:::ch'ikhw:::lean::: :::č'ixʷ
+verb:::č'/ch':::tc̕ih:::č̕ih:::č'ih:::ch'ih:::approach, get near::: :::č'ih
+verb:::č'/ch':::tc̕u<sup>u</sup>:::č̕uw:::ču:::chu:::be absent, gone, missing, empty:::R has glottalized non-nasals:::ču
+verb:::č'/ch':::tc̕ɩtc̕än̕-ä'<sup>ä</sup>:::č̕eneʔ:::č'əčɛn'-ɛʔ:::ch'che'n-e':::one is small:::always diminutive, with C1 redup and nasal glottalized:::č'əčɛn'-ɛʔ
+verb:::č'/ch':::tc̕ɩt̕:::č'ət'(u-):::č'ət'(u-):::ch't'(u-):::be brown::: :::č'ət'(u-)
+verb:::č'/ch':::tc̕ụp̕xʷ:::č̕ep̕uxʷ:::č'əp'xʷ(u-):::ch'p'khw(u-):::it went click:::(see clip, click) R's form unstressed:::č'əp'xʷ(u-)
+verb:::č'/ch':::tc̕ụxʷ:::č'əxʷ:::č'əxʷ:::ch'khw:::retire from pursuit (prog. dis.)::: :::č'əxʷ
+verb:::y:::yanuq̕ʷ:::yanq̕ʷ:::yanuq'ʷ:::yanuq'w:::snake is coiled::: :::yanuq'ʷ
+verb:::y:::yats̕:::yac̕/yoc̕:::yac'(u-):::yats'(u-):::be tight (as belt or rope) (prog. dis.)::: :::yac'(u-)
+verb:::y:::yaq̕:::yaq̕:::yaq':::yaq':::file, whet::: :::yaq'
+verb:::y:::yar:::yar:::yar:::yar:::hooplike object rolls::: :::yar
+verb:::y:::yar:::yar:::yar:::yar:::be torch:::with =us 'fire/face':::yar
+verb:::y:::yarp̕:::yarp̕:::yarp':::yarp':::loop lies::: :::yarp'
+verb:::y:::yark̕ʷ:::yark̕ʷ:::yark'ʷ:::yark'w:::be curved, crooked::: :::yark'ʷ
+verb:::y:::yaʀ:::yaʕ:::yaʕ:::ya(:::lack, need, be scarce::: :::yaʕ
+verb:::y:::yaʀ:::yaʕ; yaʕ̕:::yaʕ:::ya(:::assemble, be many, gather, crowd::: :::yaʕ
+verb:::y:::yaʀ:::?yaʕ̕eʔ:::yaʕ:::ya(:::be shy, timid, uncertain, hesitant::: :::yaʕ
+verb:::y:::yä'<sup>ä</sup>:::ye-:::yɛʔ:::ye':::procure game:::prefix, not stem:::yɛʔ
+verb:::y:::yäp̕:::yep':::yɛp':::yep':::sway, rock::: :::yɛp'
+verb:::y:::yäm:::yem:::yɛm:::yem:::be silent::: :::yɛm
+verb:::y:::yäm::: :::yɛm:::yem:::earn, score::: :::yɛm
+verb:::y:::yätkʷ:::yetkʷ:::yɛtkʷ:::yetkw:::wood is rotten::: :::yɛtkʷ
+verb:::y:::yänp̕:::yenp̕:::yɛnp':::yenp':::clamp screw:::(vowel unverified):::yɛnp'
+verb:::y:::yäl̕xʷ:::yel̕xʷ:::yɛl'xʷ:::ye'lkhw:::cover with material::: :::yɛl'xʷ
+verb:::y:::yim̕:::yim̕:::yim':::yi'm:::trap by surrounding::: :::yim'
+verb:::y:::yit̕:::yit̕:::yit':::yit':::stir (as mush)::: :::yit'
+verb:::y:::yil̕:::yil̕:::yil':::yi'l:::defense is approached::: :::yil'
+verb:::y:::yirk̕ʷ:::yark̕ʷ:::yirk'ʷ:::yirk'w:::be curved:::yirk̕ʷ unexpected and unverified (no [i] before r):::yirk'ʷ
+verb:::y:::yih:::yih:::yih:::yih:::be calm, quiet::: :::yih
+verb:::y:::yuts̕:::yuc':::yuc':::yuts':::be beaver castoreum::: :::yuc'
+verb:::y:::yɩts̕ᴐp:::yəcɔp:::yəcɔp:::ytsop:::shaking object becomes firm::: :::yəcɔp
+verb:::y:::yᴇṛʷpiy̕igwt:::yəʕʷpiy'igʷt:::yəʕʷpiy'igʷt:::y(wpi'yigwt:::be able, capable, dependable, reasonable, willing::: :::yəʕʷpiy'igʷt
+verb:::y:::yuqʷ:::yoqʷ:::yuqʷ:::yuqw:::pretend:::one form, in attack 6.7.  unexpected:::yuqʷ
+verb:::y:::yᴐqʷ:::yoqʷ:::yɔqʷ:::yoqw:::pretend with something (to do something)::: :::yɔqʷ
+verb:::y':::y̕aʀ̕pqin̕:::y̕aʕ̕p (√yaʕ):::y'aʕ'pqin':::'ya('pqi'n:::be many, much::: :::y'aʕ'pqin'ʷ
+verb:::y':::y̕ᴐqʷ:::y̕oqʷ:::y'ɔqʷ:::'yoqw:::tell lie::: :::y'ɔqʷ
+verb:::gʷ/gw:::gum:::gʷum:::gum:::gum:::crumble, be crummy::: :::gum
+verb:::gʷ/gw:::gwaq:::gʷaq:::gʷaq:::gwaq:::be roomy::: :::gʷaq
+verb:::gʷ/gw:::gwaq̕:::gʷaq̕:::gʷaq':::gwaq':::spread apart as to part hair, remove layers::: :::gʷaq'
+verb:::gʷ/gw:::gwax̣:::gʷax̣:::gʷax̣(-t):::gwaqh(-t):::be young::: :::gʷax̣(-t)
+verb:::gʷ/gw:::gwalq̕:::gʷalq̕:::gʷalq':::gwalq':::uncover pit over:::upside down FA 1999:::gʷalq'
+verb:::gʷ/gw:::gwar:::gʷar:::gʷar:::gwar:::scrape::: :::gʷar
+verb:::gʷ/gw:::gwar̕:::gʷar̕:::gʷar':::gwa'r:::be silvery, clear::: :::gʷar'
+verb:::gʷ/gw:::gwäp:::gʷep:::gʷɛp:::gwep:::be hairy, grassy::: :::gʷɛp
+verb:::gʷ/gw:::gwät̕tc̕:::gʷet̕č̕:::gʷɛt'č':::gwet'ch':::prong, gore::: :::gʷɛt'č
+verb:::gʷ/gw:::gwäc:::gʷeš:::gʷɛš:::gwesh:::comb::: :::gʷɛš
+verb:::gʷ/gw:::gwitct:::gʷič:::gʷičt:::gwicht:::see::: :::gʷičt
+verb:::gʷ/gw:::gwän:::gʷen:::gʷɛn:::gwen:::be below, deep, low::: :::gʷɛn
+verb:::gʷ/gw:::gwäs:::gʷes:::gʷɛs:::gwes:::spin, twist thread::: :::gʷɛs
+verb:::gʷ/gw:::gwäy̕:::gʷey̕:::gʷɛy':::gwe'y:::finish::: :::gʷɛy'
+verb:::gʷ/gw:::gwäxʷ:::gʷexʷ:::gʷɛxʷ:::gwekhw:::pl. objects hang::: :::gʷɛxʷ
+verb:::gʷ/gw:::reichard:::gʷel:::gʷɛl:::gwel:::burn blaze::: :::gʷɛl
+verb:::gʷ/gw:::gwäl̕:::gʷel̕:::gʷɛl':::gwe'l:::tilt::: :::gʷɛl'
+verb:::gʷ/gw:::gwiw:::gʷiw̕:::gʷiw:::gwiw:::wear in shreds::: :::gʷiw
+verb:::gʷ/gw:::gwis:::gʷis:::gʷis:::gwis:::be high::: :::gʷis
+verb:::gʷ/gw:::gwit̕s:::gʷic̕:::gʷic':::gwits':::pick out with stick::: :::gʷic'
+verb:::gʷ/gw:::gwic:::gʷiš:::gʷiš:::gwish:::be weir::: :::gʷiš
+verb:::gʷ/gw:::gwitc̕:::gʷič̕:::gʷič':::gwich':::be kindling::: :::gʷič'
+verb:::gʷ/gw:::gwigwäp:::gʷip:::gʷigʷɛp:::gwigwep:::step back::: :::gʷigʷɛp
+verb:::gʷ/gw:::gwil:::gʷil:::gʷil:::gwil:::trust::: :::gʷil
+verb:::gʷ/gw:::gwᴐq:::gʷɔq:::gʷɔq:::gwoq:::make way through crowd::: :::gʷɔq
+verb:::gʷ/gw:::gwụnit:::gʷinit:::gʷənit:::gwnit:::call, summon:::ex of stress on V1 (MS toad 16 2.2):::gʷənit
+verb:::gʷ/gw:::gwụnixʷ:::gʷnixʷ:::gʷənixʷ:::gwnikhw:::be true::: :::gʷənixʷ
+verb:::gʷ/gw:::gwụɬ:::gʷəɫ:::gʷəɫ:::gwɫ:::twinkle::: :::gʷəɫ
+verb:::kʷ/kw:::kus:::kʷus:::*kus(u-, -t):::kus(u-, -t):::be frisky, skittish, shy, timid:::*no Salishan transcription will include unlabialized k to represent these sounds:::kus(u-, -t)
+verb:::kʷ/kw:::kus:::kʷus:::kus:::kus:::be curly::: :::kus
+verb:::kʷ/kw:::kul:::kʷuɬ:::kul:::kul:::lend:::Reichard has barred l in original as well.:::kul
+verb:::kʷ/kw:::kulsäts:::kulsɛc:::kulsɛc:::kulsets:::hire::: :::kulsɛc
+verb:::kʷ/kw:::kuɬ:::kʷuɬ:::kuɫ:::kuɫ:::borrow::: :::kuɫ
+verb:::kʷ/kw:::kʷar:::kʷar:::kʷar:::kwar:::be yellow::: :::kʷar
+verb:::kʷ/kw:::kʷäl̕:::kʷel̕:::kʷɛl':::kwe'l:::be hot, sunny, warm::: :::kʷɛl'
+verb:::kʷ/kw:::kʷi'<sup>ɩ</sup>ts:::kʷic:::kʷiʔc:::kwi'ts:::early in morning, be dusk:::ʔ infix inchoative:::kʷiʔc
+verb:::kʷ/kw:::kʷin:::kʷin:::kʷin:::kwin:::take hold of one small object::: :::kʷin
+verb:::kʷ/kw:::kʷin:::hnkʷin:::kʷin:::kwin:::sing (with hən-)::: :::kʷin
+verb:::kʷ/kw:::kʷis:::kʷis:::kʷis(-t):::kwis(-t):::be named::: :::kʷis(-t)
+verb:::kʷ/kw:::kʷigw:::kʷigʷ:::kʷigʷ(-t):::kwigw(-t):::see faintly:::cuˑkʷígʷ only form; check to confirm prefix:::kʷigʷ(-t)
+verb:::kʷ/kw:::kʷil:::kʷil:::kʷil:::kwil:::become red::: :::kʷil
+verb:::kʷ/kw:::kʷụl:::kʷul/kʷəl:::kʷəl:::kwl:::be red:::LaSarte 11.01 ʔuˑkʷúl; kʷəl:::kʷəl
+verb:::k'ʷ/k'w:::k̕us::: :::k'us:::k'us:::be easily split::: :::k'us
+verb:::k'ʷ/k'w:::k̕ustcä'<sup>ä</sup>::: :::k'usčɛʔ:::k'usche':::haunt, ghost::: :::k'usčɛʔ
+verb:::k'ʷ/k'w:::k̕ul̕::: :::k'ul':::k'u'l:::do, make fix::: :::k'ul'
+verb:::k'ʷ/k'w:::k̕ʷax̣::: :::k'ʷax̣:::k'waqh:::be claw::: :::k'ʷax̣
+verb:::k'ʷ/k'w:::k̕ʷäɬ::: :::k'ʷɛɫ:::k'weɫ:::tickle::: :::k'ʷɛɫ
+verb:::k'ʷ/k'w:::k̕ʷäɬc::: :::k'ʷɛɫš:::k'weɫsh:::shy at::: :::k'ʷɛɫš
+verb:::k'ʷ/k'w:::k̕ʷaʀ::: :::k'ʷaʕ:::k'wa(:::slide, slip, skid::: :::k'ʷaʕ
+verb:::k'ʷ/k'w:::k̕ʷät̕::: :::k'ʷɛt':::k'wet':::expose, be evident, plain::: :::k'ʷɛt'
+verb:::k'ʷ/k'w:::k̕ʷi'<sup>ɩ</sup>::: :::k'ʷiʔ::: k'wi':::bite::: :::k'ʷiʔ
+verb:::k'ʷ/k'w:::k̕ʷiy̕::: :::k'ʷiy':::k'wi'y:::easy, quietly, still::: :::k'ʷiy'
+verb:::k'ʷ/k'w:::k̕ʷit̕::: :::k'ʷit':::k'wit':::take off clothes::: :::k'ʷit'
+verb:::k'ʷ/k'w:::k̕ʷinc::: :::k'ʷinš:::k'winsh:::how many?::: :::k'ʷinš
+verb:::k'ʷ/k'w:::k̕ʷin̕::: :::k'ʷin':::k'wi'n:::try choose, consider, examine::: :::k'ʷin'
+verb:::xʷ/khw:::xui::: :::xui:::khui:::go::: :::xui
+verb:::xʷ/khw:::xuˑˑp::: :::xup(u-):::khup(u-):::increase magically::: :::xup(u-)
+verb:::xʷ/khw:::xu<sup>u</sup>p::: :::xup(u-):::khup(u-) :::show off::: :::xup(u-)
+verb:::xʷ/khw:::xups::: :::xups:::khups:::slap with tail::: :::xups
+verb:::xʷ/khw:::xum̕::: :::xum':::khu'm:::be homesick for, be lonely::: :::xum'
+verb:::xʷ/khw:::xus::: :::xus:::khus:::arouse::: :::xus
+verb:::xʷ/khw:::xul::: :::xul:::khul:::bore hole::: :::xul
+verb:::xʷ/khw:::xuɬ::: :::xuɫ:::khuɫ:::proceed to::: :::xuɫ
+verb:::xʷ/khw:::xʷam::: :::xʷam:::khwam:::be roan color::: :::xʷam
+verb:::xʷ/khw:::xʷar::: :::xʷar:::khwar:::tremble, quiver::: :::xʷar
+verb:::xʷ/khw:::xʷar::: :::xʷar:::khwar:::a very long time::: :::xʷar
+verb:::xʷ/khw:::xʷäp::: :::xʷɛp:::khwep:::spread, flatten out blanket::: :::xʷɛp
+verb:::xʷ/khw:::xʷäd::: :::xʷɛd:::khwed:::itch::: :::xʷɛd
+verb:::xʷ/khw:::xʷät::: :::xʷɛt:::khwet:::be exhausted, come to end::: :::xʷɛt
+verb:::xʷ/khw:::xʷät̕::: :::xʷɛt':::khwet':::move hurriedly::: :::xʷɛt'
+verb:::xʷ/khw:::xʷät̕k̕ʷ::: :::xʷɛt'k'ʷ:::khwet'k'w:::rise suddenly (like hair or wire)::: :::xʷɛt'k'ʷ
+verb:::xʷ/khw:::xʷäts::: :::xʷɛc:::khwets:::suffer::: :::xʷɛc
+verb:::xʷ/khw:::xụxʷäy̕ä'<sup>ä</sup>::: :::xʷəxʷɛy'ɛʔ:::khwkhwe'ye':::be narrow::: :::xʷəxʷɛy'ɛʔ
+verb:::xʷ/khw:::xʷäk̕ʷ::: :::xʷɛk'ʷ:::khwek'w:::clean, sweep::: :::xʷɛk'ʷ
+verb:::xʷ/khw:::xʷäl::: :::xʷɛl:::khwel:::clean material like moss, cotton::: :::xʷɛl
+verb:::xʷ/khw:::xʷäl::: :::xʷɛl:::khwel:::be alive, live::: :::xʷɛl
+verb:::xʷ/khw:::xʷäl̕::: :::xʷɛl':::khwe'l:::set to spinning (as a top)::: :::xʷɛl'
+verb:::xʷ/khw:::xʷäṛ-ɩc::: :::xʷɛʕ-əš:::khwe(-sh:::step over a person ceremonially::: :::xʷɛʕ-əš
+verb:::xʷ/khw:::xʷi'<sup>ɩ</sup>::: :::xʷiʔ:::khwi':::here at this moment::: :::xʷiʔ
+verb:::xʷ/khw:::xʷi'<sup>ɩ</sup>t::: :::xʷiʔt:::khwi't:::attack, abuse with words or act::: :::xʷiʔt
+verb:::xʷ/khw:::xʷit::: :::xʷit:::khwit:::entertain, amuse::: :::xʷit
+verb:::xʷ/khw:::xʷi'<sup>ɩ</sup>n::: :::xʷiʔn:::khwi'n:::go along here::: :::xʷiʔn
+verb:::xʷ/khw:::xʷis::: :::xʷis(-t):::khwis(-t):::one travels, goes about::: :::xʷis(-t)
+verb:::xʷ/khw:::xụxʷits::: :::xʷəxʷic:::khwkhwits:::be short::: :::xʷəxʷic
+verb:::xʷ/khw:::xʷits̕::: :::xʷic':::khwits':::point toward::: :::xʷic'
+verb:::xʷ/khw:::xʷits̕::: :::xʷic':::khwits':::be helper to::: :::xʷic'
+verb:::xʷ/khw:::xwik̕ʷ::: :::xʷik'ʷ(-t):::khwik'w(-t):::be frosty::: :::xʷik'ʷ(-t)
+verb:::q:::qaqs::: :::qaqs:::qaqs:::serenade, sing war song::: :::qaqs
+verb:::q:::qax̣::: :::qax̣:::qaqh:::make x̣ sound::: :::qax̣
+verb:::q:::qäp::: :::qɛp:::qep:::pad::: :::qɛp
+verb:::q:::qäm::: :::qɛm:::qem:::be home::: :::qɛm
+verb:::q:::qäm::: :::qɛm:::qem:::be unconcerned, pay no attention::: :::qɛm
+verb:::q:::qäm::: :::qɛm:::qem:::have cramp::: :::qɛm
+verb:::q:::qäs::: :::qɛs:::qɛs:::scratch with nails::: :::qɛs
+verb:::q:::qäts::: :::qɛc:::qets:::shrink in quantity::: :::qɛc
+verb:::q:::qäq::: :::qɛq:::qeq:::cackle::: :::qɛq
+verb:::q:::qäl::: :::qɛl(u-):::qel(u-):::be fresh::: :::qɛl(u-)
+verb:::q:::qäɬ::: :::qɛɫ:::qeɫ:::be awake::: :::qɛɫ
+verb:::q:::qäɬ::: :::qɛɫ:::qeɫ:::overcome great resistance, lift, succeed at what seems impossible::: :::qɛɫ
+verb:::q:::qi'<sup>ɩ</sup>xʷ::: :::qiʔxʷ:::qi'khw:::smell, have odor::: :::qiʔxʷ
+verb:::q:::qigw::: :::qigʷ:::qigw:::dig roots::: :::qigʷ
+verb:::q:::qixʷ::: :::qixʷ:::qikhw:::forbid, prevent from::: :::qixʷ
+verb:::q:::qilttc::: :::qiltč:::qiltch:::be inland::: :::qiltč
+verb:::q:::qiɬ::: :::qiɫ(-t):::qiɫ(-t):::wake up::: :::qiɫ(-t)
+verb:::q:::qum̕::: :::qum':::qu'm:::be dim, gray::: :::qum'
+verb:::q:::quɬ::: :::quɫ(u-):::quɫ(u-):::be dusty::: :::quɫ(u-)
+verb:::q:::qᴐqʷ::: :::qɔqʷ:::qoqw:::be mouldy::: :::qɔqʷ
+verb:::q':::q̕aq̕am̕̕iy̕ä'<sup>ä</sup>::: :::q'aq'am'iy''ɛʔ:::q'aq'a'mi'y'e':::fish::: :::q'aq'am'iy''ɛʔ
+verb:::q':::q̕ants-ic::: :::q'anc-iš:::q'ants-ish:::struggle for one's life (as in fire)::: :::q'anc-iš
+verb:::q':::q̕äpqʷ::: :::q'ɛpqʷ:::q'epqw:::trap in crotch::: :::q'ɛpqʷ
+verb:::q':::q̕äm::: :::q'ɛm:::q'em:::desire, covet, long for::: :::q'ɛm
+verb:::q':::q̕äm::: :::q'ɛm:::q'em:::swallow::: :::q'ɛm
+verb:::q':::q̕äw::: :::q'ɛw:::q'ew:::break stiff object::: :::q'ɛw
+verb:::q':::q̕ädäm::: :::q'ɛdɛm:::q'edem:::refuse, be balky::: :::q'ɛdɛm
+verb:::q':::q̕ät̕p::: :::q'ɛt'p:::q'et'p:::go up incline::: :::q'ɛt'p
+verb:::q':::q̕äsp::: :::q'ɛsp:::q'esp:::be long time, long ago::: :::q'ɛsp
+verb:::q':::q̕äts̕::: :::q'ɛc':::q'ets':::braid, intertwine, weave, knit::: :::q'ɛc'
+verb:::q':::q̕äy̕::: :::q'ɛy':::q'e'y:::be variegated, spotted::: :::q'ɛy'
+verb:::q':::q̕äy̕::: :::q'ɛy':::q'e'y:::make pattern, write, design, take picture::: :::q'ɛy'
+verb:::q':::q̕äxʷ::: :::q'ɛxʷ:::q'ekhw:::be proud::: :::q'ɛxʷ
+verb:::q':::q̕äx̣::: :::q'ɛx̣:::q'eqh:::be frugal, grudging::: :::q'ɛx̣
+verb:::q':::q̕äxʷ::: :::q'ɛxʷ:::q'ekhw:::be lustful, have desire::: :::q'ɛxʷ
+verb:::q':::q̕äl::: :::q'ɛl:::q'el:::swing::: :::q'ɛl
+verb:::q':::q̕äl̕xʷ::: :::q'ɛl'xʷ:::q'e'lkhw:::hook over, into::: :::q'ɛl'xʷ
+verb:::q':::q̕i'<sup>ɩ</sup>::: :::q'iʔ:::q'i':::stick to, wedge into::: :::q'iʔ
+verb:::q':::q̕i'<sup>ɩ</sup>ts̕::: :::q'iʔc':::q'i'ts':::vegetation grows::: :::q'iʔc'
+verb:::q':::q̕iw::: :::q'iw:::q'iw:::witch::: :::q'iw
+verb:::q':::q̕iy̕::: :::q'iy':::q'i'y:::cleft::: :::q'iy'
+verb:::q':::q̕ɩq̕ixʷä'<sup>ä</sup>::: :::q'əq'ixʷɛʔ:::q'q'ikhwe':::few::: :::q'əq'ixʷɛʔ
+verb:::q':::q̕up̕::: :::q'up'(-t):::q'up'(-t):::rain::: :::q'up'(-t)
+verb:::q':::q̕ut̕::: :::q'ut':::q'ut':::be woven, knitted::: :::q'ut'
+verb:::q':::q̕uts::: :::q'uc:::q'uts:::be fat::: :::q'uc
+verb:::q':::q̕ul̕::: :::q'ul':::q'u'l:::produce::: :::q'ul'
+verb:::x̣/qh:::x̣a'<sup>a</sup>m::: :::x̣aʔm:::qha'm:::monster::: :::x̣aʔm
+verb:::x̣/qh:::x̣ax̣an̕ut::: :::x̣ax̣an'ut:::qhaqha'nut:::nine::: :::x̣ax̣an'ut
+verb:::x̣/qh:::x̣ats::: :::x̣ac:::qhats:::bet::: :::x̣ac
+verb:::x̣/qh:::x̣ats̕::: :::x̣ac'(u-):::qhats'(u-):::be queer::: :::x̣ac'(u-)
+verb:::x̣/qh:::x̣ay̕ɩc::: :::x̣ay'əš:::qha'ysh:::avenge::: :::x̣ay'əš
+verb:::x̣/qh:::x̣ay̕x̣iy̕::: :::x̣ay'xiy':::qha'ykhi'y:::one is large::: :::x̣ay'xiy'
+verb:::x̣/qh:::x̣aq̕::: :::x̣aq':::qhaq':::pay, reward::: :::x̣aq'
+verb:::x̣/qh:::x̣al::: :::x̣al:::qhal:::redhot::: :::x̣al
+verb:::x̣/qh:::x̣aɬ::: :::x̣aɫ:::qhaɫ:::scare::: :::x̣aɫ
+verb:::x̣/qh:::x̣al::: :::x̣al:::qhal:::spy::: :::x̣al
+verb:::x̣/qh:::x̣aʀ::: :::x̣aʕ:::qha(:::fan::: :::x̣aʕ
+verb:::x̣/qh:::x̣äp::: :::x̣ɛp:::qhep:::pile flat objects::: :::x̣ɛp
+verb:::x̣/qh:::x̣äp̕::: :::x̣ɛp':::qhep':::button, fasten together, sew::: :::x̣ɛp'
+verb:::x̣/qh:::x̣äm::: :::x̣ɛm:::qhem:::bite::: :::x̣ɛm
+verb:::x̣/qh:::x̣äm::: :::x̣ɛm:::qhem:::be heavy::: :::x̣ɛm
+verb:::x̣/qh:::x̣ämäntsᴐtᴇn::: :::x̣ɛmɛncɔtən:::qhementsotn:::leave one's own people, go to live with in-laws (prog. dis.)::: :::x̣ɛmɛncɔtən
+verb:::x̣/qh:::x̣ämintc::: :::̣ɛminč:::qheminch:::like, love:::note:::̣ɛminč
+verb:::x̣/qh:::x̣ämts::: :::x̣ɛmc:::qhemts:::shave hair::: :::x̣ɛmc
+verb:::x̣/qh:::x̣ät::: :::x̣ɛt:::qhet:::punish::: :::x̣ɛt
+verb:::x̣/qh:::x̣ät::: :::x̣ɛt:::qhet:::club::: :::x̣ɛt
+verb:::x̣/qh:::x̣ät̕::: :::x̣ɛt':::qhet':::gnaw, eat close, graze::: :::x̣ɛt'
+verb:::x̣/qh:::x̣äs::: :::x̣ɛs:::qhes:::be well, be good::: :::x̣ɛs
+verb:::x̣/qh:::x̣äts::: :::x̣ɛc:::qhets:::be ready, clothed, get ready::: :::x̣ɛc
+verb:::x̣/qh:::x̣ätsut::: :::x̣ɛcut:::qhetsut:::be companion to::: :::x̣ɛcut
+verb:::x̣/qh:::x̣äts̕::: :::x̣ɛc'(u-):::qhets'(u-):::arouse curiosity::: :::x̣ɛc'(u-)
+verb:::x̣/qh:::x̣äy::: :::x̣ɛy:::qhey:::be left over::: :::x̣ɛy
+verb:::x̣/qh:::x̣äl::: :::x̣ɛl:::qhel:::lay evenly (as lumber)::: :::x̣ɛl
+verb:::x̣/qh:::x̣äl::: :::x̣ɛl:::qhel:::be clear, bright, light::: :::x̣ɛl
+verb:::x̣/qh:::x̣äʀigw::: :::x̣ɛʕigʷ(-t):::qhe(igw(-t):::be full of holes so air can pass through::: :::x̣ɛʕigʷ(-t)
+verb:::x̣/qh:::x̣ip::: :::x̣ip:::qhip:::gnaw to destroy (as beaver, mouse, squirrel)::: :::x̣ip
+verb:::x̣/qh:::x̣iw::: :::x̣iw:::qhiw:::be shy, timid, ashamed, embarrassed::: :::x̣iw
+verb:::x̣/qh:::x̣iw̕::: :::x̣iw':::qhi'w:::be raw (uncooked)::: :::x̣iw'
+verb:::x̣/qh:::x̣it::: :::x̣it:::qhit:::be corrugated marked::: :::x̣it
+verb:::x̣/qh:::x̣its::: :::x̣ic:::qhits:::threaten with hand::: :::x̣ic
+verb:::x̣/qh:::x̣iy::: :::x̣iy:::qhiy:::gray (as horse)::: :::x̣iy
+verb:::x̣/qh:::x̣il::: :::x̣il:::qhil:::lick from (as salt from ground)::: :::x̣il
+verb:::x̣/qh:::x̣iɬ::: :::x̣iɫ:::qhiɫ:::fear::: :::x̣iɫ
+verb:::x̣/qh:::x̣iɬ::: :::x̣iɫ:::qhiɫ:::leave, desert::: :::x̣iɫ
+verb:::x̣/qh:::x̣us::: :::x̣us:::qhus:::foam (like beer)::: :::x̣us
+verb:::x̣/qh:::x̣ᴐlq̕ʷ::: :::x̣ɔlq'ʷ:::qholq'w:::wind string evenly::: :::x̣ɔlq'ʷ
+verb:::qʷ/qw:::qʷa'<sup>a</sup>qʷä'<sup>ä</sup>l::: :::qʷaʔqʷɛʔl:::qwa'qwe'l:::speak, talk::: :::qʷaʔqʷɛʔl
+verb:::qʷ/qw:::qʷam::: :::qʷam:::qwam:::be pleasant, comfortable, fascinating, pleasing::: :::qʷam
+verb:::qʷ/qw:::qʷay::: :::qʷay:::qway:::joke, talk backward::: :::qʷay
+verb:::qʷ/qw:::qʷä'<sup>ä</sup>::: :::qʷɛʔ:::qwe':::continue with::: :::qʷɛʔ
+verb:::qʷ/qw:::qʷäm̕::: :::qʷɛm':::qwe'm:::ignore, be oblivious to::: :::qʷɛm'
+verb:::qʷ/qw:::qʷäs::: :::qʷɛs(u-):::qwes(u-):::blur, be foolish::: :::qʷɛs(u-)
+verb:::qʷ/qw:::qʷäy̕::: :::qʷɛy':::qwe'y:::be poor, pitiable, pity::: :::qʷɛy'
+verb:::qʷ/qw:::qʷäl̕::: :::qʷɛl':::qʷɛl':::be livid, bluish, angry::: :::qʷɛl'
+verb:::qʷ/qw:::qʷäṛʷ::: :::qʷɛʕʷ(u-):::qwe(w(u-):::be insane, drunk, foolish, irresponsible::: :::qʷɛʕʷ(u-)
+verb:::qʷ/qw:::qʷäl̕::: :::qʷɛl':::qwe'l:::enkindle, light::: :::qʷɛl'
+verb:::qʷ/qw:::qʷi'<sup>ɩ</sup>::: :::qʷiʔ:::qwi':::be hollow::: :::qʷiʔ
+verb:::qʷ/qw:::qʷi'<sup>ɩ</sup>::: :::qʷiʔ:::qwi':::be accustomed to::: :::qʷiʔ
+verb:::qʷ/qw:::qʷin::: :::qʷin:::qwin:::be blue::: :::qʷin
+verb:::qʷ/qw:::qʷits::: :::qʷic:::qwits:::be warm::: :::qʷic
+verb:::qʷ/qw:::qʷiy::: :::qʷiy(u-):::qwiy(u-):::have plenty::: :::qʷiy(u-)
+verb:::qʷ/qw:::qʷiy̕::: :::qʷiy'(-t):::qwi'y(-t):::have pity for::: :::qʷiy'(-t)
+verb:::qʷ/qw:::qʷil::: :::qʷil:::qwil:::cheat::: :::qʷil
+verb:::qʷ/qw:::qʷil̕::: :::qʷil':::qwi'l:::kindle, light, make fire::: :::qʷil'
+verb:::qʷ/qw:::qʷil̕::: :::qʷil':::qwi'l:::starve::: :::qʷil'
+verb:::qʷ/qw:::qʷuˑn::: :::qʷun(u-):::qwun(u-):::be blue, green::: :::qʷun(u-)
+verb:::q'ʷ/q'w:::reichard::: :::q'us:::q'us:::be gathered, wrinkled::: :::q'us
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷal(-t):::q'wal(-t):::be black from burning::: :::q'ʷal(-t)
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷɛd:::q'wed:::be black::: :::q'ʷɛd
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷɛn'p':::q'we'np':::go out of sight, disappear::: :::q'ʷɛn'p'
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷɛs:::q'wes:::be wrinkled, shriveled::: :::q'ʷɛs
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷɛc:::q'wets:::pl. are enduring, solid, firm::: :::q'ʷɛc
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷɛy':::q'we'y:::bounce, dance::: :::q'ʷɛy'
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷɛy':::q'we'y:::wring, choke::: :::q'ʷɛy'
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷɛl:::q'wel:::cook, burn::: :::q'ʷɛl
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷɛɫ:::q'weɫ:::have endurance, be long-winded::: :::q'ʷɛɫ
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷid:::q'wid:::make black, blacken::: :::q'ʷid
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷiʔɫ:::q'wi'ɫ:::move camp, village travels::: :::q'ʷiʔɫ
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷic'(-t):::q'wits'(-t):::be full::: :::q'ʷic'(-t)
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷiɫ:::q'wiɫ:::be enduring, persevering (in general sense)::: :::q'ʷiɫ
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷih:::q'wih:::be black (in describing person)::: :::q'ʷih
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷəd(u-):::q'wd(u-):::be black (of horses)::: :::q'ʷəd(u-)
+verb:::q'ʷ/q'w:::reichard::: :::q'ʷəliw:::q'wliw:::bear picks berries::: :::q'ʷəliw
+verb:::x̣ʷ/qhw:::x̣up::: :::x̣up:::qhup:::be inefficient, careless::: :::x̣up
+verb:::x̣ʷ/qhw:::x̣ʷad::: :::x̣ʷad:::qhwad:::be comical, be amused, laugh::: :::x̣ʷad
+verb:::x̣ʷ/qhw:::x̣ʷat::: :::x̣ʷat:::qhwat:::cut in two::: :::x̣ʷat
+verb:::x̣ʷ/qhw:::x̣ʷaq̕ʷ::: :::x̣ʷaq'ʷ:::qhwaq'w:::divide, separate::: :::x̣ʷaq'ʷ
+verb:::x̣ʷ/qhw:::x̣ʷaɬ::: :::x̣ʷaɫ:::qhwaɫ:::dart::: :::x̣ʷaɫ
+verb:::x̣ʷ/qhw:::x̣ʷän::: :::x̣ʷɛn(u-):::qhwen(u-):::hurry to get at::: :::x̣ʷɛn(u-)
+verb:::x̣ʷ/qhw:::x̣ʷäts::: :::x̣ʷɛc:::qhwets:::pass by::: :::x̣ʷɛc
+verb:::x̣ʷ/qhw:::x̣ʷäq̕ʷ::: :::x̣ʷɛq'ʷ:::qhweq'w:::grind meal::: :::x̣ʷɛq'ʷ
+verb:::x̣ʷ/qhw:::x̣ʷits::: :::x̣ʷic:::qhwits:::crop hair::: :::x̣ʷic
+verb:::x̣ʷ/qhw:::x̣ʷiɬ::: :::x̣ʷiɫ:::qhwiɫ:::hurry at something::: :::x̣ʷiɫ
+verb:::l:::la'ax̣ʷ::: :::laʔax̣̣ʷ:::la'aqhw:::be daytime, morning, tomorrow::: :::laʔax̣̣ʷ
+verb:::l:::laq::: :::laq:::laq:::pull out plants::: :::laq
+verb:::l:::laq̕::: :::laq':::laq':::pare, peel::: :::laq'
+verb:::l:::laqʷ::: :::laqʷ:::laqw:::store hanging (as tallow in paunch)::: :::laqʷ
+verb:::l:::laq̕ʷ::: :::laq'ʷ:::laq'w:::be able::: :::laq'ʷ
+verb:::l:::lax̣ʷ::: :::lax̣ʷ:::laqhw:::pl. round objects lie::: :::lax̣ʷ
+verb:::l:::läp̕x̣ʷ::: :::lɛp'x̣ʷ:::lep'qhw:::fit into (as ball and socket)::: :::lɛp'x̣ʷ
+verb:::l:::lädj::: :::lɛǰ(-p):::lej(-p):::stab::: :::lɛǰ(-p)
+verb:::l:::reichard::: :::lɛǰ:::lej:::sting::: ::: lɛǰ
+verb:::l:::lätc̕::: :::lɛč':::lech':::bind::: :::lɛč'
+verb:::l:::lätc̕::: :::lɛč':::lech':::pl. are fierce::: :::lɛč'
+verb:::l:::läkʷ::: :::lɛkʷ:::lekw:::be far::: :::lɛkʷ
+verb:::l:::läxʷ::: :::lɛxʷ(-p):::lekhw(-p):::hurt::: :::lɛxʷ(-p)
+verb:::l:::läxʷ::: :::lɛxʷ:::lekhw:::perforate, be hole::: :::lɛxʷ
+verb:::l:::laq̕::: :::laq':::laq':::search for::: :::laq'
+verb:::l:::lax̣::: :::lax̣:::laqh:::lighten, be electric::: :::lax̣
+verb:::l:::lax̣::: :::lax̣(-t):::laqh(-t):::be friend::: :::lax̣(-t)
+verb:::l:::läq̕::: :::lɛq':::leq':::bury::: :::lɛq'
+verb:::l:::läṛʷ::: :::lɛʕʷ:::le(w :::draw on, make fit::: :::lɛʕʷ
+verb:::l:::lic::: :::liš:::lish:::be hilly, mountain::: :::liš
+verb:::l:::li'<sup>ɩ</sup>lä'<sup>ä</sup>::: :::liʔlɛʔ(-t):::li'le'(-t):::pl. fly::: :::liʔlɛʔ(-t)
+verb:::l:::limt::: :::lim(-t):::lim(-t):::be glad, thankful, pleased::: :::lim(-t)
+verb:::l:::ligw::: :::ligʷ(-t):::ligw(-t):::snare, catch in trap::: :::ligʷ(-t)
+verb:::l:::lup::: :::lup:::lup:::be dry, thirsty::: :::lup
+verb:::l:::lut::: :::lut:::lut:::be mischievous, not, negative::: :::lut
+verb:::l:::luk̕ʷ::: :::luk'ʷ:::nluk'w:::pull, pick off strings, fuzz::: :::luk'ʷ
+verb:::ɫ:::ɬats::: :::ɫac:::ɫats:::one drop falls::: :::ɫac
+verb:::ɫ:::ɬapx̣::: :::ɫapx̣:::ɫapqh:::be slightly skinned::: :::ɫapx̣
+verb:::ɫ:::ɬay::: :::ɫay:::ɫay:::make dirty marks, scribble::: :::ɫay
+verb:::ɫ:::ɬaxʷ::: :::ɫaxʷ:::ɫakhw:::wear, draw on::: :::ɫaxʷ
+verb:::ɫ:::ɬaq::: :::ɫaq:::ɫaq:::be serviceberry, do with serviceberry::: :::ɫaq
+verb:::ɫ:::ɬaq::: :::ɫaq:::ɫaq:::mend, patch::: :::ɫaq
+verb:::ɫ:::ɬaqi'<sup>ɩ</sup>::: :::ɫaqiʔ:::ɫaqi':::pl. lower, fall, dismount::: :::ɫaqiʔ
+verb:::ɫ:::ɬaq̕::: :::ɫaq':::ɫaq':::be wide::: :::ɫaq'
+verb:::ɫ:::ɬaq̕::: :::ɫaq':::ɫaq':::person lies on stomach, crouch::: :::ɫaq'
+verb:::ɫ:::ɬaqʷ::: :::ɫaqʷ:::ɫaqw:::band used with pressure, belt::: :::ɫaqʷ
+verb:::ɫ:::ɬaqʷ::: :::ɫaqʷ:::ɫaqw:::store hanging, hang on line::: :::ɫaqʷ
+verb:::ɫ:::ɬaq̕ʷ::: :::ɫaq'ʷ:::ɫaq'w:::skin, pull off::: :::ɫaq'ʷ
+verb:::ɫ:::ɬax̣ʷ::: :::ɫax̣ʷ:::ɫaqhw:::move with weight and speed::: :::ɫax̣ʷ
+verb:::ɫ:::ɬax̣ʷp::: :::ɫax̣ʷp:::ɫaqhwp:::escape::: :::ɫax̣ʷp
+verb:::ɫ:::ɬax̣ʷp̕::: :::ɫax̣ʷp':::ɫaqhwp':::rush::: :::ɫax̣ʷp'
+verb:::ɫ:::ɬax̣ʷq̕::: :::ɫax̣ʷq':::ɫaqhwq':::foot slips::: :::ɫax̣ʷq'
+verb:::ɫ:::ɬaṛʷ::: :::ɫaʕʷ(u-):::ɫa(w(u-):::be slippery (as ice)::: :::ɫaʕʷ(u-)
+verb:::ɫ:::ɬä'än::: :::ɫɛʔɛn :::ɫe'en:::be on opposite side::: :::ɫɛʔɛn
+verb:::ɫ:::ɬäp::: :::ɫɛp:::ɫep:::be difficult but possible of achievement, be disgusting::: :::ɫɛp
+verb:::ɫ:::ɬäp̕::: :::ɫɛp'(u-):::ɫep'(u-):::be undaunted::: :::ɫɛp'(u-)
+verb:::ɫ:::reichard::: :::ɫɛp':::ɫep':::stripe, mark, make welt::: :::ɫɛp'
+verb:::ɫ:::ɬäm̕::: :::ɫɛm':::ɫe'm:::apologize::: :::ɫɛm'
+verb:::ɫ:::ɬätq̕::: :::ɫɛtq':::ɫetq':::splash, drops hit surface::: :::ɫɛtq'
+verb:::ɫ:::ɬät̕::: :::ɫɛt':::ɫet':::one jumps::: :::ɫɛt'
+verb:::ɫ:::ɬäts::: :::ɫɛc:::ɫets:::flat objects lie::: :::ɫɛc
+verb:::ɫ:::ɬätc̕::: :::ɫɛč':::ɫech':::string breaks::: :::ɫɛč'
+verb:::ɫ:::ɬäk̕ʷ::: :::ɫɛk'ʷ:::ɫek'w:::pierce with fine-pointed object, fork, barb, spike::: :::ɫɛk'ʷ
+verb:::ɫ:::ɬäxʷ::: :::ɫɛxʷ:::ɫekhw:::draw together, slip on::: :::ɫɛxʷ
+verb:::ɫ:::ɬäxʷ::: :::ɫɛxʷ:::ɫekhw:::sew::: :::ɫɛxʷ
+verb:::ɫ:::ɬäq̕::: :::ɫɛq':::ɫeq':::make impound, round up animals::: :::ɫɛq'
+verb:::ɫ:::ɬäl::: :::ɫɛl:::ɫel:::sprinkle::: :::ɫɛl
+verb:::ɫ:::ɬäṛʷ::: :::ɫɛʕ:::ɫe(:::skate, slide on ice::: :::ɫɛʕ
+verb:::ɫ:::ɬi'<sup>ɩ</sup>::: :::ɫiʔ:::ɫi':::be close to edge, be border::: :::ɫiʔ
+verb:::ɫ:::ɬip̕::: :::ɫip':::ɫip':::make striped (?)::: :::ɫip'
+verb:::ɫ:::ɬit̕::: :::ɫit':::ɫit':::sprinkle ceremonially::: :::ɫit'
+verb:::ɫ:::ɬit̕::: :::ɫit':::ɫit':::pl. jump off of, out of::: :::ɫit'
+verb:::ɫ:::ɬitk̕ʷ::: :::ɫitk'ʷ:::ɫitk'w:::pl. objects jerk into different position::: :::ɫitk'ʷ
+verb:::ɫ:::ɬis::: :::ɫis:::ɫis:::measure, weigh::: :::ɫis
+verb:::ɫ:::ɬɩɬiy̕::: :::ɫəɫiy':::ɫɫi'y :::spotted::: :::ɫəɫiy'
+verb:::ɫ:::ɬɩɬikʷ::: :::ɫəɫikʷ(u-):::ɫɫikw(u-) :::be speckled, small-spotted::: :::ɫəɫikʷ(u-)
+verb:::ɫ:::ɬik̕ʷ::: :::ɫik'ʷ:::ɫik'w:::hairlike object breaks::: :::ɫik'ʷ
+verb:::ɫ:::ɬil::: :::ɫil:::ɫil:::sprinkle::: :::ɫil
+verb:::ɫ:::ɬu'<sup>u</sup>::: :::ɫuʔ:::ɫu':::be there near third person::: :::ɫuʔ
+verb:::ɫ:::ɬu'un::: :::ɫuʔum:::ɫu'um:::be in opposite direction::: :::ɫuʔum
+verb:::ɫ:::ɬuts̕::: :::ɫuc':::ɫuts':::pl. sticklike objects break::: :::ɫuc'
+verb:::ɫ:::ɬukʷ::: :::ɫukʷ(u-):::ɫukw(u-):::be stained with blood::: :::ɫukʷ(u-)
+verb:::ɫ:::ɬuk̕ʷ::: :::ɫuk'ʷ:::ɫuk'w:::recall, remember::: :::ɫuk'ʷ
+verb:::ɫ:::reichard::: :::ɫɔmɛn':::ɫome'n:::scold::: :::ɫɔmɛn'
+verb:::ɫ:::ɬᴐmän̕::: :::sail:::nico:::english::: :::
+verb:::ɫ:::ɬᴐq::: :::sail:::nico:::english::: :::
+verb:::ɫ:::reichard::: :::ɫɔq':::ɫoq':::be bald, bare::: :::ɫɔq'
+verb:::l' (derivative):::l̕ɩl̕itc::: :::l'əl'ič:::'l'lich:::be thin slice::: :::l'əl'ič
+verb:::l' (derivative):::l̕ᴇl̕ax̣::: :::l'əl'ax̣:::'l'laqh:::lighten::: :::l'əl'ax̣
+verb:::ʕ/(:::ʀaw::: :::ʕaw:::(aw:::drop::: :::ʕaw
+verb:::ʕ/(:::ʀax̣::: :::ʕax̣:::(aqh:::wrap string evenly::: :::ʕax̣
+verb:::ʕ/(:::ʀäm::: :::ʕɛm(-t):::(em(-t):::melt, dissolve, waste away::: :::ʕɛm(-t)
+verb:::ʕ/(:::ʀäts::: :::ʕɛc:::(ets:::tie::: :::ʕɛc
+verb:::ʕ/(:::ʀäts̕::: :::ʕɛc':::(ets':::play out, wear out, become exhausted::: :::ʕɛc'
+verb:::ʕ/(:::ʀäts̕xʷ::: :::ʕɛc'xʷ:::(ets'khw :::be worn out, tired::: :::ʕɛc'xʷ
+verb:::ʕ/(:::ʀäts̕xʷ::: :::ʕɛc'xʷ:::(ets'khw :::be hungry for meat, surfeited with vegetable food::: :::ʕɛc'xʷ
+verb:::ʕ/(:::ʀäy::: :::ʕɛy:::(ey:::be embittered::: :::ʕɛy
+verb:::ʕ/(:::ʀäy̕::: :::ʕɛy':::(e'y:::be angry::: :::ʕɛy'
+verb:::ʕ/(:::ʀäl̕::: :::ʕɛl':::(e'l:::obstruct, cover::: :::ʕɛl'
+verb:::ʕ/(:::ʀipɩlc::: :::ʕipəlš:::(iplsh:::person hides::: :::ʕipəlš
+verb:::ʕ/(:::ʀid::: :::ʕid:::(id:::glow, become redhot::: :::ʕid
+verb:::ʕ/(:::ʀits̕::: :::ʕic':::(its':::be persistent, tenacious, strive::: :::ʕic'
+verb:::ʕ/(:::ʀigw::: :::ʕigʷ:::(igw:::throw pl. objects::: :::ʕigʷ
+verb:::ʕ/(:::ʀus::: :::ʕus(-t):::(us(-t):::be lost::: :::ʕus(-t)
+verb:::ʕ/(:::ʀuy::: :::ʕuy:::(uy:::coax, urge::: :::ʕuy
+verb:::ʕ/(:::ʀuy::: :::ʕuy:::(uy:::waste, be extravagant::: :::ʕuy
+verb:::ʕ/(:::ʀuy-tct::: :::ʕuy-čt:::(uy-cht:::mistreat old or helpless::: :::ʕuy-čt
+verb:::ʕʷ/(w:::ṛʷax̣ʷ::: :::ʕʷax̣ʷ:::(waqhw:::stringlike object extends::: :::ʕʷax̣ʷ
+verb:::ʕʷ/(w:::ṛʷä'<sup>ä</sup>::: :::ʕʷaʔ:::(wa':::reach into::: :::ʕʷaʔ
+verb:::ʕʷ/(w:::ṛʷäm̕::: :::ʕʷɛm'(-t) :::(we'm(-t):::be enjoyable, wholesome::: :::ʕʷɛm'(-t)
+verb:::ʕʷ/(w:::ṛʷäl::: :::ʕʷɛl:::(wel:::dunk, dip to soak::: :::ʕʷɛl
+verb:::ʕʷ/(w:::ṛʷäl-ä'<sup>ä</sup>l::: :::ʕʷɛl-ɛʔl:::(wel-e'l:::come to a lake::: :::ʕʷɛl-ɛʔl
+verb:::ʕʷ/(w:::ṛʷäɬ::: :::ʕʷɛɫ(u-):::(weɫ(u-):::be of one piece::: :::ʕʷɛɫ(u-)
+verb:::ʕʷ/(w:::ṛʷi'-ɩlc::: :::ʕʷi'-əlš:::(wi'-lsh:::vomit::: :::ʕʷi'-əlš
+verb:::ʕʷ/(w:::ṛʷim::: :::ʕʷim:::(wim:::enjoy, relish::: :::ʕʷim
+verb:::ʕʷ/(w:::ṛʷimic::: :::ʕʷimiš:::(wimish:::hurry on while moving::: :::ʕʷimiš
+verb:::ʕʷ/(w:::ṛʷit̕.s::: :::ʕʷits:::(wits:::smile, smirk::: :::ʕʷits
+verb:::h:::ha::: :::ha:::ha:::laugh loudly, haw-haw::: :::ha
+verb:::h:::haq::: :::haq:::haq:::be space::: :::haq
+verb:::h:::har::: :::har:::har:::snore::: :::har
+verb:::h:::hä'in̕::: :::hɛʔin':::he'i'n:::eight::: :::hɛʔin'
+verb:::h:::häp::: :::hɛp:::hep:::gobble::: :::hɛp
+verb:::h:::hän::: :::hɛn:::hen:::be grayish in color::: :::hɛn
+verb:::h:::häṛʷ::: :::hɛʕʷ:::he(w:::growl like bear::: :::hɛʕʷ
+verb:::h:::hitcä'<sup>ä</sup>::: :::hičɛʔ:::hiche':::where?::: :::hičɛʔ
+verb:::h:::hᴐi::: :::hɔi:::hoi:::cease::: :::hɔi
+verb:::h:::hṛʷh::: :::hʕʷh:::h(wh:::frighten::: :::hʕʷh
+other:::a:::aˑˑˑ::: :::a···:::a···:::with rising tone, oh!::: :::a···
+other:::a:::aˑˑˑ::: :::a···:::a···:::with even tone, disapproval::: :::a···
+other:::a:::ax̣iw̕ɬ::: :::ax̣iw'ɫ:::aqhi'wɫ:::now, today::: :::ax̣iw'ɫ
+other:::a:::uts̕-ax̣íɬ::: :::uc'-ax̣íɫ:::uts'-aqh<u>i</u>ɫ:::because::: :::uc'-ax̣íɫ
+other:::a:::äy̕níɬ::: :::sail:::nico:::english::: :::
+other:::a:::pintc or pinttc::: :::pinč or pintč:::pinch:::always::: :::pinč or pintč
+other:::a:::p̕unal̕::: :::p'unal':::p'una'l:::at least::: :::p'unal'
+other:::a:::mäl̕::: :::mɛl':::me'l:::on near, touching, in addition to::: :::mɛl'
+other:::a:::miyäɬ::: :::miyɛɫ:::miyeɫ:::too, very::: :::miyɛɫ
+other:::a:::wax̣ᴇm::: :::wax̣əm':::waqh'm:::I told you so::: :::wax̣əm'
+other:::a:::wihu'<sup>u</sup>::: :::wihuʔ:::wihu':::short distance::: :::wihuʔ
+other:::a:::w̕ämnús::: :::w'ɛmnús:::'wemn<u>u</u>s:::in vain, useless::: :::w'ɛmnús
+other:::a:::w̕im̕::: :::w'im':::'wi'm:::very near, almost::: :::w'im'
+other:::a:::dä'äɬ::: :::dɛʔɛɫ:::de'eɫ:::exceptionally, surprisingly::: :::dɛʔɛɫ
+other:::a:::tᴇmíc::: :::tɛmíš:::tem<u>i</u>sh:::just, only::: :::tɛmíš
+other:::a:::twä::: :::twɛ:::twe:::with::: :::twɛ
+other:::a:::tqilttc::: :::tqiltč:::tqiltch:::inland (hence east)::: :::tqiltč
+other:::a:::nä<sup>ä</sup>m̕n̕us::: :::nɛm'n'us:::ne'm'nus:::I don't know::: :::nɛm'n'us
+other:::a:::tsa'<sup>a</sup>x̣alp̕út::: :::caʔx̣alp'út:::tsa'qhalp'<u>u</u>t:::what's the use! (a very mean word)::: :::caʔx̣alp'út
+other:::a:::tsmi'<sup>ɩ</sup>::: :::cmiʔ:::tsmi':::it was to be but is not::: :::cmiʔ
+other:::a:::an-caricíɬ::: :::an-šarišíɫ:::an-sharish<u>i</u>ɫ:::upstream::: :::an-šarišíɫ
+other:::a:::ci'<sup>ɩ</sup>mic::: :::šiʔmiš:::shi'mish:::anywhere, at random::: :::šiʔmiš
+other:::a:::tcᴇn̕::: :::čən':::ch'n:::interrogative::: :::čən'
+other:::a:::tc̕am̕::: :::č'am':::ch'a'm:::just::: :::č'am'
+other:::a:::yäm-p::: :::yɛm-p:::yem-p:::forever::: :::yɛm-p
+other:::a:::kum̕::: :::kum':::ku'm:::and::: :::kum'
+other:::a:::kukúkʷ::: :::kukúkʷ:::kuk<u>u</u>kw:::in the other room::: :::kukúkʷ
+other:::a:::kʷɩm̕ɬ::: :::kʷəm'ɫ:::kw'mɫ:::immediately::: :::kʷəm'ɫ
+other:::a:::k̕ʷnä'<sup>ä</sup>::: :::k'ʷnɛʔ:::k'wne':::future::: :::k'ʷnɛʔ
+other:::a:::k̕uk̕ʷníy̕ä'<sup>ä</sup>::: :::k'uk'ʷn'íy'ɛʔ:::k'uk'w'n<u>i</u>'ye':::in a short while::: :::k'uk'ʷn'íy'ɛʔ
+other:::a:::k̕uk̕ʷi'<sup>ɩ</sup>ɬ::: :::k'uk'ʷiʔɫ :::k'uk'wi'ɫ:::in a short time::: :::k'uk'ʷiʔɫ
+other:::a:::xʷa'aɬ::: :::xʷaʔaɫ:::khwa'aɫ:::almost::: :::xʷaʔaɫ
+other:::a:::xʷɩstc̕i::: :::xʷəč'i:::khwch'i:::interjection of admiration "how nice it is!"::: :::xʷəč'i
+other:::a:::x̣umút::: :::x̣umút:::qhum<u>u</u>t:::of course, I suppose::: :::x̣umút
+other:::a:::x̣ämä'<sup>ä</sup>tc::: :::x̣ɛ́mɛʔč:::qh<u>e</u>me'ch:::just you dare!::: :::x̣ɛ́mɛʔč
+other:::a:::x̣äl::: :::x̣ɛl:::qhel:::also, likewise::: :::x̣ɛl
+other:::a:::x̣älä'<sup>ä</sup>::: :::x̣ɛlɛʔ:::qhele':::might, used in sense of expecting something unfavorable::: :::x̣ɛlɛʔ
+other:::a:::x̣iɬ::: :::x̣iɫ:::qhiɫ:::might, used in sense of possibility of any kind::: :::x̣iɫ
+other:::a:::ɬ::: :::ɫ:::ɫ:::connective::: :::ɫ
+other:::a:::ɬuw̕ä::: :::ɫuw'ɛ:::ɫu'we:::that near third person or remote::: :::ɫuw'ɛ
+other:::a:::ɬᴐqʷ::: :::ɫɔqʷ:::ɫoqw:::and also::: :::ɫɔqʷ
+other:::a:::hɩɬ::: :::həɫ:::hɫ:::general connective::: :::həɫ
+noun:::a:::*a<sup>a</sup>pᴐˊtar::: :::apótar:::ap<u>o</u>tar:::apostle::: :::apótar
+noun:::a:::*apls::: :::apls:::apls:::apple::: :::apls
+noun:::a:::*anc::: :::anš:::ansh:::angel::: :::anš
+noun:::a:::asqʷ::: :::asqʷ:::asqw:::son::: :::asqʷ
+noun:::a:::atcatcn-áɬqʷ::: :::ačačn-áɫqʷ:::achachn-<u>a</u>ɫqw:::juniper::: :::ačačn-áɫqʷ
+noun:::a:::ay̕x̣::: :::ay'x̣:::a'yqh:::crayfish::: :::ay'x̣
+noun:::a:::y̕-alstq::: :::y'-alstq:::'y-alstq:::summer::: :::y'-alstq
+noun:::a:::aɬdáräntc::: :::aɫdárɛnč:::aɫd<u>a</u>rench:::month, sun::: :::aɫdárɛnč
+noun:::a:::aɬq̕íts̕äntc::: :::aɫq'íc'ɛnč:::aɫq'<u>i</u>ts'ench:::snake::: :::aɫq'íc'ɛnč
+noun:::a:::aɬq̕ʷäˊt̕ut::: :::aɫq'ʷɛ́t'ut:::aɫq'w<u>e</u>t'ut:::Plummer (place name)::: :::aɫq'ʷɛ́t'ut
+noun:::ɛ/e:::*äijíp::: :::ɛiji'p:::eiji'p:::Egypt::: :::ɛiji'p
+noun:::ɛ/e:::ätx̣ʷä'<sup>ä</sup>::: :::ɛtx̣ʷɛʔ:::etqhwe':::camas::: :::ɛtx̣ʷɛʔ
+noun:::ɛ/e:::atcs-ät̕qᴇt::: :::sail:::nico:::english::: :::
+noun:::ɛ/e:::ästcítcä'<sup>ä</sup>::: :::ačs-ɛt'qət:::achs-et'qt:::day time::: :::ačs-ɛt'qət
+noun:::ɛ/e:::reichard:::ɛsčíčɛʔ:::ɛsčíčɛʔ:::esch<u>i</u>che':::horse, pet, domestic animal::: :::ɛsčíčɛʔ
+noun:::ɛ/e:::äɬṛʷäts̕::: :::ɛɫʕʷɛc':::eɫ(wets':::magpie::: :::ɛɫʕʷɛc'
+noun:::i:::i'i::: :::iʔi:::i'i:::turtledove::: :::iʔi
+noun:::i:::ík̕ʷul::: :::i'k'ʷul:::i'k'wul:::fish roe::: :::i'k'ʷul
+noun:::i:::ä'íxʷä'<sup>ä</sup>::: :::ɛʔíxʷɛʔ:::e'<u>i</u>khwe':::mother's sister (dim.)::: :::ɛʔíxʷɛʔ
+noun:::i:::iltc::: :::ilč:::ilch:::kinnikinnick berry::: :::ilč
+noun:::u, ɔ/o:::tcs-ups::: :::čs-ups:::chs-ups:::tail::: :::čs-ups
+noun:::u, ɔ/o:::usä'<sup>ä</sup>::: :::usɛʔ:::use':::egg::: :::usɛʔ
+noun:::u, ɔ/o:::tc̕i<sup>ɩ</sup>y̕-úkʷä'<sup>ä</sup>::: :::č'iy'-úkʷɛʔ:::ch'i'y-<u>u</u>kwe':::w.s. younger brother::: :::č'iy'-úkʷɛʔ
+noun:::u, ɔ/o:::*buˑlɩˑ::: :::bu·lə·:::bu·l·:::bull::: :::bu·lə·
+noun:::u, ɔ/o:::*s-pa<sup>a</sup>yᴐˊlụmc::: :::s-payóləmš:::s-pay<u>o</u>lmsh:::Spanish::: :::s-payóləmš
+noun:::u, ɔ/o:::s-pápx̣-ɬtsä'<sup>ä</sup>::: :::s-pápx̣-ɫc'ɛʔ:::s-p<u>a</u>pqh-ɫts'e':::ermine::: :::s-pápx̣-ɫc'ɛʔ
+noun:::u, ɔ/o:::*patáq::: :::patáq:::pat<u>a</u>q:::potato::: :::patáq
+noun:::u, ɔ/o:::päˊwpu'ɩc::: :::pɛ́wpuʔəš:::p<u>e</u>wpu'sh:::tin oil can::: :::pɛ́wpuʔəš
+noun:::u, ɔ/o:::s-päˊtäp::: :::s-pɛ́tɛp:::s-p<u>e</u>tep:::small gopher::: :::s-pɛ́tɛp
+noun:::u, ɔ/o:::pätstcɩlä::: :::pɛcčəlɛ:::petschle:::leaf, cabbage::: :::pɛcčəlɛ
+noun:::u, ɔ/o:::päkut::: :::pɛkut:::pekut:::skin, hide::: :::pɛkut
+noun:::u, ɔ/o:::päxpụxʷ::: :::pɛxpəxʷ:::pekhpkhw:::pekhpkhw::: :::pɛxpəxʷ
+noun:::u, ɔ/o:::pípä'<sup>ä</sup>::: :::pípɛʔ:::p<u>i</u>pe':::father::: :::pípɛʔ
+noun:::u, ɔ/o:::*piwyä::: :::piwyɛ:::piwye:::camas of Nez Perce country::: :::piwyɛ
+noun:::u, ɔ/o:::s-pinttc::: :::s-pintč:::s-pintch:::year::: :::s-pintč
+noun:::u, ɔ/o:::pítsä'<sup>ä</sup>::: :::pícɛʔ:::p<u>i</u>tse':::root digger::: :::pícɛʔ
+noun:::u, ɔ/o:::s-pítcs-mᴇn::: :::s-píčs-mən:::s-p<u>i</u>chs-mn:::pestle::: :::s-píčs-mən
+noun:::u, ɔ/o:::s-píläm::: :::s-pílɛm:::s-p<u>i</u>lem:::level land::: :::s-pílɛm
+noun:::u, ɔ/o:::its-pu'<sup>u</sup>::: :::ic-puʔs:::its-pu's:::desire, heart::: :::ic-puʔs
+noun:::u, ɔ/o:::s-pum::: :::s-pum:::s-pum:::fur, feathers (on animal)::: :::s-pum
+noun:::u, ɔ/o:::s-puɬt::: :::s-puɫt:::s-puɫt:::feathers (loose)::: :::s-puɫt
+noun:::u, ɔ/o:::pul̕yä::: :::pul'yɛ:::pu'lye:::gopher::: :::pul'yɛ
+noun:::u, ɔ/o:::pulya<sup>a</sup>hal̕::: :::pulyahal':::pulyaha'l:::mole::: :::pulyahal'
+noun:::u, ɔ/o:::s-pᴐtst::: :::s-pɔtc:::s-potts:::scab, sore, excrement::: :::s-pɔtc
+noun:::u, ɔ/o:::pᴐˊl-pᴐlq-ᴇn::: :::pól-pɔlq-ən:::p<u>o</u>l-polq-n:::thimbleberry::: :::pól-pɔlq-ən
+noun:::u, ɔ/o:::s-pɩt̕áswäl::: :::s-pət'áswɛl:::s-pt'<u>a</u>swel:::trout::: :::s-pət'áswɛl
+noun:::u, ɔ/o:::s-pᴇtw̕ínuxʷ::: :::s-pətw'ínuxʷ:::s-pt'w<u>i</u>nukhw:::head of a nest, brood, house-hold::: :::s-pətw'ínuxʷ
+noun:::u, ɔ/o:::s-pᴇsáiyä::: :::s-pəsáiyɛ:::s-ps<u>a</u>iye:::folly, error::: :::s-pəsáiyɛ
+noun:::u, ɔ/o:::*pus::: :::pus:::pus:::cat::: :::pus
+noun:::u, ɔ/o:::púsä'<sup>ä</sup>::: :::púsɛʔ:::p<u>u</u>se':::father's brother::: :::púsɛʔ
+noun:::p':::s-p̕an̕x̣::: :::s-p'an'x̣:::s-p'a'nqh:::woven bag::: :::s-p'an'x̣
+noun:::p':::s-p̕árk̕ʷ-alqs::: :::s-p'árk' w-alqs:::s-p'<u>a</u>rk':::turtle, pulley::: :::s-p'árk' w-alqs
+noun:::p':::p̕ästa::: :::p'ɛsta:::p'esta:::snipe::: :::p'ɛsta
+noun:::p':::p̕ästä'<sup>ä</sup>::: :::p'ɛstɛʔ:::p'este':::nighthawk::: :::p'ɛstɛʔ
+noun:::p':::p̕ätc̕ᴇn̕::: :::p'ɛč'ən':::p'ech''n:::lynx::: :::p'ɛč'ən'
+noun:::p':::p̕äˊkʷlä'<sup>ä</sup>::: :::p'ɛ́kʷleʔ:::p'<u>e</u>kwle':::ball::: :::p'ɛ́kʷleʔ
+noun:::p':::s-p̕äˊxʷ-äntc::: :::s-p'ɛ́xʷ-ɛnč:::s-p'<u>e</u>khw-ench:::hog fennel root::: :::s-p'ɛ́xʷ-ɛnč
+noun:::p':::s-p̕ít̕äm::: :::s-p'ít'ɛm:::s-p'<u>i</u>t'em:::bitterroot::: :::s-p'ít'ɛm
+noun:::p':::s-p̕í-ɬts̕ä'<sup>ä</sup>::: :::s-p'í-ɫc'ɛʔ:::s-p'<u>i</u>-ɫts'e':::elk::: :::s-p'í-ɫc'ɛʔ
+noun:::m:::matus::: :::matus:::matus:::camas (piwyɛ) mush::: :::matus
+noun:::m:::masmᴇs::: :::masmɛs:::masmes:::a plant which smells awful when boiling::: :::masmɛs
+noun:::m:::máts̕-uɬt::: :::mác'-uɫt:::m<u>a</u>ts'-uɫt:::pus::: :::mác'-uɫt
+noun:::m:::mats̕p::: :::mac'p:::mats'p:::bee, wasp::: :::mac'p
+noun:::m:::s-max̣í'<sup>ɩ</sup>tcn̕::: :::s-max̣íʔčn':::s-maqh<u>i</u>'ch'n:::grizzly bear::: :::s-max̣íʔčn'
+noun:::m:::malqänúps::: :::malqɛnúps:::malqen<u>u</u>ps:::golden eagle::: :::malqɛnúps
+noun:::m:::s-málq-ᴇn::: :::s-málq-ən:::s-m<u>a</u>lq-n:::cooked black moss::: :::s-málq-ən
+noun:::m:::mimc or minc::: :::mimš or minš:::mimsh:::box::: :::mimš
+noun:::m:::mít̕t̕c̕ädä'<sup>ä</sup>::: :::mit'č'ɛdɛʔ:::mit'ch'ede':::blood::: :::mit'č'ɛdɛʔ
+noun:::m:::minátcalqs::: :::mináčalqs:::min<u>a</u>chalqs:::buzzard::: :::mináčalqs
+noun:::m:::s-míy̕äm::: :::s-míy'ɛm:::s-m<u>i</u>'yem:::woman, wife::: :::s-míy'ɛm
+noun:::m:::mul::: :::mul:::mul:::butter::: :::mul
+noun:::m:::hɩn-múlcäntc::: :::hən-múlšenč:::hn-m<u>u</u>lshench:::beaver::: :::hən-múlšenč
+noun:::m:::s-mul̕-mᴇn::: :::s-mul'-mən:::s-mu'l-mn:::war spear::: :::s-mul'-mən
+noun:::m:::*muh::: :::muh:::muh:::cow::: :::muh
+noun:::m:::mᴐˊt̕us::: :::mót'us:::m<u>o</u>t'us:::kidney::: :::mót'us
+noun:::m:::ä-sɩn-mɩsmɩs-íw̕äs::: :::ɛ-sən-məsməs-íw'ɛs:::e-sn-msms-<u>i</u>'wes:::yew-wood, heart of yew, bow-wood::: :::ɛ-sən-məsməs-íw'ɛs
+noun:::m:::s-mɩyíw::: :::s-məyíw:::s-my<u>i</u>w:::coyote::: :::s-məyíw
+noun:::m:::s-mɩɬítc::: :::s-məɫíč:::s-mɫ<u>i</u>ch:::salmon::: :::s-məɫíč
+noun:::m:::s-m̕äˊ<sup>ä</sup>m̕ín̕äp::: :::s-m'ɛʔm'ín'ɛp:::s-'me'm<u>i</u>'nep:::toad::: :::s-m'ɛʔm'ín'ɛp
+noun:::m:::m̕äl̕ä::: :::m'ɛl'ɛ:::'me'le:::bait::: :::m'ɛl'ɛ
+noun:::m:::s-m̕-m̕útscᴇn::: :::s-m'-m'úcšən':::s-'m-'m<u>u</u>tssh'noun:::female animal, mare::: :::s-m'-m'úcšən'
+noun:::m:::s-wa'ítn̕::: :::s-waʔítn':::s-wa'<u>i</u>t'n:::spring of water::: :::s-waʔítn'
+noun:::m:::wáx̣-iɬp::: :::wáx̣-iɫp:::w<u>a</u>qh-iɫp:::dogwood::: :::wáx̣-iɫp
+noun:::w, w':::wartc::: :::warč:::warch:::frog::: :::warč
+noun:::w, w':::wä'<sup>ä</sup>wi'ítc::: :::wɛʔwiʔíč:::we'wi'<u>i</u>ch:::whippoorwill::: :::wɛʔwiʔíč
+noun:::w, w':::wäsx̣ax̣::: :::wɛsx̣ax̣:::wesqhaqh:::robin::: :::wɛsx̣ax̣
+noun:::w, w':::wähíma'::: :::wɛhíma':::weh<u>i</u>ma':::Nez Perce people and country::: :::wɛhíma'
+noun:::w, w':::s-wiwaláqᴇn::: :::s-wiwaláqən:::s-wiwal<u>a</u>qn:::Whispering-in-branches (place-name)::: :::s-wiwaláqən
+noun:::w, w':::wicú'us::: :::wišúʔus:::wish<u>u</u>'us:::black-tailed deer::: :::wišúʔus
+noun:::w, w':::wᴐptú::: :::wɔptú:::wopt<u>u</u>:::potatoes that grow in Yakima and Nez Perce country::: :::wɔptú
+noun:::w, w':::wụlwụlím::: :::wəlwəlím:::wlwl<u>i</u>m:::money, valuables::: :::wəlwəlím
+noun:::w, w':::s-w̕a'<sup>a</sup>::: :::s-w'aʔ:::s-'wa':::cougar::: :::s-w'aʔ
+noun:::w, w':::w̕ụl̕w̕ụl̕ím̕::: :::w'əlw'əl'ím:::'w'lw'l<u>i</u>m:::iron, knife::: :::w'əlw'əl'ím
+noun:::d:::däˊctcägwä::: :::dɛ́ščɛgʷɛ:::d<u>e</u>shchegwe:::husband's brother, sister's husband::: :::dɛ́ščɛgʷɛ
+noun:::d:::däɬ-äɬp::: :::dɛɫ-ɛɫp:::deɫ-eɫp:::poplar::: :::dɛɫ-ɛɫp
+noun:::d:::dᴇ-däl̕dᴇl̕::: :::də-dɛ́l'dəl':::d-d<u>e</u>'ld'l:::bush (dim.)::: :::də-dɛ́l'dəl'
+noun:::d:::däˊl̕-äɬp::: :::dɛ́l'-əɫp:::d<u>e</u>'l-ɫp:::willow tree::: :::dɛ́l'-əɫp
+noun:::d:::tc-däl̕-díl̕p::: :::č-dɛl'-díl'p:::ch-de'l-d<u>i</u>'lp:::bat, chickenhawk::: :::č-dɛl'-díl'p
+noun:::d:::s-dílu'::: :::s-dílu:::s-d<u>i</u>lu:::switch::: :::s-dílu
+noun:::d:::dupᴇn::: :::dupən:::dupn:::lasso::: :::dupən
+noun:::d:::dúmtsᴇn::: :::dúmcən:::d<u>u</u>mtsn:::relative-friend::: :::dúmcən
+noun:::d:::dúɬduɬp::: :::dúɫduɫp:::d<u>u</u>ɫduɫp :::trees of the poplar family::: :::dúɫduɫp
+noun:::d:::dɩmínä'<sup>ä</sup>::: :::dəmínɛʔ:::dm<u>i</u>ne':::nest::: :::dəmínɛʔ
+noun:::t:::s-tax̣-täˊx̣-al̕tct::: :::s-tax̣-tɛ́x̣-al'čt:::s-taqh-t<u>e</u>qh-a'lcht:::doll::: :::s-tax̣-tɛ́x̣-al'čt
+noun:::t:::tᴇtaqʷ::: :::tətaqʷ:::ttaqw:::gulch, hollow::: :::tətaqʷ
+noun:::t:::s-taräˊq-cᴇn::: :::s-tarɛ́q-šən:::s-tar<u>e</u>q-shn:::mudhen::: :::s-tarɛ́q-šən
+noun:::t:::s-tä<sup>ä</sup>m-ílgwäs::: :::s-tɛm-ílgʷɛs:::s-tem-<u>i</u>lgwes:::relative::: :::s-tɛm-ílgʷɛs
+noun:::t:::sɩn-tä'úl̕ụmc::: :::sən-tɛʔúləmš:::sn-te'<u>u</u>lmsh:::Spokane::: :::sən-tɛʔúləmš
+noun:::t:::s-täˊpax̣ʷ::: :::s-tɛ́pax̣ʷ:::s-t<u>e</u>paqhw:::saliva::: :::s-tɛ́pax̣ʷ
+noun:::t:::s-tc-täm̕p::: :::s-č-tɛm'p:::s-ch-te'mp:::cloud::: :::s-č-tɛm'p
+noun:::t:::s-tälᴇm::: :::s-təɫəm:::s-tɫm:::boat::: :::s-təɫəm
+noun:::t:::s-ti'<sup>ɩ</sup>::: :::s-tiʔ:::s-ti':::thing::: :::s-tiʔ
+noun:::t:::s-tim̕::: :::s-tim':::s-ti'm:::what, something::: :::s-tim'
+noun:::t:::tiwun-ɬtsäˊ<sup>ä</sup>  [sic]::: :::tiwun-ɫcɛ:::tiwun-ɫts<u>e</u>:::doe::: :::tiwun-ɫcɛ
+noun:::t:::tíwämᴇn::: :::tíwɛmən:::t<u>i</u>wemn:::plaything of tallow (tiw indulge)::: :::tíwɛmən
+noun:::t:::tintc::: :::tinč:::tinch:::sinew, muscle::: :::tinč
+noun:::t:::s-titctsxʷ::: :::s-tičcsxʷ:::s-tichtsskhw:::red willowberry (?)(colloquial translation)::: :::s-tičcsxʷ
+noun:::t:::tikʷä'<sup>ä</sup>::: :::tikʷɛʔ:::tikwe':::father's sister::: :::tikʷɛʔ
+noun:::t:::tíxʷtstc::: :::tixʷcč:::tikhwtsch:::tongue::: :::tixʷcč
+noun:::t:::túpän̕::: :::túpɛn':::t<u>u</u>pe'n:::spider::: :::túpɛn'
+noun:::t:::tụm::: :::təm:::tm:::corpse, dead::: :::təm
+noun:::t:::s-tum̕c::: :::s-tum'š:::s-tu'msh:::friend (used by Coyote and Fox only)::: :::s-tum'š
+noun:::t:::tunc::: :::tunš:::tunsh:::m.s. sister's child, brother's child::: :::tunš
+noun:::t:::tᴐt::: :::tɔt:::tot:::pet animal::: :::tɔt
+noun:::t:::tᴇmᴐˊl̕x̣::: :::təmól'x̣:::tm<u>o</u>'lqh:::hail::: :::təmól'x̣
+noun:::t:::tɩtw̕it::: :::tətw'it :::tt'wit:::youth, young boy::: :::tətw'it
+noun:::t:::s-tiyítc-cᴇn::: :::s-tiyíč-šən:::s-tiy<u>i</u>ch-shn:::killdeer::: :::s-tiyíč-šən
+noun:::t:::tɩtm̕ixʷ::: :::tətm'ixʷ:::tt'mikhw:::animal::: :::tətm'ixʷ
+noun:::t:::twi'<sup>ɩ</sup>::: :::twiʔ:::twi':::the poor thing!::: :::twiʔ
+noun:::t:::tqᴇmíc::: :::tqəmíš:::tqm<u>i</u>sh:::snowbird (?)::: :::tqəmíš
+noun:::t:::tʀin::: :::tʕin:::t(in:::antelope::: :::tʕin
+noun:::t':::t̕aqt̕ítcn::: :::t'aqt'íčn:::t'aqt'<u>i</u>chn:::game, kill::: :::t'aqt'íčn
+noun:::t':::t̕ᴇt̕aqʷín̕::: :::t'ət'aqʷín':::t't'aqw<u>i</u>'n:::one of the snipes::: :::t'ət'aqʷín'
+noun:::t':::s-t̕árt̕ari'<sup>ɩ</sup>m::: :::s-t'árt'ariʔm:::s-t'<u>a</u>rt'ari'm:::thunder (perhaps his name)::: :::s-t'árt'ariʔm
+noun:::t':::t̕ä'<sup>ä</sup>kʷílc::: :::t'ɛʔkʷílš:::t'e'kw<u>i</u>lsh:::shaman::: :::t'ɛʔkʷílš
+noun:::t':::s-t̕ädä'<sup>ä</sup>::: :::s-t'ɛdɛʔ:::s-t'ede':::hay, grass, fodder::: :::s-t'ɛdɛʔ
+noun:::t':::t̕ädä'<sup>ä</sup>::: :::t'ɛdɛʔ:::t'ede':::canoe::: :::t'ɛdɛʔ
+noun:::t':::t̕äˊtc̕tɩtc̕::: :::tɛ́č'təč':::t<u>e</u>ch'tch':::blackbird::: :::tɛ́č'təč'
+noun:::t':::s-t̕iitc̕ɩmíc::: :::s-t'iičəmíš:::s-t'iichm<u>i</u>sh:::Virgin Mary::: :::s-t'iičəmíš
+noun:::t':::s-t̕tím-tcä'<sup>ä</sup>::: :::s-t'tím-čɛʔ:::s-t't<u>i</u>m-che':::daughter::: :::s-t'tím-čɛʔ
+noun:::t':::t̕ínä'<sup>ä</sup>::: :::t'ínɛʔ:::t'<u>i</u>ne':::outer ear::: :::t'ínɛʔ
+noun:::t':::t̕its̕::: :::t'ic':::t'its':::gum::: :::t'ic'
+noun:::t':::s-t̕íy-äɬtsä'<sup>ä</sup>::: :::s-t'íy-ɛɫcɛʔ:::s-t'<u>i</u>y-eɫtse':::caribou::: :::s-t'íy-ɛɫcɛʔ
+noun:::t':::t̕úpyä'<sup>ä</sup>::: :::t'úpyɛʔ:::t'<u>u</u>pye':::great grandfather::: :::t'úpyɛʔ
+noun:::t':::s-t̕únɬts̕ä'<sup>ä</sup>::: :::s-t'únɫc'ɛʔ:::s-t'<u>u</u>nɫts'e':::mule deer::: :::s-t'únɫc'ɛʔ
+noun:::t':::t̕us::: :::t'us:::t'us:::marrow::: :::t'us
+noun:::t':::tc-t̕uxʷäˊ'us::: :::č-t'uxʷɛ́ʔus:::ch-t'ukhw<u>e</u>'us:::fat around stomach of animal::: :::č-t'uxʷɛ́ʔus
+noun:::t':::t̕uxʷän::: :::t'uxʷɛn:::t'ukhwen:::jointgrass::: :::t'uxʷɛn
+noun:::t':::s-t̕ᴐpqs::: :::s-t'ɔpqs:::s-t'opqs:::thread::: :::s-t'ɔpqs
+noun:::t':::an-t̕ᴇl̕ánä'<sup>ä</sup>::: :::an-t'əl'ánɛʔ:::an-t''l<u>a</u>ne':::wolf::: :::an-t'əl'ánɛʔ
+noun:::t':::hɩn-t̕ụk̕w̕í'<sup>ɩ</sup>sen [sic]::: :::hən-t'ək'ʷ'-íʔsen:::hn-t'k'w-<u>i</u>'sen:::seed, pit::: :::hən-t'ək'ʷ'-íʔsen
+noun:::t':::s-t̕am̕á (ltụmc)::: :::s-t'am'á:::s-t'a'm<u>a</u>:::(ltəmš) cow::: :::s-t'am'á
+noun:::n:::nasx̣á'ax̣::: :::nasx̣áʔax̣:::nasqh<u>a</u>'aqh:::m.s. father-in-law::: :::nasx̣áʔax̣
+noun:::n:::nadjarᴐˊ::: :::naǰaró:::najar<u>o</u>:::scoundrel, rascal::: :::naǰaró
+noun:::n:::naryä::: :::naryɛ:::narye:::great great grandparent::: :::naryɛ
+noun:::n:::näɬtsítc::: :::nɛɫcíč:::nɛɫcíč:::m.s. mother-in-law::: :::nɛɫcíč
+noun:::n:::s-nínä'<sup>ä</sup>::: :::s-nínɛʔ:::s-n<u>i</u>ne':::owl::: :::s-nínɛʔ
+noun:::n:::s-nitc̕-ɬxʷ::: :::s-nič'-ɫxʷ:::s-nich'-ɫkhw:::son-in-law (nič' cut; -lxʷ house)::: :::s-nič'-ɫxʷ
+noun:::n:::núnä'<sup>ä</sup>::: :::núnɛʔ:::n<u>u</u>ne':::mother::: :::núnɛʔ
+noun:::n:::s-nᴐs::: :::s-nɔs:::s-nos:::snot::: :::s-nɔs
+noun:::n:::nᴐx̣nᴐx̣::: :::nɔx̣nɔx̣:::noqhnoqh:::spouse::: :::nɔx̣nɔx̣
+noun:::s:::sättc::: :::sɛtč:::setch:::paunch::: :::sɛtč
+noun:::s:::*sanpiyär::: :::sanpiyɛr:::sanpiyer:::St. Peter::: :::sanpiyɛr
+noun:::s:::*sanpᴐl::: :::sanpɔl:::sanpol:::St. Paul::: :::sanpɔl
+noun:::s:::*santiglis::: :::santiglis:::santiglis:::Holy Church::: :::santiglis
+noun:::s:::sáx̣ʷ-ɬkʷä'<sup>ä</sup>::: :::sáxʷ-ɫkʷɛʔ:::s<u>a</u>khw-ɫkwe':::vein::: :::sáxʷ-ɫkʷɛʔ
+noun:::s:::sarkʷs::: :::sarkʷs:::sarkws:::pine-squirrel::: :::sarkʷs
+noun:::s:::sar̕ítcn̕::: :::sar'íčn':::sa'r<u>i</u>ch'n:::squirrel::: :::sar'íčn'
+noun:::s:::atc-sät̕qᴇt::: :::ač-sɛt'qət:::ach-set'qt:::time::: :::ač-sɛt'qət
+noun:::s:::hɩn-sätc̕-ᴇntɩs::: :::hən-sɛč'-əntəs:::hn-sech'-nts:::river::: :::hən-sɛč'-əntəs
+noun:::s:::sätc̕-ätct::: :::sɛč'-ɛčt:::sech'-echt:::black moss (raw)::: :::sɛč'-ɛčt
+noun:::s:::si'<sup>ɩ</sup>stᴇm::: :::siʔstəm:::si'stm:::m.s. brother's wife, wife's sister::: :::siʔstəm
+noun:::s:::sípᴇm::: :::sípəm:::s<u>i</u>pm:::daughter-in-law::: :::sípəm
+noun:::s:::sisí'<sup>ɩ</sup>::: :::sisíʔ:::sis<u>i</u>':::brother's brother (dim.)::: :::sisíʔ
+noun:::s:::siw̕s::: :::siw's:::si'ws:::groundhog, prairie dog::: :::siw's
+noun:::s:::sit, sítkʷ::: :::sit, sítkʷ:::sit, s<u>i</u>tkw:::winter::: :::sit, sítkʷ
+noun:::s:::sítqaps::: :::sítqaps:::s<u>i</u>tqaps:::spring season::: :::sítqaps
+noun:::s:::sittc::: :::sitč:::sitch:::belly::: :::sitč
+noun:::s:::sintsä'<sup>ä</sup>::: :::sincɛʔ:::sintse':::m.s younger brother::: :::sincɛʔ
+noun:::s:::sitc̕::: :::sič':::sich':::ground squirrel::: :::sič'
+noun:::s:::siyᴐˊl-alqʷ::: :::siyól-alqʷ:::siy<u>o</u>l-alqw:::stick::: :::siyól-alqʷ
+noun:::s:::sikʷä'<sup>ä</sup>::: :::sikʷɛʔ:::sikwe':::water::: :::sikʷɛʔ
+noun:::s:::silä'<sup>ä</sup>::: :::silɛʔ:::sile':::mother's father::: :::silɛʔ
+noun:::s:::su<sup>u</sup>yäˊpụmc::: :::suyɛ́pəmš:::suy<u>e</u>pmsh:::white man::: :::suyɛ́pəmš
+noun:::s:::sut̕ä'<sup>ä</sup>sút̕ä::: :::sut'ɛʔsút'ɛ:::sut'e's<u>u</u>t'e:::rubber::: :::sut'ɛʔsút'ɛ
+noun:::s:::susᴇn̕::: :::susən':::sus'n:::spoon::: :::susən'
+noun:::s:::suxʷ-änäy̕::: :::suxʷ-ɛnɛy':::sukhw-ene'y:::rice, ant::: :::suxʷ-ɛnɛy'
+noun:::s:::*sᴐltäs::: :::sɔltɛs:::soltes:::soldier::: :::sɔltɛs
+noun:::c/ts:::s-tsá'aqʷ::: :::s-cáʔaqʷ:::s-ts<u>a</u>'aqw:::fall, autumn::: :::s-cáʔaqʷ
+noun:::c/ts:::*tsánmᴇn::: :::cánmən:::ts<u>a</u>nmn:::Chinaman::: :::cánmən
+noun:::c/ts:::s-tsaqụm::: :::s-caqəm:::s-tsaqm:::strawberry::: :::s-caqəm
+noun:::c/ts:::tsätxʷ::: :::cɛtxʷ:::tsetkhw:::house::: :::cɛtxʷ
+noun:::c/ts:::hɩn-tsäˊx̣ut::: :::hən-cáx̣ut:::hn-ts<u>a</u>qhut:::stream river::: :::hən-cáx̣ut
+noun:::c/ts:::s-tsí'<sup>ɩ</sup>läɬ::: :::s-cíʔlɛɫ:::s-ts<u>i</u>'leɫ:::substitute::: :::s-cíʔlɛɫ
+noun:::c/ts:::tsicps::: :::cišps:::tsishps:::fisher::: :::cišps
+noun:::c/ts:::tsutsyu'<sup>u</sup>::: :::cucyuʔ:::tsutsyu':::firetongs::: :::cucyuʔ
+noun:::c/ts:::tsɩtsíy̕ä'<sup>ä</sup>::: :::cəcíy'ɛʔ:::tsts<u>i</u>'ye':::w.s. younger speaker::: :::cəcíy'ɛʔ
+noun:::c/ts:::s-tsumt::: :::s-cumt:::s-tsumt:::going or coming soon::: :::s-cumt
+noun:::c/ts:::tsuɬum::: :::cuɫum:::tsuɫum:::buffalo::: :::cuɫum
+noun:::c/ts:::ä-tsᴐm̕ɬxʷ::: :::ɛ-cɔm'ɫxʷ:::e-tso'mɫkhw:::long house::: :::ɛ-cɔm'ɫxʷ
+noun:::c/ts:::a-tsᴇtsᴐqálipä::: :::ɛ-cɔm'ɫxʷ:::a-cəcɔqálipɛ:::red nits::: :::ɛ-cɔm'ɫxʷ
+noun:::c/ts:::ä-tsụxʷ-tsụxʷ-wᴇy̕ípä'<sup>ä</sup>::: :::ɛ-cəxʷ-cəxʷ-wəyípɛʔ:::e-tskhw-tskhw-wy<u>i</u>pe':::rosehips::: :::ɛ-cəxʷ-cəxʷ-wəyípɛʔ
+noun:::c/ts:::s-ts̕am̕::: :::s-cam':::s-tsa'm:::bone, be bony::: :::s-cam'
+noun:::c'/ts':::ts̕án̕ts̕ᴇn̕::: :::c'án'c'ən':::ts'<u>a</u>'nts''n:::grasshopper::: :::c'án'c'ən'
+noun:::c'/ts':::ts̕áq̕-äɬp::: :::c'áq'-ɛɫp:::ts'<u>a</u>q'-eɫp:::fir::: :::c'áq'-ɛɫp
+noun:::c'/ts':::ts̕ax̣yú'<sup>u</sup>ts̕ᴇn::: :::c'ax̣yúʔc'ən:::ts'aqhy<u>u</u>'ts'n:::mink::: :::c'ax̣yúʔc'ən
+noun:::c'/ts':::ts̕álus::: :::c'álus:::ts'<u>a</u>lus:::kingfisher::: :::c'álus
+noun:::c'/ts':::a-ts̕áṛʷläp::: :::a-c'áʕʷlɛp:::a-ts'<u>a</u>(wlep:::punk::: :::a-c'áʕʷlɛp
+noun:::c'/ts':::s-ts̕ä<sup>ä</sup>w̕-íɬcᴇn̕::: :::s-c'ɛw'-íɫšən':::s-ts'e'w-<u>i</u>ɫsh'n:::splinter-leg::: :::s-c'ɛw'-íɫšən'
+noun:::c'/ts':::ts̕äkukʷ::: :::c'ɛkukʷ:::ts'ekukw:::elderberry::: :::c'ɛkukʷ
+noun:::c'/ts':::hɩn-ts̕älcalps::: :::hən-c'ɛlšalps:::hn-ts'elshalps:::hardtack (a "story" word)::: :::hən-c'ɛlšalps
+noun:::c'/ts':::ts̕i'<sup>ɩ</sup>::: :::c'iʔ:::ts'i':::deer::: :::c'iʔ
+noun:::c'/ts':::s-ts̕ict::: :::s-c'išt:::s-ts'isht:::m.s wife's brother, sister's husband::: :::s-c'išt
+noun:::c'/ts':::ts̕íxʷts̕ụxʷ::: :::c'íxʷc'əxʷ:::ts'<u>i</u>khwts'khw:::fishhawk::: :::c'íxʷc'əxʷ
+noun:::c'/ts':::s-ts̕ú'<sup>u</sup>-cᴇn̕::: :::s-c'úʔ-šən:::s-ts'<u>u</u>'-shn:::foot (of slaughtered animal)::: :::s-c'úʔ-šən
+noun:::c'/ts':::s-ts̕ᴐm̕̕-ts̕ᴐm̕̕-ɬt::: :::s-c'óm'-c'ɔm'-ɫt:::s-ts'<u>o</u>'m-ts'o'm-ɫt:::boil::: :::s-c'óm'-c'ɔm'-ɫt
+noun:::c'/ts':::s-c-ts̕ᴇs-lúsä'<sup>ä</sup>::: :::s-š-c'əs-lúsɛʔ:::s-sh-ts's-l<u>u</u>se':::hail::: :::s-š-c'əs-lúsɛʔ
+noun:::š/sh:::cämän̕::: :::šɛmɛn':::sheme'n:::enemy::: :::šɛmɛn'
+noun:::š/sh:::s-cät̕ᴇt::: :::s-šɛt'ət:::s-shet't :::cubs::: :::s-šɛt'ət
+noun:::š/sh:::cät̕ut::: :::šɛt'ut:::shet'ut:::rock::: :::šɛt'ut
+noun:::š/sh:::s-cäˊmpᴇm::: :::s-šɛ́mpəm:::s-sh<u>e</u>mpm:::dense fog::: :::s-šɛ́mpəm
+noun:::š/sh:::n-cäˊgwäl::: :::n-šɛ'gʷɛl:::n-she'gwel:::road::: :::n-šɛ'gʷɛl
+noun:::š/sh:::uhɩs-ci'<sup>ɩ</sup>míc::: :::sailuhəs-šiʔmíš:::uhs-shi'm<u>i</u>sh:::my favorite::: :::uhəs-šiʔmíš
+noun:::š/sh:::ciw̕t::: :::šiw't:::shi'wt:::rat::: :::šiw't
+noun:::š/sh:::cɩciw̕t::: :::šəšiw't:::shshi'wt:::be daughter, girl::: :::šəšiw't
+noun:::ǰ/j:::*djísu::: :::ǰísu:::j<u>i</u>su:::Jesus::: :::ǰísu
+noun:::ǰ/j:::*djisᴐ<sup>ᴐ</sup>kri::: :::ǰisɔkri:::nico:::Jesus Christ::: :::ǰisɔkri
+noun:::ǰ/j:::*djᴐn::: :::ǰɔn:::jon:::John::: :::ǰɔn
+noun:::č/ch:::*tcätulí::: :::čɛtulí:::chetul<u>i</u>:::Catholic::: :::čɛtulí
+noun:::č/ch:::tcäˊläxʷ::: :::čɛ́lɛxʷ:::ch<u>e</u>lekhw:::muskrat::: :::čɛ́lɛxʷ
+noun:::č/ch:::s-t-tcäˊlxụm::: :::s-t-čɛ́lxəm:::s-t-ch<u>e</u>lkhm:::yellowhammer::: :::s-t-čɛ́lxəm
+noun:::č/ch:::s-tcint::: :::s-čint:::s-chint:::person::: :::s-čint
+noun:::č/ch:::s-t-tc-tcin̕tus::: :::s-t-č-čin'tus:::s-t-ch-chi'ntus:::pupil of eye::: :::s-t-č-čin'tus
+noun:::č/ch:::s-tcítsu'ụmc::: :::s-čícuʔəmš:::s-ch<u>i</u>tsu'msh:::Coeur d'Alene::: :::s-čícuʔəmš
+noun:::č/ch:::s-tcil::: :::s-čil:::s-chil:::game being tracked, quarry::: :::s-čil
+noun:::č/ch:::t-tcɩn-ítkupᴇn::: :::t-čən-ítkupən:::t-chn-<u>i</u>tkupn:::Englishman (King Georgeman)::: :::t-čən-ítkupən
+noun:::č/ch:::*s-tcɩntsᴐˊts::: :::sail:::nico:::english::: :::
+noun:::č/ch:::tcɩtcäy̕ä'<sup>ä</sup>::: :::čəčɛy'ɛʔ:::chche'ye:::w.s. mother's mother, daughter's child::: :::čəčɛy'ɛʔ
+noun:::č/ch:::tcsups::: :::čsups:::chsups:::tail::: :::čsups
+noun:::č'/ch':::s-tc̕a'<sup>a</sup>-qín̕-cᴇn::: :::s-č'aɛʔ-qín'-šən':::s-ch'ae'-q<u>i</u>'n-sh'n:::knee, knuckle::: :::s-č'aɛʔ-qín'-šən'
+noun:::č'/ch':::s-tc̕ä'ílup::: :::s-č'ɛʔílup:::s-ch'e'<u>i</u>lup:::last living relative::: :::s-č'ɛʔílup
+noun:::č'/ch':::tc̕äsᴇn̕::: :::č'ɛsən':::ch'es'n:::louse::: :::č'ɛsən'
+noun:::č'/ch':::s-tc̕äxuxʷ::: :::s-č'ɛxuxʷ:::s-ch'ekhukhw:::tuberculosis::: :::s-č'ɛxuxʷ
+noun:::č'/ch':::tc̕äx̣-qᴇn̕::: :::č'ɛx-qən:::ch'ekh-qn:::helldiver::: :::č'ɛx-qən
+noun:::č'/ch':::tc̕i'<sup>ɩ</sup>::: :::č'iʔ:::ch'i':::antler, horn::: :::č'iʔ
+noun:::č'/ch':::ä<sup>ä</sup>-tc̕ímul::: :::ɛ-č'ímul:::e-ch'<u>i</u>mul:::pine needles::: :::ɛ-č'ímul
+noun:::č'/ch':::s-tc̕im̕::: :::s-č'im':::s-ch'i'm:::unidentified animal::: :::s-č'im'
+noun:::č'/ch':::s-t-tc̕íh-ayus::: :::s-t-č'íh-ayus:::s-t-ch'<u>i</u>h-ayus:::dandelion::: :::s-t-č'íh-ayus
+noun:::č'/ch':::*tc̕ulai::: :::č'ulai:::ch'ulai:::July 4::: :::č'ulai
+noun:::y, y':::yax̣-yax̣-út.cᴇn̕::: :::yax̣-yax̣-útšən:::yaqh-yaqh-<u>u</u>tshn:::badger::: :::yax̣-yax̣-útšən
+noun:::y, y':::yuxʷmús::: :::yuxʷmús:::yukhwm<u>u</u>s:::Cold::: :::yuxʷmús
+noun:::y, y':::yᴐˊp-yᴐp-änä'<sup>ä</sup>::: :::yóp-yɔp-ɛnɛʔ:::y<u>o</u>p-yop-ene':::man-eaters::: :::yóp-yɔp-ɛnɛʔ
+noun:::y, y':::yɩlmíxụm::: :::yəlmíxəm:::ylm<u>i</u>khm:::chief::: :::yəlmíxəm
+noun:::y, y':::hɩn-y̕ar̕íp::: :::hən-y'ar'íp:::hn-'ya'r<u>i</u>p:::rear of house::: :::hən-y'ar'íp
+noun:::y, y':::y̕úkʷä'<sup>ä</sup>::: :::y'úkʷɛʔ:::'y<u>u</u>kwe':::w.s. younger brother::: :::y'úkʷɛʔ
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::s-gwárpᴇm::: :::s-gʷárpɛm:::s-gw<u>a</u>rpem:::flower::: :::s-gʷárpɛm
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::s-kum-kum-íwut.cᴇn::: :::s-kum-kum-íwutšən:::s-kum-kum-<u>i</u>wutsh:::rainbow::: :::s-kum-kum-íwutšən
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::s-kʷäs-kʷäs::: :::s-kʷɛs-kʷɛs:::s-kwes-kwes:::chicken, pheasant::: :::s-kʷɛs-kʷɛs
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::s-k̕ús-ɩstcä'<sup>ä</sup>::: :::s-k'us-əsčɛʔ:::s-k'us-sche':::ghost::: :::s-k'us-əsčɛʔ
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::s-t-k̕ʷáys-alqʷ::: :::s-t-k'ʷáy's-alqʷ:::s-t-k'w<u>a</u>'ys-alqw:::cedar tree::: :::s-t-k'ʷáy's-alqʷ
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::k̕ʷäpt::: :::k'ʷɛpt:::k'wept:::spine, backbone::: :::k'ʷɛpt
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::s-k̕u-k̕ʷäˊl̕::: :::s-k'u-k'ʷɛ́l':::s-k'u-k'w<u>e</u>'l:::porcupine::: :::s-k'u-k'ʷɛ́l'
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::s-k̕ʷụt̕-k̕ʷít̕-ups::: :::s-k'ʷət'-kʷít'-ups:::s-k'wt'-kw<u>i</u>t'-ups:::flea::: :::s-k'ʷət'-kʷít'-ups
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::k̕ʷít̕an  [sic]::: :::k'ʷít'ɛn':::k'w<u>i</u>t'e'n:::mouse::: :::k'ʷít'ɛn'
+noun:::gʷ, kʷ, k'ʷ/gw, kw, k'w:::s-k̕u-k̕ʷụt-il̕t::: :::s-k'u-k'ʷət-il't:::s-k'u-k'wt-i'lt:::fawn::: :::s-k'u-k'ʷət-il't
+noun:::xʷ/khw:::s-xú'<sup>u</sup>n-ätc::: :::s-xúʔn-ɛč:::s-kh<u>u</u>'n-ech:::thornberry::: :::s-xúʔn-ɛč
+noun:::xʷ/khw:::s-xʷáyapaqᴇn::: :::s-xʷáyapaqən:::s-khw<u>a</u>yapaqn:::red willow::: :::s-xʷáyapaqən
+noun:::xʷ/khw:::xʷäm-äˊtct::: :::xʷɛm-ɛ́čt:::khwem-<u>e</u>cht:::woodpecker::: :::xʷɛm-ɛ́čt
+noun:::xʷ/khw:::xʷälä'<sup>ä</sup>::: :::xʷɛlɛʔ:::khwele':::meadowlark::: :::xʷɛlɛʔ
+noun:::xʷ/khw:::xʷäṛʷ::: :::xʷɛʕʷ:::khwe(w:::bear intestines::: :::xʷɛʕʷ
+noun:::xʷ/khw:::s-xʷít̕-ätcn̕::: :::s-xʷít'-ɛčn':::s-khw<u>i</u>t'-ech'n:::dentalium::: :::s-xʷít'-ɛčn'
+noun:::xʷ/khw:::s-xʷut̕i'<sup>ɩ</sup>::: :::s-xʷutiʔ:::s-khwuti':::goat::: :::s-xʷutiʔ
+noun:::xʷ/khw:::xʷụts̕út::: :::xʷəc'út:::khwts'<u>u</u>t:::Rocky Mountains::: :::xʷəc'út
+noun:::xʷ/khw:::s-xʷụlíkʷ::: :::s-xʷəlíkʷ:::s-khwl<u>i</u>kw:::whirlwind::: :::s-xʷəlíkʷ
+noun:::xʷ/khw:::s-xʷul-ᴐˊtqᴇn::: :::s-xʷəl-ótqən:::s-khwl-<u>o</u>tqn:::Jack Rabbit::: :::s-xʷəl-ótqən
+noun:::xʷ/khw:::s-xu-xʷᴐˊm̕-qᴇn̕::: :::s-xu-xʷóm'-qən':::s-khu-khw<u>o</u>'m-q'n:::spoon of antler::: :::s-xu-xʷóm'-qən'
+noun:::xʷ/khw:::s-xu-xʷᴐˊl-qᴇn::: :::s-xu-xʷól-qən':::s-khu-khw<u>o</u>l-q'n:::spearhead of antler::: :::s-xu-xʷól-qən'
+noun:::q:::sɩn-qä<sup>ä</sup>m-íl̕tups::: :::sən-qɛm-íl'tups:::sn-qem-<u>i</u>'ltups:::dung (Coyote's powers)::: :::sən-qɛm-íl'tups
+noun:::q:::qäyí'us::: :::qɛyíʔus:::qey<u>i</u>'us:::Cayuse::: :::qɛyíʔus
+noun:::q:::qälɩspíläm::: :::qɛləspílɛm:::qelsp<u>i</u>lem:::Kalispelm country::: :::qɛləspílɛm
+noun:::q:::qälpyä::: :::qɛlpyɛ:::qelpye:::black swan::: :::qɛlpyɛ
+noun:::q:::s-qäl̕sí::: :::s-qɛl'sí:::s-qe'ls<u>i</u>:::Kutenai::: :::s-qɛl'sí
+noun:::q:::qinä'<sup>ä</sup>::: :::qinɛʔ:::qine':::father's mother::: :::qinɛʔ
+noun:::q:::qitstc::: :::qicč:::qitsch:::older brother::: :::qicč
+noun:::q:::s-qigwts::: :::s-qiqʷc:::s-qiqwts:::wild potato (?) (grows in water)::: :::s-qiqʷc
+noun:::q:::qíxʷɩlc::: :::qíxʷəlš:::q<u>i</u>khwlsh:::fish::: :::qíxʷəlš
+noun:::q:::qilttc::: :::qiltč:::qiltch:::flesh, meat::: :::qiltč
+noun:::q:::qil̕tụmxʷ::: :::qil'təmxʷ:::qi'ltmkhw:::man, husband::: :::qil'təmxʷ
+noun:::q:::ä-qu-qul̕i'<sup>ɩ</sup>t::: :::ɛ-qu-qul'iʔt:::e-qu-qu'li't:::balsam fir::: :::ɛ-qu-qul'iʔt
+noun:::q':::s-q̕äp-q̕ä<sup>ä</sup>p-ínä'<sup>ä</sup>::: :::s-q'ɛp-q'ɛp-ínɛʔ:::s-q'ep-q'ep-<u>i</u>ne':::sand::: :::s-q'ɛp-q'ɛp-ínɛʔ
+noun:::q':::tcat-q̕äˊl-äy̕::: :::čat-q'ɛ́l-ɛy':::chat-q'<u>e</u>l-e'y:::lake (Chatcolet)::: :::čat-q'ɛ́l-ɛy'
+noun:::q':::s-q̕äl-íw̕äs-cᴇn::: :::s-q'ɛl-íw'ɛs-šən:::s-q'el-<u>i</u>'wes-shn:::snowshoes::: :::s-q'ɛl-íw'ɛs-šən
+noun:::q':::s-q̕äl̕-äps::: :::s-q'ɛl'-ɛps:::s-q'e'l-eps:::horse collar, necklace::: :::s-q'ɛl'-ɛps
+noun:::q':::s-q̕äˊh-q̕äh::: :::s-q'ɛ́h-q'ɛh:::s-q'<u>e</u>h-q'eh:::small red chickenhawk::: :::s-q'ɛ́h-q'ɛh
+noun:::q':::q̕ip̕xʷä'<sup>ä</sup>::: :::q'ip'xʷɛʔ:::q'ip'khwe':::walnut::: :::q'ip'xʷɛʔ
+noun:::q':::q̕u-q̕ụm̕íw̕äs::: :::q'u-q'əm'íw'ɛs:::q'u-q''m<u>i</u>'wes:::colt::: :::q'u-q'əm'íw'ɛs
+noun:::q':::q̕uts̕wíyä'<sup>ä</sup>::: :::q'uc'wíyɛʔ:::q'uts'w<u>i</u>ye':::chipmunk::: :::q'uc'wíyɛʔ
+noun:::q':::q̕uyä'<sup>ä</sup>::: :::q'uyɛʔ:::q'uye':::name of Coyote's powers::: :::q'uyɛʔ
+noun:::q':::q̕ᴐm-qᴇn::: :::q'ɔm-qən:::q'om-qn:::(or k'ɔmqən) head::: :::q'ɔm-qən
+noun:::x̣/qh:::x̣ä'úlụmxʷ::: :::x̣ɛʔúləmxʷ:::qhe'<u>u</u>lmkhw:::rattlesnake::: :::x̣ɛʔúləmxʷ
+noun:::x̣/qh:::x̣äˊläxʷ::: :::x̣ɛ́lɛxʷ:::qh<u>e</u>lekhw:::tooth::: :::x̣ɛ́lɛxʷ
+noun:::x̣/qh:::x̣älíqʷä'<sup>ä</sup>::: :::x̣ɛlíqʷɛʔ:::qhel<u>i</u>qwe':::dried salmon roe::: :::x̣ɛlíqʷɛʔ
+noun:::x̣/qh:::x̣ípä'<sup>ä</sup>::: :::x̣ípɛʔ:::qh<u>i</u>pe':::father's father, son's child::: :::x̣ípɛʔ
+noun:::x̣/qh:::s-x̣ít̕-ụmcᴇn::: :::s-x̣ít'-əmšən:::s-qh<u>i</u>t'-mshn:::leggings, trousers::: :::s-x̣ít'-əmšən
+noun:::x̣/qh:::s-x̣íy-ä'<sup>ä</sup>st::: :::s-x̣íy-ɛʔst:::s-qh<u>i</u>y-e'st:::cooking stones::: :::s-x̣íy-ɛʔst
+noun:::qʷ/qw:::s-qʷán-ɬkʷä'äp::: :::s-qʷán-ɫkʷɛʔɛp:::s-qw<u>a</u>n-ɫkwe'ep:::empty receptacle::: :::s-qʷán-ɫkʷɛʔɛp
+noun:::qʷ/qw:::s-qʷás-qʷasä'<sup>ä</sup>::: :::s-qʷás-qʷasɛʔ:::s-qw<u>a</u>s-qwase':::child::: :::s-qʷás-qʷasɛʔ
+noun:::qʷ/qw:::s-qʷäy-u<sup>u</sup>::: :::s-qʷɛy-uʔ:::s-qwey-u':::grape::: :::s-qʷɛy-uʔ
+noun:::qʷ/qw:::s-qʷím̕-us::: :::s-qʷím'-us:::s-qw<u>i</u>'m-us:::woodtick::: :::s-qʷím'-us
+noun:::qʷ/qw:::s-qʷíts-ụmc::: :::s-qʷíc-əmš:::s-qw<u>i</u>ts-msh:::cottontail::: :::s-qʷíc-əmš
+noun:::qʷ/qw:::qʷíläm̕::: :::qʷílɛm':::qw<u>i</u>le'm:::song::: :::qʷílɛm'
+noun:::qʷ/qw:::qʷụlíwɩl̕c::: :::qʷəlíwəl'š:::qwl<u>i</u>w'lsh:::onion::: :::qʷəlíwəl'š
+noun:::q'ʷ/q'w:::q̕ʷäsu<sup>u</sup>::: :::q'ʷɛsu:::q'wesu:::bunch::: :::q'ʷɛsu
+noun:::q'ʷ/q'w:::s-q̕ʷäq̕ʷ-alqʷ::: :::s-q'ʷɛq'ʷ-alqʷ:::s-q'weq'w-alqw:::prairie grouse::: :::s-q'ʷɛq'ʷ-alqʷ
+noun:::q'ʷ/q'w:::sɩn-q̕ʷụdä'úscᴇn::: :::sən-q'ʷədɛʔúsšən:::sn-q'wde'<u>u</u>sshn:::root::: :::sən-q'ʷədɛʔúsšən
+noun:::q'ʷ/q'w:::s-t-q̕ʷụsúm̕::: :::s-t-q'ʷəsúm':::s-t-q'ws<u>u</u>'m:::weasel::: :::s-t-q'ʷəsúm'
+noun:::q'ʷ/q'w:::q̕ʷuts̕wiyä'<sup>ä</sup>::: :::q'ʷuc'wiyɛʔ:::q'wuts'wiye':::chipmunk::: :::q'ʷuc'wiyɛʔ
+noun:::x̣ʷ/qhw:::s-x̣u'<sup>u</sup>xʷ::: :::s-x̣uʔxʷ:::s-qhu'khw:::steam, vapor::: :::s-x̣uʔxʷ
+noun:::x̣ʷ/qhw:::s-x̣úsᴇm::: :::s-x̣úsəm:::s-qh<u>u</u>sm:::soapberry::: :::s-x̣úsəm
+noun:::x̣ʷ/qhw:::x̣ʷát-x̣ʷat::: :::x̣ʷát-x̣ʷat:::qhw<u>a</u>t-qhwat:::duck::: :::x̣ʷát-x̣ʷat
+noun:::x̣ʷ/qhw:::s-x̣ʷụɬ-x̣ʷáɬ::: :::x̣ʷəɫ-x̣ʷáɫ:::qhwɫ-qhw<u>a</u>ɫ:::Rocky Mt. sheep::: :::x̣ʷəɫ-x̣ʷáɫ
+noun:::x̣ʷ/qhw:::s-x̣ʷal-ístcᴇn::: :::s-x̣ʷal-ísčən:::s-qhwal-<u>i</u>schn:::buck (deer)::: :::s-x̣ʷal-ísčən
+noun:::x̣ʷ/qhw:::s-x̣ʷäˊṛʷ-x̣ʷäṛʷ::: :::s-x̣ʷɛ́ʕʷ-x̣ʷɛʕʷ:::s-qhw<u>e</u>(w-qhwe(w:::fox::: :::s-x̣ʷɛ́ʕʷ-x̣ʷɛʕʷ
+noun:::l:::*lawan::: :::lawan:::lawan:::oats::: :::lawan
+noun:::l:::láx̣ʷ-lụxʷ  [sic]::: :::láx̣ʷ-ləxʷ:::l<u>a</u>qhw-lkhw:::cherry::: :::láx̣ʷ-ləxʷ
+noun:::l:::s-lä<sup>ä</sup>w̕ínätc::: :::s-lɛw'ínɛč:::s-le'w<u>i</u>nech:::crickets::: :::s-lɛw'ínɛč
+noun:::l:::*läbotäm  [sic]::: :::lɛbotɛm:::lebotem:::bottle::: :::lɛbotɛm
+noun:::l:::*lä<sup>ä</sup>swip::: :::lɛswip:::leswip:::Jew::: :::lɛswip
+noun:::l:::*lᴇsa<sup>a</sup>pᴐt::: :::ləsapɔt:::lsapot:::apostles::: :::ləsapɔt
+noun:::l:::lup̕ay̕::: :::lup'ay':::lup'a'y:::basket::: :::lup'ay'
+noun:::l:::lɩtkú::: :::lətkú:::ltk<u>u</u>:::otter::: :::lətkú
+noun:::l:::lᴇkapí::: :::ləkapí:::lkap<u>i</u>:::coffee::: :::ləkapí
+noun:::l:::lụqᴐsᴐˊ::: :::ləqɔsó:::lqos<u>o</u>:::pig::: :::ləqɔsó
+noun:::ɫ, l':::hɩn-ɬámqä'<sup>ä</sup>::: :::hən-ɫámqɛʔ:::hn-ɫ<u>a</u>mqe':::black bear::: :::hən-ɫámqɛʔ
+noun:::ɫ, l':::s-tc-ɬämt::: :::s-č-ɫɛmt:::s-ch-ɫemt:::light fog, dew::: :::s-č-ɫɛmt
+noun:::ɫ, l':::s-tc-ɬus-mᴇn::: :::s-č-ɫus-mən:::s-ch-ɫus-mn:::eye::: :::s-č-ɫus-mən
+noun:::ɫ, l':::s-ɬụxʷ-tct::: :::s-ɫəxʷ-čt:::s-ɫkhw-cht:::glove::: :::s-ɫəxʷ-čt
+noun:::ɫ, l':::ɬɩtcíp::: :::ɫəčíp:::ɫch<u>i</u>p:::bucket::: :::ɫəčíp
+noun:::ɫ, l':::l̕ᴇl̕ᴇpᴐˊt::: :::l'əl'əpót:::'l'lp<u>o</u>t:::cup::: :::l'əl'əpót
+noun:::ɫ, l':::l̕äl̕ɩq̕ʷɩl̕c::: :::l'ɛl'əq'ʷəl'š:::'le'lq'w'lsh:::ripples::: :::l'ɛl'əq'ʷəl'š
+noun:::ʕ, ʕʷ/(, (w:::s-ʀin::: :::s-ʕin:::s-(in:::catbird::: :::s-ʕin
+noun:::ʕ, ʕʷ/(, (w:::s-ʀíhänt::: :::s-ʕíhɛnt:::s-(<u>i</u>hent:::goose::: :::s-ʕíhɛnt
+noun:::ʕ, ʕʷ/(, (w:::s-ṛʷäˊl-gụl::: :::s-ʕʷɛ́l-gəl:::s-(w<u>e</u>l-gl:::fishnet, bagnet::: :::s-ʕʷɛ́l-gəl
+noun:::h:::háy-aqs::: :::háy-aqs:::h<u>a</u>y-aqs:::pearl::: :::háy-aqs
+noun:::h:::hamäˊɬtᴇmc::: :::hamɛɫtəmš:::hameɫtmsh:::fly, insect, maggot::: :::hamɛɫtəmš
+noun:::h:::hɩn-hala<sup>a</sup>tsäˊ::: :::hən-halacɛ́:::hn-halats<u>e</u>:::(or cín) raspberry::: :::hən-halacɛ́
+noun:::h:::hämä'<sup>ä</sup>::: :::hɛmɛʔ:::heme':::French::: :::hɛmɛʔ

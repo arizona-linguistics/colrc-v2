@@ -21,11 +21,6 @@
     margin-right: 12px !important;
 }
 
-ul {
-	list-style-type: none;
-	text-align: right;
-	float: center;
-}
 .ui.grid {
 	margin: 10;
 

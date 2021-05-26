@@ -34,6 +34,9 @@
 	padding: 2px;
 }
 
+.footer {
+  padding: 20px;
+}
 .checkBoxMenu {
   background-color: #222;
   padding: 5px;
@@ -67,9 +70,7 @@
 .image-gallery-slide img {
   height: 90%;
 }
-/*.keyboardContainer {
-  max-width: 250px;
-  margin: 0 auto;
-  margin-top: 20px;
+
+.centered {
   text-align: center;
-}*/
+}

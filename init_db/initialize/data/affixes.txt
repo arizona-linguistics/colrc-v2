@@ -1,0 +1,195 @@
+d:::ci-:::tsi-:::'first, before' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n612/mode/2up:::page 599 (420)
+d:::čic-:::chits-:::'hither (toward speaker)'  :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n611/mode/2up:::page 598 (412)
+d:::tɛ-:::te-:::'thither' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n611/mode/2up:::page 598 (416)
+d:::tkʷɛɫ-:::tkweɫ-:::'go about to definite place' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n610/mode/2up:::page 597 (410)
+d:::tɛp-:::tep-:::'on the way' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n612/mode/2up:::page 599 (418)
+d:::tus-:::tus-:::'as far as' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n612/mode/2up:::page 599 (419)
+l:::cɛn-:::tsen-:::'under, off of' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n609/mode/2up:::page 596 (401)
+l:::č-:::ch-:::'on, attached to but not a part of, at a point' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n608/mode/2up:::page 595 (395)
+l:::čt-:::cht-:::R notes the meaning of this morpheme is not clear :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n608/mode/2up:::page 595 (397)
+l:::čɛt-:::chet-:::'on a surface or object broader the subject, above, over' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n608/mode/2up:::page 595 (398)
+l:::čs-:::chs-:::'after, behind, for a purpose, in pursuit of' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n608/mode/2up:::page 595 (399)
+l:::hn-:::hn-:::'in, onto, into, on' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n609/mode/2up:::page 596 (402)
+l:::gul'-:::gu'l-:::'under ledge or inclined plane, almost touching' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n610/mode/2up:::page 597 (407)
+l:::mɛl-:::mel-:::'onto, besides, close by' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n610/mode/2up:::page 597 (408)
+l:::niʔ-:::ni'-:::see :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n609/mode/2up:::page 596 (405)
+l:::t-:::t-:::'on and a part of' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n607/mode/2up:::page 594 (393)
+l:::tč-:::tch-:::'astraddle, straddling an object' also used when counting people :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n608/mode/2up:::page 595 (396)
+lp:::čit=:::chit=:::'offspring, child of' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n605/mode/2up:::page 592 (377a)
+lp:::hii=:::hii=:::'that which, the one who' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n604/mode/2up:::page 591 (375)
+lp:::nukʷ=:::nukw=:::'companion, fellow, one of the same kind' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n605/mode/2up:::page 592 (378)
+lp:::pɛn'=:::pe'n=:::'spouse' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n605/mode/2up:::page 592 (379)
+lp:::syɛ=:::sye=:::'the one whose business is...' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n604/mode/2up:::page 591 (374)
+lp:::y'ɛ=:::'ye=:::'horse, colt' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n605/mode/2up:::page 592 (380)
+ls:::=alp:::=alp:::'feeling' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::page 612 (479)
+ls:::=alpqʷ:::=alpqw:::'mouth inside, oral cavity' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::page 616 (499)
+ls:::=alqʷ:::=alqw:::'log, stick like object, tree' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::page 616 (498)
+ls:::=alq:::=alq:::variant of =alqʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::variant
+ls:::=al'qs:::=a'lqs:::'clothes' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::page 611 (471)
+ls:::=alqs:::=alqs:::'end' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::page 611 (477)
+ls:::=alqs:::=alqs:::'road' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::page 618 (509)
+ls:::=alq-šən:::=alq-shn:::'used for long bones of the leg' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (552)
+ls:::=aɫ-g'iw't:::=aɫ-g'i'wt:::'shoulder, part from neck to edge of shoulder' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::page 618 (511)
+ls:::=aɫqixʷ:::=aɫqikhw:::'breath' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::page 610 (468)
+ls:::=ɫqixʷ:::=ɫqikhw:::variant of =aɫqixʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::variant
+ls:::=ap-al'qs:::=ap-a'lqs:::'bottom clothes' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n637/mode/2up:::page 624 (547)
+ls:::=aqs:::=aqs:::'breast' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::page 610 (467)
+ls:::=asq'it:::=asq'it:::'day, sky, atmosphere' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::page 611 (472)
+ls:::=sq'it:::=sq'it:::variant of =asq'it:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::variant
+ls:::=astq:::=astq:::'in opposition to' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n637/mode/2up:::page 624 (542)
+ls:::=stq:::=stq:::variant of =astq:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n637/mode/2up:::variant
+ls:::=aw'as-qən:::=a'was-qn:::'corner, angle, in hair, on top of head' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (550)
+ls:::=ax̣ən:::=aqhn:::'arm, wing' (Doak 1997 p 40):::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::page 609 (457)
+ls:::=cin-čt:::=tsin-cht:::'wrist, edge of hand' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (557)
+ls:::=cin-kʷɛʔ:::=tsin-kwe':::'shore (edge of water)' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (559)
+ls:::=čaʔ:::=cha':::No gloss :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::page 621 (527)
+ls:::=cin:::=tsin:::'edge, mouth, shore' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::page 611 (475)
+ls:::=cɛn:::=tsen:::variant of =cin:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::variant
+ls:::=cən:::=tsn:::variant of =cin:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::variant
+ls:::=ɛl:::=el:::'planes meet' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n651/mode/2up:::p 836 [638] (610)
+ls:::=ɛls:::=els:::'round object' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::page 621 (522)
+ls:::=ɛlwis:::=elwis:::'about, go about to indefinite places' locative suffix :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n635/mode/2up:::page 622 (532)
+ls:::=ɛl'w'əs:::=e'l'ws:::variant of =ɛlwis:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n635/mode/2up:::variant
+ls:::=ɛlwəs:::=elws:::variant of =ɛlwis:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n635/mode/2up:::variant
+ls:::=ɛɫniw':::=eɫni'w:::'alongside at rest, or in position alongside' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::page 623 (535)
+ls:::=ɫniw':::=ɫni'w:::variant of =ɛɫniw':::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::variant
+ls:::=ɛɫnɛw':::=eɫne'w:::variant of =ɛɫniw':::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2upt:::variant
+ls:::=ɛɫp:::=eɫp:::'part of a bush, plant, root, tree' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::page 610 (469)
+ls:::=aɫp:::=aɫp:::variant of =ɛɫp:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::variant
+ls:::=əɫp:::=ɫp:::variant of =ɛɫp:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::variant
+ls:::=ɛməš:::=emsh:::'born' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::page 609 (462)
+ls:::=əməš:::=msh:::variant of =ɛməš:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::variant
+ls:::=məš:::=msh:::variant of =ɛməš:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::variant
+ls:::=ɛsčičɛʔ:::=eschiche':::'horse, stock' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n628/mode/2up:::page 615 (495)
+ls:::=ɛt:::=et:::'open to question, doubtful' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::page 621 (524)
+ls:::=gwil:::=gwil:::'hollow object, wagon, canoe, abdomen' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::page 614 (492)
+ls:::=gwəl:::=gwl:::variant of =gwil:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::variant
+ls:::=ic'ɛʔ:::=its'e':::'all around, all over, used especially for wrapping or covering' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n635/mode/2up:::page 622 (533)
+ls:::=c'ɛʔ:::=ts'e':::variant of =ic'ɛʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n635/mode/2up:::variant
+ls:::=ičn'-čt:::=ich'n-cht:::'back of hand' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (556)
+ls:::=ičn':::=ich'n:::'back, ridge' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::page 609 (459)
+ls:::=ɛčn':::=ech'n:::variant of =ičn':::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::variant
+ls:::=əčn':::=ch'n:::variant of =ičn':::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::variant
+ls:::=ičs:::=ichs:::'hand, not including fingers' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::page 613 (488)
+ls:::=ɛčs:::=echs:::variant of =ičs:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::variant
+ls:::=čs:::=chs:::variant of =ičs:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::variant
+ls:::=ičt:::=icht:::'hand, including fingers' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::page 613 (487)
+ls:::=ɛčt:::=echt:::variant of =ičt:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::variant
+ls:::=čt:::=cht:::variant of =ičt:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::variant
+ls:::=iɫ-čɛʔ-us:::=iɫ-che'-us:::'inside of face (eye)' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (558)
+ls:::=idən:::=idn:::'effort' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::page 611 (476)
+ls:::=il'č':::=i'lch':::check (?) :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::page 621 (526)
+ls:::=ɛl'č':::=e'lch':::variant of =il'č':::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::variant
+ls:::=ilgwɛs:::=ilgwes:::'property' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::page 617 (508)
+ls:::=ɛlgwɛs:::=elgwes:::variant of =ilgwɛs:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::variant
+ls:::=il'kʷɛʔ:::=i'lkwe':::'forehead, brow' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::page 613 (484)
+ls:::=il:::=il:::'angle where two planes meet' or 'place where two elements meet  :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n621/mode/2up:::page 608 (453)
+ls:::=ɛl:::=el:::variant of =il:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n621/mode/2up:::variant
+ls:::=l:::=l:::variant of=il:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n621/mode/2up:::variant
+ls:::=iln:::=iln:::'food, pertaining to food' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::page 612 (483)
+ls:::=ilən:::=iln:::variant of =iln:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::variant
+ls:::=iɫ:::=iɫ:::'direction, -ward' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::page 623 (539)
+ls:::=ilps:::=ilps:::'throat of person, back of animal's neck' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::page 618 (514)
+ls:::=ɛlps:::=elps:::variant of =ilps:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::variant
+ls:::=ilqwɛs:::=ilqwes:::'heart, stomach' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::page 614 (490)
+ls:::=ɛlqwɛs:::=elqwes:::variant of =ilqwɛs:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::variant
+ls:::=ilt:::=ilt:::'offspring, child' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::page 616 (502)
+ls:::=ɛlt:::=elt:::variant of =ilt:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::variant
+ls:::=ɛl't:::=e'lt:::variant of =ilt:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::variant
+ls:::=iləmxʷ:::=ilmkhw:::'person, man' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::page 617 (504)
+ls:::=aləmxʷ:::=almkhw:::variant of =iləmxʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::variant
+ls:::=ɛləmxʷ:::=elmkhw:::variant of =iləmxʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::variant
+ls:::=ilup:::=ilup:::'foundation, something on which to rest' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::page 613 (485)
+ls:::=ɛlup:::=elup:::variant of =ilup:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::variant
+ls:::=inɛʔ:::=ine':::'ear' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::page 611 (473)
+ls:::=ɛnɛʔ:::=ene':::variant of =inɛʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::variant
+ls:::=ɛnɛʔ:::=ene':::variant of =inɛʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n624/mode/2up:::variant
+ls:::=iʔ:::=i':::'someone who ... for' used with kin terms, no clear meaning :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::page 621 (528)
+ls:::=ɛʔ:::=e':::variant of =iʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::variant
+ls:::=ilxʷ:::=ilkhw:::'hide, skin, mat, covering' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::page 614 (491)
+ls:::=ɛlxʷ:::=elkhw:::variant of =ilxʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::variant
+ls:::=lxʷ:::=lkhw:::variant of =ilxʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::variant
+ls:::=inč:::=inch:::'hollow, whence: belly' with hn- (locative 'in, onto, etc.') 'room' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n628/mode/2up:::page 615 (493)
+ls:::=ɛnč:::=ench:::variant of =inč:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n628/mode/2up:::variant
+ls:::=ingʷilən:::=ingwiln:::'something' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::page 618 (512)
+ls:::=inɛʔ:::=ine':::'over, on top of but not entirely covered' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::page 623 (541)
+ls:::=ɛnɛʔ:::=ene':::variant of =inɛʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::variant
+ls:::=ɛnɛʔ:::=ene':::variant of =inɛʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::variant
+ls:::=ins:::=ins:::'tooth' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::page 619 (516)
+ls:::=ɛns:::=ens:::variant of =ins:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::variant
+ls:::=inxʷ:::=inkhw:::'weather' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n633/mode/2up:::page 620 (520)
+ls:::=ɛnxʷ:::=enkhw:::variant of =inxʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n633/mode/2up:::variant
+ls:::=iplɛʔ:::=iple':::'attachment, handle. connection' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::page 609 (458)
+ls:::=aplɛʔ:::=aple':::variant of =iplɛʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::variant
+ls:::=ɛplɛʔ:::=eple':::variant of =iplɛʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::variant
+ls:::=ip-ɛl-sčən:::=ip-el-schn:::'stubby horn, stump of horn' (?) :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n637/mode/2up:::page 624 (549)
+ls:::=iplɛʔšən:::=iple'shn:::'heel (handle of foot)' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (554)
+ls:::=ip:::=ip:::'bottom, after, behind, back' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::page 610 (463)
+ls:::=ap:::=ap:::variant of =ip:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::variant
+ls:::=ɛp:::=ep:::variant of =ip:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::variant
+ls:::=p:::=p:::variant of =ip:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::variant
+ls:::=ip-ɛns:::=ip-ens:::'chin, i.e. bottom of teeth' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n637/mode/2up:::page 624 (548)
+ls:::=ips:::=ips:::'neck all around' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::page 616 (500)
+ls:::=ɛps:::=eps:::variant of =ips:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::variant
+ls:::=ipɫtixʷcč:::=ipɫtikhwtsch:::'tongue, tongue-shaped' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::page 619 (515)
+ls:::=ɛpɫtixʷcč:::=epɫtikhwtsch:::variant of =ipɫtixʷcč::::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::variant
+ls:::=ip-w'as-šən:::=ip-'was-shn:::'the generalized word for privates' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (555)
+ls:::=isčən:::=ischn:::'horn, forehead at the edge of the hair' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n628/mode/2up:::page 615 (494)
+ls:::=sčən:::=schn:::variant of =isčən:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n628/mode/2up:::variant
+ls:::=isč'ɛy't:::=isch'e'yt:::'pharynx' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::page 617 (507)
+ls:::=isgwɛl:::=isgwel:::'fish' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::page 612 (481)
+ls:::=sgwɛl:::=sgwel:::variant of =isgwɛl:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::variant
+ls:::=itkʷɛʔ:::=itkwe':::'water' (Doak 1997 p 31)::: ::: 
+ls:::=i'utəm:::=i'utm:::'self-doer, auto-, that which performs by itself, a neuter reflexive, not applied to persons' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::page 618 (510)
+ls:::=iw'ɛs:::=i'wes:::'between, together, have contact with, be in contact' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::page 623 (537)
+ls:::=aw'ɛs:::=a'wes:::variant of =iw'ɛs:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::variant
+ls:::=ɛw'ɛs:::=e'wes:::variant of =iw'ɛs:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::variant
+ls:::=iɫc'ɛʔ:::=iɫts'e':::'body' (Doak 1997 p 96; 75a)::: ::: 
+ls:::=iɫxʷ:::=iɫkhw:::'house' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n628/mode/2up:::page 615 (496)
+ls:::=ɫxʷ:::=ɫkhw:::variant of =iɫxʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n628/mode/2up:::variant
+ls:::=ixʷ:::=ikhw:::'willingly, of own accord' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n621/mode/2up:::page 608 (455)
+ls:::=ɛxʷ:::=ekhw:::variant of =ixʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n621/mode/2up:::variant
+ls:::=xʷ:::=khw:::variant of =ixʷ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n621/mode/2up:::variant
+ls:::=iʔst:::=i'st:::'surface of round object, rock' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::page 618 (513)
+ls:::=aʔst:::=a'st:::variant of =iʔst:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::variant
+ls:::=ɛʔst:::=e'st:::variant of =iʔst:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n631/mode/2up:::variant
+ls:::=iʔt:::=i't:::'source (?)' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::page 621 (523)
+ls:::=ɛʔt:::=e't:::variant of =iʔt:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::variant
+ls:::=kʷup:::=kwup:::'wood (?)' (Doak 1997 p 40)::: ::: 
+ls:::=kʷɛʔ:::=kwe':::'water, liquid' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::page 619 (519)
+ls:::=kəp:::=kp:::'fire, fuel' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::page 612 (480)
+ls:::=ɫ-c'ɛʔ-ip:::=ɫ-ts'e'-ip:::'hip' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n637/mode/2up:::page 624 (546)
+ls:::=mɛʔ:::=me':::'in every way' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::page 623 (540)
+ls:::=num':::=nu'm:::'body' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n622/mode/2up:::page 609 (461)
+ls:::=os-ax̣ɛn:::=os-aqhen:::'top of arm, perhaps ball and socket joint' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n637/mode/2up:::page 624 (545)
+ls:::=qin:::=qin:::'head, tip, top' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::page 614 (489)
+ls:::=qən:::=qn:::variant of =qin:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::variant
+ls:::=qən:::=qn:::variant of =qin:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n627/mode/2up:::variant
+ls:::=qin:::=qin:::'voice, throat' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::page 619 (518)
+ls:::=qən:::=qn:::variant of =qin:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::variant
+ls:::=qən:::=qn:::variant of =qin:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::variant
+ls:::=qinəps:::=qinps:::'seat' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n637/mode/2up:::page 624 (544)
+ls:::=stq:::=stq:::'seems to refer to vegetation crops' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n632/mode/2up:::page 619 (517)
+ls:::=sčint:::=schint:::'people, persons' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::page 617 (505)
+ls:::=sčɛnt:::=schent:::variant of =sčint:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::variant
+ls:::=əmš:::=msh:::'people as a kind of group' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n630/mode/2up:::page 617 (506)
+ls:::=šin:::=shin:::'foot, leg, the leg from hip to toe' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::page 612 (482)
+ls:::=šɛn:::=shen:::variant of =šin:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::variant
+ls:::=šən:::=shn:::variant of =šin:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::variant
+ls:::=tx̣ʷɛ:::=tqhwe:::'camas, (?)' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n623/mode/2up:::page 610 (470)
+ls:::=t'ɛy't:::=t'e'yt:::No gloss :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n634/mode/2up:::page 621 (525)
+ls:::=ul'əmxʷ:::=u'lmkhw:::'ground' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n626/mode/2up:::page 613 (486)
+ls:::=ups:::=ups:::'anus, anal region' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n621/mode/2up:::page 608 (456)
+ls:::=us:::=us:::'face, fire, eye' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::page 612 (478)
+ls:::=os:::=os:::variant of =us:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::variant
+ls:::=s:::=s:::variant of =us:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n625/mode/2up:::variant
+ls:::=ut:::=ut:::'place' (Doak 1997 p 28)::: ::: 
+ls:::=us-šən:::=us-shn:::'toe (face of foot)' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n638/mode/2up:::page 625 (553)
+ls:::=ust:::=ust:::'along, meaning movement along' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::page 623 (534)
+ls:::=uʔ:::=u':::'pendent'  :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::page 616 (503)
+ls:::=uʔus:::=u'us:::'directly, spang' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n635/mode/2up:::page 623 (538)
+ls:::=oʔos:::=o'os:::variant of =uʔus:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n635/mode/2up:::variant
+ls:::=iʔqs:::=i'qs:::'nose, beak, oral and nasal cavity, seat of taste' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::page 616 (501)
+ls:::=ʔqs:::='qs:::variant of =iʔqs:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n629/mode/2up:::variant
+ls:::=yuyɛʔ:::=yuye':::'back and forth' :::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::page 623 (536)
+ls:::=yoyɛʔ:::=yoye':::variant of =yuyɛʔ:::http://www.archive.org/stream/rosettaproject_tqw_morsyn-2#page/n636/mode/2up:::variant
