@@ -1,7 +1,7 @@
-version: "2.3"
+version: "3.6"
 services:
   hasura:
-    image: hasura/graphql-engine:v1.0.0-beta.2
+    image: hasura/graphql-engine:v1.3.3
     ports:
     - "8080:8080"
     depends_on:
@@ -45,7 +45,7 @@ services:
         edu.arizona.colrc.description: "API for COLRC v2"
     depends_on:
       - postgres
-      - prisma
+      - hasura
     restart: always
     ports:
       - "4000:4000"
