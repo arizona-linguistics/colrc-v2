@@ -31,9 +31,9 @@ strip_debug() {
   done
 }
 
-$(WITH_ECHO} && { 
-    download_and_extract "https://github.com/openresty/nginx-echo-module/archive/v${ECHO_VERSION}.tar.gz" ${NGINX_BUILD_ASSETS_DIR}/nginx-echo-module
-    EXTRA_ARGS+=" --add-module=${NGINX_BUILD_ASSETS_DIR}/nginx-echo-module"
+${WITH_ECHO} && { 
+    download_and_extract "https://github.com/openresty/echo-nginx-module/archive/refs/tags/v${ECHO_VERSION}.tar.gz" ${NGINX_BUILD_ASSETS_DIR}/echo-nginx-module
+    EXTRA_ARGS+=" --add-module=${NGINX_BUILD_ASSETS_DIR}/echo-nginx-module"
 }
 
 download_and_extract "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" ${NGINX_BUILD_ASSETS_DIR}/nginx
