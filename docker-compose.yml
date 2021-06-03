@@ -72,5 +72,20 @@ services:
     volumes:
       - ./frontend/src:/app/src:rw
       - ./frontend/public:/app/public:rw
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      labels:
+        edu.arizona.colrc.description: "Nginx for COLRC v2"
+    depends_on:
+      - frontend
+    restart: always
+    ports:
+      - "80:7777"
+      - "443:7774"
+    #volumes:
+      # FIXME: add nginx conf and correct mapping
+      #- ./conf/nginx:/app/src:rw
 volumes:
   db_data:

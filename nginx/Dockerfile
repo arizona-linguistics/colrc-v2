@@ -45,10 +45,13 @@ ENV NGINX_USER=www-data \
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-      libssl1.1 libxslt1.1 libgd3 libgeoip1 \
+      libssl1.1 libxslt1.1 libgd3 libgeoip1 rsync \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /var/lib/docker-nginx/rootfs /
+# two-step copy
+COPY --from=builder /var/lib/docker-nginx/rootfs /rootfs
+RUN rsync -rtvazP /rootfs/* / \
+    && rm -rf /rootfs
 
 EXPOSE 80/tcp 443/tcp 1935/tcp
 
