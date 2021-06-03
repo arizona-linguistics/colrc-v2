@@ -1,17 +1,26 @@
 FROM debian AS builder
 
-ENV NGINX_VERSION=1.15.12 \
+ENV NGINX_VERSION=1.19.7 \
+    DAV_VERSION=3.0.0 \
     ECHO_VERSION=0.62 \
+    FILE_UPLOAD_VERSION=2.3.0 \
+    HTTP_AUTH_PAM_VERSION=1.5.2 \
+    HTTP_SUBSTITUTIONS_FILTER_VERSION=0.6.4 \
+    UPSTREAM_FAIR_VERSION=0.1.3 \
     NGINX_BUILD_ASSETS_DIR=/var/lib/docker-nginx \
     NGINX_BUILD_ROOT_DIR=/var/lib/docker-nginx/rootfs
 
 ARG WITH_DEBUG=false
-
+ARG WITH_DAV=true
 ARG WITH_ECHO=true
+ARG WITH_FILE_UPLOAD=true
+ARG WITH_HTTP_AUTH_PAM=true
+ARG WITH_HTTP_SUBSTITUTIONS_FILTER=true
+ARG WITH_UPSTREAM_FAIR=true
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-      wget ca-certificates make gcc g++ pkg-config
+      wget ca-certificates make gcc g++ pkg-config perl
 
 RUN apt-get update && apt-get install -yyq netcat
 
