@@ -19,9 +19,22 @@ create_siteconf_dir() {
   chmod -R 755 ${NGINX_SITECONF_DIR}
 }
 
+create_cache_dir() {
+    mkdir -p ${NGINX_CACHE_DIR}
+    chmod -R 755 ${NGINX_CACHE_DIR}
+}
+
+create_html_dir() {
+    mkdir -p ${NGINX_HTML_DIR}
+    chmode -R 755 ${NGINX_HTML_DIR}
+    echo "Hello Baby" > index.html
+}
+
 create_log_dir
 create_tmp_dir
 create_siteconf_dir
+create_cache_dir
+#create_html_dir
 
 # allow arguments to be passed to nginx
 if [[ ${1:0:1} = '-' ]]; then

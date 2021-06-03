@@ -41,7 +41,9 @@ LABEL maintainer="colrc@thecolrc.org"
 ENV NGINX_USER=www-data \
     NGINX_SITECONF_DIR=/etc/nginx/sites-enabled \
     NGINX_LOG_DIR=/var/log/nginx \
-    NGINX_TEMP_DIR=/var/lib/nginx
+    NGINX_TEMP_DIR=/var/lib/nginx \
+    NGINX_CACHE_DIR=/var/cache/nginx \
+    NGINX_HTML_DIR=/usr/share/nginx/html
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
