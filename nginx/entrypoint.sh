@@ -26,15 +26,16 @@ create_cache_dir() {
 
 create_html_dir() {
     mkdir -p ${NGINX_HTML_DIR}
-    chmode -R 755 ${NGINX_HTML_DIR}
-    echo "Hello Baby" > index.html
+    chmod -R 755 ${NGINX_HTML_DIR}
+    echo "<html><head><title>My First HTML Page</title></head><body>My text goes here.</body></html>" > ${NGINX_HTML_DIR}/index.html
+    chmod 777 ${NGINX_HTML_DIR}/index.html
 }
 
 create_log_dir
 create_tmp_dir
 create_siteconf_dir
 create_cache_dir
-#create_html_dir
+create_html_dir
 
 # allow arguments to be passed to nginx
 if [[ ${1:0:1} = '-' ]]; then
