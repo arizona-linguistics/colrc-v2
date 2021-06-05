@@ -1,4 +1,4 @@
-FROM debian AS builder
+FROM debian:9.13 AS builder
 
 ENV NGINX_VERSION=1.19.7 \
     DAV_VERSION=3.0.0 \
@@ -34,7 +34,7 @@ COPY entrypoint.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
 
 RUN chmod 755 ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
 
-FROM debian
+FROM debian:9.13
 
 LABEL maintainer="colrc@thecolrc.org"
 

@@ -2,3 +2,4 @@
 node_modules
 dist
 *.log
+colrc-v2.code-workspace

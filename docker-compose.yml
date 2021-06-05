@@ -38,7 +38,7 @@ services:
   backend:
     container_name: colrc-v2-backend
     build:
-      context: ./backend
+      context: ./auth
       # specify .dev or .prod variant
       dockerfile: Dockerfile.dev
       labels:
@@ -57,7 +57,7 @@ services:
       # used by Sequelize
       DB_DIALECT: postgres
     volumes:
-      - ./backend:/app:rw
+      - ./auth:/app:rw
   frontend:
     container_name: colrc-v2-frontend
     build:
