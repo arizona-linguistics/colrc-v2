@@ -2,32 +2,39 @@ version: "3.6"
 services:
   hasura:
     image: hasura/graphql-engine:v1.3.3
+    container_name: colrc-v2-hasura
     ports:
     - "8080:8080"
+    depends_on:
+      - "postgres"
     depends_on:
       postgres:
         condition: service_healthy
     restart: always
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://${DB_NAME}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${DB_PASSWORD}@postgres:5432/${DB_NAME}?application_name=${DB_NAME}
+      #HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:11chastq@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
-      ## uncomment next line to set an admin secret
-      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
   postgres:
+    image: postgres:12
     container_name: colrc-v2-postgres-db
     # see https://hub.docker.com/_/postgres/
-    image: postgres:12
+    ports:
+      - "5432:5432"
     restart: always
     env_file:
       - ./.env
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      #POSTGRES_PASSWORD: 11chastq
     volumes:
       - db_data:/var/lib/postgresql/data
       # SQL scripts in this directory will be executed in alphabetical order
-      - "./misc/sql:/docker-entrypoint-initdb.d"
+      - ./misc/sql/colrc.sql:/docker-entrypoint-initdb.d/colrc.sql
     healthcheck:
         # https://www.postgresql.org/docs/12/app-pg-isready.html
         test: ["CMD", "pg_isready", "--dbname=$DB_NAME", "--username=$DB_USERNAME"]
