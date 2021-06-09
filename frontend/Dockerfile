@@ -12,7 +12,7 @@ RUN npm install
 
 # Build, minify, etc.
 # FIXME: add webpack file
-#RUN npm run build
+RUN npm run build
 
-EXPOSE 3000
-CMD [ "npm", "start" ]
+#EXPOSE 3000
+#CMD [ "npm", "start" ]

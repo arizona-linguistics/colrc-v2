@@ -43,7 +43,7 @@ ENV NGINX_USER=www-data \
     NGINX_LOG_DIR=/var/log/nginx \
     NGINX_TEMP_DIR=/var/lib/nginx \
     NGINX_CACHE_DIR=/var/cache/nginx \
-    NGINX_HTML_DIR=/usr/share/nginx/html
+    NGINX_HTML_DIR=/var/www/colrc
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \

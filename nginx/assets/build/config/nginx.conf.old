@@ -1,7 +1,6 @@
 user www-data;
 worker_processes auto;
 pid /run/nginx.pid;
-include /etc/nginx/modules-enabled/*.conf;
 
 events {
 	worker_connections 768;
@@ -9,9 +8,7 @@ events {
 }
 
 http {
-	#server {
-	#	server_name .thecolrc.org "";
-	#}
+
 	##
 	# Basic Settings
 	##
@@ -41,20 +38,14 @@ http {
 	##
 
 	access_log /var/log/nginx/access.log;
-	error_log /var/log/nginx/error.log warn;
-	log_format colrc_format '$remote_addr - $remote_user [$time_local] '
-        	            '"$request" $status $request_body $body_bytes_sent '
-                	    '"$http_referer" "$http_user_agent" "$request_body_file"';
-	map $request_method $method_is_post {    POST 1;    default 0;}
-	# client_body_in_file_only on;
-	log_format request_body_log 'body: "$request_body" file: "$request_body_file"';
-	access_log /var/log/nginx/requests.log request_body_log if=$method_is_post;
+	error_log /var/log/nginx/error.log;
 
 	##
 	# Gzip Settings
 	##
 
 	gzip on;
+	gzip_disable "msie6";
 
 	# gzip_vary on;
 	# gzip_proxied any;
@@ -64,28 +55,33 @@ http {
 	# gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
 	##
+	# ngx_pagespeed config
+	##
+	# pagespeed off;
+	# pagespeed FileCachePath /var/lib/nginx/ngx_pagespeed;
+
+	##
 	# Virtual Host Configs
 	##
 
-	include /etc/nginx/conf.d/*.conf;
+	#include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
 }
-
 
 #mail {
 #	# See sample authentication script at:
 #	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
-# 
+#
 #	# auth_http localhost/auth.php;
 #	# pop3_capabilities "TOP" "USER";
 #	# imap_capabilities "IMAP4rev1" "UIDPLUS";
-# 
+#
 #	server {
 #		listen     localhost:110;
 #		protocol   pop3;
 #		proxy      on;
 #	}
-# 
+#
 #	server {
 #		listen     localhost:143;
 #		protocol   imap;

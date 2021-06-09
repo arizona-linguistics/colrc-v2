@@ -34,7 +34,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       # SQL scripts in this directory will be executed in alphabetical order
-      - ./misc/sql/colrc.sql:/docker-entrypoint-initdb.d/colrc.sql
+      - ./misc/sql:/docker-entrypoint-initdb.d
     healthcheck:
         # https://www.postgresql.org/docs/12/app-pg-isready.html
         test: ["CMD", "pg_isready", "--dbname=$DB_NAME", "--username=$DB_USERNAME"]
@@ -77,8 +77,10 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend/src:/app/src:rw
-      - ./frontend/public:/app/public:rw
+      # FIXME: build the code and then deploy it to the volume
+      - nginx_colrc:/app/build:rw
+      #- ./frontend/src:/app/src:rw
+      #- ./frontend/public:/app/public:rw
   nginx:
     container_name: nginx
     build:
@@ -91,8 +93,9 @@ services:
     ports:
       - "80:7777"
       - "443:7774"
-    #volumes:
-      # FIXME: add nginx conf and correct mapping
-      #- ./conf/nginx:/app/src:rw
+    volumes:
+      # FIXME: add files and colrc frontend
+      - nginx_colrc:/var/www/colrc:rw
 volumes:
   db_data:
+  nginx_colrc:

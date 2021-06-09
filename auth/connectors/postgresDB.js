@@ -110,8 +110,12 @@ const loginUser_C = input => {
         default_role = role.role_code
       }
     })
-    // console.log(hasura_roles)
-    // console.log(default_role)
+    console.log("Roles and default role")
+    console.log(hasura_roles)
+    console.log(default_role)
+    console.log("Algorithm and expiration")
+    console.log(process.env.ALGORITHM)
+    console.log(process.env.EXPIRES_IN)
     if (user) {
       return [{
         password: createJwtToken(
