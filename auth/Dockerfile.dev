@@ -1,5 +1,5 @@
 # based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
-FROM node:11
+FROM node:12
 
 # Create app directory
 WORKDIR /app
@@ -12,5 +12,5 @@ RUN npm install
 #RUN npm install -g nodemon
 
 EXPOSE 4000
-#CMD [ "npm", "run", "dev" ]
-CMD ["npm", "run"]
+CMD [ "npm", "run", "dev" ]
+#CMD ["npm", "run"]

@@ -32,7 +32,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       #POSTGRES_PASSWORD: 11chastq
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - ./misc/db_data:/var/lib/postgresql/data
       # SQL scripts in this directory will be executed in alphabetical order
       - ./misc/sql:/docker-entrypoint-initdb.d
     healthcheck:
@@ -97,5 +97,4 @@ services:
       # FIXME: add files and colrc frontend
       - nginx_colrc:/var/www/colrc:rw
 volumes:
-  db_data:
   nginx_colrc:
