@@ -4,16 +4,19 @@ services:
     image: hasura/graphql-engine:v1.3.3
     container_name: colrc-v2-hasura
     ports:
-    - "8080:8080"
+      - "8080:8080"
     depends_on:
       - "postgres"
     depends_on:
       postgres:
         condition: service_healthy
     restart: always
+    env_file:
+      - ./.env
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${DB_PASSWORD}@postgres:5432/${DB_NAME}?application_name=${DB_NAME}
       #HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:11chastq@postgres:5432/postgres
+      HASURA_GRAPHQL_DEV_MODE: "true" # disable in prod
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
@@ -71,6 +74,8 @@ services:
     container_name: colrc-v2-frontend
     build:
       context: ./frontend
+      # specify .dev or .prod variant
+      dockerfile: Dockerfile.dev
       labels:
         edu.arizona.colrc.description: "Frontend for COLRC v2"
     depends_on:
@@ -81,8 +86,7 @@ services:
     volumes:
       # FIXME: build the code and then deploy it to the volume
       - nginx_colrc:/app/build:rw
-      #- ./frontend/src:/app/src:rw
-      #- ./frontend/public:/app/public:rw
+      - ./frontend:/app:rw
   nginx:
     container_name: nginx
     build:

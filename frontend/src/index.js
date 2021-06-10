@@ -12,7 +12,7 @@ import * as serviceWorker from './serviceWorker';
 //import { ApolloProvider } from 'react-apollo';
 
 // const httpLink = createHttpLink({
-//     uri: 'http://localhost:4000/api'
+//     uri: 'http://backend:4000/api'
 //   })
   
 //   const authLink = setContext((_, { headers }) => {
@@ -52,7 +52,7 @@ import * as serviceWorker from './serviceWorker';
   // const client = new ApolloClient({
   //   cache: new InMemoryCache(),
   //   link: new HttpLink({
-  //       uri: 'http://localhost:4000/api',
+  //       uri: 'http://backend:4000/api',
   //       headers: {
   //         token: token ? `Bearer ${token}` : ''
   //       },
@@ -81,7 +81,7 @@ import * as serviceWorker from './serviceWorker';
   //     return forward(operation);
   //   }).concat(
   //     new HttpLink({
-  //       uri: 'http://localhost:4000/api',
+  //       uri: 'http://backend:4000/api',
   //     })
   //   ),
   //   cache: new InMemoryCache(),

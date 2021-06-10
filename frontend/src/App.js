@@ -68,7 +68,7 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        uri: 'http://localhost:8080/v1/graphql',
+        uri: 'http://hasura:8080/v1/graphql',
       })
     ),
     cache: new InMemoryCache(),
@@ -92,7 +92,7 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        uri: 'http://localhost:4000/api',
+        uri: 'http://backend:4000/api',
       })
     ),
     cache: new InMemoryCache(),
