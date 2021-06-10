@@ -65,6 +65,8 @@ services:
       DB_DIALECT: postgres
     volumes:
       - ./auth:/app:rw
+      # don't bind mount node_modules
+      #- /app/node_modules
   frontend:
     container_name: colrc-v2-frontend
     build:

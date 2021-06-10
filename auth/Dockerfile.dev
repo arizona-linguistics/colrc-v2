@@ -9,8 +9,8 @@ COPY . .
 
 # Install app dependencies
 RUN npm install
-#RUN npm install -g nodemon
 
 EXPOSE 4000
-CMD [ "npm", "run", "dev" ]
+#CMD ["sleep", "100"]
+CMD [ "sh", "-c", "npm i && npm run dev" ]
 #CMD ["npm", "run"]
