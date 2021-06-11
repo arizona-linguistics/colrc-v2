@@ -16,5 +16,5 @@ RUN npm install --no-optional
 
 EXPOSE 3000
 
-#CMD ["sh", "-c", "npm i && npm run start"]
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npm i && npm run start"]
+#CMD ["npm", "start"]
