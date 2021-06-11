@@ -97,8 +97,8 @@ services:
       - frontend
     restart: always
     ports:
-      - "80:7777"
-      - "443:7774"
+      - "80:80"
+      - "443:443"
     volumes:
       # FIXME: add files and colrc frontend
       - nginx_colrc:/var/www/colrc:rw
