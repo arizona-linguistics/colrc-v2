@@ -3,7 +3,7 @@
 This is where you come to learn about how the COLRC team uses git, vscode, docker, and other tools. You can also learn about how the to mdodify and add to the code base, and how to use the existing site as it is deployed in both production and development.
 
 # Using git
-1. Installing git<br/>
+1. Installing git<p/>
 [Git Install Page](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. Configure username and email
 ```markdown
