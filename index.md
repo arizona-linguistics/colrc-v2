@@ -10,6 +10,10 @@ This is where you come to learn about how the COLRC team uses git, vscode, docke
 2. vscode
 3. docker
 
+```markdown
+git config --global user.name "Your Name Comes Here"
+git config --global user.email you@yourdomain.example.com
+```
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/arizona-linguistics/colrc-v2/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
