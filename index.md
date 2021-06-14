@@ -1,3 +1,15 @@
+## Welcome to the COLRC Tutorial Center
+
+This is where you come to learn about how the COLRC team uses git, vscode, docker, and other tools. You can also learn about how the to mdodify and add to the code base, and how to use the existing site as it is deployed in both production and development.
+
+- git
+- vscode
+- docker
+
+1. git
+2. vscode
+3. docker
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/arizona-linguistics/colrc-v2/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
