@@ -28,7 +28,7 @@ create_html_dir() {
     mkdir -p ${NGINX_HTML_DIR}
     chmod -R 755 ${NGINX_HTML_DIR}
     echo "<html><head><title>My First HTML Page</title></head><body>My text goes here.</body></html>" > ${NGINX_HTML_DIR}/index.html
-    chmod -R 755 ${NGINX_FILE_DIR}
+    #chmod -R 755 ${NGINX_FILE_DIR}
     chmod 777 ${NGINX_HTML_DIR}/index.html
 }
 
