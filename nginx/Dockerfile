@@ -43,17 +43,23 @@ ENV NGINX_USER=www-data \
     NGINX_LOG_DIR=/var/log/nginx \
     NGINX_TEMP_DIR=/var/lib/nginx \
     NGINX_CACHE_DIR=/var/cache/nginx \
-    NGINX_HTML_DIR=/var/www/colrc
+    NGINX_HTML_DIR=/var/www/colrc \
+    NGINX_FILE_DIR=/var/www/colrc/files
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-      libssl1.1 libxslt1.1 libgd3 libgeoip1 rsync \
+      libssl1.1 libxslt1.1 libgd3 libgeoip1 rsync tar \
  && rm -rf /var/lib/apt/lists/*
 
 # two-step copy
 COPY --from=builder /var/lib/docker-nginx/rootfs /rootfs
 RUN rsync -rtvazP /rootfs/* / \
     && rm -rf /rootfs
+
+# copy texts and audio files into the nginx file directory
+RUN mkdir -p /var/www/colrc
+COPY ./file_data/colrc-files.tar.gz /var/www/colrc/
+RUN cd /var/www/colrc && tar -xzf colrc-files.tar.gz 
 
 EXPOSE 80/tcp 443/tcp 1935/tcp
 
