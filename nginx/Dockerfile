@@ -58,8 +58,8 @@ RUN rsync -rtvazP /rootfs/* / \
 
 # copy texts and audio files into the nginx file directory
 RUN mkdir -p /var/www/colrc
-COPY ./file_data/colrc-files.tar.gz /var/www/colrc/
-RUN cd /var/www/colrc && tar -xzf colrc-files.tar.gz 
+#COPY ./file_data/colrc-files.tar.gz /var/www/colrc/
+#RUN cd /var/www/colrc && tar -xzf colrc-files.tar.gz 
 
 EXPOSE 80/tcp 443/tcp 1935/tcp
 
