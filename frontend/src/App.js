@@ -140,6 +140,7 @@ function App(props) {
         <div>
           <NavBar>
             <ToastContainer key="ToastContainer"/>
+            <div><h1>Hello from Amy's Desktop!</h1></div>
             <Switch>
               <Route exact path="/" component={Home} key="HomePage" />
               <Route path="/login" component={Login} key="LoginPage" />
