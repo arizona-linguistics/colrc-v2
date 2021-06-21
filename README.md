@@ -70,3 +70,26 @@ To easily remove old volumes and containers, you can run the following script:
 ```
 ./cleanup.sh
 ```
+
+### GitHunb workflows
+
+.github/workflows
+ci.yml
+on:
+    push:
+        branches: [main]
+    pull_requests:
+        branches: [main]
+
+jobs:
+    setup:
+        name: setup
+        runs-on: ubuntu-latest
+        outputs:
+            sha_short: 
+        steps:
+        -   name: Checkout code
+            uses: actions/checkout@v2
+        -   name: generate short commit hash
+            id: sha
+            run: echo "::set-output name=sha_short::$
