@@ -42,7 +42,7 @@ jobs:
       working-directory: ./auth
       env:
         DOCKERFILE: "Dockerfile.dev"
-        ORG: ${{ secrets.DOCKERHUB_USERNAME }}
+        ORG: "colrc"
         IMAGE_NAME: "auth"
       run: |
         docker build -f ${DOCKERFILE} -t "${ORG}/${IMAGE_NAME}:latest" -t "${ORG}/${IMAGE_NAME}:${{ needs.setup.outputs.sha_short }}" .
@@ -50,7 +50,7 @@ jobs:
     # publish
     - name: "Publish docker image (auth image)"
       env:
-        ORG: ${{ secrets.DOCKERHUB_USERNAME }}
+        ORG: "colrc"
         IMAGE_NAME: "auth"
       if: github.ref == 'refs/heads/main'
       run: docker push --all-tags "${ORG}/${IMAGE_NAME}"
