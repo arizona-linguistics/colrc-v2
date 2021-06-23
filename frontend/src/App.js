@@ -163,7 +163,7 @@ function App(props) {
               <PrivateRoute path="/deleteaffix" component={DeleteAffix} key="DeleteAffix" />
               <PrivateRoute path="/addstem" component={AddStem} key="AddStem" />
               <PrivateRoute path="/editstem" component={EditStem} key="EditStem" />
-              <PrivateRoute path="/deletestem" component={DeleteStem} key="DeleteStem" /> */}
+              <PrivateRoute path="/deletestem" component={DeleteStem} key="DeleteStem" />
               <PrivateRoute path="/addroot" component={AddRoot} key="AddRoot" />
               <PrivateRoute path="/editroot" component={EditRoot} key="EditRoot" />
               <PrivateRoute path="/deleteroot" component={DeleteRoot} key="DeleteRoot" /> 
