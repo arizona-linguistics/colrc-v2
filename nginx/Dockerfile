@@ -60,7 +60,7 @@ RUN rsync -rtvazP /rootfs/* / \
 # make sure to add the actual Dropbox share link to end of the curl command!
 RUN mkdir -p ${NGINX_FILE_DIR} \
     && cd ${NGINX_FILE_DIR} \
-    && curl -Lo audio.zip https://www.dropbox.com/sh/m6rjdax7ikevkb7/AAAAAcI1GTysCsgcNDpj2lnka?dl=0 \ 
+    && curl -Lo audio.zip https://www.dropbox.com/sh/jtd0hw3r97rj48q/AADPJFTY0KvJnz83zK97vZh0a?dl=0  \ 
     && unzip audio.zip -x / \
     && rm -f audio.zip
 
