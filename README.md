@@ -93,3 +93,37 @@ jobs:
         -   name: generate short commit hash
             id: sha
             run: echo "::set-output name=sha_short::$
+
+So...
+cd <source directory> 
+git clone repo (if necessary, first time)
+
+git checkout main
+git pull (to get up to date)
+git branch issue<num>
+git checkout issue<num>
+... do work ...
+git add <whatever files need to be added>
+git rm <whatever files need to be removed>
+git commit -m "Meaningful message"
+git push -u origin issue<num> (do this the first time in order to create the branch in the repo)
+... do more work ...
+git add <whatever files need to be added>
+git rm <whatever files need to be removed>
+git commit -m "Meaningful message"
+git push (no need to create the branch here)
+... I am done with my work
+git checkout main
+git pull (if code got changed, then other people have modified main branch)
+    .. merge locally
+    git checkout issue<num>
+    git merge main
+... all done, now go to repo web site and submit a PR (pull request)
+... we meet about it
+... admins do a merge on the issue<num> branch
+
+...And another feature begins...
+Some people suggest forking
+Some people suggest rebasing
+Some people suggest using -no-ff
+I am ignoring this stuff.

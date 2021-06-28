@@ -48,7 +48,7 @@ ENV NGINX_USER=www-data \
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-      libssl1.1 libxslt1.1 libgd3 libgeoip1 rsync tar \
+      libssl1.1 libxslt1.1 libgd3 libgeoip1 ca-certificates default-jdk rsync curl zip unzip \ 
  && rm -rf /var/lib/apt/lists/*
 
 # two-step copy
@@ -58,6 +58,11 @@ RUN rsync -rtvazP /rootfs/* / \
 
 # copy texts and audio files into the nginx file directory
 RUN mkdir -p /var/www/colrc
+RUN mkdir -p /var/www/colrc/files
+RUN cd /var/www/colrc/files && curl https://www.dropbox.com/sh/jtd0hw3r97rj48q/AADPJFTY0KvJnz83zK97vZh0a?dl=1 -O -J -L && unzip colrc-v2-files.zip
+# && rm colrc-v2-files.zip
+#        zip -d colrc-v2-files.zip "__MACOSX*" && \
+#        jar xf colrc-v2-files.zip && \
 #COPY ./file_data/colrc-files.tar.gz /var/www/colrc/
 #RUN cd /var/www/colrc && tar -xzf colrc-files.tar.gz 
 
