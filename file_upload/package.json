@@ -1,0 +1,14 @@
+{
+  "name": "file_upload",
+  "version": "1.0.0",
+  "description": "Callback for file upload - moves and renames files and stores them in db",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Ivens",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
