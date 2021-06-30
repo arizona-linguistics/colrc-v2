@@ -1,4 +1,7 @@
 version: "3.6"
+volumes:
+  nginx_colrc:
+    external: true
 services:
   hasura:
     image: hasura/graphql-engine:v1.3.3
@@ -99,8 +102,21 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    #volumes:
+    volumes:
       # FIXME: add files and colrc frontend
-      #- nginx_colrc:/var/www/colrc:rw
-#volumes:
-  #nginx_colrc:
+      - nginx_colrc:/var/www/colrc:rw
+  file_upload:
+    container_name: file_upload
+    build: 
+      context: ./file_upload
+      dockerfile: Dockerfile.dev
+      labels:
+        edu.arizona.colrc.description: "File upload processor for COLRC v2"
+    depends_on:
+      - nginx
+    restart: always
+    ports:
+      - "8081:8081"
+    volumes:
+      - nginx_colrc:/var/www/colrc:rw
+
