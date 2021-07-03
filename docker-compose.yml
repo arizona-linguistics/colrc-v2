@@ -1,7 +1,7 @@
 version: "3.6"
 volumes:
   nginx_colrc:
-    external: true
+    #external: true
 services:
   hasura:
     image: hasura/graphql-engine:v1.3.3
