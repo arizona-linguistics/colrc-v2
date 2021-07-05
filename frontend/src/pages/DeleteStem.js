@@ -241,7 +241,6 @@ function DeleteStem() {
                     <Grid.Column width={10}>
                         <Input
                             fluid
-                            disabled
                             style={{ paddingBottom: '5px' }}
                             id="editnote"
                             placeholder="An edit note is required"

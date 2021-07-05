@@ -318,10 +318,9 @@ function DeleteAffix() {
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-                    <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">Edit Note</Label></Grid.Column>
+                    <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">Edit Note</Label></Grid.Column>
                     <Grid.Column width={10}>
                         <Input
-                            disabled
                             fluid
                             style={{ paddingBottom: '5px' }}
                             id="editnote"
