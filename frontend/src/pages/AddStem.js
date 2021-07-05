@@ -128,8 +128,7 @@ function AddStem() {
                   },
                   {
                     label: 'No',
-                    onClick: () => {values = values
-                                    setSubmitting(false)}
+                    onClick: () => setSubmitting(false)
                   }
                 ]
               });

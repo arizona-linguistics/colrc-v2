@@ -111,8 +111,7 @@ function AddRoot() {
                   },
                   {
                     label: 'No',
-                    onClick: () => {values = values
-                                    setSubmitting(false)}
+                    onClick: () => setSubmitting(false)
                   }
                 ]
               });

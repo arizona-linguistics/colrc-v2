@@ -109,8 +109,7 @@ function DeleteAffix() {
                   },
                   {
                     label: 'No',
-                    onClick: () => {values = values
-                                    setSubmitting(false)}
+                    onClick: () => setSubmitting(false)
                   }
                 ]
               });
