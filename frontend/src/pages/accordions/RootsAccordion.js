@@ -52,7 +52,7 @@ export default function RootsAccordion() {
                   <li>‿ — Ligature (following proclitic set of intransitive pronouns)</li>
                   <li>† — Intransitive entry</li>
                   <li>‡ — Transitive entry</li>
-                  <li>// — Complex entry</li>
+                  <li>{"//"} — Complex entry</li>
                   <li>§ — Compound entry</li>
                   <li>[ ] — Brackets for editorial emendations and special notes</li>
                   <li>adj — Adjective</li>

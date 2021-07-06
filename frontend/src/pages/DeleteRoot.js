@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import { getRootByIdQuery, deleteRootMutation } from '../queries/queries'
-import { Button, Input, Dropdown, Label, Grid, Header, Message } from 'semantic-ui-react';
+import { Button, Input, Label, Grid, Header, Message } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from "../context/auth";
@@ -109,8 +109,7 @@ function DeleteAffix() {
                   },
                   {
                     label: 'No',
-                    onClick: () => {values = values
-                                    setSubmitting(false)}
+                    onClick: () => setSubmitting(false)
                   }
                 ]
               });
@@ -318,10 +317,9 @@ function DeleteAffix() {
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-                    <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">Edit Note</Label></Grid.Column>
+                    <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">Edit Note</Label></Grid.Column>
                     <Grid.Column width={10}>
                         <Input
-                            disabled
                             fluid
                             style={{ paddingBottom: '5px' }}
                             id="editnote"

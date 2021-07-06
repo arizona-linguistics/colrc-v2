@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Redirect, useHistory } from 'react-router-dom';
 import { insertRootMutation } from './../queries/queries'
-import { Button, Input, Dropdown, Label, Grid, Header, Message } from 'semantic-ui-react';
+import { Button, Input, Label, Grid, Header, Message } from 'semantic-ui-react';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/auth";
-import { useQuery } from '@apollo/react-hooks'
 import { handleErrors, broadCastSuccess } from '../utils/messages';
-import { set } from "lodash";
 import { confirmAlert } from 'react-confirm-alert';
 import '../stylesheets/react-confirm-alert.css';
 
@@ -111,8 +109,7 @@ function AddRoot() {
                   },
                   {
                     label: 'No',
-                    onClick: () => {values = values
-                                    setSubmitting(false)}
+                    onClick: () => setSubmitting(false)
                   }
                 ]
               });

@@ -33,10 +33,10 @@ function EditStem() {
     let { loading: stemLoading, error: stemError, data: stemData } = useQuery(getStemByIdQuery, {client: client, variables: {id: id} }) 
     let { loading: categoryLoading, error: categoryError, data: categoryData } = useQuery(getStemCategoriesQuery, {client: client }) 
         
-    if (categoryLoading) {
+    if (categoryLoading || stemLoading) {
         return <div>loading...</div>
     }
-    if (categoryError) {
+    if (categoryError || stemError) {
         return <div>Something went wrong</div>
     }
     
@@ -76,7 +76,7 @@ function EditStem() {
     
     function dropDownOptions(options) {
         let res = []
-        options.map((item) => {
+        options.forEach((item) => {
             let h = {}
             h = { 
                 key: item.id.toString(),
@@ -127,9 +127,7 @@ function EditStem() {
                   },
                   {
                     label: 'No',
-                    // eslint-disable-next-line no-self-assign
-                    onClick: () => {values = values
-                                    setSubmitting(false)}
+                    onClick: () => setSubmitting(false)
                   }
                 ]
               });

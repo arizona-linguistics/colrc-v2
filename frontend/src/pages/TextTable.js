@@ -18,9 +18,9 @@ function Table({
   renderRowSubComponent
 }) {
 
-  const { user } = useAuth();
-  //console.log("Inside table, I have select values: ", selectValues)
-  //console.log("my user is: ", user)
+  // const { user } = useAuth();
+  // console.log("Inside table, I have select values: ", selectValues)
+  // console.log("my user is: ", user)
 
   const filterTypes = React.useMemo(
     () => ({
@@ -112,7 +112,7 @@ function Table({
         columns.filter(column => !column.show).map(column => column.id)
       );
     },
-    [columns]
+    [columns, setHiddenColumns]
   );
 
   // Render the UI for your table

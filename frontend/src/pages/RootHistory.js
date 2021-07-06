@@ -1,16 +1,14 @@
 import React from 'react'
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useAuth } from "../context/auth";
 import { getRootHistoryByIdQuery } from '../queries/queries'
 import { useQuery } from '@apollo/react-hooks'
-import { Grid } from 'semantic-ui-react'
 
 function RootHistory(props) {
     const { client } = useAuth();
     const search = new URLSearchParams(useLocation().search)
     const id = search.get("id")
     console.log(id)
-    const history = useHistory()
   
     let { loading, error, data } = useQuery(getRootHistoryByIdQuery, 
         {client: client, variables: {"table_name": "roots", "row_data": {"id": parseInt(id)}} }) 
@@ -23,7 +21,7 @@ function RootHistory(props) {
     }
     console.log(data.audit_logged_actions)
 
-    let headings = JSON.stringify(data.audit_logged_actions)
+    // let headings = JSON.stringify(data.audit_logged_actions)
 
     function MakeRows(){
  
