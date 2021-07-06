@@ -34,7 +34,7 @@ let signupSchema = Yup.object().shape({
 
 function Signup(props) {
   const [hasRegistered, setHasRegistered] = useState(false);
-  const [isError, setIsError] = useState(false);
+  // const [isError, setIsError] = useState(false);
   const history = useHistory();
   const { client, authClient, setAuthTokens } = useAuth();
 
@@ -78,7 +78,7 @@ function Signup(props) {
       })
       if (!tokenQuery.data.loginUser_Q) {
         handleErrors(`Username or Password is incorrect`) 
-        setIsError(true)
+        // setIsError(true)
       }
       else {
         const token = tokenQuery.data.loginUser_Q[0].password

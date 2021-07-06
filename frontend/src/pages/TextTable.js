@@ -18,9 +18,9 @@ function Table({
   renderRowSubComponent
 }) {
 
-  const { user } = useAuth();
-  //console.log("Inside table, I have select values: ", selectValues)
-  //console.log("my user is: ", user)
+  // const { user } = useAuth();
+  // console.log("Inside table, I have select values: ", selectValues)
+  // console.log("my user is: ", user)
 
   const filterTypes = React.useMemo(
     () => ({

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTable } from 'react-table'
-import { useLocation, } from 'react-router-dom';
 import { useAuth } from "../context/auth";
 import TableStyles from "./../stylesheets/table-styles"
 import { Message } from "semantic-ui-react";
@@ -11,13 +10,12 @@ function Table({
   columns,
   data,
   fetchData,
-  loading,
+  // loading,
 }) 
 {
     //let happy = new URLSearchParams(useLocation().search)
     //let root = happy.get('root')
     //console.log('the root is ', root)    
-    const { user } = useAuth();
 
     const {
             getTableProps,

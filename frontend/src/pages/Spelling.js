@@ -2,7 +2,7 @@ import React from "react";
 import SpellingTable from "./SpellingList";
 import ConsonantChart from "./ConsonantChart";
 import VowelChart from "./VowelChart";
-import { Grid, Segment, Header, Message } from 'semantic-ui-react'
+import { Grid, Segment, Header } from 'semantic-ui-react'
 import SpellingAccordion from "./accordions/SpellingAccordion";
 
 function Spelling(props) {

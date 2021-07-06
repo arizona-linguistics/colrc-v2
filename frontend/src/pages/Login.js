@@ -13,7 +13,6 @@ import { handleErrors } from '../utils/messages';
 
 
 function Login(props) {
-  const abortController = new AbortController();
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const { authClient, setAuthTokens } = useAuth();

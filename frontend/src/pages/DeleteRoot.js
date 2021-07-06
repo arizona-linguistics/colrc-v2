@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import { getRootByIdQuery, deleteRootMutation } from '../queries/queries'
-import { Button, Input, Dropdown, Label, Grid, Header, Message } from 'semantic-ui-react';
+import { Button, Input, Label, Grid, Header, Message } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from "../context/auth";

@@ -1,13 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { intersectionWith, isEqual } from 'lodash';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getBibliographyQuery } from '../queries/queries'
 import { sortReshape, filterReshape } from "../utils/reshapers"
 import TableStyles from "../stylesheets/table-styles"
-import { Icon, Button } from "semantic-ui-react";
 
 function Table({
   columns,
@@ -17,8 +14,6 @@ function Table({
   pageCount: controlledPageCount,
   globalSearch
 }) {
-
-  const { user } = useAuth();
 
   //console.log("Inside table, I have select values: ", selectValues)
   //console.log("Inside table, I have a globalSearch ", globalSearch)
