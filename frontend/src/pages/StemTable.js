@@ -499,7 +499,7 @@ function StemTable(props) {
         })
       }
     }, 1000)
-  }, [])
+  }, [history, setAuthTokens])
 
   let columns = {}
   if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) {

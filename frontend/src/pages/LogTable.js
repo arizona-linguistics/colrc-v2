@@ -104,7 +104,7 @@ function Table({
         columns.filter(column => !column.show).map(column => column.id)
       );
     },
-    [columns]
+    [columns, setHiddenColumns]
   );
 
   // Render the UI for your table
