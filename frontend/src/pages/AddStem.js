@@ -77,7 +77,7 @@ function AddStem() {
 
   function dropDownOptions(options) {
       let res = []
-      options.map((item) => {
+      options.forEach((item) => {
           let h = {}
           h = { 
               key: item.id.toString(),
