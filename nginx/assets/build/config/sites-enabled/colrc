@@ -27,15 +27,15 @@ server {
 
     location /crap/ {
 			# proxy_set_header content-type "application/json";
-			add_header 'Access-Control-Allow-Origin' "*" always;
-			add_header 'Access-Control-Allow-Credentials' 'true' always;
+			# add_header 'Referer-Policy 'origin';
+			add_header 'Access-Control-Allow-Origin' '*' always;
+			add_header 'Access-Control-Allow-Credentials' 'false' always;
 			add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
 			add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With' always;
 			proxy_pass_request_headers on;
 			proxy_pass_request_body on;
 			proxy_set_header X-File-Name $request_body_file;
-            proxy_pass http://localhost:8081/upload-handler;
-            #proxy_pass http://localhost:8080/upload-handler;
+            proxy_pass http://10.5.0.7:8081/upload-handler;
 		    proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
@@ -50,33 +50,21 @@ server {
 	proxy_busy_buffers_size 1024k;
 	
 	location = /upload_file {
-		add_header 'Access-Control-Allow-Origin' "*" always;
-		add_header 'Access-Control-Allow-Credentials' 'true' always;
+		# add_header 'Referer-Policy 'origin';
+		add_header 'Access-Control-Allow-Origin' '*' always;
+		add_header 'Access-Control-Allow-Credentials' 'false' always;
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
 		add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With' always;
-		#alias /tmp/$1;
-		#proxy_pass http://127.0.0.1/upload_file/;
-		#proxy_method POST;
-		#proxy_http_version 1.1;
-		#proxy_pass https://localhost:8081;
 		client_max_body_size 100m;
 
 		upload_store /var/www/colrc/tmp;
 		upload_store_access user:rw;
-		upload_pass /crap/; # <--with this, we get a bad gateway on POST /upload_file
-		#upload_pass /crap; <--with this, we get a bad gateway on GET /crap/
+		upload_pass /crap/; 
 
-		#set $upload_field_name "file";
-        #upload_set_form_field "${upload_field_name}_name" "$upload_file_name";
-        #upload_set_form_field "${upload_field_name}_content_type" "$upload_content_type";
-        #upload_set_form_field "${upload_field_name}_path" "$upload_tmp_path";
 		upload_set_form_field $upload_field_name.name "$upload_file_name";
  		upload_set_form_field $upload_field_name.content_type "$upload_content_type";
  		upload_set_form_field $upload_field_name.path "$upload_tmp_path";
 
-        #upload_aggregate_form_field "{$upload_field_name}_md5" "$upload_file_md5";
-       	#upload_aggregate_form_field "{$upload_field_name}_size" "$upload_file_size";
-        #upload_pass_form_field "^submit$|^description$";
 		upload_pass_form_field "^.*$";
 		proxy_pass_request_headers on;
 		proxy_pass_request_body on;
