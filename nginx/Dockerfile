@@ -58,11 +58,12 @@ RUN rsync -rtvazP /rootfs/* / \
 
 # copy texts and audio files into the nginx file directory
 # make sure to add the actual Dropbox share link to end of the curl command!
-RUN mkdir -p ${NGINX_FILE_DIR} \
-    && cd ${NGINX_FILE_DIR} \
-    && curl -Lo audio.zip https://www.dropbox.com/sh/jtd0hw3r97rj48q/AADPJFTY0KvJnz83zK97vZh0a?dl=0  \ 
-    && unzip audio.zip -x / \
-    && rm -f audio.zip
+#RUN mkdir -p ${NGINX_FILE_DIR} \
+#    && cd ${NGINX_FILE_DIR} \
+#    && curl -Lo audio.zip https://www.dropbox.com/sh/jtd0hw3r97rj48q/AADPJFTY0KvJnz83zK97vZh0a?dl=0  \ 
+#    && unzip audio.zip -x / \
+#    && rm -f audio.zip
+RUN mkdir -p ${NGINX_FILE_DIR} && touch ${NGINX_FILE_DIR}/nothing.txt
 
 RUN chmod 755 ${NGINX_FILE_DIR} && chmod 644 ${NGINX_FILE_DIR}/*
 

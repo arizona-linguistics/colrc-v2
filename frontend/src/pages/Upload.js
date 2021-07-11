@@ -13,7 +13,9 @@ const Upload = () => (
     <Grid textAlign='center'  verticalAlign='top'>
         <Grid.Column>
             <Grid.Row>
-                <Uploady destination={{url: "http://localhost:80/upload_file"}}>
+                <Uploady destination={{
+                    url: "http://localhost:80/upload_file"
+                }}>
                 <UploadButton/>
                 </Uploady>
             </Grid.Row>
