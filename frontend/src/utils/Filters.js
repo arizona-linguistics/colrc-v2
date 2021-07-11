@@ -291,7 +291,7 @@ export function SelectOrthographyFilter({
       options.add("N")
     })
     return [...options.values()]
-  }, [id, preFilteredRows])
+  }, [preFilteredRows])
   // Render a multi-select box
   return (
     <select

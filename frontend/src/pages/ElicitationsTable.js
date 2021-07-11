@@ -32,7 +32,6 @@ function Table({
     }),
     []
   )
-  const { user } = useAuth();
   const defaultColumn = React.useMemo(
     () => ({
       Filter: DefaultColumnFilter,       // Let's set up our default Filter UI

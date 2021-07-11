@@ -18,8 +18,7 @@ function Table({
 {
     let happy = new URLSearchParams(useLocation().search)
     let root = happy.get('root')
-    console.log('the root is ', root)    
-    const { user } = useAuth();
+    console.log('the root is ', root)
 
 
     const {
