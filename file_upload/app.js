@@ -22,11 +22,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 
-app.use(cors({
-	origin: '*',
-	methods: ["GET", "POST"],
-	credentials: true,
-}));
+// app.use(cors({
+// 	origin: '*',
+// 	methods: ["GET", "POST"],
+// 	credentials: true,
+// }));
+
+app.use(cors());
+app.options('*', cors());
 app.use(logger('dev'));
 //app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -39,7 +42,7 @@ app.use(express.json())    // <==== parse request body as JSON
 app.use(upload.array())    // <==== parse multipart-form data with multer
 //app.use(bodyParser.json())
 
-app.post('/upload-handler', (req, res) => {
+app.post('/upload-handler', cors(), (req, res) => {
 	console.log("I got a POST")
 	console.log(req.headers)
 	console.log(req.headers['content-type'])
@@ -60,7 +63,7 @@ app.post('/upload-handler', (req, res) => {
 	res.status(200).send("Received file")
 })
 
-app.get('/upload-handler', (req, res) => {
+app.get('/upload-handler', cors(), (req, res) => {
 	//let bs = res.json({requestBody: req.body})
 	console.log(req)  // <==== req.body will be a parsed JSON object
 	//console.log(req.query)
