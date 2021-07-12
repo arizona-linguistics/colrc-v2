@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Grid, Header, Segment, Message, Input } from 'semantic-ui-react';
 import "react-simple-keyboard/build/css/index.css";
 

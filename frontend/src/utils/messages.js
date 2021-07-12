@@ -12,7 +12,7 @@ export function handleErrors(error, action) {
 
     const { graphQLErrors, networkError } = error
     if (graphQLErrors)
-    graphQLErrors.map(({ message, locations, path }) => {
+    graphQLErrors.forEach(({ message, locations, path }) => {
         if (message.includes('JWTExpired')) {
             toast.error(`Whoops!  You have an old login.  Logging you out now`,)
             if (action && action.logout) {

@@ -124,9 +124,7 @@ function AddAffix() {
                   },
                   {
                     label: 'No',
-                    // eslint-disable-next-line no-self-assign
-                    onClick: () => {values = values
-                                    setSubmitting(false)}
+                    onClick: () => setSubmitting(false)
                   }
                 ]
               });
