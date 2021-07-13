@@ -21,7 +21,7 @@ import EditRoot from './pages/EditRoot';
 import DeleteRoot from './pages/DeleteRoot';
 import AffixHistory from './pages/AffixHistory';
 import RootHistory from './pages/RootHistory';
-import UserListContainer from './pages/UserListContainer';
+import UserList from './pages/UserList';
 import Affixes from './pages/Affixes';
 import Roots from './pages/Roots';
 import Stems from './pages/Stems';
@@ -172,7 +172,7 @@ function App(props) {
               <PrivateRoute path="/log" component={Log} key="Log" />
               <PrivateRoute path="/users" component={Users} key="Users" />
               <PrivateRoute path="/userprofile" component={UserProfile} key="UserProfile" />
-              <PrivateRoute path="/userlist" component={UserListContainer} key="UserListContainer" />
+              <PrivateRoute path="/userlist" component={UserList} key="UserList" />
               <Route path="/upload" component={Upload} key="Upload" />
               <Route path="/crap/" component={TestUpload} key="TestUpload" />
               <Route path="/search" component={Search} key="Search" />

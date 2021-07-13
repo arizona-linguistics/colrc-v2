@@ -33,7 +33,7 @@ function Users(props) {
             }}>
             Logout
           </Button>
-          { user.roles.includes('update') &&
+          { user.roles.includes('manager') &&
             (<Button  color='black' onClick={(e)=> props.history.push('/userlist')}>
               Administer Users
             </Button>)
