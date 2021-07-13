@@ -22,8 +22,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 
+// app.use(cors({
+// 	origin: '*',
+// 	methods: ["GET", "POST"],
+// 	credentials: true,
+// }));
+
 app.use(cors());
-app.options('*', cors())
+app.options('*', cors());
 app.use(logger('dev'));
 //app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,7 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', indexRouter);
-app.use('/users', cors(), usersRouter);
+app.use('/users', usersRouter);
 app.use(express.json())    // <==== parse request body as JSON
 app.use(upload.array())    // <==== parse multipart-form data with multer
 //app.use(bodyParser.json())

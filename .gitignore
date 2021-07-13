@@ -1,5 +1,5 @@
 # package-lock.json
-nginx/file_data
+misc/file_data
 node_modules
 dist
 *.log

@@ -116,7 +116,7 @@ services:
       - "443:443"
     volumes:
       # FIXME: add files and colrc frontend
-      - nginx_colrc:/var/www/colrc:rw
+      - ./misc/file_data:/var/www/colrc:rw
     networks:
       vpcbr:
         ipv4_address: 10.5.0.6
@@ -133,7 +133,7 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      - nginx_colrc:/var/www/colrc:rw
+      - ./misc/file_data:/var/www/colrc:rw
     networks:
       vpcbr:
         ipv4_address: 10.5.0.7
