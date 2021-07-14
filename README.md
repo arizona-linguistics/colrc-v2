@@ -25,8 +25,6 @@ Coeur d'Alene Online Language Resource Center Version 2.0
     - [Frontend](#frontend-1)
     - [Backend](#backend-1)
 
-<br>
-
 ## Getting Started
 
 Our recommended development environment can be easily launched using [`docker-compose`](https://docs.docker.com/compose/install/). Note that when we refer to 'the command line,' we mean the *WSL/Linux/Mac command line* (not Windows Powershell, nor the Windows-native terminal app).
@@ -93,8 +91,6 @@ If this is NOT your first install and there have been changes to the database or
    `sudo rm -rf db_data && sudo rm -rf file_data`
   
 4. Follow the first installation steps starting from [step 3](#step-3).
-
-<br>
 
 ### Cleanup
 
@@ -172,8 +168,6 @@ Here is how you would go about addressing this issue:
     Below is a sample pull request that includes these elements:
    
     ![sample-pull-request](./sample-pull-request.png)
-
-<br>
 
 ## About
 
