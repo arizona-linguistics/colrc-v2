@@ -142,8 +142,7 @@ Here is how you would go about addressing this issue:
 
 4. Once you are ready and satisfied with your changes, push them to GitHub:
    
-   For the first push: 
-`git push -u origin issue141`
+   For the first push: `git push -u origin issue141`
 
    Subsequent pushes: `git push origin issue141`
 
