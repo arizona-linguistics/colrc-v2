@@ -70,7 +70,7 @@ The backend is a [`Node`](https://nodejs.org/en/) app that currently relies on [
 
 You can access the following services:
 
-- [`Prisma` GraphQL Playground](https://github.com/prisma/graphql-playground#how-is-this-different-from-graphiql): http://localhost:4466
+- [`Hasura` GraphQL Console](https://hasura.io/blog/tagged/console/): http://localhost:8080
 
 #### Postgres
 
