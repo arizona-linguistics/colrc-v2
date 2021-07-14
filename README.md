@@ -100,7 +100,7 @@ To easily remove old volumes and containers, you can run `cleanup.sh` from the b
 
 ## Working with Git
 
-This section will be a short guide on how to use Git.
+This section will serve as a tutorial on how to use Git/GitHub, as well as a guide regarding our personal workflow in this repository.
 
 <br>
 
