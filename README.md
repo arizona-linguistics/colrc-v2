@@ -6,12 +6,47 @@ COLRC version 2.0
 
 ## Getting started
 
-Our recommended development environment can be easily launched using [`docker-compose`](https://docs.docker.com/compose/install/).
+Our recommended development environment can be easily launched using [`docker-compose`](https://docs.docker.com/compose/install/).  
+
+Here are the steps we recommend to start (as of 7/14/2021):
+
+- ensure your local system meets the requirements listed below. 
+  - note that when we refer to 'the command line' we mean the *debian/linux/mac command line* (not Windows Powershell, not the Windows-native terminal app)
+- create a directory where you want our application to live.  
+- from the command line in that directory, clone or pull this repo:
+  - on a first install, run `git clone https://github.com/arizona-linguistics/colrc-v2.git`
+  - afterward, run `git pull`.  Note that the default branch, main, is the branch you should clone or pull.
+  
+If this is your first install:
+
+- at the command line, cd into colrc-v2 and `docker-compose build`.  The initial build may take a while, but subsequent builds will go faster.
+
+If this is NOT your first install && there have been changes to the database or static file structures, with the project dockered down, you'll need to:
+
+-at the command line, in colrc-v2/misc
+  -remove existing db_data if it exists: `sudo rm -rf db_data`
+  -remove existing file_data if it exists `sudo rm -rf file_data`
+  
+If this IS your first install OR there have been changes to the database or static file structure, you'll need to:
+
+- go to the command line in colrc-v2 and run `docker-compose up`
+- once the project is up, in your command line, cd into colrc-v2/misc/file_data and run the following commands in order.  Note that the first command will take a long time to finish.  Don't move on to 2 until 1 is complete:
+  1. `sudo curl -Lo audio.zip https://www.dropbox.com/sh/jtd0hw3r97rj48q/AADPJFTY0KvJnz83zK97vZh0a?dl=0`
+  2. `sudo unzip audio.zip -x /`
+  3. `sudo rm -f audio.zip`
+  4. `sudo chmod -R a+x *`
+
+then test to see if it was successful by pointing your web browser to http://localhost:3000.  You should see a COLRC Welcome page!
+
+
 
 ### Requirements
 
 - [`docker`](https://docs.docker.com/install/)
 - [`docker-compose`](https://docs.docker.com/compose/install/)
+- If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
+- You will need sudo/root access on your system at the command line.
+- we recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
 
 ### Build
 
