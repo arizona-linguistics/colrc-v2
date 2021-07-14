@@ -1,11 +1,9 @@
 import React from 'react'
+import { Link, useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
-import { useAuth } from "../context/auth";
-import { getUsersQuery } from '../queries/queries'
-import { sortReshape, filterReshape } from "../utils/reshapers"
+import { Icon, Button } from "semantic-ui-react";
 import TableStyles from "../stylesheets/table-styles"
-import { Grid, Segment } from 'semantic-ui-react';
 
   
 function UserListTable(props) {
@@ -34,6 +32,7 @@ function UserListTable(props) {
       []
     );
   
+
     const defaultColumn = React.useMemo(
       () => ({
         Filter: DefaultColumnFilter, // Let's set up our default Filter UI
@@ -80,24 +79,18 @@ function UserListTable(props) {
 <table className="table" {...getTableProps()}>
         <thead>
           <tr>
-            <th
-              colSpan={visibleColumns.length}
-            >
-            {/* { (user && (user.roles.includes('update') || user.roles.includes('manager')))  &&
-              (
+            <th colSpan={visibleColumns.length}>
                 <Link 
                   to={{
-                    pathname: "/addtext",
+                    pathname: "/adduser",
                   }}>
                   <Button animated='vertical' color='blue'>
-                    <Button.Content hidden>Add Text</Button.Content>
+                    <Button.Content hidden>Add User</Button.Content>
                     <Button.Content visible>
                       <Icon name='plus' />
                     </Button.Content>
                   </Button> 
                 </Link> 
-              )
-            } */}
               <GlobalFilter
                 preGlobalFilteredRows={preGlobalFilteredRows}
                 globalFilter={state.globalFilter}
@@ -205,11 +198,41 @@ function UserListTable(props) {
       
   //const userData = getUsers()
   const userData = props.userListData
-  console.log("The user data:", userData)
-
-
+ 
   const columns = React.useMemo(
     () => [
+      {
+        Header: 'Manage User Accounts',
+        disableFilters: true,
+        sortable: false,
+        width: 100,
+        show: true,
+        id: 'manageUser',
+        label: 'Manage',
+        tableName: 'UserListTable',
+        Cell: ({row, original}) => (
+          <div className="buttons">
+            <Link 
+              to={{
+                pathname: "/updateuser",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini black icon button">
+                <Icon name="edit" />
+              </button>              
+            </Link>
+            <Link 
+              to={{
+                pathname: "/removeuser",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini blue icon button">
+                <Icon name="close" />
+              </button>              
+            </Link>
+          </div>
+        )
+      }, 
       {
         Header: 'First',
         accessor: 'first'
@@ -227,10 +250,6 @@ function UserListTable(props) {
         accessor: 'email'
       },
       {
-        Header: 'Last Updated',
-        accessor: 'updatedAt'
-      },
-      {
         Header: 'Roles',
         accessor: 'user_roles',
         Cell: ({ cell: { value } }) => (value.map(function( user ) {
@@ -246,7 +265,7 @@ function UserListTable(props) {
           <TableStyles>
             <Table 
               columns={columns} 
-              data={userData} 
+              data={userData}
             />
           </TableStyles>
 

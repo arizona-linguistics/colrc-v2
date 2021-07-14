@@ -985,3 +985,12 @@ export const getMetadataQuery = gql `
     }
   }
 `
+export const getRolesQuery = gql `
+  query {
+    roles {
+      id
+      role_value
+    }
+  }
+`
+
