@@ -1,161 +1,52 @@
 import React from "react";
-import { useTable, useSortBy, useGlobalFilter, useFilters } from 'react-table';
-import TableStyles from "../components/table-styles";
-import { DefaultColumnFilter, fuzzyTextFilterFn, GlobalFilter } from "../utils/Filters"
-import { Grid , Segment } from 'semantic-ui-react';
+import { useQuery } from '@apollo/react-hooks';
+import { Redirect } from 'react-router-dom';
+import { useAuth } from "../context/auth";
+import { getUsersQuery, getRolesQuery } from '../queries/queries';
+import UserListTable from "./UserListTable";
+import { handleErrors } from "../utils/messages";
+import { Grid, Header} from 'semantic-ui-react';
 
-  
+// note that getting this up and running for issue 110 required the following changes in hasura:
+//
+// update permissions on tables 'roles' and 'user_roles' for update, manager to have select permissions
+// we'll need to think about
+
 function UserList(props) {
- 
-  function Table({ columns, data }) {
-    const filterTypes = React.useMemo(
-      () => ({
-        fuzzyText: fuzzyTextFilterFn,
-        text: (rows, id, filterValue) => {
-          return rows.filter(row => {
-            const rowValue = row.values[id];
-            return rowValue !== undefined
-              ? String(rowValue)
-                  .toLowerCase()
-                  .startsWith(String(filterValue).toLowerCase())
-              : true;
-          });
-        }
-      }),
-      []
-    );
-  
-    const defaultColumn = React.useMemo(
-      () => ({
-        Filter: DefaultColumnFilter, // Let's set up our default Filter UI
-      }),
-      []
-    );
-    const {
-      getTableProps,
-      getTableBodyProps,
-      headerGroups,
-      prepareRow,
-      rows,
-      state,
-      preGlobalFilteredRows,
-      setGlobalFilter,
-    } = useTable(
-      {
-        columns,
-        data,
-        defaultColumn,
-        filterTypes,
-      },
-      useGlobalFilter,
-      useFilters,
-      useSortBy
-    )
+    const { client, user } = useAuth();
+    const userList = useQuery(getUsersQuery, { client: client });
 
-    // Render the UI for your table
-    return (
-      <>
-      <Segment>
-        <GlobalFilter
-          preGlobalFilteredRows={preGlobalFilteredRows}
-          globalFilter={state.globalFilter}
-          setGlobalFilter={setGlobalFilter}
-          />
-      </Segment>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column, i) => {
-                const {
-                  render,
-                  getHeaderProps,
-                  isSorted,
-                  isSortedDesc,
-                  getSortByToggleProps,
-                  canFilter
-                } = column;
-                const extraClass = isSorted
-                  ? isSortedDesc
-                    ? "↑"
-                    : "↓"
-                  : "";
-                return (
-                  <th
-                    key={`th-${i}`}
-                    className={extraClass}              >
-                    <div {...getHeaderProps(getSortByToggleProps())}>
-                      {render("Header")}
-                    </div>
-                    <div>{canFilter ? render("Filter") : null}</div>
-                  </th>
-                );
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-      </>
-    )
-  }
+    if (userList.loading ) return <div>Loading</div>
+    if (userList.error) {
+        console.log(userList.error)
+        handleErrors(userList.error)
+        return <Redirect to="/users" />;
+    }
 
-  //const userData = getUsers()
-  const userData = props.userListData
-  console.log("The user data:", userData)
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'First',
-        accessor: 'first'
-      },
-      {
-        Header: 'Last',
-        accessor: 'last'
-      },
-      {
-        Header: 'Username',
-        accessor: 'username'
-      },
-      {
-        Header: 'Roles',
-        accessor: 'roles',
-        Cell: ({ cell: { value } }) => ( value.join(", ")),
-      }
-    ],
-    []
-  )
+    console.log("Data from user query: ", userList)
 
-  return (
-    <React.Fragment>
-      <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='bottom'>
-        <Grid.Row>
-          <h3>Manage Users</h3>
-        </Grid.Row>
-        <Grid.Row>
-          <TableStyles>
-            <Table 
-              columns={columns} 
-              data={userData} 
-            />
-          </TableStyles>
-        </Grid.Row>
-      </Grid>
-    </React.Fragment>
-  )
 
+	if (user && user.roles && user.roles.includes('update')) {
+  		return (
+
+            <Grid>
+                <Grid.Column width="16">
+                    <Grid.Row>
+                        <Header as='h2'  textAlign='center'>
+                            User List
+                        </Header>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <UserListTable userListData={userList.data.users} />
+                    </Grid.Row>
+                </Grid.Column>
+            </Grid> 
+          )
+         
+    }
+    
+    return <Redirect to="/login" />;
 }
 
 export default UserList;

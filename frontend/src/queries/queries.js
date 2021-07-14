@@ -300,16 +300,27 @@ export const updateUserMutation = gql`
 `;
 
 export const getUsersQuery = gql`
-  query($limit: Int, $offset: Int) {
-    users_Q(limit: $limit, offset: $offset) {
-      id
-      first
-      last
-      username
-      password
-      email
+query getUsersQuery($limit: Int, $offset: Int) {
+  users(limit: $limit, offset: $offset) {
+    id
+    first
+    last
+    username
+    password
+    email
+    createdAt
+    updatedAt
+    user_roles {
+      createdAt
+      roleId
+      updatedAt
+      userId
+      role {
+        role_value
+      }
     }
   }
+}
 `;
 
 export const getUsernamesQuery = gql`
@@ -974,3 +985,12 @@ export const getMetadataQuery = gql `
     }
   }
 `
+export const getRolesQuery = gql `
+  query {
+    roles {
+      id
+      role_value
+    }
+  }
+`
+

@@ -73,6 +73,7 @@ function Signup(props) {
         variables: {
           email: values.email,
           password: values.password
+          
         },
         errorPolicy: 'all'
       })
