@@ -31,8 +31,6 @@ Our recommended development environment can be easily launched using [`docker-co
 
 Here are the steps we recommend to start (as of 7/14/2021). If this is your first time using the development environment, read the [requirements](#requirements) below and the [first installation](#first-installation) steps. If you are reinstalling or trying to integrate new changes, see the [subsequent installation](#subsequent-installations) steps.
 
-<br>
-
 ### Requirements
 
 - [`docker`](https://docs.docker.com/install/)
@@ -40,8 +38,6 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 - If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
 - You will need sudo/root access on your system at the command line.
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
-
-<br>
 
 ### First Installation
 1. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone or pull this repository:
@@ -55,6 +51,7 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 3. <a id="step-3"></a> At the command line, build our development environment. The initial build may take a while, but subsequent builds will go faster.
     
     `docker-compose build`
+
 4. Once the build has finished, start our development environment as a background process:
 
     `docker-compose up -d`
@@ -72,8 +69,6 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
   7. Finally, with the files unzipped, change the file/directory permissions so that they are executable for all users: 
       
       `sudo chmod -R +x *`
-
-<br>
 
 ### Subsequent Installations
 If this is NOT your first install and there have been changes to the database or static file structures in the GitHub repository, you will need to do the following:
@@ -96,13 +91,10 @@ If this is NOT your first install and there have been changes to the database or
 
 To easily remove old volumes and containers, you can run `cleanup.sh` from the base directory.
 
-<br>
-
 ## Working with Git
 
 This section will serve as a tutorial on how to use Git/GitHub, as well as a guide regarding our personal workflow in this repository.
 
-<br>
 
 ### The GitHub Workflow
 In short, the basic GitHub workflow is `checkout > add > commit > push`. This workflow is described more in detail below.
@@ -125,7 +117,6 @@ In short, the basic GitHub workflow is `checkout > add > commit > push`. This wo
 - Once you are ready to send your commit(s) to the GitHub repository, you may run `git push origin <branch>` to publish your changes.
   - Note that while you may reverse your changes on your local branch if you make a mistake (for example, `git reset HEAD~1` will undo your most recent commit), it is very frowned upon to do this after your changes have been already pushed. Before you push, make sure you have made any corrections that you want to make first.
 
-<br>
 
 ### Working in this Repository
 In order to address an issue with the code (which may be an unimplemented feature, a bug, or something which may need to be rewritten), first check the [issues](https://github.com/arizona-linguistics/colrc-v2/issues) page of the repository. Here you will find a list of issues that you can work on.
@@ -162,8 +153,6 @@ Here is how you would go about addressing this issue:
    - What changes you made 
    - What issue your changes fixed
    - How your changes were tested
-    
-    <br>
 
     Below is a sample pull request that includes these elements:
    
@@ -173,13 +162,10 @@ Here is how you would go about addressing this issue:
 
 The following sections discuss the components we are using for this project, along with ways you can access them.
 
-<br>
-
 ### [Frontend](./frontend)
 
 The frontend is built using [`react`](https://reactjs.org/).  If you've launched the development environment using [`docker-compose`](https://docs.docker.com/compose/install/), the app will launch on http://localhost:3000.  Changes you make to the frontend source will update in realtime.
 
-<br>
 
 ### [Backend](./backend)
 
@@ -187,7 +173,6 @@ The backend is a [`Node`](https://nodejs.org/en/) app that currently relies on [
 
 You can access the [Hasura GraphQL Console](https://hasura.io/blog/tagged/console/) by going to http://localhost:8080 in your browser.
 
-<br>
 
 ### Postgres
 
@@ -200,7 +185,6 @@ See [`.env`](./.env) for the credentials used to launch the development version 
 
 Place `.sql` files in [`misc/sql`](./misc/sql) to have them loaded when Postgres (v12) first launches.
 
-<br>
 
 ### Testing
 
