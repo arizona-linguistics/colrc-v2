@@ -138,7 +138,7 @@ Here is how you would go about addressing this issue:
     
     `git add frontend/pages/AffixTable.js frontend/pages/AudioTable.js`
     
-    `git commit -m "Added comments for documentation`"
+    `git commit -m "Added comments for documentation"`
 
 4. Once you are ready and satisfied with your changes, push them to GitHub:
    
