@@ -1,4 +1,3 @@
-import click
 import json
 import os
 import requests
@@ -184,7 +183,8 @@ def main():
             print('Since the cursor tells Dropbox how long ago this program last checked for updates, ')
             print('the folder may be recreated automatically with the new cursor, or you can update it yourself.')
             
-            if click.confirm('Would you like to automatically remove and recreate the folder with a new cursor?'):
+            if input('Would you like to automatically remove and recreate the folder with a new cursor? [y,N] ') in ['y', 'Y', 'yes', 'Yes']:
+                print('Removing old directory...')
                 shutil.rmtree(FILE_DIR)
                 download_all(BASE_DIR)
     
