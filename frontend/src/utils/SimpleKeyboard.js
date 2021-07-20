@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import ReactDOM from "react-dom";
+//import ReactDOM from "react-dom";
 import Keyboard from "react-simple-keyboard";
 import { Input } from 'semantic-ui-react';
 import "react-simple-keyboard/build/css/index.css";
@@ -74,5 +74,5 @@ export default function SimpleKeyboard() {
   );
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<SimpleKeyboard />, rootElement);
+// const rootElement = document.getElementById("root");
+// ReactDOM.render(<SimpleKeyboard />, rootElement);
