@@ -13,7 +13,26 @@ CURSOR_FILE = f'{BASE_DIR}/cursor'
 DROPBOX_FILE_DIR='/colrc-v2-files'
 DROPBOX_ACCESS_TOKEN='H66L2R8JfX8AAAAAAAAAASyxUvZolCy956ASqQZjEPhFHXDbfa5zbk1pmNdsxYSA'
 
+# TODO: Split download_folder so that print statements don't appear in the middle of update() output
 def download_folder(folder, dl_location, rename=False, progress=False):
+    """
+    Downloads a folder from Dropbox as a .zip file. 
+    
+    Parameters
+    ----------
+    folder : str or int
+        The folder's path or ID in Dropbox
+    
+    dl_location : str
+        The path to extract the zip file to on the local filesystem (excluding the name of the folder)
+
+    rename : bool, default=True
+        Internal use only; renames the extracted folder from the Dropbox app's root directory to "file_data"
+
+    progress : bool, default=False
+        Dynamically prints the download's progress in the terminal (isn't really necessary for single folders)
+    """
+
     headers = {
         'Authorization': f'Bearer {DROPBOX_ACCESS_TOKEN}',
         'Dropbox-API-Arg': f'{{"path": "{folder}"}}'
@@ -50,6 +69,18 @@ def download_folder(folder, dl_location, rename=False, progress=False):
             os.chmod(os.path.join(root, f), 0o777)
 
 def download_file(file, dl_location):
+    """
+    Downloads a folder from Dropbox as a .zip file. 
+    
+    Parameters
+    ----------
+    file : str or int
+        The folder's path or ID in Dropbox
+    
+    dl_location : str
+        The path to download the file to on the local filesystem (excluding the name of the folder)
+    """
+
     headers = {
         'Authorization': f'Bearer {DROPBOX_ACCESS_TOKEN}',
         'Dropbox-API-Arg': f'{{"path": "{file}"}}'
@@ -61,6 +92,10 @@ def download_file(file, dl_location):
         f.write(response.content)
             
 def save_cursor():
+    """
+    Saves the cursor (or snapshot) of the Dropbox folder to a file.
+    """
+    
     headers = {
     'Authorization': f'Bearer {DROPBOX_ACCESS_TOKEN}',
     'Content-Type': 'application/json'
@@ -75,6 +110,15 @@ def save_cursor():
         f.write(cursor)
 
 def update(cursor):
+    """
+    Updates the local filesystem with changes from the Dropbox folder.
+
+    Parameters
+    ----------
+    cursor : str
+        The Dropbox cursor obtained from the last sync to update with.
+    """
+    
     headers = {
     'Authorization': f'Bearer {DROPBOX_ACCESS_TOKEN}',
     'Content-Type': 'application/json'
@@ -111,6 +155,7 @@ def update(cursor):
             except:
                 print(f'ERR ADD {entry["name"]}')
 
+# TODO: Support longer output from Dropbox, which comes with its own cursor(s) 
 def main():
     if os.path.isdir(FILE_DIR):
         if os.path.isfile(CURSOR_FILE):
