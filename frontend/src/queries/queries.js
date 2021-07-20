@@ -224,6 +224,7 @@ export const getElicitationSetsQuery = gql`
         count
       }
     }
+<<<<<<< HEAD
     elicitationsets(limit: $limit, offset: $offset, order_by: $order, where: $where) {
       editnote
       id
@@ -244,9 +245,33 @@ export const getElicitationSetsQuery = gql`
         id
         src
         type
+=======
+  }
+`;
+
+export const getUsersQuery = gql`
+query getUsersQuery($limit: Int, $offset: Int) {
+  users(limit: $limit, offset: $offset) {
+    id
+    first
+    last
+    username
+    password
+    email
+    createdAt
+    updatedAt
+    user_roles {
+      createdAt
+      roleId
+      updatedAt
+      userId
+      role {
+        role_value
+>>>>>>> 6420f94020b74c9c3fb50eb78f8984ca43e76f18
       }
     }
   }
+}
 `;
 
 // getLogs
@@ -1053,6 +1078,7 @@ export const updateStemMutation = gql`
       userId
     }
   }
+<<<<<<< HEAD
 `;
 
 export const updateUserMutation = gql`
@@ -1102,4 +1128,15 @@ export const deleteStemMutation = gql`
 
 
 
+=======
+`
+export const getRolesQuery = gql `
+  query {
+    roles {
+      id
+      role_value
+    }
+  }
+`
+>>>>>>> 6420f94020b74c9c3fb50eb78f8984ca43e76f18
 
