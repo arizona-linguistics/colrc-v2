@@ -1,5 +1,4 @@
 # package-lock.json
-misc/file_data
 node_modules
 dist
 *.log
