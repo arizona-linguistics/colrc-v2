@@ -5,24 +5,18 @@ import shutil
 import sys
 import zipfile
 
-BASE_DIR = os.path.dirname(os.path.realpath(__file__))
-FILE_DIR = f'{BASE_DIR}/file_data'
+BASE_DIR = f'{os.path.dirname(os.path.realpath(__file__))}/file_data'
+DROPBOX_FILE_DIR='/colrc-v2-files'
+DROPBOX_ACCESS_TOKEN='H66L2R8JfX8AAAAAAAAAASyxUvZolCy956ASqQZjEPhFHXDbfa5zbk1pmNdsxYSA'
+
+# Do not change any constants below this line!
+FILE_DIR = f'{BASE_DIR}/files'
 ZIP_FILE= f'{BASE_DIR}/files.zip'
 CURSOR_FILE = f'{BASE_DIR}/cursor'
 LOG_FILE = f'{BASE_DIR}/dropbox-sync.log'
 
-DROPBOX_FILE_DIR='/colrc-v2-files'
-DROPBOX_ACCESS_TOKEN='H66L2R8JfX8AAAAAAAAAASyxUvZolCy956ASqQZjEPhFHXDbfa5zbk1pmNdsxYSA'
-
-def download_all(dl_location):
-    """
-    Downloads everything at DROPBOX_FILE_DIR as a .zip file. 
-    
-    Parameters
-    ----------
-    dl_location : str
-        The path to extract the zip file to on the local filesystem (excluding the name of the folder, since it will be named FILE_DIR).
-    """
+def download_all():
+    """Downloads everything at DROPBOX_FILE_DIR to ZIP_FILE, and extracts to FILE_DIR. """
 
     headers = {
         'Authorization': f'Bearer {DROPBOX_ACCESS_TOKEN}',
@@ -30,6 +24,10 @@ def download_all(dl_location):
     }
     
     response = requests.post('https://content.dropboxapi.com/2/files/download_zip', headers=headers, stream=True)
+    
+    if not os.path.isdir(BASE_DIR):
+        print('Making base directory...')
+        os.makedirs(BASE_DIR)
     
     print('\nDownloading zip file from Dropbox...')
     with open(ZIP_FILE, 'wb') as f:
@@ -39,16 +37,12 @@ def download_all(dl_location):
             megabytes_written += 1/1024
             print(f'\r{megabytes_written:.0f}MB downloaded...', end='', flush=True)
     
-    print('Extracting zip file...')
+    print('\nExtracting zip file...')
     with zipfile.ZipFile(ZIP_FILE, 'r') as z:
-        z.filename = 'file_data'
-        z.extractall(dl_location)
+        z.extractall(BASE_DIR)
 
-        print('Renaming folder...')
-        os.rename(f'{BASE_DIR}/{DROPBOX_FILE_DIR}', FILE_DIR)
-
-    print('Removing zip file...')
-    os.remove(ZIP_FILE)
+    print('\nRenaming folder...')
+    os.rename(f'{BASE_DIR}{DROPBOX_FILE_DIR}', FILE_DIR)
 
     print('Changing file permissions...')
     for root, dirs, files in os.walk(FILE_DIR):
@@ -65,8 +59,8 @@ def download_file(file, dl_location):
     
     Parameters
     ----------
-    file : str or int
-        The file's path or ID in Dropbox.
+    file : str
+        The file's path in Dropbox.
     
     dl_location : str
         The path to download the file to on the local filesystem.
@@ -125,40 +119,41 @@ def update(cursor):
     if updated_files['entries']:
         print('\nUpdating your current directory...')
         for entry in updated_files['entries']:
-            local_path = f'{FILE_DIR}{entry["path_display"].replace(DROPBOX_FILE_DIR, "")}'
-            
+            relative_path = entry["path_display"].replace(f'{DROPBOX_FILE_DIR}/', "")
+            local_path = f'{FILE_DIR}/{relative_path}'
+
             if entry['.tag'] == 'deleted':
                 try:
                     if os.path.isdir(local_path):
                         shutil.rmtree(local_path)
-                        print(f'DEL {entry["name"]}')
+                        print(f'DEL {relative_path}')
                     elif os.path.isfile(local_path):
                         os.remove(local_path)
-                        print(f'DEL {entry["name"]}')
+                        print(f'DEL {relative_path}')
                     else:
-                        print(f'DEX {entry["name"]}')
+                        print(f'DEX {relative_path}')
                 except:
-                    print(f'ERR DEL {entry["name"]}')
+                    print(f'ERR DEL {relative_path}')
             
             elif entry['.tag'] == 'file':
                 try:
                     download_file(entry['path_display'], local_path)
                     os.chmod(local_path, 0o777)
-                    print(f'ADD {entry["name"]}')
+                    print(f'ADD {relative_path}')
                 except FileExistsError:
-                    print(f'AEX {entry["name"]}')
+                    print(f'AEX {relative_path}')
                 except:
-                    print(f'ERR ADD {entry["name"]}')
+                    print(f'ERR ADD {relative_path}')
             
             elif entry['.tag'] == 'folder':
                 try:
                     os.mkdir(local_path)
                     os.chmod(local_path, 0o777)
-                    print(f'ADD {entry["name"]}')
+                    print(f'ADD {relative_path}')
                 except FileExistsError:
-                    print(f'AEX {entry["name"]}')
+                    print(f'AEX {relative_path}')
                 except:
-                    print(f'ERR ADD {entry["name"]}')
+                    print(f'ERR ADD {relative_path}')
             
             else:
                 print(f'Unknown error has occurred. Please check the log (located at {LOG_FILE}) for details.')
@@ -186,10 +181,10 @@ def main():
             if input('Would you like to automatically remove and recreate the folder with a new cursor? [y,N] ') in ['y', 'Y', 'yes', 'Yes']:
                 print('Removing old directory...')
                 shutil.rmtree(FILE_DIR)
-                download_all(BASE_DIR)
+                download_all()
     
     else:
         print('\nNo nginx file directory found.')
-        download_all(BASE_DIR)
+        download_all()
 
 main()
