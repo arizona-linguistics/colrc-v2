@@ -54,11 +54,17 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
     
     `docker-compose build`
 
-4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run this script while the development environment is down to keep your local filesystem up to date.
+4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
   
+      If you do not have the [`requests`](https://docs.python-requests.org/en/master/user/install/#install) library, you will need to install it:
+      
+      `pip3 install requests` or `python3 -m pip install requests`
+      
+      If you already have it or you have finished installing `requests`, you can run the script using the command below:
+
       `python3 misc/dropbox-sync.py`
 
-5. Then you may start our development environment as a background process:
+5. Then you may finally start our development environment as a background process!
 
     `docker-compose up -d`
 
