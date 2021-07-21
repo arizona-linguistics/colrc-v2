@@ -133,7 +133,7 @@ function AddAffix() {
         {({ isSubmitting, values, errors, touched, handleChange, handleBlur, setFieldValue }) => (
         <Form>
             <Grid centered>
-                <Grid.Row>
+            <Grid.Row>
                     <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">Affix Type</Label></Grid.Column>
                     <Grid.Column width={10}>
                     <Dropdown

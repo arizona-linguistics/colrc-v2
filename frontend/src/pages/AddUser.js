@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Redirect, Link, useHistory } from 'react-router-dom';
-import { Grid, Button, Input, Label, Message, Header } from 'semantic-ui-react';
+import { Redirect, useHistory } from 'react-router-dom';
+import { Grid, Button, Label, Message, Header, Input, Dropdown } from 'semantic-ui-react';
 import * as Yup from 'yup';
-import { insertUserMutation, getUserToken } from './../queries/queries'
+import { insertUserWithRoleMutation, getUserToken, getRolesQuery } from './../queries/queries'
+import { useQuery } from '@apollo/react-hooks'
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/auth";
 import { handleErrors, broadCastSuccess } from '../utils/messages';
 import { confirmAlert } from 'react-confirm-alert';
 import '../stylesheets/react-confirm-alert.css';
+import { fromPromise } from "apollo-link";
 
 let addUserSchema = Yup.object().shape({
     first: Yup.string()
@@ -26,28 +28,33 @@ let addUserSchema = Yup.object().shape({
     passwordConfirmation: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
       .required('Password confirmation is required!')
-    });
-  
-
+    }); 
 
 function AddUser(props) {
-    const [hasRegistered, setHasRegistered] = useState(false);
-    // const [isError, setIsError] = useState(false);
+    const [hasAddedUser, sethasAddedUser] = useState(false);
     const history = useHistory();
     const { client, authClient, setAuthTokens } = useAuth();
+    let { loading: rolesLoading, error: rolesError, data: rolesData} = useQuery(getRolesQuery, {client: client})
+    if (rolesLoading) {
+        return <div>loading...</div>
+    }
+    if (rolesError) {
+        return <div>Something went wrong</div>
+    }
     
     
     async function onFormSubmit (values, setSubmitting) {
         console.log(values)
         try {
         const result = await client.mutate({
-            mutation: insertUserMutation,
+            mutation: insertUserWithRoleMutation,
             variables: {
             first: values.first,
             last: values.last,
             username: values.username,
             email: values.email,
-            password: values.password
+            password: values.password,
+            user_roles: values.roles
             }
         })
         if (result.error) {
@@ -84,7 +91,7 @@ function AddUser(props) {
             console.log('the token is ', token)
             //localStorage.setItem("tokens", JSON.stringify(token));
             setAuthTokens(token)
-            setHasRegistered(true)
+            sethasAddedUser(true)
         }
         } 
         catch(e) {
@@ -97,17 +104,64 @@ function AddUser(props) {
         history.push(path);
     }
     
-    if (hasRegistered) {
+    if (hasAddedUser) {
         return <Redirect to="/userlist" />;
     }
+
+
     
+    function roleOptions(options) {
+        console.log('the rolesData are ', + (JSON.stringify(rolesData.roles)))
+        let res = []
+        options.forEach((item) => {
+            let h = {}
+            h = { 
+                key: item.id.toString(),
+                value: item.id.toString(),
+                text: item.role_value          
+            }
+            res.push(h)
+            console.log('the options are ', + res)
+        })
+        return res
+    }
+
+
+
+    // "user_roles": {
+    //     "data": [
+    //           {
+    //               "role": {
+    //                   "data": {
+    //                       "role_code": "update"
+    //                   }, 
+    //                   "on_conflict": {
+    //                       "constraint": "roles_role_code_key",
+    //                       "update_columns": ["role_code"]
+    //                   } 
+    //               }
+    //           },
+    //            {
+    //               "role": {
+    //                   "data": {
+    //                       "role_code": "view"
+    //                   }, 
+    //                   "on_conflict": {
+    //                       "constraint": "roles_role_code_key", 
+    //                       "update_columns": ["role_code"]
+    //                   }
+    //               }
+    //           }    
+    //       ]
+    //     }
+
     return (
         <>
         <Grid centered>
             <Grid.Row>
                 <Grid.Column textAlign="center" width={12}>
                     <Header as="h2">Add a User</Header>
-                    <Message>Use this form to add a new authorized user account.  Once the account is created, you can set the role [here].  The password you set should be changed by the user.</Message>
+                    <Message>Use this form to add a new authorized account. The password you set should be changed by the user.</Message>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
@@ -116,7 +170,8 @@ function AddUser(props) {
             first: '',
             last: '',
             username: '',
-            email: '', 
+            email: '',
+            roles: '', 
             password: '', 
             passwordConfirmation: ''
         }}
@@ -140,7 +195,7 @@ function AddUser(props) {
             });
         }}>
 
-        {({ isSubmitting, values, errors, touched, handleChange, handleBlur }) => (
+        {({ isSubmitting, values, errors, touched, handleChange, handleBlur, setFieldValue }) => (
             <Form>
                 <Grid centered>
                     <Grid.Row>
@@ -210,6 +265,23 @@ function AddUser(props) {
                             {errors.email && touched.email && ( <div className="input-feedback">{errors.email}</div>
                             )}
                         </Grid.Column>  
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">User Roles</Label></Grid.Column>
+                        <Grid.Column width={10}>
+                            <Dropdown
+                                id="roles"
+                                placeholder='Select one or more roles'
+                                fluid
+                                multiple
+                                options = { roleOptions(rolesData.roles) }
+                                value= { values.roles }
+                                onChange = {(e, data) => setFieldValue(data.id, data.value)}
+                                onBlur={ handleBlur }
+                                className={ errors.roles && touched.roles ? 'text-input error' : 'text-input'}
+                            />
+                            {errors.roles && touched.roles && <div className="input-feedback"> {errors.roles} </div>}
+                        </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
                        <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">Password</Label></Grid.Column>
