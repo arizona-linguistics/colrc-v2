@@ -99,7 +99,6 @@ const NavBarMobile = ({
          </Menu.Item>
         )
     )}
-
     </Sidebar>
     <Sidebar.Pusher
       dimmed={visible}
@@ -178,24 +177,23 @@ function NavBar(props) {
 
   const { children } = props;
   return (
-    
-    <div>
-      <Responsive {...Responsive.onlyMobile}>
-        <NavBarMobile
-          onPusherClick={handlePusher}
-          onToggle={handleToggle}
-          rightItems={rightMenuItems(user)}
-          visible={visible}
-          currentUser={user}
-        >
+      <>
+        <Responsive {...Responsive.onlyMobile}>
+          <NavBarMobile
+            onPusherClick={handlePusher}
+            onToggle={handleToggle}
+            rightItems={rightMenuItems(user)}
+            visible={visible}
+            currentUser={user}
+          >
           <NavBarChildren>{children}</NavBarChildren>
-        </NavBarMobile>
-      </Responsive>
-      <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-        <NavBarDesktop rightItems={rightMenuItems(user)} currentUser={user} />
-        <NavBarChildren>{children}</NavBarChildren>
-      </Responsive>
-    </div>
+          </NavBarMobile>
+        </Responsive>
+        <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+          <NavBarDesktop rightItems={rightMenuItems(user)} currentUser={user} />
+          <NavBarChildren>{children}</NavBarChildren>
+        </Responsive>
+      </>
   )
 }
 
