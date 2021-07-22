@@ -9,8 +9,8 @@ import { useAuth } from "../context/auth";
 import { handleErrors, broadCastSuccess } from '../utils/messages';
 import { confirmAlert } from 'react-confirm-alert';
 import '../stylesheets/react-confirm-alert.css';
-import { fromPromise } from "apollo-link";
 
+// first we set up validation for our form fields, using Yup (https://www.npmjs.com/package/yup)
 let addUserSchema = Yup.object().shape({
     first: Yup.string()
       .required('Required'),
@@ -30,10 +30,15 @@ let addUserSchema = Yup.object().shape({
       .required('Password confirmation is required!')
     }); 
 
+// next we set up the things that will happen when the form is submitted    
 function AddUser(props) {
+    //create a hook to set the outcome, set the state to false
     const [hasAddedUser, sethasAddedUser] = useState(false);
+    //make sure we can use the browser history for routing after submit
     const history = useHistory();
+    //get information about the user submitting the form to allow them to change the data
     const { client, authClient, setAuthTokens } = useAuth();
+    //create a hook to query the database for all of the available roles, to set up our roles multiselect options
     let { loading: rolesLoading, error: rolesError, data: rolesData} = useQuery(getRolesQuery, {client: client})
     if (rolesLoading) {
         return <div>loading...</div>
@@ -42,12 +47,13 @@ function AddUser(props) {
         return <div>Something went wrong</div>
     }
     
-    
+   // tell the system what to do when the 'submit' button is selected 
     async function onFormSubmit (values, setSubmitting) {
         console.log(values)
         try {
         const result = await client.mutate({
             mutation: insertUserWithRoleMutation,
+            //these are the variables allowed to be passed into the insertUserWithRole mutation in queries.js
             variables: {
             first: values.first,
             last: values.last,
@@ -84,12 +90,10 @@ function AddUser(props) {
         })
         if (!tokenQuery.data.loginUser_Q) {
             handleErrors(`Username or Password is incorrect`) 
-            // setIsError(true)
         }
         else {
             const token = tokenQuery.data.loginUser_Q[0].password
             console.log('the token is ', token)
-            //localStorage.setItem("tokens", JSON.stringify(token));
             setAuthTokens(token)
             sethasAddedUser(true)
         }
@@ -111,7 +115,6 @@ function AddUser(props) {
 
     
     function roleOptions(options) {
-        console.log('the rolesData are ', + (JSON.stringify(rolesData.roles)))
         let res = []
         options.forEach((item) => {
             let h = {}
@@ -121,12 +124,25 @@ function AddUser(props) {
                 text: item.role_value          
             }
             res.push(h)
-            console.log('the options are ', + res)
+            console.log('the options are ', res)
         })
         return res
     }
 
-
+    function getMultipleSelectedValues(values){
+        let res = []
+        values.forEach((item) => {
+            let h = {}
+            h = { 
+                key: item.id.toString(),
+                value: item.id.toString(),
+                text: item.role_value          
+            }
+            res.push(h)
+            console.log('the values are ', res)
+        })
+        return res
+    }
 
     // "user_roles": {
     //     "data": [
@@ -276,7 +292,7 @@ function AddUser(props) {
                                 multiple
                                 options = { roleOptions(rolesData.roles) }
                                 value= { values.roles }
-                                onChange = {(e, data) => setFieldValue(data.id, data.value)}
+                                onChange = {(e, data) => setFieldValue.split(data.id, data.value)}
                                 onBlur={ handleBlur }
                                 className={ errors.roles && touched.roles ? 'text-input error' : 'text-input'}
                             />
