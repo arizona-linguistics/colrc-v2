@@ -35,6 +35,8 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
 - [`docker`](https://docs.docker.com/install/)
 - [`docker-compose`](https://docs.docker.com/compose/install/)
+- [`git`](https://git-scm.com/downloads)
+- [`python3`](https://www.python.org/downloads/)
 - If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
 - You will need sudo/root access on your system at the command line.
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
@@ -52,23 +54,21 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
     
     `docker-compose build`
 
-4. Once the build has finished, start our development environment as a background process:
+4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
+  
+      If you do not have the [`requests`](https://docs.python-requests.org/en/master/user/install/#install) library, you will need to install it:
+      
+      `pip3 install requests` or `python3 -m pip install requests`
+      
+      If you already have it or you have finished installing `requests`, you can run the script using the command below:
+
+      `python3 misc/dropbox-sync.py`
+
+5. Then you may finally start our development environment as a background process!
 
     `docker-compose up -d`
 
-    Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To test this, go to http://localhost:3000 and check to make sure the site is working before proceeding to the next step!
-
-  5. Once the project is up, change to the file data directory and download our image/audio files from Dropbox:
-  
-      `cd misc/file_data && sudo curl -Lo files.zip https://www.dropbox.com/sh/jtd0hw3r97rj48q/AADPJFTY0KvJnz83zK97vZh0a?dl=0`
-  
-  6. When the files are finished downloading, unzip and remove the resulting `.zip` file:
-
-      `unzip files.zip -x / && rm -f files.zip`
-  
-  7. Finally, with the files unzipped, change the file/directory permissions so that they are executable for all users: 
-      
-      `sudo chmod -R +x *`
+    Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
 
 ### Subsequent Installations
 If this is NOT your first install and there have been changes to the database or static file structures in the GitHub repository, you will need to do the following:
@@ -83,7 +83,7 @@ If this is NOT your first install and there have been changes to the database or
 
 3. At the command line, remove any previous database/file data if it exists:
 
-   `sudo rm -rf db_data && sudo rm -rf file_data`
+   `sudo rm -rf misc/db_data misc/file_data`
   
 4. Follow the first installation steps starting from [step 3](#step-3).
 
