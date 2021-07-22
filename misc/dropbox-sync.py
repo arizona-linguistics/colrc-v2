@@ -13,6 +13,7 @@ DROPBOX_ACCESS_TOKEN='H66L2R8JfX8AAAAAAAAAASyxUvZolCy956ASqQZjEPhFHXDbfa5zbk1pmN
 FILE_DIR = f'{BASE_DIR}/files'
 ZIP_FILE= f'{BASE_DIR}/files.zip'
 CURSOR_FILE = f'{BASE_DIR}/cursor'
+CURSOR_FILE_BACKUP = f'{CURSOR_FILE}.old'
 LOG_FILE = f'{BASE_DIR}/dropbox-sync.log'
 
 def download_all():
@@ -51,7 +52,12 @@ def download_all():
         for f in files:
             os.chmod(os.path.join(root, f), 0o777)
 
-    save_cursor()
+    print('Making backup cursor file...')
+    save_cursor(CURSOR_FILE_BACKUP)
+
+    print('Making cursor file...')
+    shutil.copy(CURSOR_FILE_BACKUP, CURSOR_FILE)
+
 
 def download_file(file, dl_location):
     """
@@ -79,7 +85,7 @@ def download_file(file, dl_location):
     with open(dl_location, 'wb') as f:
         f.write(response.content)
             
-def save_cursor():
+def save_cursor(location):
     """
     Saves the cursor (or snapshot) of the Dropbox folder to a file.
     """
@@ -93,11 +99,10 @@ def save_cursor():
     response = requests.post('https://api.dropboxapi.com/2/files/list_folder/get_latest_cursor', headers=headers, data=data)
     cursor = json.loads(response.text)['cursor']
     
-    print('\nSaving cursor...')
-    with open(CURSOR_FILE, 'w') as f:
+    with open(location, 'w') as f:
         f.write(cursor)
 
-def update(cursor):
+def update(cursor, save_new_cursor=True):
     """
     Updates the local filesystem with changes from the Dropbox folder.
 
@@ -105,6 +110,9 @@ def update(cursor):
     ----------
     cursor : str
         The Dropbox cursor obtained from the last sync to update with.
+    
+    save_new_cursor : bool, default=True
+        Saves a new cursor at the end of execution. This is not needed for recursive calls.
     """
     
     headers = {
@@ -117,7 +125,6 @@ def update(cursor):
     updated_files = json.loads(response.content)
     
     if updated_files['entries']:
-        print('\nUpdating your current directory...')
         for entry in updated_files['entries']:
             relative_path = entry["path_display"].replace(f'{DROPBOX_FILE_DIR}/', "")
             local_path = f'{FILE_DIR}/{relative_path}'
@@ -160,17 +167,22 @@ def update(cursor):
                 with open(LOG_FILE, 'w') as f:
                     f.write(response.content)
                 sys.exit(1)
+
+        if updated_files['has_more']:
+            update(updated_files['cursor'], save_new_cursor=False)
         
-        save_cursor()
-    
+        if save_new_cursor:
+            print('Updating cursor file...')
+            save_cursor(CURSOR_FILE)
+
     else:
         print('\nNo files to update.')
-
-# TODO: Support longer output from Dropbox, which comes with its own cursor(s) 
+ 
 def main():
     if os.path.isdir(FILE_DIR):
         if os.path.isfile(CURSOR_FILE):
             with open(CURSOR_FILE) as f:
+                print('\nUpdating your current directory...\n')
                 update(f.readline())
         
         else:
