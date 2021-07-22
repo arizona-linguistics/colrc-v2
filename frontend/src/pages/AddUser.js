@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Redirect, useHistory } from 'react-router-dom';
 import { Grid, Button, Label, Message, Header, Input, Dropdown } from 'semantic-ui-react';
 import * as Yup from 'yup';
-import { insertUserWithRoleMutation, getUserToken, getRolesQuery } from './../queries/queries'
+import { insertUserWithRoleMutation, getRolesQuery } from './../queries/queries'
 import { useQuery } from '@apollo/react-hooks'
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/auth";
@@ -21,6 +21,8 @@ let addUserSchema = Yup.object().shape({
     email: Yup.string()
       .email('Please enter a valid email address')
       .required('Required'),
+    roles: Yup.string()
+      .required('Assign one or more roles'),
     password: Yup.string()
       .min(2, 'Password must be more than 2 characters')
       .max(30, 'Password must be less than 30 characters')
@@ -49,7 +51,7 @@ function AddUser(props) {
     
    // tell the system what to do when the 'submit' button is selected 
     async function onFormSubmit (values, setSubmitting) {
-        console.log(values)
+        //console.log(values)
         try {
         const result = await client.mutate({
             mutation: insertUserWithRoleMutation,
@@ -60,7 +62,7 @@ function AddUser(props) {
             username: values.username,
             email: values.email,
             password: values.password,
-            user_roles: values.roles
+            user_roles: rolesReshape(values.roles)
             }
         })
         if (result.error) {
@@ -69,7 +71,7 @@ function AddUser(props) {
         } else {
             broadCastSuccess(`User ${values.username} successfully added!`)
             setSubmitting(false)
-            await postLogin(values)
+            sethasAddedUser(true)
         }
         } catch (error) {
         handleErrors(error)
@@ -77,31 +79,6 @@ function AddUser(props) {
         }
     }
     
-    async function postLogin(values) {
-        try {
-        let tokenQuery = await authClient.query({
-            query: getUserToken,
-            variables: {
-            email: values.email,
-            password: values.password
-            
-            },
-            errorPolicy: 'all'
-        })
-        if (!tokenQuery.data.loginUser_Q) {
-            handleErrors(`Username or Password is incorrect`) 
-        }
-        else {
-            const token = tokenQuery.data.loginUser_Q[0].password
-            console.log('the token is ', token)
-            setAuthTokens(token)
-            sethasAddedUser(true)
-        }
-        } 
-        catch(e) {
-        handleErrors(e)
-        }
-    }
     
     const routeChange=()=> {
         let path = `/userlist`;
@@ -120,56 +97,36 @@ function AddUser(props) {
             let h = {}
             h = { 
                 key: item.id.toString(),
-                value: item.id.toString(),
+                value: item.role_code,
                 text: item.role_value          
             }
             res.push(h)
-            console.log('the options are ', res)
         })
         return res
     }
 
-    function getMultipleSelectedValues(values){
-        let res = []
+    function rolesReshape(values){
+        console.log('I am in the rolesReshape function ', values)
+        let res = {}
+        let arr = []
         values.forEach((item) => {
             let h = {}
             h = { 
-                key: item.id.toString(),
-                value: item.id.toString(),
-                text: item.role_value          
-            }
-            res.push(h)
-            console.log('the values are ', res)
+                  "role": {
+                      "data": {
+                          "role_code": item
+                      }, 
+                      "on_conflict": {
+                          "constraint": "roles_role_code_key",
+                          "update_columns": ["role_code"]
+                      } 
+                  }
+              }
+            arr.push(h)
         })
+        res = { "data": arr }
         return res
     }
-
-    // "user_roles": {
-    //     "data": [
-    //           {
-    //               "role": {
-    //                   "data": {
-    //                       "role_code": "update"
-    //                   }, 
-    //                   "on_conflict": {
-    //                       "constraint": "roles_role_code_key",
-    //                       "update_columns": ["role_code"]
-    //                   } 
-    //               }
-    //           },
-    //            {
-    //               "role": {
-    //                   "data": {
-    //                       "role_code": "view"
-    //                   }, 
-    //                   "on_conflict": {
-    //                       "constraint": "roles_role_code_key", 
-    //                       "update_columns": ["role_code"]
-    //                   }
-    //               }
-    //           }    
-    //       ]
-    //     }
 
     return (
         <>
