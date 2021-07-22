@@ -37,20 +37,8 @@ def download_all():
             f.write(chunk)
             megabytes_written += 1/1024
             print(f'\r{megabytes_written:.0f}MB downloaded...', end='', flush=True)
-    
-    print('\nExtracting zip file...')
-    with zipfile.ZipFile(ZIP_FILE, 'r') as z:
-        z.extractall(BASE_DIR)
 
-    print('\nRenaming folder...')
-    os.rename(f'{BASE_DIR}{DROPBOX_FILE_DIR}', FILE_DIR)
-
-    print('Changing file permissions...')
-    for root, dirs, files in os.walk(FILE_DIR):
-        for d in dirs:
-            os.chmod(os.path.join(root, d), 0o777)
-        for f in files:
-            os.chmod(os.path.join(root, f), 0o777)
+    extract()
 
     print('Making backup cursor file...')
     save_cursor(CURSOR_FILE_BACKUP)
@@ -84,23 +72,6 @@ def download_file(file, dl_location):
 
     with open(dl_location, 'wb') as f:
         f.write(response.content)
-            
-def save_cursor(location):
-    """
-    Saves the cursor (or snapshot) of the Dropbox folder to a file.
-    """
-    
-    headers = {
-    'Authorization': f'Bearer {DROPBOX_ACCESS_TOKEN}',
-    'Content-Type': 'application/json'
-    }
-    data = f'{{"path": "{DROPBOX_FILE_DIR}", "recursive": true, "include_deleted": true, "include_non_downloadable_files": false}}'
-
-    response = requests.post('https://api.dropboxapi.com/2/files/list_folder/get_latest_cursor', headers=headers, data=data)
-    cursor = json.loads(response.text)['cursor']
-    
-    with open(location, 'w') as f:
-        f.write(cursor)
 
 def update(cursor, save_new_cursor=True):
     """
@@ -177,6 +148,38 @@ def update(cursor, save_new_cursor=True):
 
     else:
         print('\nNo files to update.')
+
+def save_cursor(location):
+    """
+    Saves the cursor (or snapshot) of the Dropbox folder to a file.
+    """
+    
+    headers = {
+    'Authorization': f'Bearer {DROPBOX_ACCESS_TOKEN}',
+    'Content-Type': 'application/json'
+    }
+    data = f'{{"path": "{DROPBOX_FILE_DIR}", "recursive": true, "include_deleted": true, "include_non_downloadable_files": false}}'
+
+    response = requests.post('https://api.dropboxapi.com/2/files/list_folder/get_latest_cursor', headers=headers, data=data)
+    cursor = json.loads(response.text)['cursor']
+    
+    with open(location, 'w') as f:
+        f.write(cursor)
+
+def extract():
+    print('\nExtracting zip file...')
+    with zipfile.ZipFile(ZIP_FILE, 'r') as z:
+        z.extractall(BASE_DIR)
+
+    print('\nRenaming folder...')
+    os.rename(f'{BASE_DIR}{DROPBOX_FILE_DIR}', FILE_DIR)
+
+    print('Changing file permissions...')
+    for root, dirs, files in os.walk(FILE_DIR):
+        for d in dirs:
+            os.chmod(os.path.join(root, d), 0o777)
+        for f in files:
+            os.chmod(os.path.join(root, f), 0o777)
  
 def main():
     if os.path.isdir(FILE_DIR):
@@ -196,7 +199,16 @@ def main():
                 download_all()
     
     else:
-        print('\nNo nginx file directory found.')
-        download_all()
+        if os.path.isfile(CURSOR_FILE_BACKUP) and os.path.isfile(ZIP_FILE):
+            print('\nNo nginx file directory has been found, but the program can restore from a backup.')
+            if input('Would you like to restore an older state of the folder? (NOTE: You will still be able to update it once this  has finished.) [y,N] ') in ['y', 'Y', 'yes', 'Yes']:
+                extract()
+                print('Restoring cursor...')
+                shutil.copy(CURSOR_FILE_BACKUP, CURSOR_FILE)
+                print('\nRestore complete! If you would like to update your local directory, you may run this program again.')
+                
+        else:
+            print('\nNo nginx file directory found.')
+            download_all()
 
 main()
