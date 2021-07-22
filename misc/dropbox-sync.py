@@ -152,6 +152,11 @@ def update(cursor, save_new_cursor=True):
 def save_cursor(location):
     """
     Saves the cursor (or snapshot) of the Dropbox folder to a file.
+
+    Parameters
+    ----------
+    location : str
+        The location to make the cursor file at.
     """
     
     headers = {
