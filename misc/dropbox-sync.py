@@ -206,7 +206,7 @@ def main():
     else:
         if os.path.isfile(CURSOR_FILE_BACKUP) and os.path.isfile(ZIP_FILE):
             print('\nNo nginx file directory has been found, but the program can restore from a backup.')
-            if input('Would you like to restore an older state of the folder? (NOTE: You will still be able to update it once this  has finished.) [y,N] ') in ['y', 'Y', 'yes', 'Yes']:
+            if input('Would you like to restore an older state of the folder? (NOTE: You will still be able to update it once this has finished.) [y,N] ') in ['y', 'Y', 'yes', 'Yes']:
                 extract()
                 print('Restoring cursor...')
                 shutil.copy(CURSOR_FILE_BACKUP, CURSOR_FILE)
