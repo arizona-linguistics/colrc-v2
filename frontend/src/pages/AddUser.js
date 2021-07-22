@@ -291,8 +291,8 @@ function AddUser(props) {
                                 fluid
                                 multiple
                                 options = { roleOptions(rolesData.roles) }
-                                value= { values.roles }
-                                onChange = {(e, data) => setFieldValue.split(data.id, data.value)}
+                                value= { values.roles || [] }
+                                onChange = {(e, data) => setFieldValue(data.id, data.value)}
                                 onBlur={ handleBlur }
                                 className={ errors.roles && touched.roles ? 'text-input error' : 'text-input'}
                             />
