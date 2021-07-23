@@ -8,7 +8,7 @@ Coeur d'Alene Online Language Resource Center Version 2.0
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [First Installation](#first-installation)
-  - [Subsequent Installations](#subsequent-installations)
+  - [Subsequent Pulls](#subsequent-pulls)
   - [Cleanup](#cleanup)
 - [Working with Git](#working-with-git)
   - [The GitHub Workflow](#the-github-workflow)
@@ -63,6 +63,10 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
       If you already have it or you have finished installing `requests`, you can run the script using the command below:
 
       `python3 misc/dropbox-sync.py`
+      
+      If you get a permissions error when running the script, you can use the command below to fix the permissions you need (for 'username', substitute your username):
+      
+      `sudo chown -v -R username:username file_data`
 
 5. Then you may finally start our development environment as a background process!
 
@@ -70,20 +74,20 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
     Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
 
-### Subsequent Installations
-If this is NOT your first install and there have been changes to the database or static file structures in the GitHub repository, you will need to do the following:
+### Subsequent Pulls
+As we progress in development, this repo will change.  To get the most recent version of the repo, you'll `git pull` from the main branch.  Take a look at the most recent commit messages to see whether there have been changes to /misc/sql/colrc.sql (which is the file that defines the database, including table permissions and relations via hasura).  Then:  
 
 1. Make sure that the development environment is currently not running:
     
     `docker-compose down`
+    
+2. If there have been changes to colrc.sql since your last pull, navigate to your misc/sql directory and delete your db_data file:
 
-2. Pull the changes from the main branch:
+   `sudo rm -rf misc/db_data`
+
+3. Pull the changes from the main branch:
   
-    `git checkout main && git pull` 
-
-3. At the command line, remove any previous database/file data if it exists:
-
-   `sudo rm -rf misc/db_data misc/file_data`
+    `git checkout main && git pull`
   
 4. Follow the first installation steps starting from [step 3](#step-3).
 
