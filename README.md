@@ -81,7 +81,7 @@ As we progress in development, this repo will change.  To get the most recent ve
     
     `docker-compose down`
     
-2. If there have been changes to colrc.sql since your last pull, navigate to your misc/sql directory and delete your db_data file:
+2. If there have been changes to colrc.sql since your last pull, navigate to your /misc directory and delete your db_data file:
 
    `sudo rm -rf misc/db_data`
 
