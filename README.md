@@ -64,9 +64,9 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
       `python3 misc/dropbox-sync.py`
       
-      If you get a permissions error when running the script, you can use the command below to fix the permissions you need (for 'username', substitute your username):
+      If you get a permissions error when running the script, you can use the command below to fix the permissions you need (if the file/folder that has the permissions issue is different, substitute `file_data` with that file/folder):
       
-      `sudo chown -v -R username:username file_data`
+      `sudo chown -R $USER file_data`
 
 5. Then you may finally start our development environment as a background process!
 
@@ -75,13 +75,13 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
     Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
 
 ### Subsequent Pulls
-As we progress in development, this repo will change.  To get the most recent version of the repo, you'll `git pull` from the main branch.  Take a look at the most recent commit messages to see whether there have been changes to /misc/sql/colrc.sql (which is the file that defines the database, including table permissions and relations via hasura).  Then:  
+As we progress in development, this repository will change. To get the most recent version of the repository, you will need to pull from the main branch. Take a look at the most recent commits to see whether there have been changes to [`misc/sql/colrc.sql`](./misc/sql/colrc.sql) (which is the file that defines the database, including table permissions and relations via Hasura). Then:  
 
 1. Make sure that the development environment is currently not running:
     
     `docker-compose down`
     
-2. If there have been changes to colrc.sql since your last pull, navigate to your /misc directory and delete your db_data file:
+2. If there have been changes to colrc.sql since your last pull, delete your db_data file:
 
    `sudo rm -rf misc/db_data`
 
@@ -93,7 +93,7 @@ As we progress in development, this repo will change.  To get the most recent ve
 
 ### Cleanup
 
-To easily remove old volumes and containers, you can run `cleanup.sh` from the base directory.
+To easily remove old volumes and containers, you can run `./cleanup.sh` from the base directory.
 
 ## Working with Git
 
@@ -126,7 +126,7 @@ In short, the basic GitHub workflow is `checkout > add > commit > push`. This wo
 In order to address an issue with the code (which may be an unimplemented feature, a bug, or something which may need to be rewritten), first check the [issues](https://github.com/arizona-linguistics/colrc-v2/issues) page of the repository. Here you will find a list of issues that you can work on.
 
 For example, say you choose the issue below:
-![sample-issue](./sample-issue.png)
+![sample-issue](./docs/sample-issue.png)
 
 Here is how you would go about addressing this issue:
 
@@ -159,7 +159,7 @@ Here is how you would go about addressing this issue:
 
     Below is a sample pull request that includes these elements:
    
-    ![sample-pull-request](./sample-pull-request.png)
+    ![sample-pull-request](./docs/sample-pull-request.png)
 
 ## About
 
