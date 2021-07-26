@@ -75,7 +75,7 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
     Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
 
 ### Subsequent Pulls
-As we progress in development, this repository will change. To get the most recent version of the repository, you will need to pull from the main branch. Take a look at the most recent commits to see whether there have been changes to [`misc/sql/colrc.sql`](./misc/sql/colrc.sql) (which is the file that defines the database, including table permissions and relations via Hasura). Then:  
+As we progress in development, this repository will change. To get the most recent version of the repository, you will need to pull from the main branch. Take a look at the most recent commits to see whether there have been changes to [`colrc.sql`](./misc/sql/colrc.sql) (which is the file that defines the database, including table permissions and relations via Hasura). Then:  
 
 1. Make sure that the development environment is currently not running:
     
@@ -83,7 +83,7 @@ As we progress in development, this repository will change. To get the most rece
     
 2. If there have been changes to colrc.sql since your last pull, delete your db_data file:
 
-   `sudo rm -rf misc/db_data`
+    `sudo rm -rf misc/db_data`
 
 3. Pull the changes from the main branch:
   
@@ -93,7 +93,7 @@ As we progress in development, this repository will change. To get the most rece
 
 ### Cleanup
 
-To easily remove old volumes and containers, you can run `./cleanup.sh` from the base directory.
+To easily remove old volumes and containers, you can run [`./cleanup.sh`](./cleanup.sh) from the base directory.
 
 ## Working with Git
 
