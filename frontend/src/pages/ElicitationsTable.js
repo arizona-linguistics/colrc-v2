@@ -248,7 +248,7 @@ function ElicitationsTable(props) {
         Header: 'Transcription',
         accessor: 'transcription',
         tableName: 'Elicitations',
-        show: false,
+        show: true,
         id: 'transcription',
         label: 'Transcription'
       },
@@ -272,7 +272,7 @@ function ElicitationsTable(props) {
         Header: 'Language',
         accessor: 'language',
         tableName: 'Elicitations',
-        show: true,
+        show: false,
         id: 'language',
         label: 'Language'
       }
