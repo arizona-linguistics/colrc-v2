@@ -229,7 +229,7 @@ export const getElicitationSetsQuery = gql`
       id
       language
       speaker
-      title
+      prompt
       transcription
       user {
         email

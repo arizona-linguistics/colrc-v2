@@ -254,7 +254,7 @@ function ElicitationsTable(props) {
       },
       {
         Header: 'Prompt',
-        accessor: 'title',
+        accessor: 'prompt',
         tableName: 'Elicitations',
         show: true,
         id: 'prompt',
@@ -307,6 +307,7 @@ async function getElicitations(limit, offset, sortBy, filters) {
     // }
     // console.log("this is res.data ", res.data)
     // console.log("this is texts ", texts)
+    console.log(res.data)
     return res.data
   }  
 
