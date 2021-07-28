@@ -667,6 +667,27 @@ export const getTextsQuery = gql`
 
 // getUsers
 
+export const getUserByIdQuery = gql`
+query getUserByID($id: Int!) {
+  users_by_pk(id: $id) {
+    createdAt
+    email
+    first
+    id
+    last
+    password
+    updatedAt
+    username
+    user_roles {
+      role {
+        id
+        role_code
+        role_value
+      }
+    }
+  }
+}`;
+
 export const getUsersQuery = gql`
 query getUsersQuery($limit: Int, $offset: Int) {
   users(limit: $limit, offset: $offset) {
@@ -889,6 +910,7 @@ export const insertUserMutation = gql `
   }
 `;
 
+
 export const insertUserRoleMutation = gql `
   mutation insertUserRoleMutation($userId: Int! $roleId: Int) {
     insert_user_roles_one(object: {userId: $userId, roleId: $roleId}) {
@@ -1056,19 +1078,29 @@ export const updateStemMutation = gql`
   }
 `;
 
-export const updateUserMutation = gql`
-  mutation($first: String!, $last: String!, $username: String!, $email: String!, $password: String!) {
-    updateUser_M(first: $first, last: $last, username: $username, email: $email, password: $password) {
+
+export const updateUserMutation = gql `
+mutation updateUser($id: Int!, $changes: users_set_input) {
+  update_users_by_pk (
+		pk_columns: {id: $id}
+		_set: $changes
+  ) {
       id
       first
       last
       username
       email
       password
-      roles
+      user_roles {
+        role {
+          id
+          role_code
+          role_value
+        }     
+      }
     }
   }
-`;
+`
 
 
 // Mutations - delete

@@ -214,7 +214,7 @@ function UserListTable(props) {
           <div className="buttons">
             <Link 
               to={{
-                pathname: "/updateuser",
+                pathname: "/edituser",
                 search: "?id=" + row.original.id,
               }}>
               <button className="ui mini black icon button">
