@@ -31,6 +31,7 @@ import Metadata from './pages/Metadata';
 import Log from './pages/Log';
 import Audios from './pages/Audios';
 import Elicitations from './pages/Elicitations';
+import EditElicitation from "./pages/EditElicitation";
 import Spelling from './pages/Spelling';
 import Bibliography from './pages/Bibliography';
 import Search from './pages/Search';
@@ -159,6 +160,7 @@ function App(props) {
               <Route path="/imageviewer" component={ImageViewer} />
               <Route path="/splitview" component={SplitView} />
               <PrivateRoute path="/elicitations" component={Elicitations} key="Elicitations" />
+              <PrivateRoute path="/editelicitation" component={EditElicitation} key="EditElicitation" />
               <PrivateRoute path="/addaffix" component={AddAffix} key="AddAffix" />
               <PrivateRoute path="/editaffix" component={EditAffix} key="EditAffix" />
               <PrivateRoute path="/deleteaffix" component={DeleteAffix} key="DeleteAffix" />

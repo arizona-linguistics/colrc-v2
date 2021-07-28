@@ -17,6 +17,7 @@ export const path_role_permissions = {
     '/deletestem': ['manager', 'update'],
     '/stemhistory': ['manager', 'update'],
     '/elicitations': ['manager', 'update'],
+    '/editelicitation': ['manager', 'update'],
     '/log': ['manager', 'update'],
     '/home' : ['*'],
 }

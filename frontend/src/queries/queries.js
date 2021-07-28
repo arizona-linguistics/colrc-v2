@@ -249,6 +249,18 @@ export const getElicitationSetsQuery = gql`
   }
 `;
 
+export const getElicitationSetByIdQuery = gql`
+  query GetElicitationById($id: Int!) {
+    elicitationsets_by_pk(id: $id) {
+      id
+      language
+      prompt
+      speaker
+      transcription
+    }
+  }
+`;
+
 // getLogs
 
 export const getLogQuery = gql`
@@ -989,6 +1001,30 @@ export const updateAffixMutation = gql`
     }
   }
 `;
+
+export const updateElicitationSetMutation = gql `
+  mutation updateAnElicitation($id: Int!, $editnote: String!, $language: String!, $prompt: String!, $speaker: String!, $transcription: String!) {
+    update_elicitationsets_by_pk(pk_columns: {id: $id},
+      _set: {
+        editnote: $editnote,
+        language: $language,
+        prompt: $prompt
+        speaker: $speaker
+        transcription: $transcription
+      }
+    )
+    {
+      createdAt
+      editnote
+      id
+      language
+      prompt
+      transcription
+      updatedAt
+      userId
+    }
+  }
+`
 
 export const updateRootMutation = gql`
   mutation updateARoot($id: Int!, $editnote: String!, $english: String!, $salish: String, $nicodemus: String!, $root: String!, $number: Int, $sense: String, $symbol: String, $grammar: String, $crossref: String, $variant: String, $cognate: String){

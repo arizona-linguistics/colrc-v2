@@ -1,11 +1,13 @@
 import React from 'react'
+import { Link,useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getElicitationSetsQuery } from './../queries/queries'
 import ElicitationsPlayer from '../utils/ElicitationsPlayer';
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
+import { Icon, Button } from "semantic-ui-react";
 
 function Table({
   columns,
@@ -236,7 +238,40 @@ function ElicitationsTable(props) {
   const columns = React.useMemo(
     () => [
       {
+        Header: 'History/Edit',
+        disableFilters: true,
+        sortable: false,
+        width: 100,
+        show: true,
+        id: 'historyEdit',
+        label: 'History/Edit',
+        tableName: 'ElicitationsTable',
+        Cell: ({row, original}) => (
+          <div className="buttons">
+            <Link 
+              to={{
+                pathname: "/elicitationhistory",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini blue icon button">
+                <Icon name="history" />
+              </button>              
+            </Link>
+            <Link 
+              to={{
+                pathname: "/editelicitation",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini black icon button">
+                <Icon name="edit" />
+              </button>              
+            </Link>
+          </div>
+        )
+      }, 
+      {
         Header: 'Audio',
+        disableFilters: true,
         id: 'audio',
         accessor: 'elicitationsets_elicitationfiles', 
         show: true,
