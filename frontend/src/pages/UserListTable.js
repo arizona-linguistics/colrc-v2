@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
 import { Icon, Button } from "semantic-ui-react";
@@ -58,7 +58,7 @@ function UserListTable(props) {
       nextPage,
       previousPage,
       setPageSize,
-      state: { pageIndex, pageSize, sortBy, filters, globalFilter }
+      state: { pageIndex, pageSize }
     } = useTable(
       {
         columns,

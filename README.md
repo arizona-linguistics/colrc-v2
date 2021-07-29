@@ -8,7 +8,7 @@ Coeur d'Alene Online Language Resource Center Version 2.0
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [First Installation](#first-installation)
-  - [Subsequent Installations](#subsequent-installations)
+  - [Subsequent Pulls](#subsequent-pulls)
   - [Cleanup](#cleanup)
 - [Working with Git](#working-with-git)
   - [The GitHub Workflow](#the-github-workflow)
@@ -35,6 +35,8 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
 - [`docker`](https://docs.docker.com/install/)
 - [`docker-compose`](https://docs.docker.com/compose/install/)
+- [`git`](https://git-scm.com/downloads)
+- [`python3`](https://www.python.org/downloads/)
 - If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
 - You will need sudo/root access on your system at the command line.
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
@@ -52,44 +54,46 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
     
     `docker-compose build`
 
-4. Once the build has finished, start our development environment as a background process:
+4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
+  
+      If you do not have the [`requests`](https://docs.python-requests.org/en/master/user/install/#install) library, you will need to install it:
+      
+      `pip3 install requests` or `python3 -m pip install requests`
+      
+      If you already have it or you have finished installing `requests`, you can run the script using the command below:
+
+      `python3 misc/dropbox-sync.py`
+      
+      If you get a permissions error when running the script, you can use the command below to fix the permissions you need (if the file/folder that has the permissions issue is different, substitute `file_data` with that file/folder):
+      
+      `sudo chown -R $USER file_data`
+
+5. Then you may finally start our development environment as a background process!
 
     `docker-compose up -d`
 
-    Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To test this, go to http://localhost:3000 and check to make sure the site is working before proceeding to the next step!
+    Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
 
-  5. Once the project is up, change to the file data directory and download our image/audio files from Dropbox:
-  
-      `cd misc/file_data && sudo curl -Lo files.zip https://www.dropbox.com/sh/jtd0hw3r97rj48q/AADPJFTY0KvJnz83zK97vZh0a?dl=0`
-  
-  6. When the files are finished downloading, unzip and remove the resulting `.zip` file:
-
-      `unzip files.zip -x / && rm -f files.zip`
-  
-  7. Finally, with the files unzipped, change the file/directory permissions so that they are executable for all users: 
-      
-      `sudo chmod -R +x *`
-
-### Subsequent Installations
-If this is NOT your first install and there have been changes to the database or static file structures in the GitHub repository, you will need to do the following:
+### Subsequent Pulls
+As we progress in development, this repository will change. To get the most recent version of the repository, you will need to pull from the main branch. You will need to take a look at the most recent commits to see whether there have been changes to [`colrc.sql`](./misc/sql/colrc.sql) (which is the file that defines the database, including table permissions and relations via Hasura). Then:  
 
 1. Make sure that the development environment is currently not running:
     
     `docker-compose down`
+    
+2. If there have been changes to [`colrc.sql`](./misc/sql/colrc.sql) since your last pull, delete the database's data folder:
 
-2. Pull the changes from the main branch:
+    `sudo rm -rf misc/db_data`
+
+3. Pull the changes from the main branch:
   
-    `git checkout main && git pull` 
-
-3. At the command line, remove any previous database/file data if it exists:
-
-   `sudo rm -rf db_data && sudo rm -rf file_data`
+    `git checkout main && git pull`
   
 4. Follow the first installation steps starting from [step 3](#step-3).
 
 ### Cleanup
 
-To easily remove old volumes and containers, you can run `cleanup.sh` from the base directory.
+To easily remove old volumes and containers, you can run [`./cleanup.sh`](./cleanup.sh) from the base directory.
 
 ## Working with Git
 
@@ -122,7 +126,7 @@ In short, the basic GitHub workflow is `checkout > add > commit > push`. This wo
 In order to address an issue with the code (which may be an unimplemented feature, a bug, or something which may need to be rewritten), first check the [issues](https://github.com/arizona-linguistics/colrc-v2/issues) page of the repository. Here you will find a list of issues that you can work on.
 
 For example, say you choose the issue below:
-![sample-issue](./sample-issue.png)
+![sample-issue](./docs/sample-issue.png)
 
 Here is how you would go about addressing this issue:
 
@@ -155,7 +159,7 @@ Here is how you would go about addressing this issue:
 
     Below is a sample pull request that includes these elements:
    
-    ![sample-pull-request](./sample-pull-request.png)
+    ![sample-pull-request](./docs/sample-pull-request.png)
 
 ## About
 
@@ -168,7 +172,7 @@ The frontend is built using [`react`](https://reactjs.org/).  If you've launched
 
 ### [Backend](./backend)
 
-The backend is a [`Node`](https://nodejs.org/en/) app that currently relies on [`Express`](https://expressjs.com/), [`sequelize`](https://github.com/sequelize/sequelize), [`Hasura GraphQL`](https://hasura.io/), and [`Postgres`](https://www.postgresql.org/).  If you've launched the development environment using `docker-compose`, any changes you make to the [backend source](./backend) are monitored with [`nodemon`](https://www.npmjs.com/package/nodemon), and will trigger a rebuild whenever detected.
+The backend is a [`Node`](https://nodejs.org/en/) app that currently relies on [`Express`](https://expressjs.com/), [`sequelize`](https://github.com/sequelize/sequelize), [`Hasura GraphQL`](https://hasura.io/), and [`Postgres`](https://www.postgresql.org/).  If you've launched the development environment using [`docker-compose`](https://docs.docker.com/compose/install/), any changes you make to the [backend source](./backend) are monitored with [`nodemon`](https://www.npmjs.com/package/nodemon), and will trigger a rebuild whenever detected.
 
 You can access the [Hasura GraphQL Console](https://hasura.io/blog/tagged/console/) by going to http://localhost:8080 in your browser.
 
@@ -187,7 +191,7 @@ Place `.sql` files in [`misc/sql`](./misc/sql) to have them loaded when Postgres
 
 ### Testing
 
-We suggest testing using the environment launched by `docker-compose`. Both frontend and backend tests are written using [`jest`](https://jestjs.io/):
+We suggest testing using the environment launched by [`docker-compose`](https://docs.docker.com/compose/install/). Both frontend and backend tests are written using [`jest`](https://jestjs.io/):
 
 #### Frontend
     

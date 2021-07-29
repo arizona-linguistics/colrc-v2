@@ -25,15 +25,9 @@ let addStemSchema = Yup.object().shape({
 function AddStem() {
   const { client } = useAuth();
   const [ hasUpdated, setHasUpdated] = useState(false)
-  // const search = new URLSearchParams(useLocation().search)
-  // //console.log(search.get("id"))
-  // const id = search.get("id")
   const history = useHistory()
 
-// Save for stem category if needed
-  // let { loading: stemLoading, error: stemError, data: stemData } = useQuery(getStemByIdQuery, {client: client, variables: {id: id} }) 
   let { loading: categoryLoading, error: categoryError, data: categoryData } = useQuery(getStemCategoriesQuery, {client: client }) 
-   
   if (categoryLoading) {
       return <div>loading...</div>
   }
