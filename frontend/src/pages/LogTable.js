@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link,useHistory } from 'react-router-dom';
 import { intersectionWith, isEqual } from 'lodash';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
@@ -6,6 +7,7 @@ import { useAuth } from "../context/auth";
 import { getLogQuery } from './../queries/queries'
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
+import { handleErrors } from '../utils/messages';
 
 function Table({
   columns,
@@ -248,6 +250,7 @@ function Table({
 
 
 function LogTable(props) {
+  let history = useHistory()
 
   const updateColumns = React.useMemo(
     () => [
@@ -327,7 +330,7 @@ function LogTable(props) {
   const [pageCount, setPageCount] = React.useState(0)
   //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
   const fetchIdRef = React.useRef(0)
-  const { client, user } = useAuth();
+  const { client, setAuthTokens, user } = useAuth();
 
   
   async function getLog(limit, offset, sortBy, filters) {
@@ -390,13 +393,15 @@ function LogTable(props) {
         })
         .catch((error) => {
           console.log(error)
+          handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
           setData([])
           setPageCount(0)
           setLoading(false)
+          history.push('./login')
         })
       }
     }, 1000)
-  }, [])
+  }, [history, setAuthTokens])
 
   let columns = updateColumns
   
