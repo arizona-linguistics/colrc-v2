@@ -66,7 +66,8 @@ function EditUser(props) {
                     last: values.last,
                     username: values.username,
                     email: values.email,
-                    password: values.password
+                    password: values.password,
+                    id: values.id
                 }
             }
         })
@@ -102,8 +103,8 @@ function EditUser(props) {
             let h = {}
             h = { 
                 key: item.role.id.toString(),
-                value: item.role.role_code.toString(),
-                text: item.role.role_value.toString()          
+                value: item.role.role_code.toString(), 
+                text: item.role.role_value.toString()        
             }
             res.push(h)
         })
@@ -164,7 +165,7 @@ function EditUser(props) {
             last: userData.users_by_pk.last,
             username: userData.users_by_pk.username,
             email: userData.users_by_pk.email,
-            roles: userRoleOptions(userData.users_by_pk.user_roles), 
+            roles: userData.users_by_pk.user_roles ? userRoleOptions(userData.users_by_pk.user_roles) : [] ,
             password: userData.users_by_pk.password, 
         }}
         validationSchema={editUserSchema}
@@ -263,12 +264,13 @@ function EditUser(props) {
                         <Grid.Column width={10}>
                             <Dropdown
                                 id="roles"
-                                placeholder={ values.roles }
+                                placeholder="this user's roles are "
+                                error= { errors.length > 0 }
                                 fluid
                                 multiple
-                                options = { roleOptions(rolesData.roles) }
-                                value= { values.roles }
-                                selection = { values.roles }
+                                options = { values.roles || [] }
+                                // active= { values.roles || [] }
+                                value= { values.roles || [] }
                                 onChange = {(e, data) => setFieldValue(data.id, data.value)}
                                 onBlur={ handleBlur }
                                 className={ errors.roles && touched.roles ? 'text-input error' : 'text-input'}

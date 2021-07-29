@@ -782,6 +782,8 @@ query getUsersQuery($limit: Int, $offset: Int) {
       userId
       role {
         role_value
+        role_code
+        id
       }
     }
   }
