@@ -302,14 +302,39 @@ export const getMetadataQuery = gql `
 
 // getRoots
 
-export const getRootsQuery = gql`
-  query getRootsQuery($where: roots_bool_exp = {}, $limit: Int = 10, $offset: Int = 10, $root_order: [roots_order_by!] = {}) {
+export const getRootHistoryByIdQuery = gql`
+  query getRootHistoryById($row_data: jsonb!, $table_name: String!) {
+    audit_logged_actions(where: {table_name: {_eq: $table_name}, row_data: {_contains: $row_data}}, order_by: {action_tstamp_clk: asc})  {
+      action
+      action_tstamp_clk
+      action_tstamp_stm
+      action_tstamp_tx
+      application_name
+      changed_fields
+      client_addr
+      client_port
+      client_query
+      event_id
+      hasura_user
+      relid
+      row_data
+      schema_name
+      session_user_name
+      statement_only
+      table_name
+      transaction_id
+    }
+  } 
+`;
+
+export const getBrowseRootQuery = gql `
+  query BrowseRoot($where: roots_bool_exp!) {
     roots_aggregate(where: $where) {
       aggregate {
         count
       }
     }
-    roots(where: $where, limit: $limit, offset: $offset, order_by: $root_order) {
+    roots(where: $where) {
       cognate
       createdAt
       crossref
@@ -324,23 +349,15 @@ export const getRootsQuery = gql`
       sense
       symbol
       updatedAt
+      userId
       variant
-      user {
-        username
-        id
-      }
     }
   }
-  `;
-  
-export const getAnonRootsQuery = gql`
-  query getAnonRootsQuery($where: roots_bool_exp = {}, $limit: Int = 10, $offset: Int = 10, $root_order: [roots_order_by!] = {}) {
-    roots_aggregate(where: $where) {
-      aggregate {
-        count
-      }
-    }
-    roots(where: $where, limit: $limit, offset: $offset, order_by: $root_order) {
+`;
+
+export const getExactRootQuery = gql `
+  query ExactRoot($root: String!) {
+    roots(where: {root: {_ilike: $root}}) {
       cognate
       createdAt
       crossref
@@ -355,6 +372,7 @@ export const getAnonRootsQuery = gql`
       sense
       symbol
       updatedAt
+      userId
       variant
     }
   }
@@ -910,7 +928,6 @@ export const insertUserMutation = gql `
   }
 `;
 
-
 export const insertUserRoleMutation = gql `
   mutation insertUserRoleMutation($userId: Int! $roleId: Int) {
     insert_user_roles_one(object: {userId: $userId, roleId: $roleId}) {
@@ -1034,6 +1051,7 @@ export const updateRootMutation = gql`
       editnote
       english
       id
+      link
       nicodemus
       salish
       root
