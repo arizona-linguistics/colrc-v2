@@ -8,6 +8,7 @@ import ElicitationsPlayer from '../utils/ElicitationsPlayer';
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
 import { Icon, Button } from "semantic-ui-react";
+import { handleErrors } from '../utils/messages';
 
 function Table({
   columns,
@@ -17,6 +18,8 @@ function Table({
   pageCount: controlledPageCount,
   selectValues, 
 }) {
+
+  const { user } = useAuth();
 
   const filterTypes = React.useMemo(
     () => ({
@@ -234,6 +237,7 @@ function Table({
 
 
 function ElicitationsTable(props) {
+  let history = useHistory()
 
   const columns = React.useMemo(
     () => [
@@ -321,7 +325,7 @@ const [loading, setLoading] = React.useState(false)
 const [pageCount, setPageCount] = React.useState(0)
 //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
 const fetchIdRef = React.useRef(0)
-const { client } = useAuth();
+const { client, setAuthTokens, user } = useAuth();
 
 
 async function getElicitations(limit, offset, sortBy, filters) {
@@ -372,13 +376,15 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
       })
       .catch((error) => {
         console.log(error)
+        handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
         setData([])
         setPageCount(0)
         setLoading(false)
+        history.push('./login')
       })
     }
   }, 1000)
-}, [])
+}, [history, setAuthTokens])
 
 
   return (

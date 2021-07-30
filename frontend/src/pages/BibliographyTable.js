@@ -1,10 +1,12 @@
 import React from 'react'
+import { Link,useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getBibliographyQuery } from '../queries/queries'
 import { sortReshape, filterReshape } from "../utils/reshapers"
 import TableStyles from "../stylesheets/table-styles"
+import { handleErrors } from '../utils/messages';
 
 function Table({
   columns,
@@ -14,6 +16,8 @@ function Table({
   pageCount: controlledPageCount,
   globalSearch
 }) {
+
+  const { user } = useAuth();
 
   //console.log("Inside table, I have select values: ", selectValues)
   //console.log("Inside table, I have a globalSearch ", globalSearch)
@@ -256,6 +260,7 @@ function Table({
 
 
 function BibliographyTable(props) {
+  let history = useHistory()
 
     const columns = React.useMemo(
       () => [
@@ -307,7 +312,7 @@ function BibliographyTable(props) {
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
   const fetchIdRef = React.useRef(0)
-  const { client } = useAuth();
+  const { client, setAuthTokens, user } = useAuth();
   
   
   async function getBibliography(limit, offset, sortBy, filters) {
@@ -350,13 +355,15 @@ function BibliographyTable(props) {
         })
         .catch((error) => {
           console.log(error)
+          handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
           setData([])
           setPageCount(0)
           setLoading(false)
+          history.push('./login')
         })
       }
     }, 1000)
-  }, [])
+  }, [history, setAuthTokens])
   
   
     return (
