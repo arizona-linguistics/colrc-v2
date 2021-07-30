@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link,useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getElicitationSetsQuery } from './../queries/queries'
 import ElicitationsPlayer from '../utils/ElicitationsPlayer';
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
+import { Icon, Button } from "semantic-ui-react";
 import { handleErrors } from '../utils/messages';
 
 function Table({
@@ -241,7 +242,40 @@ function ElicitationsTable(props) {
   const columns = React.useMemo(
     () => [
       {
+        Header: 'History/Edit',
+        disableFilters: true,
+        sortable: false,
+        width: 100,
+        show: true,
+        id: 'historyEdit',
+        label: 'History/Edit',
+        tableName: 'ElicitationsTable',
+        Cell: ({row, original}) => (
+          <div className="buttons">
+            <Link 
+              to={{
+                pathname: "/elicitationhistory",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini blue icon button">
+                <Icon name="history" />
+              </button>              
+            </Link>
+            <Link 
+              to={{
+                pathname: "/editelicitation",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini black icon button">
+                <Icon name="edit" />
+              </button>              
+            </Link>
+          </div>
+        )
+      }, 
+      {
         Header: 'Audio',
+        disableFilters: true,
         id: 'audio',
         accessor: 'elicitationsets_elicitationfiles', 
         show: true,
@@ -253,13 +287,13 @@ function ElicitationsTable(props) {
         Header: 'Transcription',
         accessor: 'transcription',
         tableName: 'Elicitations',
-        show: false,
+        show: true,
         id: 'transcription',
         label: 'Transcription'
       },
       {
         Header: 'Prompt',
-        accessor: 'title',
+        accessor: 'prompt',
         tableName: 'Elicitations',
         show: true,
         id: 'prompt',
@@ -277,7 +311,7 @@ function ElicitationsTable(props) {
         Header: 'Language',
         accessor: 'language',
         tableName: 'Elicitations',
-        show: true,
+        show: false,
         id: 'language',
         label: 'Language'
       }
@@ -312,6 +346,7 @@ async function getElicitations(limit, offset, sortBy, filters) {
     // }
     // console.log("this is res.data ", res.data)
     // console.log("this is texts ", texts)
+    console.log(res.data)
     return res.data
   }  
 
@@ -331,7 +366,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
   setTimeout(() => {
     if (fetchId === fetchIdRef.current) {
       const controlledSort = sortReshape(sortBy) 
-      const controlledFilter = filterReshape(filters, globalFilter, [])
+      const controlledFilter = filterReshape(filters, globalFilter, ["language", "prompt", "speaker", "transcription"])
       getElicitations(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
       .then((data) => {
         let totalCount = data.elicitationsets_aggregate.aggregate.count

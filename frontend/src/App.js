@@ -21,6 +21,7 @@ import EditRoot from './pages/EditRoot';
 import DeleteRoot from './pages/DeleteRoot';
 import AffixHistory from './pages/AffixHistory';
 import RootHistory from './pages/RootHistory';
+import ElicitationHistory from "./pages/ElicitationHistory";
 import UserList from './pages/UserList';
 import AddUser from './pages/AddUser';
 import Affixes from './pages/Affixes';
@@ -31,6 +32,7 @@ import Metadata from './pages/Metadata';
 import Log from './pages/Log';
 import Audios from './pages/Audios';
 import Elicitations from './pages/Elicitations';
+import EditElicitation from "./pages/EditElicitation";
 import Spelling from './pages/Spelling';
 import Bibliography from './pages/Bibliography';
 import Search from './pages/Search';
@@ -159,6 +161,7 @@ function App(props) {
               <Route path="/imageviewer" component={ImageViewer} />
               <Route path="/splitview" component={SplitView} />
               <PrivateRoute path="/elicitations" component={Elicitations} key="Elicitations" />
+              <PrivateRoute path="/editelicitation" component={EditElicitation} key="EditElicitation" />
               <PrivateRoute path="/addaffix" component={AddAffix} key="AddAffix" />
               <PrivateRoute path="/editaffix" component={EditAffix} key="EditAffix" />
               <PrivateRoute path="/deleteaffix" component={DeleteAffix} key="DeleteAffix" />
@@ -170,6 +173,7 @@ function App(props) {
               <PrivateRoute path="/deleteroot" component={DeleteRoot} key="DeleteRoot" /> 
               <PrivateRoute path="/affixhistory" component={AffixHistory} key="AffixHistory" />
               <PrivateRoute path="/roothistory" component={RootHistory} key="RootHistory" />
+              <PrivateRoute path="/elicitationhistory" component={ElicitationHistory} key="ElicitationHistory" />
               <PrivateRoute path="/log" component={Log} key="Log" />
               <PrivateRoute path="/users" component={Users} key="Users" />
               <PrivateRoute path="/userprofile" component={UserProfile} key="UserProfile" />
