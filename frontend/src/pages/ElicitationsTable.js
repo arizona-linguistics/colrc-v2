@@ -362,7 +362,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
   setTimeout(() => {
     if (fetchId === fetchIdRef.current) {
       const controlledSort = sortReshape(sortBy) 
-      const controlledFilter = filterReshape(filters, globalFilter, [])
+      const controlledFilter = filterReshape(filters, globalFilter, ["language", "prompt", "speaker", "transcription"])
       getElicitations(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
       .then((data) => {
         let totalCount = data.elicitationsets_aggregate.aggregate.count
