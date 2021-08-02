@@ -369,59 +369,6 @@ export const getRootsQuery = gql`
     }
   }
   `;
-  
-export const getAnonRootsQuery = gql`
-  query getAnonRootsQuery($where: roots_bool_exp = {}, $limit: Int = 10, $offset: Int = 10, $root_order: [roots_order_by!] = {}) {
-    roots_aggregate(where: $where) {
-      aggregate {
-        count
-      }
-    }
-    roots(where: $where, limit: $limit, offset: $offset, order_by: $root_order) {
-      cognate
-      createdAt
-      crossref
-      editnote
-      english
-      grammar
-      id
-      nicodemus
-      number
-      root
-      salish
-      sense
-      symbol
-      updatedAt
-      variant
-    }
-  }
-`;
-
-export const getRootByIdQuery = gql`
-  query GetRootById($id: Int!) {
-    roots_by_pk(id: $id) {
-      editnote
-      createdAt
-      updatedAt
-      id
-      english
-      grammar
-      nicodemus
-      number
-      root
-      salish
-      sense
-      symbol
-      crossref
-      cognate
-      variant
-      user {
-        username
-        id
-      }
-    }
-  }
-`;
 
 export const getRootHistoryByIdQuery = gql`
   query getRootHistoryById($row_data: jsonb!, $table_name: String!) {
@@ -498,6 +445,135 @@ export const getExactRootQuery = gql `
     }
   }
 `;
+
+export const getRootByIdQuery = gql`
+  query GetRootById($id: Int!) {
+    roots_by_pk(id: $id) {
+      editnote
+      createdAt
+      updatedAt
+      id
+      english
+      grammar
+      nicodemus
+      number
+      root
+      salish
+      sense
+      symbol
+      crossref
+      cognate
+      variant
+      user {
+        username
+        id
+      }
+    }
+  }
+`;
+
+export const getAnonRootsQuery = gql`
+  query getAnonRootsQuery($where: roots_bool_exp = {}, $limit: Int = 10, $offset: Int = 10, $root_order: [roots_order_by!] = {}) {
+    roots_aggregate(where: $where) {
+      aggregate {
+        count
+      }
+    }
+    roots(where: $where, limit: $limit, offset: $offset, order_by: $root_order) {
+      cognate
+      createdAt
+      crossref
+      editnote
+      english
+      grammar
+      id
+      nicodemus
+      number
+      root
+      salish
+      sense
+      symbol
+      updatedAt
+      variant
+    }
+  }
+`;
+
+// export const getRootHistoryByIdQuery = gql`
+//   query getRootHistoryById($row_data: jsonb!, $table_name: String!) {
+//     audit_logged_actions(where: {table_name: {_eq: $table_name}, row_data: {_contains: $row_data}}, order_by: {action_tstamp_clk: asc})  {
+//       action
+//       action_tstamp_clk
+//       action_tstamp_stm
+//       action_tstamp_tx
+//       application_name
+//       changed_fields
+//       client_addr
+//       client_port
+//       client_query
+//       event_id
+//       hasura_user
+//       relid
+//       row_data
+//       schema_name
+//       session_user_name
+//       statement_only
+//       table_name
+//       transaction_id
+//     }
+//   } 
+// `;
+
+// export const getBrowseRootQuery = gql `
+//   query BrowseRoot($where: roots_bool_exp!) {
+//     roots_aggregate(where: $where) {
+//       aggregate {
+//         count
+//       }
+//     }
+//     roots(where: $where) {
+//       cognate
+//       createdAt
+//       crossref
+//       editnote
+//       english
+//       grammar
+//       id
+//       nicodemus
+//       number
+//       root
+//       salish
+//       sense
+//       symbol
+//       updatedAt
+//       userId
+//       variant
+//     }
+//   }
+// `;
+
+// export const getExactRootQuery = gql `
+//   query ExactRoot($root: String!) {
+//     roots(where: {root: {_ilike: $root}}) {
+//       cognate
+//       createdAt
+//       crossref
+//       editnote
+//       english
+//       grammar
+//       id
+//       nicodemus
+//       number
+//       root
+//       salish
+//       sense
+//       symbol
+//       updatedAt
+//       userId
+//       variant
+//     }
+//   }
+// `;
 
 // getStems
 
@@ -704,6 +780,27 @@ export const getTextsQuery = gql`
 
 // getUsers
 
+export const getUserByIdQuery = gql`
+query getUserByID($id: Int!) {
+  users_by_pk(id: $id) {
+    createdAt
+    email
+    first
+    id
+    last
+    password
+    updatedAt
+    username
+    user_roles {
+      role {
+        id
+        role_code
+        role_value
+      }
+    }
+  }
+}`;
+
 export const getUsersQuery = gql`
 query getUsersQuery($limit: Int, $offset: Int) {
   users(limit: $limit, offset: $offset) {
@@ -722,6 +819,8 @@ query getUsersQuery($limit: Int, $offset: Int) {
       userId
       role {
         role_value
+        role_code
+        id
       }
     }
   }
@@ -1073,6 +1172,7 @@ export const updateRootMutation = gql`
       editnote
       english
       id
+      link
       nicodemus
       salish
       root
@@ -1117,19 +1217,29 @@ export const updateStemMutation = gql`
   }
 `;
 
-export const updateUserMutation = gql`
-  mutation($first: String!, $last: String!, $username: String!, $email: String!, $password: String!) {
-    updateUser_M(first: $first, last: $last, username: $username, email: $email, password: $password) {
+
+export const updateUserMutation = gql `
+mutation updateUser($id: Int!, $changes: users_set_input) {
+  update_users_by_pk (
+		pk_columns: {id: $id}
+		_set: $changes
+  ) {
       id
       first
       last
       username
       email
       password
-      roles
+      user_roles {
+        role {
+          id
+          role_code
+          role_value
+        }     
+      }
     }
   }
-`;
+`
 
 
 // Mutations - delete

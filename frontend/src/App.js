@@ -24,6 +24,7 @@ import RootHistory from './pages/RootHistory';
 import ElicitationHistory from "./pages/ElicitationHistory";
 import UserList from './pages/UserList';
 import AddUser from './pages/AddUser';
+import EditUser from './pages/EditUser';
 import Affixes from './pages/Affixes';
 import Roots from './pages/Roots';
 import Stems from './pages/Stems';
@@ -130,6 +131,7 @@ function App(props) {
       user.roles = roles
       localStorage.setItem("user", JSON.stringify(user))
       setUser(user)
+      console.log(user)
       broadCastSuccess(`Successfully logged in as: ${user.username}`)
     }
   }
@@ -179,6 +181,7 @@ function App(props) {
               <PrivateRoute path="/userprofile" component={UserProfile} key="UserProfile" />
               <PrivateRoute path="/userlist" component={UserList} key="UserList" />
               <PrivateRoute path="/adduser" component={AddUser} key="AddUser" />
+              <PrivateRoute path="/edituser" component={EditUser} key="EditUser" />
               <Route path="/upload" component={Upload} key="Upload" />
               <Route path="/crap/" component={TestUpload} key="TestUpload" />
               <Route path="/search" component={Search} key="Search" />

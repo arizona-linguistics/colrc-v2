@@ -84,7 +84,7 @@ const NavBarMobile = ({
       Bibliography
     </Menu.Item>
     {currentUser && (
-      currentUser.roles.includes('manager') || currentUser.roles.includes('update') &&
+      (currentUser.roles.includes('manager') || currentUser.roles.includes('update')) &&
         (<Menu.Item as={NavLink} to="/elicitations" name="Elicitations" size='mini' key="minielicitations">
           <Icon name="file audio outline" />
             Elicitations
@@ -92,7 +92,7 @@ const NavBarMobile = ({
         )
     )}
     {currentUser && (
-      currentUser.roles.includes('manager') || currentUser.roles.includes('update') &&
+      (currentUser.roles.includes('manager') || currentUser.roles.includes('update')) &&
         (<Menu.Item as={NavLink} to="/log" name="Log" size='mini' key="minilog">
           <Icon name="history" />
             Log
@@ -145,12 +145,12 @@ const NavBarDesktop = ({ rightItems, currentUser }) => (
        Bibliography
     </Menu.Item>
     { currentUser && (
-      currentUser.roles.includes('manager') || currentUser.roles.includes('update') &&
+      (currentUser.roles.includes('manager') || currentUser.roles.includes('update')) &&
       (<Menu.Item as={NavLink} to="/elicitations" name="Elicitations" key="melicitations">Elicitations</Menu.Item>) 
       )
     }
     { currentUser && (
-      currentUser.roles.includes('manager') || currentUser.roles.includes('update') &&
+      (currentUser.roles.includes('manager') || currentUser.roles.includes('update')) &&
       (<Menu.Item as={NavLink} to="/log" name="Log" key="mlog">Log</Menu.Item>) 
       )
     }
