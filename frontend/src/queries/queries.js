@@ -229,7 +229,7 @@ export const getElicitationSetsQuery = gql`
       id
       language
       speaker
-      title
+      prompt
       transcription
       user {
         email
@@ -247,6 +247,43 @@ export const getElicitationSetsQuery = gql`
       }
     }
   }
+`;
+
+export const getElicitationSetByIdQuery = gql`
+  query GetElicitationById($id: Int!) {
+    elicitationsets_by_pk(id: $id) {
+      id
+      language
+      prompt
+      speaker
+      transcription
+    }
+  }
+`;
+
+export const getElicitationSetHistoryByIdQuery = gql`
+  query getElicitationSetHistoryById($row_data: jsonb!, $table_name: String!) {
+    audit_logged_actions(where: {table_name: {_eq: $table_name}, row_data: {_contains: $row_data}}, order_by: {action_tstamp_clk: asc})  {
+      action
+      action_tstamp_clk
+      action_tstamp_stm
+      action_tstamp_tx
+      application_name
+      changed_fields
+      client_addr
+      client_port
+      client_query
+      event_id
+      hasura_user
+      relid
+      row_data
+      schema_name
+      session_user_name
+      statement_only
+      table_name
+      transaction_id
+    }
+  } 
 `;
 
 // getLogs
@@ -1088,6 +1125,30 @@ export const updateAffixMutation = gql`
     }
   }
 `;
+
+export const updateElicitationSetMutation = gql `
+  mutation updateAnElicitation($id: Int!, $editnote: String!, $language: String!, $prompt: String!, $speaker: String!, $transcription: String!) {
+    update_elicitationsets_by_pk(pk_columns: {id: $id},
+      _set: {
+        editnote: $editnote,
+        language: $language,
+        prompt: $prompt
+        speaker: $speaker
+        transcription: $transcription
+      }
+    )
+    {
+      createdAt
+      editnote
+      id
+      language
+      prompt
+      transcription
+      updatedAt
+      userId
+    }
+  }
+`
 
 export const updateRootMutation = gql`
   mutation updateARoot($id: Int!, $editnote: String!, $english: String!, $salish: String, $nicodemus: String!, $root: String!, $number: Int, $sense: String, $symbol: String, $grammar: String, $crossref: String, $variant: String, $cognate: String){

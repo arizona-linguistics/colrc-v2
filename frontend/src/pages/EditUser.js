@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import { Grid, Button, Label, Message, Header, Input, Dropdown } from 'semantic-ui-react';
 import * as Yup from 'yup';
-import { getUserByIdQuery, getRolesQuery, updateUserMutation } from './../queries/queries'
+import { getUserByIdQuery, getRolesQuery, updateUserMutation, insertUserRoleMutation } from './../queries/queries'
 import { useQuery } from '@apollo/react-hooks'
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/auth";
@@ -57,19 +57,24 @@ function EditUser(props) {
         //console.log(values)
         try {
         const result = await client.mutate({
-            mutation: updateUserMutation,
-            //these are the variables allowed to be passed into the insertUserWithRole mutation in queries.js
+            mutation: insertUserRoleMutation,
             variables: {
-                id: values.id,
-                changes: {            
-                    first: values.first,
-                    last: values.last,
-                    username: values.username,
-                    email: values.email,
-                    password: values.password,
-                    id: values.id
-                }
+                userId: values.id
+
             }
+            // mutation: updateUserMutation,
+            // //these are the variables allowed to be passed into the insertUserWithRole mutation in queries.js
+            // variables: {
+            //     id: values.id,
+            //     changes: {            
+            //         first: values.first,
+            //         last: values.last,
+            //         username: values.username,
+            //         email: values.email,
+            //         password: values.password,
+            //         id: values.id
+            //     }
+            // }
         })
         if (result.error) {
             handleErrors(result.error)
@@ -104,7 +109,7 @@ function EditUser(props) {
             h = { 
                 key: item.role.id.toString(),
                 value: item.role.role_code.toString(), 
-                text: item.role.role_value.toString()        
+                text: item.role.role_value.toString(),       
             }
             res.push(h)
         })
@@ -264,11 +269,11 @@ function EditUser(props) {
                         <Grid.Column width={10}>
                             <Dropdown
                                 id="roles"
-                                placeholder="this user's roles are "
+                                placeholder="this user does not yet have a role"
                                 error= { errors.length > 0 }
                                 fluid
                                 multiple
-                                options = { values.roles || [] }
+                                options = { roleOptions(rolesData.roles) }
                                 // active= { values.roles || [] }
                                 value= { values.roles || [] }
                                 onChange = {(e, data) => setFieldValue(data.id, data.value)}
