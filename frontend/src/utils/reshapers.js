@@ -10,7 +10,7 @@ export function sortReshape(sortBy) {
         }
         res.push(h)
     })
-
+    res.push({"id": "asc"})
     console.log("The result of the sort: ", res)
     
     return(res)
