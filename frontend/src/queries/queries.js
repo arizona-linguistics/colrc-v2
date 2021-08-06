@@ -1095,6 +1095,51 @@ export const insertUserRoleMutation = gql `
   } */
   
 
+export const insertRolesForUser = gql `
+  mutation insertRolesForUser($roles: [user_roles_insert_input!]!) {
+    insert_user_roles(objects: $roles, on_conflict: {constraint: user_roles_pkey, update_columns: roleId }) {
+      affected_rows
+      returning {
+        createdAt
+        roleId
+        updatedAt
+        userId
+        user_roles {
+          email
+          first
+          id
+          last
+        }
+        role_users {
+          createdAt
+          id
+          role_code
+          role_value
+          updatedAt
+        }
+      }
+    }
+  }
+`
+
+// Variables for insertRolesForUser
+// {
+//   "roles": [
+//     {
+//     	"userId": 23,
+//     	"roleId": 3,
+//     	"createdAt": "now()",
+//     	"updatedAt": "now()"
+//   	},
+//     {
+//     	"userId":23,
+//     	"roleId": 2,
+//     	"createdAt": "now()",
+//     	"updatedAt": "now()"
+//   	}
+//   ]
+// }
+
 // Mutations - update - in alpha order
 
 export const updateAffixMutation = gql`
@@ -1219,28 +1264,56 @@ export const updateStemMutation = gql`
 
 
 export const updateUserMutation = gql `
-mutation updateUser($id: Int!, $changes: users_set_input) {
-  update_users_by_pk (
-		pk_columns: {id: $id}
-		_set: $changes
-  ) {
-      id
-      first
-      last
-      username
-      email
-      password
-      user_roles {
-        role {
+  mutation updateUser($userId: Int!, $changes: users_set_input, $insertRoles: [user_roles_insert_input!]!, $deleteRoles: user_roles_bool_exp!) {
+    update_users_by_pk (
+      pk_columns: {id: $userId}
+      _set: $changes
+      ) {
+        id
+        first
+        last
+        username
+        email
+        password
+        user_roles {
+          role {
+            id
+            role_code
+            role_value
+          }     
+        }
+      }
+    insert_user_roles(objects: $insertRoles, on_conflict: {constraint: user_roles_pkey, update_columns: roleId }) {
+      affected_rows
+      returning {
+        createdAt
+        roleId
+        updatedAt
+        userId
+        user_roles {
+          email
+          first
+          id
+          last
+        }
+        role_users {
+          createdAt
           id
           role_code
           role_value
-        }     
+          updatedAt
+        }
+      }
+    }
+    delete_user_roles(where: $deleteRoles) {
+      affected_rows
+      returning {
+        roleId
+        userId
       }
     }
   }
 `
-
 
 // Mutations - delete
 
@@ -1268,6 +1341,26 @@ export const deleteStemMutation = gql`
   }
 `;
 
+export const deleteUserRoles = gql `
+  mutation deleteUserRoles ($userId: Int!){
+    delete_user_roles(where: {userId: {_eq: $userId}}) {
+      affected_rows
+      returning {
+        roleId
+        userId
+      }
+    }
+  }
+`
+
+export const deleteUserRole = gql `
+mutation deleteUserRole($userId: Int!, $roleId: Int!) {
+  delete_user_roles_by_pk(roleId: $roleId, userId: $userId) {
+    roleId
+    userId
+  }
+}
+`
 
 
 

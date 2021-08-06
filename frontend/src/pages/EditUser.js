@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import { Grid, Button, Label, Message, Header, Input, Dropdown } from 'semantic-ui-react';
 import * as Yup from 'yup';
-import { getUserByIdQuery, getRolesQuery, updateUserMutation, insertUserRoleMutation } from './../queries/queries'
+import { updateUserMutation, getUserByIdQuery, getRolesQuery } from './../queries/queries'
 import { useQuery } from '@apollo/react-hooks'
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/auth";
@@ -50,43 +50,102 @@ function EditUser(props) {
     //     return <div>{JSON.stringify(rolesData)}</div>
     // }
 
+   // {"roles":[{"id":1,"role_value":"Manager","role_code":"manager","__typename":"roles"},{"id":2,"role_value":"Update","role_code":"update","__typename":"roles"},{"id":3,"role_value":"View","role_code":"view","__typename":"roles"}]}
 
-    
    // tell the system what to do when the 'submit' button is selected 
-    async function onFormSubmit (values, setSubmitting) {
-        //console.log(values)
-        try {
-        const result = await client.mutate({
-            mutation: insertUserRoleMutation,
-            variables: {
-                userId: values.id
+   // build a string based on the values;
+   // convert the string to a gql schema;
+   // execute the mutation, with variables like this:
 
+//    {
+// 	    "userId" : 22,
+//      "changes": {
+//      "first": "Brendan"
+//    },
+//   "insertRoles": [
+//     {
+//       "roleId": 1,
+//       "userId": 22
+//     },
+//     {
+//       "roleId": 3,
+//       "userId": 22
+//     }
+//   ],
+//   "deleteRoles": { "_and": [{"userId": {"_eq": 22}}, {"_or": [{"roleId": {"_eq": 1}}, {"roleId": {"_eq": 3}}]}]}
+//  }
+
+
+    async function onFormSubmit (values, originalRoles, setSubmitting) {
+        console.log(values)
+        console.log(originalRoles)
+
+        try {
+            let roleLookup = {}
+            rolesData.roles.forEach(item => {
+                roleLookup[item.role_code] = item.id
+            })
+            let insertRoles = []
+            let deleteRoles = {}
+            let orCond = []
+            let andCond = []
+            values.roles.forEach(item => {
+                if (!originalRoles.includes(item)) {
+                    let h = {
+                        userId: values.id,
+                        roleId: roleLookup[item]
+                    }
+                    insertRoles.push(h)
+                }
+            })
+            originalRoles.forEach(item => {
+                if (!values.roles.includes(item)) {
+                    let h = {
+                        "roleId": { "_eq": roleLookup[item]} 
+                    }
+                    orCond.push(h)
+                }
+            })
+            let h = {
+                "userId": {"_eq": values.id}
             }
-            // mutation: updateUserMutation,
-            // //these are the variables allowed to be passed into the insertUserWithRole mutation in queries.js
-            // variables: {
-            //     id: values.id,
-            //     changes: {            
-            //         first: values.first,
-            //         last: values.last,
-            //         username: values.username,
-            //         email: values.email,
-            //         password: values.password,
-            //         id: values.id
-            //     }
-            // }
-        })
-        if (result.error) {
-            handleErrors(result.error)
-            setSubmitting(false)
-        } else {
-            broadCastSuccess(`User ${values.username} successfully updated!`)
-            setSubmitting(false)
-            setHasUpdated(true)
-        }
+            andCond.push(h)
+            if (orCond.length > 0) {
+                andCond.push({ "_or": orCond })
+            }
+            else {
+                andCond.push({"_or": { "roleId": { "_eq": -1} }})
+            }
+            deleteRoles = { "_and": andCond }
+
+            console.log('insertRoles = ', JSON.stringify(insertRoles)) 
+            console.log('deleteRoles = ', JSON.stringify(deleteRoles))             
+            const result = await client.mutate({
+                mutation: updateUserMutation,
+                variables: {
+                    userId: values.id,
+                    changes: {            
+                        first: values.first,
+                        last: values.last,
+                        username: values.username,
+                        email: values.email,
+                        password: values.password
+                    },
+                    insertRoles: insertRoles,
+                    deleteRoles: deleteRoles
+                }
+            })
+            if (result.error) {
+                handleErrors(result.error)
+                setSubmitting(false)
+            } else {
+                broadCastSuccess(`User ${values.username} successfully updated!`)
+                setSubmitting(false)
+                setHasUpdated(true)
+            }
         } catch (error) {
-        handleErrors(error)
-        setSubmitting(false)
+            handleErrors(error)
+            setSubmitting(false)
         }
     }
     
@@ -105,13 +164,7 @@ function EditUser(props) {
     function userRoleOptions(options) {
         let res = []
         options.forEach((item) => {
-            let h = {}
-            h = { 
-                key: item.role.id.toString(),
-                value: item.role.role_code.toString(), 
-                text: item.role.role_value.toString(),       
-            }
-            res.push(h)
+            res.push(item.role.role_code.toString())
         })
         return res
     }
@@ -153,6 +206,8 @@ function EditUser(props) {
     //     return res
     // }
 
+    let originalRoles = userData.users_by_pk.user_roles ? userRoleOptions(userData.users_by_pk.user_roles) : []
+
     return (
         <>
         <Grid centered>
@@ -170,7 +225,7 @@ function EditUser(props) {
             last: userData.users_by_pk.last,
             username: userData.users_by_pk.username,
             email: userData.users_by_pk.email,
-            roles: userData.users_by_pk.user_roles ? userRoleOptions(userData.users_by_pk.user_roles) : [] ,
+            roles: originalRoles,
             password: userData.users_by_pk.password, 
         }}
         validationSchema={editUserSchema}
@@ -181,7 +236,7 @@ function EditUser(props) {
                 buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => onFormSubmit(values, setSubmitting)
+                    onClick: () => onFormSubmit(values, originalRoles, setSubmitting)
                 },
                 {
                     label: 'No',
@@ -211,6 +266,7 @@ function EditUser(props) {
                             />
                             {errors.first && touched.first && ( <div className="input-feedback">{errors.first}</div>
                             )}
+                            
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -273,8 +329,8 @@ function EditUser(props) {
                                 error= { errors.length > 0 }
                                 fluid
                                 multiple
+                                clearable
                                 options = { roleOptions(rolesData.roles) }
-                                // active= { values.roles || [] }
                                 value= { values.roles || [] }
                                 onChange = {(e, data) => setFieldValue(data.id, data.value)}
                                 onBlur={ handleBlur }
