@@ -10,7 +10,7 @@ function BrowseList() {
 
     return ( 
         <List horizontal>
-            {roots.map((root) => <List.Item><Link to={{pathname: "/browseroot", search:`?root=a%&label=a`}} target="_top">{root}</Link></List.Item>)}
+            {roots.map((root) => <List.Item><Link to={{pathname: "/browseroot", search:`?root=${root}%&label=${root}`}} target="_top">{root}</Link></List.Item>)}
         </List>
     )
 }
