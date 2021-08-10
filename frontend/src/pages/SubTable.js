@@ -62,7 +62,7 @@ function SubTable({ subData }) {
       accessor: 'source', 
       Cell: ({ row }) => (
         row.original.type === "text"
-        ? <span><a href={row.original.path} target="_blank" rel="noopener noreferrer">{row.original.title}</a> and <Link to={{pathname: "/metadata", search:`?metadata=${row.original.metadata}`}} target="_blank">{row.original.metadata}</Link></span>
+        ? <span><a href={row.original.path} target="_blank" rel="noopener noreferrer">{row.original.title}</a></span>
         : (row.original.type === "audio"
           ? <AudioPlayer key={row.original.key} title={row.original.title} speaker={row.original.speaker} sources={row.original.sources} />
           : (row.original.type ==="textimages"

@@ -117,7 +117,7 @@ export function textReshape(jsonData) {
               fileType: json[i]["texts_textfiles"][j].fileType,
               msType: json[i]["texts_textfiles"][j].msType,
               path: json[i]["texts_textfiles"][j].textfile_with_path,
-              metadata: json[i]["texts_textfiles"][j].textfilemetadata.textFileId,
+              metadata: json[i]["texts_textfiles"][j]["textfilemetadata"].length != 0 ? json[i]["texts_textfiles"][j]["textfilemetadata"][0].metadata : [],
               type: "text",
               key: k
             }
