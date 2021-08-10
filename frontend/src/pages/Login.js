@@ -30,7 +30,7 @@ function Login(props) {
         errorPolicy: 'all'
       })
       if (!tokenQuery.data.loginUser_Q) {
-        handleErrors(`Username or Password is incorrect`) 
+        handleErrors(`Username or Password is incorrect or your account is inactive`) 
         setIsError(true)
         setSubmitting(false)
       }
@@ -46,20 +46,6 @@ function Login(props) {
     catch(e) {
       handleErrors(e)
     }
-
-    // axios.post("http://backend:4000/api", {
-    //   userName,
-    //   password
-    // }).then(result => {
-    //   if (result.status === 200) {
-    //     setAuthTokens(result.data);
-    //     setLoggedIn(true);
-    //   } else {
-    //     setIsError(true);
-    //   }
-    // }).catch(e => {
-    //   setIsError(true);
-    // });
   }
 
   let loginSchema = Yup.object().shape({
@@ -72,7 +58,6 @@ function Login(props) {
 
   if (isLoggedIn) {
     return <Redirect to={referer} />;
-    //return <Redirect to="/" />;
   }
 
   return (
@@ -137,7 +122,7 @@ function Login(props) {
           </Formik>
           <Message>
             <Link to="/signup">Don't have an account?</Link>
-            { isError &&<Error>The username or password provided were incorrect!</Error> }
+            { isError &&<Error>Login failed - contact us if you need assistance</Error> }
           </Message>
       </Grid.Column>
       </Grid>

@@ -32,6 +32,7 @@ export function GlobalFilter({
   )
 }
 
+
 // Define a default UI for filtering
 export function DefaultColumnFilter({
   pageCount, 

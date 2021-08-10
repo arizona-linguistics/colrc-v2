@@ -20,7 +20,9 @@ let rightMenuItems = (currentUser) => {
     {to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
     ]
     if (currentUser){
-      rightItems.push({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
+      rightItems.push({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'},
+      { to: "/contact", icon: 'mail outline', content:"Contact Us", key: 'rcontact'}
+      )
     }
     else {
       rightItems.push(

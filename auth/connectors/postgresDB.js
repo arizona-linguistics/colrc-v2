@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({path:__dirname+'./../.env'});
 const axios = require('axios');
 const _ = require('lodash');
-const { noRoleError } = require('../errors/error');
+const { noRoleError, inactiveRoleError } = require('../errors/error');
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -100,14 +100,17 @@ const loginUser_C = input => {
     default_role = ''
     user.roles.forEach(function(role) {
       hasura_roles.push(role.role_code)
-      if (role.role_code === 'manager'){
+      if (role.role_code === 'inactive') {
+        default_role = 'inactive'
+      }
+      if (default_role !== 'inactive' && role.role_code === 'manager'){
         default_role = 'manager'
       }
-      if (default_role !== 'manager' && role.role_code === 'update') {
+      if (default_role !== 'inactive' && default_role !== 'manager' && role.role_code === 'update') {
         default_role = 'update'
       }
-      if (default_role !== 'manager' && default_role !== 'update') {
-        default_role = role.role_code
+      if (default_role !== 'inactive' && default_role !== 'manager' && default_role !== 'update') {
+        default_role = 'view'
       }
     })
     console.log("Roles and default role")
@@ -117,25 +120,29 @@ const loginUser_C = input => {
     console.log(process.env.ALGORITHM)
     console.log(process.env.EXPIRES_IN)
     if (user) {
-      return [{
-        password: createJwtToken(
-          {
-            "id": user.id,
-            "email": user.email,
-            "username": user.username,
-            "application.name": 'colrc',
-            "https://hasura.io/jwt/claims": {
-              "x-hasura-allowed-roles": hasura_roles,
-              "x-hasura-default-role": default_role,
-              "x-hasura-user-id": user.id.toString()
+      if (default_role === 'inactive'){
+        return { "token": false }
+      } else {
+        return [{
+          password: createJwtToken(
+            {
+              "id": user.id,
+              "email": user.email,
+              "username": user.username,
+              "application.name": 'colrc',
+              "https://hasura.io/jwt/claims": {
+                "x-hasura-allowed-roles": hasura_roles,
+                "x-hasura-default-role": default_role,
+                "x-hasura-user-id": user.id.toString()
+              }
+            }, 
+            { 
+              algorithm: process.env.ALGORITHM,
+              expiresIn: process.env.EXPIRES_IN
             }
-          }, 
-          { 
-            algorithm: process.env.ALGORITHM,
-            expiresIn: process.env.EXPIRES_IN
-          }
-        )
-      }]
+          )
+        }]
+      }
     } // if
   }) // then
   // do not feed password back to query, password stays in database

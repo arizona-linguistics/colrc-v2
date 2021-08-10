@@ -1,37 +1,43 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
+import { DefaultColumnFilter, GlobalFilter, SelectColumnFilter, fuzzyTextFilterFn } from '../utils/Filters';
+import { customRoleSort, sortTypes } from '../utils/Sorters';
 import { Icon, Button } from "semantic-ui-react";
 import TableStyles from "../stylesheets/table-styles"
 
   
 function UserListTable(props) {
+
  
   function Table({ 
     columns, 
     data,
-    fetchData,
     loading,
+    selectValues,
    }) {
+
+    console.log("Inside table, I have select values: ", selectValues)
 
     const filterTypes = React.useMemo(
       () => ({
+        // Add a new fuzzyTextFilterFn filter type.
         fuzzyText: fuzzyTextFilterFn,
+        // Or, override the default text filter to use
+        // "startWith"
         text: (rows, id, filterValue) => {
           return rows.filter(row => {
-            const rowValue = row.values[id];
+            const rowValue = row.values[id]
             return rowValue !== undefined
               ? String(rowValue)
                   .toLowerCase()
                   .startsWith(String(filterValue).toLowerCase())
-              : true;
-          });
-        }
+              : true
+          })
+        },
       }),
       []
-    );
-  
+    )
 
     const defaultColumn = React.useMemo(
       () => ({
@@ -65,6 +71,8 @@ function UserListTable(props) {
         data,
         defaultColumn,
         filterTypes,
+        sortTypes,
+        selectValues
       },
       useGlobalFilter,
       useFilters,
@@ -198,11 +206,34 @@ function UserListTable(props) {
       
   //const userData = getUsers()
   const userData = props.userListData
+  // const Roles = ({ values }) => {
+  //   return (
+  //     <>
+  //       {values.map(function( user) {
+  //         return user.role.role_value;
+  //       }).join(',')}
+  //     </>
+  //   );
+  // };
+
+
+  const Roles = ({ values }) => {
+    return(
+      <>
+        {
+          values.map(function(user) {
+            return <div key={user.role.id} className="role">{user.role.role_value}</div>;
+          })
+        }
+      </>
+    )
+  }
+
  
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Manage User Accounts',
+        Header: '',
         disableFilters: true,
         sortable: false,
         width: 100,
@@ -223,11 +254,11 @@ function UserListTable(props) {
             </Link>
             <Link 
               to={{
-                pathname: "/removeuser",
+                pathname: "/userhistory",
                 search: "?id=" + row.original.id,
               }}>
               <button className="ui mini blue icon button">
-                <Icon name="close" />
+                <Icon name="history" />
               </button>              
             </Link>
           </div>
@@ -251,11 +282,12 @@ function UserListTable(props) {
       },
       {
         Header: 'Roles',
+        id: 'roles',
         accessor: 'user_roles',
-        Cell: ({ cell: { value } }) => (value.map(function( user ) {
-          return user.role.role_value;
-        }).join(', '))
-      }
+        Cell: ({ cell: { value }}) => <Roles values={value} />,
+        sortType:'customRoleSort',
+        Filter: SelectColumnFilter,
+      },
     ],
     []
   )
@@ -266,6 +298,8 @@ function UserListTable(props) {
             <Table 
               columns={columns} 
               data={userData}
+              globalSearch={props.globalSearch}
+              selectValues={props.selectValues}
             />
           </TableStyles>
 

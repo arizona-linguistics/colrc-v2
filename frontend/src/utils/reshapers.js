@@ -110,6 +110,9 @@ export function textReshape(jsonData) {
         //for each text, provide the data fields 'src', 'title', 'fileType'
         //'msType'.  Set the entry type as 'text', and give it a key.
         while (j < json[i]["texts_textfiles"].length) {
+          if (i === 0 && j === 0) {
+            console.log("our metadata is ", JSON.stringify(json[i]["texts_textfiles"][j].textfilemetadata[0].metadata))
+          }
           json[i]["sourcefiles"].push(
             {
               src: json[i]["texts_textfiles"][j].src,
@@ -118,6 +121,7 @@ export function textReshape(jsonData) {
               msType: json[i]["texts_textfiles"][j].msType,
               path: json[i]["texts_textfiles"][j].textfile_with_path,
               metadata: json[i]["texts_textfiles"][j].textfilemetadata.textFileId,
+              //metadata: json[i]["texts_textfiles"][j].textfilemetadata ? json[i]["texts_textfiles"][j].textfilemetadata[0].metadata : "",
               type: "text",
               key: k
             }

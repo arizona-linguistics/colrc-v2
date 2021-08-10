@@ -46,40 +46,9 @@ function EditUser(props) {
         return <div>Something went wrong </div>
     }
 
-    // if ( rolesData ) {
-    //     return <div>{JSON.stringify(rolesData)}</div>
-    // }
-
-   // {"roles":[{"id":1,"role_value":"Manager","role_code":"manager","__typename":"roles"},{"id":2,"role_value":"Update","role_code":"update","__typename":"roles"},{"id":3,"role_value":"View","role_code":"view","__typename":"roles"}]}
-
-   // tell the system what to do when the 'submit' button is selected 
-   // build a string based on the values;
-   // convert the string to a gql schema;
-   // execute the mutation, with variables like this:
-
-//    {
-// 	    "userId" : 22,
-//      "changes": {
-//      "first": "Brendan"
-//    },
-//   "insertRoles": [
-//     {
-//       "roleId": 1,
-//       "userId": 22
-//     },
-//     {
-//       "roleId": 3,
-//       "userId": 22
-//     }
-//   ],
-//   "deleteRoles": { "_and": [{"userId": {"_eq": 22}}, {"_or": [{"roleId": {"_eq": 1}}, {"roleId": {"_eq": 3}}]}]}
-//  }
-
-
     async function onFormSubmit (values, originalRoles, setSubmitting) {
-        console.log(values)
-        console.log(originalRoles)
-
+        // console.log(values)
+        // console.log(originalRoles)
         try {
             let roleLookup = {}
             rolesData.roles.forEach(item => {
@@ -113,6 +82,9 @@ function EditUser(props) {
             if (orCond.length > 0) {
                 andCond.push({ "_or": orCond })
             }
+            // this else condition is to account for edits in which there are no role removals.  We need the andCond to resolve to 'false' in those cases
+            // and we know that there will never be a roleId of -1 in the db.  If we pass an empty hash for this, Hasura interprets that as 'true' and removes
+            // all roles for the relevant userId.  It'd be great to find a more elegant solution to this problem, but for now this is what we agreed on.
             else {
                 andCond.push({"_or": { "roleId": { "_eq": -1} }})
             }
@@ -149,17 +121,14 @@ function EditUser(props) {
         }
     }
     
-    
     const routeChange=()=> {
-        let path = `/users`;
+        let path = `/userlist`;
         history.push(path);
     }
     
     if (hasUpdated) {
-        return <Redirect to="/users" />;
+        return <Redirect to="/userlist" />;
     }
-
-
     
     function userRoleOptions(options) {
         let res = []
@@ -182,29 +151,6 @@ function EditUser(props) {
         })
         return res
     }
-
-    // function rolesReshape(values){
-    //     console.log('I am in the rolesReshape function ', values)
-    //     let res = {}
-    //     let arr = []
-    //     values.forEach((item) => {
-    //         let h = {}
-    //         h = { 
-    //               "role": {
-    //                   "data": {
-    //                       "role_code": item
-    //                   }, 
-    //                   "on_conflict": {
-    //                       "constraint": "roles_role_code_key",
-    //                       "update_columns": ["role_code"]
-    //                   } 
-    //               }
-    //           }
-    //         arr.push(h)
-    //     })
-    //     res = { "data": arr }
-    //     return res
-    // }
 
     let originalRoles = userData.users_by_pk.user_roles ? userRoleOptions(userData.users_by_pk.user_roles) : []
 
