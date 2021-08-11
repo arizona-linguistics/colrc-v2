@@ -1,13 +1,11 @@
 import React from "react";
-import {
-  useTable,
-} from "react-table";
+import {useTable, useExpanded} from "react-table";
 import SubTableStyles from "../stylesheets/sub-table-styles";
 import AudioPlayer from '../utils/AudioPlayer';
 import { Link } from 'react-router-dom';
 
 
-function Table({ columns, data }) {
+function Table({ columns, data, renderRowSubComponent }) {
 
   const {
     getTableProps,
@@ -15,10 +13,14 @@ function Table({ columns, data }) {
     headerGroups,
     rows,
     prepareRow,
+    visibleColumns
   } = useTable({
     columns,
     data,
-  })
+    renderRowSubComponent
+  }, 
+  useExpanded
+  )
 
   // Render the UI for your table
   return (
@@ -37,11 +39,20 @@ function Table({ columns, data }) {
           {rows.map((row, i) => {
             prepareRow(row)
             return (
-              <tr key={row.id} {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-              </tr>
+              <React.Fragment key={row.getRowProps().key}>
+                <tr>
+                  {row.cells.map(cell => {
+                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  })}
+                </tr>
+                {row.isExpanded && (
+                  <tr>
+                    <td colSpan={visibleColumns.length}>
+                      {renderRowSubComponent({row})}
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             )
           })}
         </tbody>
@@ -50,12 +61,20 @@ function Table({ columns, data }) {
   );
 }
 
-
-
-function SubTable({ subData }) {
-  console.log('this is my subData ', subData)
+function MaterialsTable({ materialData }) {
+  console.log('this is my materialData ', materialData)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = React.useMemo(() => [
+    {
+      Header: () => null,
+      id: "subexpander",
+      // remove arrow if engl
+      Cell: ({ row }) => (
+        row.original.metadata 
+        ? <span {...row.getToggleRowExpandedProps()}> {row.isExpanded ? '▼' : '▶'} </span>
+        : <span/>
+      ),
+    },
     {
       Header: 'Materials',
       id: 'src',
@@ -88,10 +107,47 @@ function SubTable({ subData }) {
       } 
     ])
 
+  const renderRowSubComponent = React.useCallback(
+    ({ row }) => (
+      <div>
+        <MaterialMetadataTable materialMetadata={row.original.metadata}/>
+      </div>    
+    ),
+    []
+  ) 
 
-  const [data] = React.useState(() => subData);
+  const [data] = React.useState(() => materialData);
 
   
+  return (
+    <SubTableStyles>
+    <Table 
+        columns={columns} 
+        data={data}
+        renderRowSubComponent={renderRowSubComponent}
+      />
+    </SubTableStyles>
+  );
+}
+
+function MaterialMetadataTable({ materialMetadata }) {
+  console.log('this is my materialMetadata ', materialMetadata)
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Field',
+      id: 'field',
+      accessor: 'field'
+    },
+    {
+      Header: 'Value',
+      id: 'value',
+      accessor: 'value'
+    }
+  ])
+
+  //const [data] = React.useState(() => materialMetadata);
+  const [data] = React.useState(() => [{'field': 'originalData', 'value': 'test'}, {'field': 'originalAuthor', 'value': 'test2'}]);
+
   return (
     <SubTableStyles>
     <Table 
@@ -102,4 +158,4 @@ function SubTable({ subData }) {
   );
 }
 
-export default SubTable;
+export default MaterialsTable;

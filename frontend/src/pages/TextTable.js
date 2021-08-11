@@ -359,7 +359,7 @@ function TextTable(props) {
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
       <div>
-        <SubTable subData={row.values.sourcefiles}/>
+        <SubTable materialData={row.values.sourcefiles}/>
       </div>    
     ),
     []
