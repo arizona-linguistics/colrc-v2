@@ -133,20 +133,19 @@ function MaterialsTable({ materialData }) {
 function MaterialMetadataTable({ materialMetadata }) {
   console.log('this is my materialMetadata ', materialMetadata)
   const columns = React.useMemo(() => [
-    {
-      Header: 'Field',
-      id: 'field',
-      accessor: 'field'
-    },
-    {
-      Header: 'Value',
-      id: 'value',
-      accessor: 'value'
-    }
+      {
+        Header: 'Field',
+        id: 'field',
+        accessor: 'field'
+      },
+      {
+        Header: 'Value',
+        id: 'value',
+        accessor: 'value'
+      }
   ])
 
-  //const [data] = React.useState(() => materialMetadata);
-  const [data] = React.useState(() => [{'field': 'originalData', 'value': 'test'}, {'field': 'originalAuthor', 'value': 'test2'}]);
+  const [data] = React.useState(() => materialMetadata);
 
   return (
     <SubTableStyles>
