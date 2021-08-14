@@ -1,6 +1,5 @@
 import React from "react";
 import {useTable, useExpanded} from "react-table";
-import SubTableStyles from "../stylesheets/sub-table-styles";
 import AudioPlayer from '../utils/AudioPlayer';
 import { Link } from 'react-router-dom';
 
@@ -25,7 +24,7 @@ function Table({ columns, data, renderRowSubComponent }) {
   // Render the UI for your table
   return (
     <React.Fragment>
-      <table className='subtable'{...getTableProps()}>
+      <table className='materialsTable'{...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -120,13 +119,12 @@ function MaterialsTable({ materialData }) {
 
   
   return (
-    <SubTableStyles>
     <Table 
-        columns={columns} 
+      className = 'materialMetadataTable'  
+      columns={columns} 
         data={data}
         renderRowSubComponent={renderRowSubComponent}
       />
-    </SubTableStyles>
   );
 }
 
@@ -148,12 +146,10 @@ function MaterialMetadataTable({ materialMetadata }) {
   const [data] = React.useState(() => materialMetadata);
 
   return (
-    <SubTableStyles>
     <Table 
         columns={columns} 
         data={data}
       />
-    </SubTableStyles>
   );
 }
 
