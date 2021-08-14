@@ -69,7 +69,7 @@ function MaterialsTable({ materialData }) {
       id: "subexpander",
       // remove arrow if engl
       Cell: ({ row }) => (
-        row.original.metadata 
+        row.original.metadata && row.original.metadata.length > 0 
         ? <span {...row.getToggleRowExpandedProps()}> {row.isExpanded ? '▼' : '▶'} </span>
         : <span/>
       ),
