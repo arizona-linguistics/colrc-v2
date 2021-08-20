@@ -133,7 +133,8 @@ export function SelectColumnFilter({
   selectValues,
   column: { filterValue, setFilter, id },
 }) {
-  console.log(selectValues)
+  console.log('the filterValue is ', filterValue)
+  // console.log('the selectValues are ', selectValues)
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = React.useMemo(() => {
@@ -169,6 +170,44 @@ export function SelectColumnFilter({
     </select>
   )
 }
+
+// export function SelectRolesFilter({
+//   props,
+//   selectValues,
+//   column: { filterValue, setFilter, id },
+// }) {
+//   const options = React.useMemo(() => {
+//     // const options = new Set()
+//     // preFilteredRows.forEach(row => {
+//     //   options.add(row.values[id])
+//     // })
+//     const options = new Set()
+//     if (selectValues[id]) {
+//       return selectValues[id]
+//     } else {
+//       options.add("snarg")
+//       options.add("blarf")
+//       options.add("warp")
+//       return [...options.values()]
+//     }
+//   }, [id, selectValues])
+//   // Calculate the options for filtering
+//   // using the preFilteredRows
+
+//   // Render a multi-select box
+//   return (
+//     <select
+//       value={filterValue}
+//       onChange={(e) => onChange(e.target.value)}>
+//       <option value="">All</option>
+//       {options.map((option, i) => (
+//         <option key={i} value={option}>
+//           {option}
+//         </option>
+//       ))}
+//     </select>
+//   )
+// }
 
 // This is a custom filter UI that uses a
 // slider to set the filter value between a column's

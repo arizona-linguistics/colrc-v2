@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter} from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, SelectColumnFilter, fuzzyTextFilterFn } from '../utils/Filters';
-import { customRoleSort, sortTypes } from '../utils/Sorters';
+import { sortTypes } from '../utils/Sorters';
 import { Icon, Button } from "semantic-ui-react";
 import TableStyles from "../stylesheets/table-styles"
+import { includes } from 'lodash';
 
   
 function UserListTable(props) {
@@ -15,10 +16,10 @@ function UserListTable(props) {
     data,
     loading,
     selectValues,
+    filterValues,
    }) {
 
-    console.log("Inside table, I have select values: ", selectValues)
-
+    
     const filterTypes = React.useMemo(
       () => ({
         // Add a new fuzzyTextFilterFn filter type.
@@ -35,9 +36,26 @@ function UserListTable(props) {
               : true
           })
         },
+        roleValue: (rows, ids, filterValue) => {
+          return rows.filter(row => {
+            return ids.some(role_value => {
+              const rowValue = row.values[role_value]
+              console.log('my rowValue is ', rowValue)
+              let elements = rowValue.reduce(
+                function(previousValue, currentValue) {
+                  return previousValue.concat(currentValue.role.role_value)
+                },
+                []
+              )
+              console.log('the elements are ', elements)
+              return elements.includes(filterValue)
+            })
+          })
+        }
       }),
       []
     )
+
 
     const defaultColumn = React.useMemo(
       () => ({
@@ -53,6 +71,7 @@ function UserListTable(props) {
       rows,
       page,
       state,
+      preFilteredRows,
       preGlobalFilteredRows,
       setGlobalFilter,
       canPreviousPage,
@@ -64,15 +83,16 @@ function UserListTable(props) {
       nextPage,
       previousPage,
       setPageSize,
-      state: { pageIndex, pageSize }
+      state: { pageIndex, pageSize, filters, globalFilter }
     } = useTable(
       {
         columns,
         data,
         defaultColumn,
         filterTypes,
+        filterValues,
         sortTypes,
-        selectValues
+        selectValues,
       },
       useGlobalFilter,
       useFilters,
@@ -83,8 +103,25 @@ function UserListTable(props) {
     // Render the UI for your table
     return (
       <>
-
-<table className="table" {...getTableProps()}>
+      {/* <pre>
+        <code>
+          {JSON.stringify(
+            {
+              pageIndex,
+              pageSize,
+              pageCount,
+              canNextPage,
+              canPreviousPage,
+              filterValues,
+              filters,
+              globalFilter,
+            },
+            null,
+            2
+          )}
+        </code>
+      </pre>  */}
+      <table className="table" {...getTableProps()}>
         <thead>
           <tr>
             <th colSpan={visibleColumns.length}>
@@ -287,6 +324,7 @@ function UserListTable(props) {
         Cell: ({ cell: { value }}) => <Roles values={value} />,
         sortType:'customRoleSort',
         Filter: SelectColumnFilter,
+        filter: 'roleValue',
       },
     ],
     []
