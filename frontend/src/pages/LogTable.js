@@ -376,7 +376,7 @@ function LogTable(props) {
     setTimeout(() => {
       // Only update the data if this is the latest fetch
       if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy) 
+        const controlledSort = sortReshape(sortBy,"event_id")
         const controlledFilter = filterReshape(filters, globalFilter, ['action', 'table_name'])
         console.log(controlledFilter)
         // reset to first page when filters change

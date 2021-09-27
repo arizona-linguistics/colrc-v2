@@ -3,3 +3,5 @@ node_modules
 dist
 *.log
 colrc-v2.code-workspace
+.DS_Store
+nginx/nginx_colrc/
