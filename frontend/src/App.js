@@ -48,6 +48,7 @@ import Upload from './pages/Upload'
 import TestUpload from './pages/TestUpload'
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import Export from './pages/Export';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -186,6 +187,7 @@ function App(props) {
               <Route path="/crap/" component={TestUpload} key="TestUpload" />
               <Route path="/search" component={Search} key="Search" />
               <Route path="/searchresults" component={SearchResults} key="SearchResults" />
+              <Route path="/export" component={Export} key="Export" />
               <Route path="/not-found" component={NotFound} key="NotFound" />
               <Route component={NotFoundRedirect} key="NotFoundRedirect" />
             </Switch>
