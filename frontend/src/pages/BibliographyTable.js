@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { Link,useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
@@ -18,6 +20,32 @@ function Table({
 }) {
 
   const { user } = useAuth();
+
+  function exportPDF() {
+    const unit = "pt";
+    const size = "A4"; // Use A1, A2, A3 or A4
+    const orientation = "portrait"; // portrait or landscape
+
+    const marginLeft = 40;
+    const doc = new jsPDF(orientation, unit, size);
+
+    doc.setFontSize(15);
+
+    const title = "COLRC bibliography";
+    const headers = [["TITLE", "AUTHOR"]];
+
+    const bibData = data.map(elt=> [elt.title, elt.author]);
+
+    let content = {
+    startY: 50,
+    head: headers,
+    body: bibData
+    };
+
+    doc.text(title, marginLeft, 40);
+    doc.autoTable(content);
+    doc.save("report.pdf")
+}
 
   //console.log("Inside table, I have select values: ", selectValues)
   //console.log("Inside table, I have a globalSearch ", globalSearch)
@@ -142,6 +170,7 @@ function Table({
         </code>
       </pre> */}
       {/* <SimpleKeyboard /> */}
+      <div><button onClick={() => exportPDF()}>Generate Report</button></div>
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
