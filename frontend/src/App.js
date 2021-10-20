@@ -20,6 +20,9 @@ import DeleteStem from './pages/DeleteStem';
 import EditRoot from './pages/EditRoot';
 import DeleteRoot from './pages/DeleteRoot';
 import AffixHistory from './pages/AffixHistory';
+import EditText from "./pages/EditText";
+import DeleteText from "./pages/DeleteText";
+import TextHistory from "./pages/TextHistory";
 import RootHistory from './pages/RootHistory';
 import ElicitationHistory from "./pages/ElicitationHistory";
 import UserList from './pages/UserList';
@@ -175,6 +178,9 @@ function App(props) {
               <PrivateRoute path="/deleteroot" component={DeleteRoot} key="DeleteRoot" /> 
               <PrivateRoute path="/affixhistory" component={AffixHistory} key="AffixHistory" />
               <PrivateRoute path="/roothistory" component={RootHistory} key="RootHistory" />
+              <PrivateRoute path="/edittext" component={EditText} key="EditText" />
+              <PrivateRoute path="/deletetext" component={DeleteText} key="DeleteText" />
+              <PrivateRoute path="/texthistory" component={TextHistory} key="TextHistory" />
               <PrivateRoute path="/elicitationhistory" component={ElicitationHistory} key="ElicitationHistory" />
               <PrivateRoute path="/log" component={Log} key="Log" />
               <PrivateRoute path="/users" component={Users} key="Users" />

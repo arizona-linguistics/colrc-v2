@@ -8,6 +8,7 @@ import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers"
 import SubTable from "./MaterialsTable";
 import TableStyles from "./../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
+import { Icon } from "semantic-ui-react";
 
 
 function Table({
@@ -289,6 +290,47 @@ function TextTable(props) {
 
   const columns = React.useMemo(
     () => [
+      {
+        Header: 'History/Edit/Delete',
+        disableFilters: true,
+        sortable: false,
+        width: 100,
+        show: true,
+        id: 'historyEditDelete',
+        label: 'History/Edit/Delete',
+        tableName: 'TextTable',
+        Cell: ({row, original}) => (
+          <div className="buttons">
+            <Link 
+              to={{
+                pathname: "/texthistory",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini blue icon button">
+                <Icon name="history" />
+              </button>              
+            </Link>
+            <Link 
+              to={{
+                pathname: "/edittext",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini black icon button">
+                <Icon name="edit" />
+              </button>              
+            </Link>
+            <Link 
+              to={{
+                pathname: "/deletetext",
+                search: "?id=" + row.original.id,
+              }}>
+              <button className="ui mini blue icon button">
+                <Icon name="close" />
+              </button>              
+            </Link>
+          </div>
+        )
+      }, 
       {
         Header: () => null, // No header
         id: 'expander', // It needs an ID
