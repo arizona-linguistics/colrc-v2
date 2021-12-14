@@ -3,6 +3,21 @@ volumes:
   nginx_colrc:
     # external: true
 services:
+  odinson-rest-api:
+    image: lumai/odinson-rest-api:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    container_name: odinson-rest-api
+    volumes: 
+      - /Users/alicekwak/data/odinson:/app/data/odinson
+    ports:
+      - "9001:9000"
+    restart: always
+    environment: 
+      HOME: /app
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.8
   hasura:
     image: hasura/graphql-engine:v1.3.3
     container_name: colrc-v2-hasura

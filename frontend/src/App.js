@@ -49,6 +49,7 @@ import TestUpload from './pages/TestUpload'
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Export from './pages/Export';
+import OdinsonSearch from "./pages/OdinsonSearch";
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -188,6 +189,7 @@ function App(props) {
               <Route path="/search" component={Search} key="Search" />
               <Route path="/searchresults" component={SearchResults} key="SearchResults" />
               <Route path="/export" component={Export} key="Export" />
+              <Route path="/odin" component={OdinsonSearch} key="OdinsonSearch" />
               <Route path="/not-found" component={NotFound} key="NotFound" />
               <Route component={NotFoundRedirect} key="NotFoundRedirect" />
             </Switch>
