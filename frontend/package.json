@@ -18,6 +18,8 @@
     "emailjs-com": "^2.6.3",
     "formik": "^2.1.6",
     "graphql": "^14.7.0",
+    "jspdf": "^2.4.0",
+    "jspdf-autotable": "^3.5.20",
     "lodash": "^4.17.20",
     "match-sorter": "^4.2.1",
     "namor": "^2.0.2",
