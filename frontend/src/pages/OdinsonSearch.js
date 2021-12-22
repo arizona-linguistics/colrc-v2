@@ -1,32 +1,44 @@
 
 import React, { useEffect, useState } from 'react';
 
-function OdinsonSearch() {
+function OdinsonSearch(props) {
 
   const [list, setList] = useState([]);
+  const [pattern, setPattern] = useState("");
 
-  useEffect(() => {
-    let mounted = true;
-    let patternData = getPattern()
-    // getPattern()
-    //   .then(items => {
-    //     console.log("I have items")
-    //     if(mounted) {
-    //       setList(items)
-    //       console.log(items)
-    //     }
-    //   })
-    //   .catch (error => {
-    //    console.log(error) 
-    //   })
-    return () => mounted = false;
-  }, [])
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    let res = await getPattern(pattern)
+    console.log(res.scoreDocs)
+    setList(res.scoreDocs)
+  }
 
-  async function getPattern() {
+  // useEffect(() => {
+  //   let mounted = true;
+  //   let patternData = getPattern("horse")
+  //   // getPattern()
+  //   //   .then(items => {
+  //   //     console.log("I have items")
+  //   //     if(mounted) {
+  //   //       setList(items)
+  //   //       console.log(items)
+  //   //     }
+  //   //   })
+  //   //   .catch (error => {
+  //   //    console.log(error) 
+  //   //   })
+  //   return () => mounted = false;
+  // }, [])
+
+  async function getPattern(pattern) {
     console.log("getting data")
-    let odindata = await fetch('http://localhost:80/odinson/?odinsonQuery=%5Bword%20%3D%20%2F.%2Ach.%2A%2F%5D',{mode:'cors'}).then((res) => res.json())
+    let odindata = await fetch('http://localhost:80/odinson/?' + new 
+    URLSearchParams({
+    odinsonQuery: `[word = /.*${pattern}.*/]`
+    // "[word = /.*ch.*/]"
+    }),{mode:'cors'}).then((res) => res.json())
     .then((data) => {
-      console.log(data)
+      return data
     }).catch(error => console.log(error))
     console.log("got data")
     // console.log(odindata.status)
@@ -43,16 +55,25 @@ function OdinsonSearch() {
       // })
   }
 
-    return(
-      <div className="wrapper">
-       <h1>Pattern return</h1>
-       <div>{list}</div>
-     </div>
-    )
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Pattern:
+          <input
+            type="text"
+            value={pattern}
+            onChange={e => setPattern(e.target.value)}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+      <ul>
+        {list.map(item => <li key={item.sentenceId}>{item.documentId}<p/>{item.words.join(" ")}</li>)}
+      </ul>
+    </div>
+  )
 
-    //  <ul>
-    //    {list.map(item => <li key={item.item}>{item.item}</li>)}
-    //  </ul>
 
     // axios.post("http://backend:4000/api", {
     //   userName,
