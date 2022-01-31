@@ -389,11 +389,12 @@ function OdinsonTable(props) {
     console.log("getting data")
     let odindata = await fetch('http://localhost:80/odinson/?' + new 
     URLSearchParams({
-    odinsonQuery: `[word = /.*${pattern}.*/]`
+    odinsonQuery: `[word = /.*${globalSearch}.*/]`
     }),{mode:'cors'}).then((res) => res.json())
     .then((data) => {
       return data
     }).catch(error => console.log(error))
+    console.log(globalSearch)
     console.log("got data")
     return odindata
   }
@@ -424,10 +425,10 @@ function OdinsonTable(props) {
         .then((data) => {
           console.log(data)  
           let totalCount = data.totalHits
-          console.log(totalCount)
+          console.log("the total count from fetchData is ", totalCount)
           setData(data.scoreDocs)
-          setPageCount(1)
-          setPageSize(totalCount)
+          setPageCount(Math.ceil(totalCount/pageSize))
+          // setPageSize(totalCount)
           setLoading(false)
         })
         .catch((error) => {
