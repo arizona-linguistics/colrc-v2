@@ -7,6 +7,7 @@ import { Grid, Segment, Header, Message } from 'semantic-ui-react'
 import RootTable from "./RootTable"
 import AffixTable from "./AffixTable"
 import StemTable from "./StemTable"
+import OdinsonTable from "./OdinsonTable"
 
 function SearchResults(props) {
   const { client } = useAuth()
@@ -87,6 +88,14 @@ function SearchResults(props) {
                   Stems
                 </Header>
                 <StemTable selectValues={selectStemValues} globalSearch={globalSearch}/>
+              </Grid.Row>
+            </Segment>
+            <Segment>
+              <Grid.Row>
+                <Header as='h3'  textAlign='left'>
+                  Odinson
+                </Header>
+                <OdinsonTable globalSearch={globalSearch}/>
               </Grid.Row>
             </Segment>
         </Grid.Column>
