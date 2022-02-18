@@ -117,7 +117,7 @@ function Table({
 
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
+    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, setScore, score, setDoc, doc, setCache, cache })
   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
 
   React.useEffect(
@@ -128,6 +128,10 @@ function Table({
     },
     [columns, setHiddenColumns]
   );
+
+  const [cache, setCache] = useState([]);
+  const [doc, setDoc] = useState(-1);
+  const [score, setScore] = useState(-1.0);
 
   // Render the UI for your table
   return (
@@ -293,7 +297,9 @@ function Table({
 function OdinsonTable(props) {
   
   const [data, setData] = useState([]);
-  const [list, setList] = useState([]);
+  // const [cache, setCache] = useState([]);
+  // const [doc, setDoc] = useState(-1);
+  // const [score, setScore] = useState(-1.0);
   const [pattern, setPattern] = useState("");
   const fetchIdRef = React.useRef(0)
   const [loading, setLoading] = React.useState(false)
@@ -384,14 +390,40 @@ function OdinsonTable(props) {
     // return res.data
   // }  
 
-  async function getPattern(globalSearch) {
+  async function getPattern(globalSearch,pageSize,pageIndex,setScore,score,setDoc,doc,setCache,cache) {
     let res = {}
     console.log("getting data")
-    let odindata = await fetch('http://localhost:80/odinson/?' + new 
-    URLSearchParams({
-    odinsonQuery: `[word = /.*${globalSearch}.*/]`
-    }),{mode:'cors'}).then((res) => res.json())
+    let searchParams = new URLSearchParams({
+      odinsonQuery: `[word = /.*${globalSearch}.*/]`
+    })
+    if (pageIndex*pageSize >= cache.length){
+      searchParams = new URLSearchParams({
+        odinsonQuery: `[word = /.*${globalSearch}.*/]`,
+        prevScore: score,
+        prevDoc: doc
+      })
+    }
+    console.log("searchParams", searchParams.stringify)
+    let odindata = await fetch('http://localhost:80/odinson/?' + searchParams, {mode:'cors'})
+    .then((res) => res.json())
     .then((data) => {
+      console.log("page size and index: ", pageSize, pageIndex)
+      console.log("result length", data.scoreDocs.length)
+      console.log("prevDoc and Score", doc, score)
+      console.log("sentence id & score", data.scoreDocs[data.scoreDocs.length-1].sentenceId, data.scoreDocs[data.scoreDocs.length-1].score)
+      setDoc(data.scoreDocs[data.scoreDocs.length-1].sentenceId)
+      setScore(data.scoreDocs[data.scoreDocs.length-1].score)
+      let tempCache = Array.from(cache)
+      console.log("tempcache=", tempCache)
+      if (pageIndex*pageSize >= cache.length){
+        tempCache = tempCache.concat(data.scoreDocs)
+        console.log("tempcache2=", tempCache)
+        setCache(tempCache)
+      }
+      console.log("cache=", tempCache)
+      let start = pageIndex*pageSize
+      let end = start+pageSize > tempCache.length ? tempCache.length : start+pageSize
+      data.scoreDocs = tempCache.slice(start,end)
       return data
     }).catch(error => console.log(error))
     console.log(globalSearch)
@@ -399,7 +431,7 @@ function OdinsonTable(props) {
     return odindata
   }
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, setScore, score, setDoc, doc, setCache, cache }) => {
     // This will get called when the table needs new data
     // You could fetch your data from literally anywhere,
     // even a server. But for this example, we'll just fake it.
@@ -421,7 +453,7 @@ function OdinsonTable(props) {
         // if (filters.length > 0) {
         //   pageIndex = 0
         // }
-        getPattern(globalFilter)
+        getPattern(globalFilter,pageSize,pageIndex,setScore, score, setDoc, doc, setCache, cache)
         .then((data) => {
           console.log(data)  
           let totalCount = data.totalHits
