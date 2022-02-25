@@ -428,23 +428,6 @@ function OdinsonTable(props) {
     let odindata = await fetch('http://localhost:80/odinson/?' + searchParams, {mode:'cors'})
     .then((res) => res.json())
     .then((data) => {
-      console.log("page size and index: ", pageSize, pageIndex)
-      console.log("result length", data.scoreDocs.length)
-      console.log("prevDoc and Score", doc, score)
-      console.log("sentence id & score", data.scoreDocs[data.scoreDocs.length-1].sentenceId, data.scoreDocs[data.scoreDocs.length-1].score)
-      setDoc(data.scoreDocs[data.scoreDocs.length-1].sentenceId)
-      setScore(data.scoreDocs[data.scoreDocs.length-1].score)
-      let tempCache = Array.from(cache)
-      console.log("tempcache=", tempCache)
-      if (pageIndex*pageSize >= cache.length){
-        tempCache = tempCache.concat(data.scoreDocs)
-        console.log("tempcache2=", tempCache)
-        setCache(tempCache)
-      }
-      console.log("cache=", tempCache)
-      let start = pageIndex*pageSize
-      let end = start+pageSize > tempCache.length ? tempCache.length : start+pageSize
-      data.scoreDocs = tempCache.slice(start,end)
       return data
     }).catch(error => console.log(error))
     return odindata
