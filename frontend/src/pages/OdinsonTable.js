@@ -8,6 +8,7 @@ import { getLogQuery } from '../queries/queries'
 import { sortReshape, filterReshape } from "../utils/reshapers"
 import TableStyles from "../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
+import { useRowSelect } from 'react-table/dist/react-table.development';
 
 
 function Table({
@@ -117,7 +118,7 @@ function Table({
 
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
+    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, setScore, score, setDoc, doc, setCache, cache, setTotalHits, totalHits })
   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
 
   React.useEffect(
@@ -128,6 +129,11 @@ function Table({
     },
     [columns, setHiddenColumns]
   );
+
+  const [cache, setCache] = useState([]);
+  const [doc, setDoc] = useState(-1);
+  const [score, setScore] = useState(-1.0);
+  const [totalHits, setTotalHits] = useState(-1);
 
   // Render the UI for your table
   return (
@@ -293,7 +299,9 @@ function Table({
 function OdinsonTable(props) {
   
   const [data, setData] = useState([]);
-  const [list, setList] = useState([]);
+  // const [cache, setCache] = useState([]);
+  // const [doc, setDoc] = useState(-1);
+  // const [score, setScore] = useState(-1.0);
   const [pattern, setPattern] = useState("");
   const fetchIdRef = React.useRef(0)
   const [loading, setLoading] = React.useState(false)
@@ -384,22 +392,71 @@ function OdinsonTable(props) {
     // return res.data
   // }  
 
-  async function getPattern(globalSearch) {
-    let res = {}
-    console.log("getting data")
-    let odindata = await fetch('http://localhost:80/odinson/?' + new 
-    URLSearchParams({
-    odinsonQuery: `[word = /.*${globalSearch}.*/]`
-    }),{mode:'cors'}).then((res) => res.json())
+  async function getPattern(globalSearch,pageSize,pageIndex,setScore,score,setDoc,doc,setCache,cache,setTotalHits,totalHits) {
+    let tempCache = Array.from(cache)
+    let hits = totalHits
+    let tempScore = score
+    let tempDoc = doc
+    // console.log("page count and index: ", pageCount, pageIndex)
+    // if (pageIndex > pageCount) {
+    //   pageIndex = 0
+    // }
+    while (pageIndex*pageSize >= tempCache.length) {
+      let odindata = await getNextCachePage(globalSearch, tempScore, tempDoc)
+      hits = odindata.totalHits
+      tempDoc = odindata.scoreDocs[odindata.scoreDocs.length-1].sentenceId
+      tempScore = odindata.scoreDocs[odindata.scoreDocs.length-1].score
+      tempCache = addPageToCache(tempCache, odindata, setCache)
+      setPriorDocScoreHits(tempDoc, tempScore, hits, setDoc, setScore, setTotalHits)
+    }
+    let data = getCurrentViewPage(pageIndex, pageSize, tempCache, hits)
+    return data
+  }
+
+  async function getNextCachePage(globalSearch, prevScore, prevDoc) {
+    console.log("prevScore and Doc: ", prevScore, prevDoc)
+    let searchParams = new URLSearchParams({
+      odinsonQuery: `[word = /.*${globalSearch}.*/]`
+    })
+    if (prevScore > -1){
+      searchParams = new URLSearchParams({
+        odinsonQuery: `[word = /.*${globalSearch}.*/]`,
+        prevScore: prevScore,
+        prevDoc: prevDoc
+      })
+    }
+    let odindata = await fetch('http://localhost:80/odinson/?' + searchParams, {mode:'cors'})
+    .then((res) => res.json())
     .then((data) => {
       return data
     }).catch(error => console.log(error))
-    console.log(globalSearch)
-    console.log("got data")
     return odindata
   }
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
+  function getCurrentViewPage(pageIndex, pageSize, cache, totalHits) {
+    let start = pageIndex*pageSize
+    let end = start+pageSize > cache.length ? cache.length : start+pageSize
+    let tempData = {
+      totalHits: totalHits,
+      scoreDocs: []
+    }
+    tempData.scoreDocs = cache.slice(start,end)
+    return tempData
+  }
+
+  function addPageToCache(cache, page, setCache) {
+    cache = cache.concat(page.scoreDocs)
+    setCache(cache)
+    return cache
+  }
+
+  function setPriorDocScoreHits(doc, score, totalHits, setDoc, setScore, setTotalHits) {
+    setDoc(doc)
+    setScore(score)
+    setTotalHits(totalHits)
+  }
+
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, setScore, score, setDoc, doc, setCache, cache, setTotalHits, totalHits }) => {
     // This will get called when the table needs new data
     // You could fetch your data from literally anywhere,
     // even a server. But for this example, we'll just fake it.
@@ -421,7 +478,7 @@ function OdinsonTable(props) {
         // if (filters.length > 0) {
         //   pageIndex = 0
         // }
-        getPattern(globalFilter)
+        getPattern(globalFilter,pageSize,pageIndex,setScore, score, setDoc, doc, setCache, cache, setTotalHits, totalHits)
         .then((data) => {
           console.log(data)  
           let totalCount = data.totalHits
