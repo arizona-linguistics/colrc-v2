@@ -24,6 +24,10 @@ export const path_role_permissions = {
     '/home' : ['*'],
 }
 
+export const path_odinson_permissions = {
+    'searchResults': ['manager', 'update']
+}
+
 export const path_role_field_permissions = {
     '/spelling': {
         'all_fields': ['root', 'reichard', 'english', 'doak'],

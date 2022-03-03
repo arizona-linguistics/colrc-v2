@@ -8,9 +8,11 @@ import RootTable from "./RootTable"
 import AffixTable from "./AffixTable"
 import StemTable from "./StemTable"
 import OdinsonTable from "./OdinsonTable"
+import { intersectionWith, isEqual } from 'lodash';
+import { path_odinson_permissions } from "../access/permissions";
 
 function SearchResults(props) {
-  const { client } = useAuth()
+  const { client, authTokens, user } = useAuth()
   const search = new URLSearchParams(useLocation().search)
   const globalSearch = search.get("search")
 
@@ -90,6 +92,7 @@ function SearchResults(props) {
                 <StemTable selectValues={selectStemValues} globalSearch={globalSearch}/>
               </Grid.Row>
             </Segment>
+            {authTokens && user && intersectionWith(path_odinson_permissions['searchResults'], user.roles, isEqual).length >= 1 ? (
             <Segment>
               <Grid.Row>
                 <Header as='h3'  textAlign='left'>
@@ -97,7 +100,15 @@ function SearchResults(props) {
                 </Header>
                 <OdinsonTable globalSearch={globalSearch}/>
               </Grid.Row>
-            </Segment>
+            </Segment>): (
+            <Segment>
+              <Grid.Row>
+                <Header as='h3'  textAlign='left'>
+                  You must have proper permission to search texts.
+                </Header>
+              </Grid.Row>
+            </Segment>)
+            }
         </Grid.Column>
       </Grid>
     </React.Fragment>
