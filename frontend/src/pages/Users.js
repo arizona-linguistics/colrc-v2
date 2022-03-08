@@ -2,10 +2,12 @@ import React from 'react';
 import { Grid, Header, Segment, Button } from 'semantic-ui-react';
 import { useAuth } from "../context/auth";
 import { broadCastSuccess } from '../utils/messages';
+import { intersectionWith, isEqual } from 'lodash';
+import { path_button_permissions } from "../access/permissions";
 
 function Users(props) {
 
-  const { setAuthTokens, user } = useAuth();
+  const { client, authTokens, setAuthTokens, user } = useAuth()
   console.log('the user.roles is', user.roles)
 
   function logOut() {
@@ -33,10 +35,12 @@ function Users(props) {
             }}>
             Logout
           </Button>
-          { user.roles.includes('manager') &&
-            (<Button  color='black' onClick={(e)=> props.history.push('/userlist')}>
+          {authTokens && user && intersectionWith(path_button_permissions['adminUsers'], user.roles, isEqual).length >= 1 ? (
+            <Button  color='black' onClick={(e)=> props.history.push('/userlist')}>
               Administer Users
-            </Button>)
+            </Button>): ( 
+            <div></div>
+            )
           }
         </Segment>
       </Grid.Column>

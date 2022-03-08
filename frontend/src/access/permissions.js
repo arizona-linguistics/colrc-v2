@@ -28,6 +28,10 @@ export const path_odinson_permissions = {
     'searchResults': ['manager', 'update']
 }
 
+export const path_button_permissions = {
+    'adminUsers': ['manager']
+}
+
 export const path_role_field_permissions = {
     '/spelling': {
         'all_fields': ['root', 'reichard', 'english', 'doak'],

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import { Grid, Button, Label, Message, Header, Input, Dropdown } from 'semantic-ui-react';
 import * as Yup from 'yup';
-import { getUserByIdQuery, getRolesQuery, updateUserMutation, insertUserRoleMutation } from './../queries/queries'
+import { getUserByIdQuery, getRolesQuery, updateUserRolesMutation } from './../queries/queries'
 import { useQuery } from '@apollo/react-hooks'
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/auth";
@@ -41,7 +41,6 @@ function EditUser(props) {
     if (userLoading || rolesLoading) {
         return <div>loading...</div>
     }
-
     if (userError || rolesError ) {
         return <div>Something went wrong </div>
     }
@@ -50,31 +49,46 @@ function EditUser(props) {
     //     return <div>{JSON.stringify(rolesData)}</div>
     // }
 
+    // if ( userData ) {
+    //     return <div>{JSON.stringify(userData)}</div>
+    // }
 
+    let roleIdLookUpTable = {}
+    if (rolesData) {
+        roleIdLookUpTable = roleLookUp(rolesData)        
+    }
+    console.log('the RoleIdLookUpTable is ', roleIdLookUpTable) 
+
+    function roleLookUp(rolesData) {
+        let res = {}
+        rolesData.roles.forEach((item) => {
+            res[item.role_code] = item.id 
+        })
+        return res       
+    }
     
-   // tell the system what to do when the 'submit' button is selected 
+    function updateRolesReshape(userId, role_codes){
+        let arr = []
+        role_codes.forEach((item) => {
+            let h = {}
+            h = { 
+                  "userId": userId, 
+                  "roleId": roleIdLookUpTable[item]
+              }
+            arr.push(h)
+        })
+        return arr
+    }
+
+    // tell the system what to do when the 'submit' button is selected 
     async function onFormSubmit (values, setSubmitting) {
-        //console.log(values)
         try {
         const result = await client.mutate({
-            mutation: insertUserRoleMutation,
+            mutation: updateUserRolesMutation,
             variables: {
-                userId: values.id
-
+                userId: values.id,
+                newRoles: updateRolesReshape(values.id, values.roles)
             }
-            // mutation: updateUserMutation,
-            // //these are the variables allowed to be passed into the insertUserWithRole mutation in queries.js
-            // variables: {
-            //     id: values.id,
-            //     changes: {            
-            //         first: values.first,
-            //         last: values.last,
-            //         username: values.username,
-            //         email: values.email,
-            //         password: values.password,
-            //         id: values.id
-            //     }
-            // }
         })
         if (result.error) {
             handleErrors(result.error)
@@ -99,20 +113,13 @@ function EditUser(props) {
     if (hasUpdated) {
         return <Redirect to="/users" />;
     }
-
-
     
     function userRoleOptions(options) {
         let res = []
         options.forEach((item) => {
-            let h = {}
-            h = { 
-                key: item.role.id.toString(),
-                value: item.role.role_code.toString(), 
-                text: item.role.role_value.toString(),       
-            }
-            res.push(h)
+            res.push(item.role.role_code.toString())
         })
+        console.log(res)
         return res
     }
 
@@ -122,36 +129,13 @@ function EditUser(props) {
             let h = {}
             h = { 
                 key: item.id.toString(),
-                value: item.role_code,
-                text: item.role_value          
+                value: item.role_code.toString(),
+                text: item.role_value.toString()          
             }
             res.push(h)
         })
         return res
     }
-
-    // function rolesReshape(values){
-    //     console.log('I am in the rolesReshape function ', values)
-    //     let res = {}
-    //     let arr = []
-    //     values.forEach((item) => {
-    //         let h = {}
-    //         h = { 
-    //               "role": {
-    //                   "data": {
-    //                       "role_code": item
-    //                   }, 
-    //                   "on_conflict": {
-    //                       "constraint": "roles_role_code_key",
-    //                       "update_columns": ["role_code"]
-    //                   } 
-    //               }
-    //           }
-    //         arr.push(h)
-    //     })
-    //     res = { "data": arr }
-    //     return res
-    // }
 
     return (
         <>
@@ -269,13 +253,12 @@ function EditUser(props) {
                         <Grid.Column width={10}>
                             <Dropdown
                                 id="roles"
-                                placeholder="this user does not yet have a role"
+                                placeholder="this user does not yet have a role" 
                                 error= { errors.length > 0 }
                                 fluid
-                                multiple
+                                multiple={ true }
                                 options = { roleOptions(rolesData.roles) }
-                                // active= { values.roles || [] }
-                                value= { values.roles || [] }
+                                value={ values.roles }
                                 onChange = {(e, data) => setFieldValue(data.id, data.value)}
                                 onBlur={ handleBlur }
                                 className={ errors.roles && touched.roles ? 'text-input error' : 'text-input'}
