@@ -1241,6 +1241,16 @@ mutation updateUser($id: Int!, $changes: users_set_input) {
   }
 `
 
+export const updateUserRolesMutation = gql`
+  mutation updateUserRolesMutation($userId: Int!, $newRoles: [user_roles_insert_input!]! = []) {
+    delete_user_roles(where: {userId: {_eq: $userId}}) {
+      affected_rows
+    }
+    insert_user_roles(objects: $newRoles) {
+      affected_rows
+    }
+  }
+`
 
 // Mutations - delete
 
@@ -1268,6 +1278,14 @@ export const deleteStemMutation = gql`
   }
 `;
 
+export const deleteUserRoleMutation = gql` 
+  mutation deleteUserRoleMutation($userId: Int!, $roleId: Int!) {
+    delete_user_roles_by_pk(userId: $userId, roleId: $roleId) {
+      userId
+      roleId
+    }
+  }
+`;
 
 
 
