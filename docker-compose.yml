@@ -4,12 +4,12 @@ volumes:
     # external: true
 services:
   odinson-rest-api:
-    image: lumai/odinson-rest-api:latest
+    image: lumai/odinson-rest-api:experimental
     stdin_open: true # docker run -i
     tty: true        # docker run -t
     container_name: odinson-rest-api
     volumes: 
-      - /Users/alicekwak/data/odinson:/app/data/odinson
+      - /Users/alicekwak/data/odinson:/data/odinson
     ports:
       - "9001:9000"
     restart: always
