@@ -4,18 +4,29 @@ import { Redirect } from 'react-router-dom';
 import { useAuth } from "../context/auth";
 import { getUsersQuery } from '../queries/queries';
 import UserListTable from "./UserListTable";
-import { handleErrors } from "../utils/messages";
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 import { Grid, Header} from 'semantic-ui-react';
 
 
 function UserList(props) {
     const { client, user } = useAuth();
-    const userList = useQuery(getUsersQuery, { client: client });
+    let history = useHistory()
+    let { loading: loading, error: error, data: data } = useQuery(getUsersQuery, {client: client }) 
+    //const userList = useQuery(getUsersQuery, { client: client });
 
-    if (userList.loading ) return <div>Loading</div>
-    if (userList.error) {
-        console.log(userList.error)
-        handleErrors(userList.error)
+    if (loading ) return <div>Loading</div>
+    if (error) {
+        console.log(error)
+        const { graphQLErrors, networkError } = error
+        if (graphQLErrors)
+          graphQLErrors.forEach(({ message, locations, path }) => {
+            if (message.includes('JWTExpired')) {
+                toast.error(`Whoops!  You have an old login.  Logging you out now`,)
+                history.push('./login')
+            } else {
+                toast.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,)}    
+        });
         return <Redirect to="/users" />;
     }
 
@@ -31,7 +42,7 @@ function UserList(props) {
                         </Header>
                     </Grid.Row>
                     <Grid.Row>
-                        <UserListTable userListData={userList.data.users} />
+                        <UserListTable userListData={data.users} />
                     </Grid.Row>
                 </Grid.Column>
             </Grid> 
