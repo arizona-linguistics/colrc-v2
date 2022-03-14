@@ -53,13 +53,29 @@ app.post('/upload-handler', cors(), (req, res) => {
 	var fpath = req.body['file.path']
 	console.log(fname, ftype, fpath)
 	var oldPath = fpath
-	var newPath = '/var/www/colrc/tmp/testing.foobar'
+	var newPath = '/var/www/colrc/tmp/testing.json'
 
 	fs.rename(oldPath, newPath, function (err) {
 		if (err) throw err
 		console.log('Successfully renamed - AKA moved!')
 	})
-	
+
+	fs.readFile(newPath, (error, data) => {
+		if(error) {
+			throw error;
+		}
+		console.log(data.toString());
+		const requestOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(data)
+		};
+		fetch('http://localhost:9000/api/index/document', requestOptions)
+			// .then(response => response.json())
+			// .then(data => setPostId(data.id));
+
+	});
+
 	res.status(200).send("Received file")
 })
 

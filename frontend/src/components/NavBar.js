@@ -4,7 +4,8 @@ import { map } from "lodash"
 import React, { useState } from "react"
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../context/auth'
-
+import { intersectionWith, isEqual } from 'lodash';
+import { path_button_permissions } from "../access/permissions";
 import {
   Container,
   Icon,
@@ -14,6 +15,7 @@ import {
   Popup
 } from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css';
+
 
 let rightMenuItems = (currentUser) => {
   const rightItems = [
@@ -38,7 +40,8 @@ const NavBarMobile = ({
   onToggle,
   rightItems,
   visible,
-  currentUser
+  currentUser,
+  authTokens
 }) => (
   <Sidebar.Pushable>
     <Sidebar
@@ -83,22 +86,20 @@ const NavBarMobile = ({
      <Icon name="list" />
       Bibliography
     </Menu.Item>
-    {currentUser && (
-      (currentUser.roles.includes('manager') || currentUser.roles.includes('update')) &&
-        (<Menu.Item as={NavLink} to="/elicitations" name="Elicitations" size='mini' key="minielicitations">
-          <Icon name="file audio outline" />
-            Elicitations
-         </Menu.Item>
-        )
-    )}
-    {currentUser && (
-      (currentUser.roles.includes('manager') || currentUser.roles.includes('update')) &&
-        (<Menu.Item as={NavLink} to="/log" name="Log" size='mini' key="minilog">
-          <Icon name="history" />
-            Log
-         </Menu.Item>
-        )
-    )}
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+      <Menu.Item as={NavLink} to="/elicitations" name="Elicitations" size='mini' key="minielicitations">
+        <Icon name="file audio outline" />
+          Elicitations
+        </Menu.Item>
+        ): ( <div></div> )
+      }
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+    <Menu.Item as={NavLink} to="/log" name="Log" size='mini' key="minilog">
+      <Icon name="history" />
+        Log
+      </Menu.Item>
+      ): ( <div></div> )
+    }
     </Sidebar>
     <Sidebar.Pusher
       dimmed={visible}
@@ -118,7 +119,7 @@ const NavBarMobile = ({
   </Sidebar.Pushable>
 );
 
-const NavBarDesktop = ({ rightItems, currentUser }) => (
+const NavBarDesktop = ({ rightItems, currentUser, authTokens }) => (
   <Menu fixed="top" inverted>
     <Menu.Item as={NavLink} to="/" name="home" key="mhome">
        <Icon name="home" />
@@ -144,17 +145,12 @@ const NavBarDesktop = ({ rightItems, currentUser }) => (
     <Menu.Item as={NavLink} to="/bibliography" name="Bibliography" key="mbib">
        Bibliography
     </Menu.Item>
-    { currentUser && (
-      (currentUser.roles.includes('manager') || currentUser.roles.includes('update')) &&
-      (<Menu.Item as={NavLink} to="/elicitations" name="Elicitations" key="melicitations">Elicitations</Menu.Item>) 
-      )
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+      <Menu.Item as={NavLink} to="/elicitations" name="Elicitations" key="melicitations">Elicitations</Menu.Item>) : ( <div></div> )
     }
-    { currentUser && (
-      (currentUser.roles.includes('manager') || currentUser.roles.includes('update')) &&
-      (<Menu.Item as={NavLink} to="/log" name="Log" key="mlog">Log</Menu.Item>) 
-      )
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+      <Menu.Item as={NavLink} to="/log" name="Log" key="mlog">Log</Menu.Item>) : ( <div></div> )
     }
-
     <Menu.Menu position="right">
       {map(rightItems, item  => <Popup key={item.key} content={ item.content } trigger={<Menu.Item as={NavLink} to={item.to} key={item.key} icon={item.icon} /> } /> )}
     </Menu.Menu>
@@ -167,7 +163,7 @@ const NavBarChildren = ({ children }) => (
 
 function NavBar(props) {
   let [visible, setVisible] = useState(false)
-  const { user } = useAuth()
+  const { client, authTokens, setAuthTokens, user } = useAuth()
 
   const handlePusher = () => {
     if (visible) setVisible(false)
@@ -185,12 +181,13 @@ function NavBar(props) {
             rightItems={rightMenuItems(user)}
             visible={visible}
             currentUser={user}
+            authTokens={authTokens}
           >
           <NavBarChildren>{children}</NavBarChildren>
           </NavBarMobile>
         </Responsive>
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <NavBarDesktop rightItems={rightMenuItems(user)} currentUser={user} />
+          <NavBarDesktop rightItems={rightMenuItems(user)} currentUser={user} authTokens={authTokens} />
           <NavBarChildren>{children}</NavBarChildren>
         </Responsive>
       </>

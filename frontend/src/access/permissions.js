@@ -29,7 +29,8 @@ export const path_odinson_permissions = {
 }
 
 export const path_button_permissions = {
-    'adminUsers': ['manager']
+    'adminUsers': ['manager'],
+    'adminNav': ['manager', 'update'] 
 }
 
 export const path_role_field_permissions = {
