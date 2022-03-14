@@ -100,6 +100,13 @@ const NavBarMobile = ({
       </Menu.Item>
       ): ( <div></div> )
     }
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+    <Menu.Item as={NavLink} to="/upload" name="Upload" size='mini' key="miniupload">
+      <Icon name="file" />
+        Upload
+      </Menu.Item>
+      ): ( <div></div> )
+    }
     </Sidebar>
     <Sidebar.Pusher
       dimmed={visible}
@@ -150,6 +157,9 @@ const NavBarDesktop = ({ rightItems, currentUser, authTokens }) => (
     }
     {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
       <Menu.Item as={NavLink} to="/log" name="Log" key="mlog">Log</Menu.Item>) : ( <div></div> )
+    }
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+      <Menu.Item as={NavLink} to="/upload" name="Upload" key="mupload">Upload</Menu.Item>) : ( <div></div> )
     }
     <Menu.Menu position="right">
       {map(rightItems, item  => <Popup key={item.key} content={ item.content } trigger={<Menu.Item as={NavLink} to={item.to} key={item.key} icon={item.icon} /> } /> )}
