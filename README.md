@@ -121,6 +121,21 @@ In short, the basic GitHub workflow is `checkout > add > commit > push`. This wo
 - Once you are ready to send your commit(s) to the GitHub repository, you may run `git push origin <branch>` to publish your changes.
   - Note that while you may reverse your changes on your local branch if you make a mistake (for example, `git reset HEAD~1` will undo your most recent commit), it is very frowned upon to do this after your changes have been already pushed. Before you push, make sure you have made any corrections that you want to make first.
 
+#### If you change the database (tables or permissions)
+- Produce a dump of the database with Hasura metadata included. 
+- Change directory to the root of the repo.  
+- Start the container if it's not already running, dump the database, and shut it back down.
+  `sudo docker-compose up -d`
+  `cd <rootOfRepo>`
+  `cd colrc-v2/misc/sql && pg_dump -Cc -U postgres -h localhost colrc > colrc_new.sql`
+  `Password: (get the pwd from the team)`
+  `sudo docker-compose down`
+- Open colrc_new.sql and
+--Change "DROP DATABASE colrc" to "DROP DATABASE IF EXISTS colrc"
+--If you are using pg_dump v13+, also change "LOCALE = 'en_US.utf8';" to "LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8';"
+--Once you have verified that all looks well in the dump, you can overwrite the previous
+  `mv colrc_new.sql colrc.sql`
+--Then commit your changes and push to the repo.
 
 ### Working in this Repository
 In order to address an issue with the code (which may be an unimplemented feature, a bug, or something which may need to be rewritten), first check the [issues](https://github.com/arizona-linguistics/colrc-v2/issues) page of the repository. Here you will find a list of issues that you can work on.
