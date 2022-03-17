@@ -144,11 +144,11 @@ In short, the basic GitHub workflow is `checkout > add > commit > push`. This wo
   
 - If you are using pg_dump v13+, also change "LOCALE = 'en_US.utf8';" to 
 
- `LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8';`
+  `LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8';`
  
---Once you have verified that all looks well in the dump, you can overwrite the previous
+- Once you have verified that all looks well in the dump, you can overwrite the previous
 
-  `mv colrc_new.sql colrc.sql`
+   `mv colrc_new.sql colrc.sql`
 
 - Then commit your changes and push to the repo.
 
