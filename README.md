@@ -126,11 +126,15 @@ In short, the basic GitHub workflow is `checkout > add > commit > push`. This wo
 - Change directory to the root of the repo.  
 - Start the container if it's not already running, dump the database, and shut it back down.
 
---  `sudo docker-compose up -d`
---  `cd <rootOfRepo>`
---  `cd colrc-v2/misc/sql && pg_dump -Cc -U postgres -h localhost colrc > colrc_new.sql`
---  `Password: (get the pwd from the team)`
---  `sudo docker-compose down`
+  `sudo docker-compose up -d`
+
+  `cd <rootOfRepo>`
+  
+  `cd colrc-v2/misc/sql && pg_dump -Cc -U postgres -h localhost colrc > colrc_new.sql`
+  
+  `Password: (get the pwd from the team)`
+  
+ `sudo docker-compose down`
 
 - Open colrc_new.sql and
 --Change "DROP DATABASE colrc" to "DROP DATABASE IF EXISTS colrc"
