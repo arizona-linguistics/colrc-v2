@@ -47,6 +47,7 @@ import SplitView from './utils/SplitView';
 import Upload from './pages/Upload'
 import ManageTypes from './pages/ManageTypes';
 import MetadataLexicon from './pages/MetadataLexicon';
+import BuildMetadataTypes from './pages/BuildMetadataTypes'
 import BuildMetadata from './pages/BuildMetadata'
 import TestUpload from './pages/TestUpload';
 import NavBar from './components/NavBar';
@@ -191,6 +192,7 @@ function App(props) {
               <PrivateRoute path="/metadatalexicon" component={MetadataLexicon} key="MetadataLexicon" />
               <PrivateRoute path="/managetypes" component={ManageTypes} key="ManageTypes" />
               <PrivateRoute path="/buildmetadata" component={BuildMetadata} key="BuildMetadata" />
+              <PrivateRoute path="/buildmetadatatypes" component={BuildMetadataTypes} key="BuildMetadataTypes" />
               <PrivateRoute path="/upload" component={Upload} key="Upload" />
               <Route path="/crap/" component={TestUpload} key="TestUpload" />
               <Route path="/search" component={Search} key="Search" />
