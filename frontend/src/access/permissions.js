@@ -21,6 +21,11 @@ export const path_role_permissions = {
     '/elicitations': ['manager', 'update'],
     '/editelicitation': ['manager', 'update'],
     '/log': ['manager', 'update'],
+    '/managetypes': ['manager', 'update'],   
+    '/metadatalexicon': ['manager', 'update'],
+    '/buildmetadata': ['manager', 'update'],
+    '/buildmetadatatypes': ['manager', 'update'],
+    '/upload' : ['manager', 'update'],
     '/home' : ['*'],
 }
 

@@ -315,6 +315,31 @@ export const getLogQuery = gql`
 
 // getMetadata
 
+export const getMetadataLexiconQuery = gql `
+  query getMetadataLexicon {
+    metadata_lexicon {
+      code
+      code_table
+      comment
+      definition
+      id
+      label
+      type
+      validation
+    }
+  }
+`;
+
+export const getMetadataTypesQuery = gql `
+  query MetadataTypes {
+    metadata_type {
+      fields
+      id
+      name
+    }
+  }
+`;
+
 export const getMetadataQuery = gql `
   query Metadata($textFileId: Int!) {
     textfilemetadata(where: {textFileId: {_eq: $textFileId}}) {

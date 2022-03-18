@@ -45,7 +45,11 @@ import { broadCastSuccess } from './utils/messages';
 import ImageViewer from './utils/ImageViewer';
 import SplitView from './utils/SplitView';
 import Upload from './pages/Upload'
-import TestUpload from './pages/TestUpload'
+import ManageTypes from './pages/ManageTypes';
+import MetadataLexicon from './pages/MetadataLexicon';
+import BuildMetadataTypes from './pages/BuildMetadataTypes'
+import BuildMetadata from './pages/BuildMetadata'
+import TestUpload from './pages/TestUpload';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Export from './pages/Export';
@@ -185,13 +189,15 @@ function App(props) {
               <PrivateRoute path="/userlist" component={UserList} key="UserList" />
               <PrivateRoute path="/adduser" component={AddUser} key="AddUser" />
               <PrivateRoute path="/edituser" component={EditUser} key="EditUser" />
-              <Route path="/upload" component={Upload} key="Upload" />
+              <PrivateRoute path="/metadatalexicon" component={MetadataLexicon} key="MetadataLexicon" />
+              <PrivateRoute path="/managetypes" component={ManageTypes} key="ManageTypes" />
+              <PrivateRoute path="/buildmetadata" component={BuildMetadata} key="BuildMetadata" />
+              <PrivateRoute path="/buildmetadatatypes" component={BuildMetadataTypes} key="BuildMetadataTypes" />
+              <PrivateRoute path="/upload" component={Upload} key="Upload" />
               <Route path="/crap/" component={TestUpload} key="TestUpload" />
               <Route path="/search" component={Search} key="Search" />
               <Route path="/searchresults" component={SearchResults} key="SearchResults" />
               <Route path="/export" component={Export} key="Export" />
-              {/* <Route path="/odin" component={OdinsonSearch} key="OdinsonSearch" /> */}
-              {/* <Route path="/odintable" component={OdinsonTable} key="OdinsonTable" /> */}
               <Route path="/not-found" component={NotFound} key="NotFound" />
               <Route component={NotFoundRedirect} key="NotFoundRedirect" />
             </Switch>
