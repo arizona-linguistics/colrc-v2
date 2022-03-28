@@ -1242,19 +1242,23 @@ export const updateStemMutation = gql`
   }
 `;
 
-
 export const updateUserMutation = gql `
-mutation updateUser($id: Int!, $changes: users_set_input) {
-  update_users_by_pk (
-		pk_columns: {id: $id}
-		_set: $changes
-  ) {
-      id
-      first
-      last
-      username
-      email
-      password
+  mutation updateAUser($id: Int!, $first: String!, $last: String!, $username: String!, $email: String!) {
+    update_users_by_pk (pk_columns: {id: $id},
+      _set:  {
+        first: $first,
+        last: $last,
+        username: $username,
+        email: $email
+      }
+    )  
+    {
+      id,
+      first,
+      last,
+      username,
+      email,
+      password,
       user_roles {
         role {
           id
@@ -1264,7 +1268,7 @@ mutation updateUser($id: Int!, $changes: users_set_input) {
       }
     }
   }
-`
+`;
 
 export const updateUserRolesMutation = gql`
   mutation updateUserRolesMutation($userId: Int!, $newRoles: [user_roles_insert_input!]! = []) {

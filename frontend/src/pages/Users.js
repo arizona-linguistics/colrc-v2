@@ -22,21 +22,23 @@ function Users(props) {
             User Actions
         </Header>
         <Segment stacked textAlign='center'>
-          <Button color='blue' onClick={(e)=> props.history.push('/userprofile')}>
-            Update Your Profile
-          </Button>
-          <Button  color='black' path='/changepassword' onClick={(e) => props.history.push('/changepassword')}>
-            Change Your Password
-          </Button>
-          <Button color='blue'
+          <Button basic color='blue' onClick={(e)=> props.history.push('/contact')}>
+            Contact Us
+          </Button> 
+          <Button basic color='black'
             onClick={(e) => {
               logOut()
               props.history.push('/')
             }}>
             Logout
           </Button>
+          {authTokens && user && intersectionWith(path_button_permissions['users'], user.roles, isEqual).length >= 1 ? (
+                <Button basic color='blue' onClick={(e)=> props.history.push('/userprofile')}>
+                  Update Profile
+                </Button>  ) : (<div></div>)
+          }
           {authTokens && user && intersectionWith(path_button_permissions['adminUsers'], user.roles, isEqual).length >= 1 ? (
-            <Button  color='black' onClick={(e)=> props.history.push('/userlist')}>
+            <Button basic color='blue' onClick={(e)=> props.history.push('/userlist')}>
               Administer Users
             </Button>): ( 
             <div></div>

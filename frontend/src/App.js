@@ -169,6 +169,7 @@ function App(props) {
               <Route path="/contact" component={Contact} key="Contact" />
               <Route path="/imageviewer" component={ImageViewer} />
               <Route path="/splitview" component={SplitView} />
+              <Route path="/users" component={Users} key="Users" />
               <PrivateRoute path="/elicitations" component={Elicitations} key="Elicitations" />
               <PrivateRoute path="/editelicitation" component={EditElicitation} key="EditElicitation" />
               <PrivateRoute path="/addaffix" component={AddAffix} key="AddAffix" />
@@ -184,7 +185,6 @@ function App(props) {
               <PrivateRoute path="/roothistory" component={RootHistory} key="RootHistory" />
               <PrivateRoute path="/elicitationhistory" component={ElicitationHistory} key="ElicitationHistory" />
               <PrivateRoute path="/log" component={Log} key="Log" />
-              <PrivateRoute path="/users" component={Users} key="Users" />
               <PrivateRoute path="/userprofile" component={UserProfile} key="UserProfile" />
               <PrivateRoute path="/userlist" component={UserList} key="UserList" />
               <PrivateRoute path="/adduser" component={AddUser} key="AddUser" />

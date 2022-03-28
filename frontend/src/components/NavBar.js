@@ -17,11 +17,11 @@ import {
 import 'semantic-ui-css/semantic.min.css';
 
 
-let rightMenuItems = (currentUser) => {
+let rightMenuItems = (authTokens) => {
   const rightItems = [
     {to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
     ]
-    if (currentUser){
+    if (authTokens){
       rightItems.push({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
     }
     else {

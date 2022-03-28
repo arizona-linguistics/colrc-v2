@@ -53,7 +53,7 @@ function Contact() {
         <Grid.Column style={{ maxWidth: 450 }}>
             <Logo src={logoImg} />
             <Message>
-                Contact the COLRC Team with questions or concerns, or for information about creating an account.
+                Contact the COLRC Team with questions or concerns, or to reset your password.
             </Message>
             <Formik 
                 initialValues={{ 
