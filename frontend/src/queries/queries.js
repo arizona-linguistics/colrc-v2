@@ -1270,6 +1270,32 @@ export const updateUserMutation = gql `
   }
 `;
 
+export const updateUserPwdMutation = gql `
+  mutation updateAUsersPwd ($id: Int!, $password: String!) {
+    update_users_by_pk (pk_columns: {id: $id},
+      _set:  {
+        password: $password,
+      }
+    )  
+    {
+      id,
+      first,
+      last,
+      username,
+      email,
+      password,
+      user_roles {
+        role {
+          id
+          role_code
+          role_value
+        }     
+      }
+    }
+  }
+
+`;
+
 export const updateUserRolesMutation = gql`
   mutation updateUserRolesMutation($userId: Int!, $newRoles: [user_roles_insert_input!]! = []) {
     delete_user_roles(where: {userId: {_eq: $userId}}) {
