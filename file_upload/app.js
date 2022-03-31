@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const fetch = require('node-fetch');
 const cors = require('cors');
 
 var indexRouter = require('./routes/index');
@@ -55,10 +56,11 @@ app.post('/upload-handler', cors(), (req, res) => {
 	var oldPath = fpath
 	var newPath = '/var/www/colrc/tmp/testing.json'
 
-	fs.rename(oldPath, newPath, function (err) {
-		if (err) throw err
-		console.log('Successfully renamed - AKA moved!')
-	})
+	// fs.rename(oldPath, newPath, function (err) {
+	// 	if (err) throw err
+	// 	console.log('Successfully renamed - AKA moved!')
+	// })
+	fs.renameSync(oldPath, newPath)
 
 	fs.readFile(newPath, (error, data) => {
 		if(error) {
@@ -68,11 +70,12 @@ app.post('/upload-handler', cors(), (req, res) => {
 		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(data)
+			body: JSON.stringify(JSON.parse(data))
 		};
-		fetch('http://localhost:9000/api/index/document', requestOptions)
-			// .then(response => response.json())
-			// .then(data => setPostId(data.id));
+		fetch('http://10.5.0.8:9000/api/index/document', requestOptions)
+			.then(response => response.json())
+			// .then(data => setPostId(data.id))
+			.catch(error => console.log(error));
 
 	});
 
