@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import { Grid, Button, Label, Message, Header, Input, Dropdown } from 'semantic-ui-react';
 import * as Yup from 'yup';
-import { getUserByIdQuery, getRolesQuery, updateUserRolesMutation } from './../queries/queries'
+import { getUserByIdQuery, getRolesQuery, updateUserRolesMutation, updateUserPwdMutation } from './../queries/queries'
 import { useQuery } from '@apollo/react-hooks'
 import { Formik, Form } from 'formik';
 import { useAuth } from "../context/auth";
@@ -12,14 +12,9 @@ import '../stylesheets/react-confirm-alert.css';
 
 // first we set up validation for our form fields, using Yup (https://www.npmjs.com/package/yup)
 let editUserSchema = Yup.object().shape({
-    first: Yup.string()
-      .required('Required'),
-    last: Yup.string()
-      .required('Required'),
-    username: Yup.string()
-      .required('Required'),
-    email: Yup.string()
-      .email('Please enter a valid email address')
+    password: Yup.string()
+      .min(2, 'Password must be more than 2 characters')
+      .max(30, 'Password must be less than 30 characters')
       .required('Required'),
     }); 
 
@@ -94,7 +89,27 @@ function EditUser(props) {
             handleErrors(result.error)
             setSubmitting(false)
         } else {
-            broadCastSuccess(`User ${values.username} successfully updated!`)
+            broadCastSuccess(`User ${values.username}'s roles successfully updated!`)
+            setSubmitting(false)
+            setHasUpdated(true)
+        }
+        } catch (error) {
+        handleErrors(error)
+        setSubmitting(false)
+        }
+        try {
+        const pwdResult = await client.mutate({
+            mutation: updateUserPwdMutation,
+            variables: {
+                id: values.id,
+                password: values.password
+            }
+        })
+        if (pwdResult.error) {
+            handleErrors(pwdResult.error)          
+            setSubmitting(false)
+        } else {
+            broadCastSuccess(`User ${values.username}'s password successfully updated!`)
             setSubmitting(false)
             setHasUpdated(true)
         }
@@ -103,6 +118,7 @@ function EditUser(props) {
         setSubmitting(false)
         }
     }
+
     
     
     const routeChange=()=> {
@@ -142,8 +158,8 @@ function EditUser(props) {
         <Grid centered>
             <Grid.Row>
                 <Grid.Column textAlign="center" width={12}>
-                    <Header as="h2">Modify a User Record</Header>
-                    <Message>Use this form to edit a user record.</Message>
+                    <Header as="h2">Manage User</Header>
+                    <Message>Use this form to manage user roles and passwords.</Message>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
@@ -181,7 +197,7 @@ function EditUser(props) {
             <Form>
                 <Grid centered>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">First Name</Label></Grid.Column>
+                        <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">First Name</Label></Grid.Column>
                         <Grid.Column width={10}>
                             <Input
                                 id="first"
@@ -189,16 +205,12 @@ function EditUser(props) {
                                 fluid
                                 type="text"
                                 value={ values.first }
-                                onChange={ handleChange }
-                                onBlur={ handleBlur }
-                                className={ errors.first && touched.first ? 'text-input error' : 'text-input' }
+                                disabled
                             />
-                            {errors.first && touched.first && ( <div className="input-feedback">{errors.first}</div>
-                            )}
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">Last Name</Label></Grid.Column>
+                        <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">Last Name</Label></Grid.Column>
                         <Grid.Column width={10}>
                             <Input
                                 id="last"
@@ -206,16 +218,12 @@ function EditUser(props) {
                                 placeholder="Last Name"
                                 type="text"
                                 value={ values.last }
-                                onChange={ handleChange }
-                                onBlur={ handleBlur }
-                                className={ errors.last && touched.last ? 'text-input error' : 'text-input' }
+                                disabled
                             />
-                            {errors.last && touched.last && ( <div className="input-feedback">{errors.last}</div>
-                            )}
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">Username</Label></Grid.Column>
+                        <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">Username</Label></Grid.Column>
                         <Grid.Column width={10}>
                             <Input
                                 id="username"
@@ -223,16 +231,12 @@ function EditUser(props) {
                                 placeholder="Username"
                                 type="text"
                                 value={ values.username }
-                                onChange={ handleChange }
-                                onBlur={ handleBlur }
-                                className={ errors.username && touched.username ? 'text-input error' : 'text-input' }
+                                disabled
                             />
-                            {errors.user && touched.user && ( <div className="input-feedback">{errors.user}</div>
-                            )}
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">Email</Label></Grid.Column>
+                        <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">Email</Label></Grid.Column>
                         <Grid.Column width={10}>                      
                             <Input
                                 id="email"
@@ -240,12 +244,8 @@ function EditUser(props) {
                                 fluid
                                 type="text"
                                 value={ values.email }
-                                onChange={ handleChange }
-                                onBlur={ handleBlur }
-                                className={ errors.email && touched.email ? 'text-input error' : 'text-input'}
+                                disabled
                             />
-                            {errors.email && touched.email && ( <div className="input-feedback">{errors.email}</div>
-                            )}
                         </Grid.Column>  
                     </Grid.Row>
                     <Grid.Row>

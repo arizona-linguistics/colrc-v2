@@ -39,6 +39,7 @@ function Signup(props) {
   const { client, authClient, setAuthTokens } = useAuth();
 
 
+
   async function onFormSubmit (values, setSubmitting) {
     console.log(values)
     try {

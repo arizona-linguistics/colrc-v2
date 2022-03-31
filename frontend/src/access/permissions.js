@@ -3,7 +3,7 @@ export const path_role_permissions = {
     '/userlist': ['manager'],
     '/edituser': ['manager'],
     '/adduser': ['manager'],
-    '/users': ['manager', 'update', 'view'],
+    // '/users': ['manager', 'update', 'view'],
     '/userprofile': ['manager', 'update', 'view'],
     '/addaffix': ['manager','update'],
     '/editaffix': ['manager','update'],
@@ -35,7 +35,8 @@ export const path_odinson_permissions = {
 
 export const path_button_permissions = {
     'adminUsers': ['manager'],
-    'adminNav': ['manager', 'update'] 
+    'adminNav': ['manager', 'update'],
+    'users':  ['manager', 'update', 'view']
 }
 
 export const path_role_field_permissions = {
