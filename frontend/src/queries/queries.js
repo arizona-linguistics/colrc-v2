@@ -1342,6 +1342,14 @@ export const deleteUserRoleMutation = gql`
   }
 `;
 
+export const deleteUserMutation = gql`
+  mutation deleteUser($id: Int!) {
+    delete_users_by_pk(id: $id) {
+      id
+    }
+  }
+`
+
 
 
 
