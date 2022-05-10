@@ -30,17 +30,18 @@
     "react-confirm-alert": "^2.6.2",
     "react-dom": "^16.13.1",
     "react-google-recaptcha": "^2.1.0",
-    "react-image-gallery": "^1.0.8",
+    "react-image-gallery": "^1.2.8",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.0",
     "react-simple-keyboard": "^2.4.23",
     "react-table": "^7.5.1",
-    "react-table7": "npm:undefined@^0.1.0",
     "react-toastify": "^5.5.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "styled-components": "^5.2.0",
     "yup": "^0.28.5"
+  },
+  "devDependencies": {
+    "react-scripts": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
