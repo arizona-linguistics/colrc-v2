@@ -9,6 +9,7 @@ import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
 import { Icon, Button } from "semantic-ui-react";
 import { handleErrors } from '../utils/messages';
+import { path_segment_permissions, path_column_permissions } from "../access/permissions";
 
 function Table({
   columns,
@@ -433,7 +434,7 @@ function AffixTable(props) {
   const [pageCount, setPageCount] = React.useState(0)
   //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
   const fetchIdRef = React.useRef(0)
-  const { client, setAuthTokens, user } = useAuth();
+  const { client, setAuthTokens, authTokens, user } = useAuth();
 
   
   async function getAffixes(limit, offset, sortBy, filters) {
@@ -506,11 +507,11 @@ function AffixTable(props) {
   }, [history, setAuthTokens])
 
   let columns = {}
-  if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) {
-    columns = updateColumns
-  } else {
-    columns = anonColumns
-  }
+    if(authTokens && user && intersectionWith(path_column_permissions['canEdit'], user.roles, isEqual).length >= 1) {
+      columns = updateColumns
+    } else {
+      columns = anonColumns
+    }
 
   return (
     <TableStyles>

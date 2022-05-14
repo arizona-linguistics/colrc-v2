@@ -39,6 +39,14 @@ export const path_button_permissions = {
     'users':  ['manager', 'update', 'view']
 }
 
+export const path_segment_permissions = {
+    'canExport': ['manager', 'update'],
+}
+
+export const path_column_permissions = {
+    'canEdit': ['manager', 'update'],
+}
+
 export const path_role_field_permissions = {
     '/spelling': {
         'all_fields': ['root', 'reichard', 'english', 'doak'],

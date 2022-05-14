@@ -10,6 +10,7 @@ import TableStyles from "./../stylesheets/table-styles"
 import { Icon, Button } from "semantic-ui-react";
 import { getStemsQuery, getAnonStemsQuery } from './../queries/queries'
 import { handleErrors } from '../utils/messages';
+import { path_segment_permissions, path_column_permissions } from "../access/permissions";
 
 function Table({
   columns,
@@ -431,7 +432,7 @@ function StemTable(props) {
   const [pageCount, setPageCount] = React.useState(0)
   //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
   const fetchIdRef = React.useRef(0)
-  const { client, user, setAuthTokens } = useAuth();
+  const { client, user, setAuthTokens, authTokens } = useAuth();
 
   async function getStems(limit, offset, sortBy, filters) {
     let res = {}
@@ -502,11 +503,12 @@ function StemTable(props) {
   }, [history, setAuthTokens])
 
   let columns = {}
-  if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) {
-    columns = updateColumns
-  } else {
-    columns = anonColumns
-  }
+    if(authTokens && user && intersectionWith(path_column_permissions['canEdit'], user.roles, isEqual).length >= 1) {
+      columns = updateColumns
+    } else {
+      columns = anonColumns
+    }
+
 
   return (
     <TableStyles>
