@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { intersectionWith, isEqual } from 'lodash';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
 import { useAuth } from "../context/auth";
-import { getLogQuery } from '../queries/queries'
-import { sortReshape, filterReshape } from "../utils/reshapers"
 import TableStyles from "../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
-import { useRowSelect } from 'react-table/dist/react-table.development';
 
 
 function Table({
@@ -100,26 +96,14 @@ function Table({
     usePagination,   
   )
   
-  console.log(globalFilter)
-  // function OdinsonReturn(props) {
-  
-  //   const [data, setData] = useState([]);
-  //   const [list, setList] = useState([]);
-  //   const [pattern, setPattern] = useState("");
-  
-  //   const handleSubmit = async (evt) => {
-  //     evt.preventDefault();
-  //     let res = await getPattern(pattern)
-  //     console.log(res.scoreDocs)
-  //     setList(res.scoreDocs)
-  //   }
-  
-  // }
-
+  const [cache, setCache] = useState([]);
+  const [doc, setDoc] = useState(-1);
+  const [score, setScore] = useState(-1.0);
+  const [totalHits, setTotalHits] = useState(-1);
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
     fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, setScore, score, setDoc, doc, setCache, cache, setTotalHits, totalHits })
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, cache, doc, score, totalHits])
 
   React.useEffect(
     () => {
@@ -130,46 +114,11 @@ function Table({
     [columns, setHiddenColumns]
   );
 
-  const [cache, setCache] = useState([]);
-  const [doc, setDoc] = useState(-1);
-  const [score, setScore] = useState(-1.0);
-  const [totalHits, setTotalHits] = useState(-1);
+
 
   // Render the UI for your table
   return (
     <>
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
-      
-    {/* <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Pattern:
-          <input
-            type="text"
-            value={pattern}
-            onChange={e => setPattern(e.target.value)}
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    </div> */}
 
       <div className="columnToggle">
         {allColumns.map(column => (
@@ -289,38 +238,19 @@ function Table({
   )
 }
 
-  // // We'll start our table without any data
-  // const [data, setData] = React.useState([])
-  // const [loading, setLoading] = React.useState(false)
-  // const [pageCount, setPageCount] = React.useState(0)
-  // //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
-  // const { client, setAuthTokens, user } = useAuth();
 
 function OdinsonTable(props) {
   
   const [data, setData] = useState([]);
-  // const [cache, setCache] = useState([]);
-  // const [doc, setDoc] = useState(-1);
-  // const [score, setScore] = useState(-1.0);
-  const [pattern, setPattern] = useState("");
   const fetchIdRef = React.useRef(0)
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
-  const [pageSize, setPageSize] = React.useState(0)
-  const { client, setAuthTokens, user } = useAuth();
+  const {setAuthTokens} = useAuth();
 
   let history = useHistory()
 
   const columns = React.useMemo(
     () => [
-      // {
-      //   Header: 'ID',
-      //   accessor: 'id',
-      //   tableName: 'LogTable',
-      //   show: false,
-      //   disableFilters: true,
-      //   id: 'id'
-      // },
       {
         Header: 'DocumentId',
         accessor: 'documentId',
@@ -335,7 +265,6 @@ function OdinsonTable(props) {
         Header: 'Words',
         accessor: 'words',
         tableName: 'OdinsonTable',
-        // Cell: ({ row }) => <span>{data.words.join(" ")}</span>,
         Cell: ({ cell: { value } }) => <span>{value.join(" ")}</span>,
         show: true,
         id: 'words',
@@ -343,64 +272,14 @@ function OdinsonTable(props) {
       }
     ], []
   )
-  
-  // const handleSubmit = async (evt) => {
-  //   evt.preventDefault();
-  //   let res = await getPattern(pattern)
-  //   console.log(res.scoreDocs)
-  //   setList(res.scoreDocs)
-  // }
-  
-  // async function getPattern(pattern) {
-  //   let res = {}
-  //   console.log("getting data")
-  //   let odindata = await fetch('http://localhost:80/odinson/?' + new 
-  //   URLSearchParams({
-  //   odinsonQuery: `[word = /.*${pattern}.*/]`
-  //   }),{mode:'cors'}).then((res) => res.json())
-  //   .then((data) => {
-  //     return data
-  //   }).catch(error => console.log(error))
-  //   console.log("got data")
-  //   return odindata
-  // }
 
-  // async function getLog(limit, offset, sortBy, filters) {
-  //   let res = {}
-  //   if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) { 
-  //     res = await client.query({
-  //       query: getLogQuery,
-  //       variables: { 
-  //         limit: limit,
-  //         offset: offset,
-  //         log_order: sortBy,
-  //         where: filters,
-  //        }
-  //     })
-  //   }
-    // else {
-    //   res = await client.query({
-    //     query: getAnonAffixesQuery,
-    //     variables: { 
-    //       limit: limit,
-    //       offset: offset,
-    //       affix_order: sortBy,
-    //       where: filters,
-    //     }
-    //   })
-    // }
-    // return res.data
-  // }  
 
   async function getPattern(globalSearch,pageSize,pageIndex,setScore,score,setDoc,doc,setCache,cache,setTotalHits,totalHits) {
     let tempCache = Array.from(cache)
     let hits = totalHits
     let tempScore = score
     let tempDoc = doc
-    // console.log("page count and index: ", pageCount, pageIndex)
-    // if (pageIndex > pageCount) {
-    //   pageIndex = 0
-    // }
+ 
     while (pageIndex*pageSize >= tempCache.length) {
       let odindata = await getNextCachePage(globalSearch, tempScore, tempDoc)
       hits = odindata.totalHits
@@ -471,8 +350,8 @@ function OdinsonTable(props) {
     setTimeout(() => {
       // Only update the data if this is the latest fetch
       if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy,"event_id")
-        const controlledFilter = filterReshape(filters, globalFilter, ['action', 'table_name'])
+        //const controlledSort = sortReshape(sortBy,"event_id")
+        //const controlledFilter = filterReshape(filters, globalFilter, ['action', 'table_name'])
         // console.log(controlledFilter)
         // reset to first page when filters change
         // if (filters.length > 0) {
@@ -498,6 +377,7 @@ function OdinsonTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
   // let columns = updateColumns

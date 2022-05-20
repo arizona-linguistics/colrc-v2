@@ -173,7 +173,7 @@ const NavBarChildren = ({ children }) => (
 
 function NavBar(props) {
   let [visible, setVisible] = useState(false)
-  const { client, authTokens, setAuthTokens, user } = useAuth()
+  const { authTokens, user } = useAuth()
 
   const handlePusher = () => {
     if (visible) setVisible(false)

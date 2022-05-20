@@ -345,6 +345,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
       })
     }
   }, 1000)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
 

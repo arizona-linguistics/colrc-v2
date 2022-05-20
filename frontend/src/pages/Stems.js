@@ -20,7 +20,7 @@ function Stems(props) {
 
   if (stemCategoriesError) {
     console.error(stemCategoriesError)
-    const { graphQLErrors, networkError } = stemCategoriesError
+    const { graphQLErrors } = stemCategoriesError
     if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) => {
         if (message.includes('JWTExpired')) {

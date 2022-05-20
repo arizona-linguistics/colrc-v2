@@ -9,7 +9,7 @@ import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
 import { Icon, Button } from "semantic-ui-react";
 import { handleErrors } from '../utils/messages';
-import { path_segment_permissions, path_column_permissions } from "../access/permissions";
+import { path_column_permissions } from "../access/permissions";
 
 function Table({
   columns,
@@ -504,6 +504,7 @@ function AffixTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
   let columns = {}

@@ -2,8 +2,8 @@ import React from "react";
 import Uploady from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button"
 import { Grid, Header, Dropdown, Segment, Button } from  "semantic-ui-react";
-import { useAuth } from "../context/auth";
-import { useHistory } from 'react-router-dom';
+//import { useAuth } from "../context/auth";
+//import { useHistory } from 'react-router-dom';
 
 
 // Production URL: https://thecolrc.org/upload_file
@@ -12,8 +12,8 @@ import { useHistory } from 'react-router-dom';
 
 
 function Upload (props) {
-    const { client, user } = useAuth();
-    let history = useHistory()
+    //const { client, user } = useAuth();
+    //let history = useHistory()
 
     return (
     <>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link,useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { intersectionWith, isEqual } from 'lodash';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
@@ -401,6 +401,7 @@ function LogTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
   let columns = updateColumns

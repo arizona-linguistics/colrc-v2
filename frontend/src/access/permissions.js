@@ -26,6 +26,7 @@ export const path_role_permissions = {
     '/buildmetadata': ['manager', 'update'],
     '/buildmetadatatypes': ['manager', 'update'],
     '/upload' : ['manager', 'update'],
+    '/rootexports' : ['manager', 'update'],
     '/home' : ['*'],
 }
 

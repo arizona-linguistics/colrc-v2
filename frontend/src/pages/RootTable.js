@@ -2,23 +2,17 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { intersectionWith, isEqual } from 'lodash';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
-import { GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
-//import styled from 'styled-components'
-import { Icon, Button, Segment, Header } from "semantic-ui-react";
+import { Icon, Button, Segment, Header, Message } from "semantic-ui-react";
 import { getRootsQuery, getAnonRootsQuery } from './../queries/queries'
 import { handleErrors } from '../utils/messages';
 import  BrowseList  from '../utils/BrowseList'
 import { path_segment_permissions, path_column_permissions } from "../access/permissions";
 import { useExportData } from 'react-table-plugins';
-import Papa from "papaparse";
-import * as XLSX from 'xlsx/xlsx.mjs';
-import JsPDF from "jspdf";
-import "jspdf-autotable";
-
-
+import { getExportFileBlob } from '../utils/ExportFileBlob';
 
 function Table({
   columns,
@@ -61,76 +55,8 @@ function Table({
     }),
     []
   )
-
-  // produce various exports using react-table-plugins
-  function DefaultColumnFilter({
-    column: { filterValue, preFilteredRows, setFilter },
-  }) {
-    const count = preFilteredRows.length;
   
-    return (
-      <input
-        value={filterValue || ""}
-        onChange={(e) => {
-          setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
-        }}
-        placeholder={`Search ${count} records...`}
-      />
-    );
-  }
-  
-  
-  function getExportFileBlob({ columns, data, fileType, fileName }) {
-    if (fileType === "csv") {
-      // CSV example  :: note that excel doesn't understand this is utf-8, but notepad does
-      const headerNames = columns.map((col) => col.exportValue);
-      const csvString = Papa.unparse({ fields: headerNames, data });
-      return new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-    } else if (fileType === "xlsx") {
-      // XLSX example
-  
-      const header = columns.map((c) => c.exportValue);
-      const compatibleData = data.map((row) => { 
-        const obj = {};
-        header.forEach((col, index) => {
-          obj[col] = row[index];
-        });
-        return obj;
-      });
-  
-      let wb = XLSX.utils.book_new();
-      let ws1 = XLSX.utils.json_to_sheet(compatibleData, {
-        header,
-      });
-      XLSX.utils.book_append_sheet(wb, ws1, "React Table Data");
-      XLSX.writeFile(wb, `${fileName}.xlsx`);
-  
-      // Returning false as downloading of file is already taken care of
-      return false;
-    }
-    //PDF example
-    if (fileType === "pdf") {
-      const headerNames = columns.map((column) => column.exportValue);
-      const doc = new JsPDF('landscape');
-      doc.autoTable({
-        head: [headerNames],
-        body: data,
-        margin: { top: 20 },
-        styles: {
-          minCellHeight: 9,
-          halign: "left",
-          valign: "top",
-          fontSize: 10,
-        },
-      });
-      doc.save(`${fileName}.pdf`);
-  
-      return false;
-    }
-  
-    // Other formats goes here
-    return false;
-  }
+ 
 
   const {
     getTableProps,
@@ -140,7 +66,6 @@ function Table({
     page,
     state,
     allColumns,
-    //getToggleHideAllColumnsProps,
     setHiddenColumns,
     visibleColumns,
     preGlobalFilteredRows,
@@ -222,6 +147,42 @@ React.useEffect(
           )}
         </code>
       </pre> */}
+
+        {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
+          (<Segment>
+            <Header as='h3'>Export View</Header>
+            <Message>Select your export format to export the data from this view only.  To export all roots, select 'export all'</Message>
+            <Button basic color='blue'
+              onClick={() => {
+                exportData("csv", false);
+              }}
+            >
+             to csv
+            </Button>
+            <Button basic color='blue'
+              onClick={() => {
+                exportData("xlsx", false);
+              }}
+            >
+              to xlsx
+            </Button>
+            <Button basic color='blue'
+              onClick={() => {
+                exportData("pdf", false);
+              }}
+            >
+              to pdf
+            </Button>
+              <Link 
+                  to={{
+                    pathname: "/rootexports",
+                  }}>
+                  <Button color='blue'>
+                      export all
+                  </Button> 
+                </Link> 
+          </Segment>) : (<div></div>)
+        }
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
@@ -233,52 +194,6 @@ React.useEffect(
         ))}
       </div>
       <BrowseList/>
-        {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
-          (<Segment><Header as='h3'>Exports</Header>
-            <Button color='blue'
-              onClick={() => {
-                exportData("csv", true);
-              }}
-            >
-              all to csv
-            </Button>
-            <Button basic color='blue'
-              onClick={() => {
-                exportData("csv", false);
-              }}
-            >
-              view to csv
-            </Button>
-            <Button color='blue'
-              onClick={() => {
-                exportData("xlsx", true);
-              }}
-            >
-              all to xlsx
-            </Button>
-            <Button basic color='blue'
-              onClick={() => {
-                exportData("xlsx", false);
-              }}
-            >
-              view to xlsx
-            </Button>
-            <Button color='blue'
-              onClick={() => {
-                exportData("pdf", true);
-              }}
-            >
-              all to pdf
-            </Button>{" "}
-            <Button basic color='blue'
-              onClick={() => {
-                exportData("pdf", false);
-              }}
-            >
-              view to pdf
-            </Button>
-          </Segment>) : (<div></div>)
-        }
       <table {...getTableProps()}>
         <thead>
           <tr>
@@ -389,7 +304,7 @@ React.useEffect(
             setPageSize(Number(e.target.value))
           }}
         >
-          {[10, 20, 30, 40, 50].map(pageSize => (
+          {[10, 20, 30, 40, 50, 100, 200].map(pageSize => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
@@ -723,6 +638,7 @@ function RootTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
 

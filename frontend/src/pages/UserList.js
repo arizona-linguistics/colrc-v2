@@ -12,13 +12,13 @@ import { Grid, Header} from 'semantic-ui-react';
 function UserList(props) {
     const { client, user } = useAuth();
     let history = useHistory()
-    let { loading: loading, error: error, data: data } = useQuery(getUsersQuery, {client: client }) 
+    let { loading, error, data } = useQuery(getUsersQuery, {client: client }) 
     //const userList = useQuery(getUsersQuery, { client: client });
 
     if (loading ) return <div>Loading</div>
     if (error) {
         console.log(error)
-        const { graphQLErrors, networkError } = error
+        const { graphQLErrors } = error
         if (graphQLErrors)
           graphQLErrors.forEach(({ message, locations, path }) => {
             if (message.includes('JWTExpired')) {

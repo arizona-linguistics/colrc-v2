@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Header, Segment } from  "semantic-ui-react";
+import { Grid, Header } from  "semantic-ui-react";
 import { getMetadataLexiconQuery } from '../queries/queries';
 import MetadataLexiconTable from './MetadataLexiconTable';
 import { useQuery } from '@apollo/react-hooks';
@@ -15,14 +15,14 @@ import { useHistory } from 'react-router-dom';
 
 
 function MetadataLexicon (props) {
-    const { client, user } = useAuth();
+    const { client } = useAuth();
     let history = useHistory()
-    let { loading: loading, error: error, data: data } = useQuery(getMetadataLexiconQuery, {client: client }) 
+    let { loading, error, data } = useQuery(getMetadataLexiconQuery, {client: client }) 
 
     if (loading ) return <div>Loading</div>
     if (error) {
         console.log(error)
-        const { graphQLErrors, networkError } = error
+        const { graphQLErrors } = error
         if (graphQLErrors)
           graphQLErrors.forEach(({ message, locations, path }) => {
             if (message.includes('JWTExpired')) {

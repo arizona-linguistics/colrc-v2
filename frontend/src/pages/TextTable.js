@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link,useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useExpanded } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
 import { useAuth } from "../context/auth";
@@ -20,7 +20,7 @@ function Table({
   renderRowSubComponent
 }) {
 
-  const { user } = useAuth();
+  //const { user } = useAuth();
 
   const filterTypes = React.useMemo(
     () => ({
@@ -371,7 +371,7 @@ function TextTable(props) {
   const [pageCount, setPageCount] = React.useState(0)
   //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
   const fetchIdRef = React.useRef(0)
-  const { client, setAuthTokens, user } = useAuth();
+  const { client, setAuthTokens } = useAuth();
 
   
   async function getTexts(limit, offset, sortBy, filters) {
@@ -430,6 +430,7 @@ function TextTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
 

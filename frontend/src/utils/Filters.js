@@ -9,6 +9,7 @@ import matchSorter from 'match-sorter'
 // }
 
 // Define a default UI for filtering
+
 export function GlobalFilter({
     globalFilter,
     setGlobalFilter

@@ -39,7 +39,7 @@ function AddUser(props) {
     //make sure we can use the browser history for routing after submit
     const history = useHistory();
     //get information about the user submitting the form to allow them to change the data
-    const { client, authClient, setAuthTokens } = useAuth();
+    const { client } = useAuth();
     //create a hook to query the database for all of the available roles, to set up our roles multiselect options
     let { loading: rolesLoading, error: rolesError, data: rolesData} = useQuery(getRolesQuery, {client: client})
     if (rolesLoading) {

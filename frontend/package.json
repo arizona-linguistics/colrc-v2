@@ -44,6 +44,7 @@
     "yup": "^0.28.5"
   },
   "devDependencies": {
+    "react-error-overlay": "^6.0.9",
     "react-scripts": "^4.0.1"
   },
   "scripts": {

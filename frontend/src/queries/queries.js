@@ -363,9 +363,8 @@ export const getMetadataQuery = gql `
 `;
 
 // getRoots
-
 export const getRootsQuery = gql`
-  query getRootsQuery($where: roots_bool_exp = {}, $limit: Int = 10, $offset: Int = 10, $root_order: [roots_order_by!] = {}) {
+  query getRootsQuery($where: roots_bool_exp = {}, $limit: Int = 10, $offset: Int = 0, $root_order: [roots_order_by!] = {}) {
     roots_aggregate(where: $where) {
       aggregate {
         count
