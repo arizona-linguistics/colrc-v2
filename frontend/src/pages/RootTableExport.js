@@ -1,23 +1,54 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { intersectionWith, isEqual } from 'lodash';
-import { useTable, usePagination, useSortBy } from 'react-table'
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import TableStyles from "../stylesheets/table-styles"
-import { Button, Segment, Header, Message } from "semantic-ui-react";
-import { getRootsQuery } from '../queries/queries'
+import { Button, Segment, Header, Grid, Label } from "semantic-ui-react";
+import { getAllRootsQuery } from '../queries/queries'
 import { handleErrors } from '../utils/messages';
 import { useExportData } from 'react-table-plugins';
 import { getExportFileBlob } from '../utils/ExportFileBlob';
-
 
 function Table({
   columns,
   data,
   fetchData,
   loading,
+  globalSearch,
 }) {
   
+  //console.log("Inside table, I have select values: ", selectValues)
+  console.log("Inside table, I have globalSearch ", globalSearch)
+
+  const filterTypes = React.useMemo(
+    () => ({
+      fuzzyText: fuzzyTextFilterFn,
+      text: (rows, id, filterValue) => {
+        return rows.filter(row => {
+          const rowValue = row.values[id]
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true
+        })
+      },
+    }),
+    []
+  )
+
+
+  const defaultColumn = React.useMemo(
+    () => ({
+      Filter: DefaultColumnFilter,   
+      minWidth: 50, // minWidth is only used as a limit for resizing
+      width: 200, // width is used for both the flex-basis and flex-grow
+      maxWidth: 500, // maxWidth is only used as a limit for resizing
+    }),
+    []
+  )
 
   const {
     getTableProps,
@@ -25,7 +56,12 @@ function Table({
     headerGroups,
     prepareRow,
     page,
+    state,
+    allColumns,
     setHiddenColumns,
+    visibleColumns,
+    preGlobalFilteredRows,
+    setGlobalFilter,
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -36,16 +72,22 @@ function Table({
     setPageSize,
     exportData,
     // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy }
+    state: { pageIndex, pageSize }
   } = useTable(
     {
       columns,
       data,
       initialState: { 
         pageIndex: 0,
+        pageSize: 10,
+        globalFilter: ((globalSearch && globalSearch !== '') ? globalSearch : null)
        }, // Pass our hoisted table state
+      defaultColumn,
+      filterTypes,
       getExportFileBlob,
     },
+    useGlobalFilter,
+    useFilters,
     useSortBy,
     useExportData,
     usePagination,
@@ -55,8 +97,8 @@ function Table({
 
 // Listen for changes in pagination and use the state to fetch our new data
 React.useEffect(() => {
-  fetchData({ pageIndex, pageSize, sortBy })
-}, [fetchData, pageIndex, pageSize, sortBy])
+  fetchData({  })
+}, [fetchData])
 
 React.useEffect(
   () => {
@@ -70,35 +112,91 @@ React.useEffect(
   // Render the UI for your table
   return (
     <>
-      <Segment>
-        <Header as='h3'>Export All</Header>
-        <Button color='blue'
-          onClick={() => {
-            exportData("csv", true);
-          }}
-        >
-          to csv
-        </Button>
-        <Button color='blue'
-          onClick={() => {
-            exportData("xlsx", true);
-          }}
-        >
-          to xlsx
-        </Button>
-        <Button color='blue'
-          onClick={() => {
-            exportData("pdf", true);
-          }}
-        >
-          to pdf
-        </Button>
-        <Message>Export all columns and rows of this table to your selected format. Note that the export-all process may take several seconds to complete.</Message>
-      </Segment>
-
-
+      <div>
+        <Header as="h3">Export all rows or <Link to={{pathname: "/roots"}}>go back to roots table</Link></Header>
+        <Grid columns={2}>
+          <Grid.Column>
+            <Segment>
+              <Label as='a' color='blue' ribbon>
+                only selected columns
+              </Label>
+              <Button.Group size='mini'>
+                <Button 
+                  onClick={() => {
+                    exportData("csv", false);
+                  }}>
+                    to csv
+                </Button>
+                <Button.Or />
+                <Button color='blue'
+                  onClick={() => {
+                    exportData("xlsx", false);
+                  }}>
+                  to xlsx
+                </Button>
+                <Button.Or />
+                <Button 
+                  onClick={() => {
+                    exportData("pdf", false);
+                  }}>
+                  to pdf
+                </Button>
+              </Button.Group>
+            </Segment>
+          </Grid.Column>
+          <Grid.Column>
+            <Segment>
+              <Label as='a' color='blue' ribbon>
+                all columns 
+              </Label>
+              <Button.Group size='mini'>
+                <Button onClick={() => {
+                    exportData("csv", true);
+                  }}>
+                  to csv
+                </Button>
+                <Button.Or />
+                <Button color='blue'
+                  onClick={() => {
+                    exportData("xlsx", true);
+                  }}>
+                  to xlsx
+                </Button>
+                <Button.Or />
+                <Button 
+                  onClick={() => {
+                    exportData("pdf", true);
+                  }}>
+                  to pdf
+                </Button>
+              </Button.Group>
+            </Segment>
+          </Grid.Column>
+        </Grid>
+      </div>
+      <div className="columnToggle">
+        {allColumns.map(column => (
+          <div key={column.id} className="columnToggle">
+            <label>
+              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+              {column.label}
+            </label>
+          </div>
+        ))}
+      </div>
       <table {...getTableProps()}>
         <thead>
+          <tr>
+            <th
+              colSpan={visibleColumns.length}
+            >
+              <GlobalFilter
+                preGlobalFilteredRows={preGlobalFilteredRows}
+                globalFilter={state.globalFilter}
+                setGlobalFilter={setGlobalFilter}
+              />
+            </th>
+          </tr>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
@@ -111,6 +209,9 @@ React.useEffect(
                         : ' ▲'
                       : ''}
                   </span>
+                  <div>
+                    {column.canFilter ? column.render('Filter') : null}
+                  </div>
                 </th>
               ))}
             </tr>
@@ -127,8 +228,20 @@ React.useEffect(
               </tr>
             )
           })}
+          <tr>
+            {loading ? (
+              // Use our custom loading state to show a loading indicator
+              <td colSpan="10000">Loading...</td>
+            ) : (
+              <td colSpan="10000">
+                Showing {page.length} of ~{pageCount * pageSize}{' '}
+                results
+              </td>
+            )}
+          </tr>
         </tbody>
       </table>
+
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -166,7 +279,7 @@ React.useEffect(
             setPageSize(Number(e.target.value))
           }}
         >
-          {[10, 20, 30, 40, 50, 100, 200 ].map(pageSize => (
+          {[10, 20, 30, 40, 50, 100, 200].map(pageSize => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
@@ -186,7 +299,9 @@ function RootTableExport(props) {
       {
         Header: '√',
         width: 75,
+        Filter: NarrowColumnFilter,
         accessor: 'root',
+        Cell: ({ row }) => <Link to={{pathname: "/exactroot", search:`?root=${row.original.root}`}}>{row.original.root}</Link>,
         tableName: 'RootTable',
         id: 'root',
         show: true,
@@ -195,19 +310,21 @@ function RootTableExport(props) {
       {
         Header: '#',
         width: 75,
+        Filter: NarrowColumnFilter,
         accessor: 'number',
         tableName: 'RootTable',
         id: 'number',
-        show: true,
+        show: false,
         label: 'Number'
       },
       {
         Header: 'Sns.',
         width: 100,
+        Filter: NarrowColumnFilter,
         accessor: 'sense',
         tableName: 'RootTable',
         id: 'sense',
-        show: true,
+        show: false,
         label: 'Sense',
       },
       {
@@ -216,7 +333,7 @@ function RootTableExport(props) {
         accessor: 'salish',
         tableName: 'RootTable',
         id: 'salish',
-        show: true,
+        show: false,
         label: 'Salish',
       },
       {
@@ -240,18 +357,20 @@ function RootTableExport(props) {
         Header: '§',
         accessor: 'symbol',
         width: 100,
+        Filter: NarrowColumnFilter,
         tableName: 'RootTable',
         id: 'symbol',
-        show: true,
+        show: false,
         label: 'Symbol',
       },
       {
         Header: 'Gr.',
         accessor: 'grammar',
         width: 100,
+        Filter: NarrowColumnFilter,
         tableName: 'RootTable',
         id: 'grammar',
-        show: true,
+        show: false,
         label: 'Grammar',
       },
       {
@@ -260,7 +379,7 @@ function RootTableExport(props) {
         width: 150,
         tableName: 'RootTable',
         id: 'crossref',
-        show: true,
+        show: false,
         label: 'Cross Reference',
       },
       {
@@ -269,7 +388,7 @@ function RootTableExport(props) {
         width: 150,
         tableName: 'RootTable',
         id: 'variant',
-        show: true,
+        show: false,
         label: 'Variant'
       },
       {
@@ -278,7 +397,7 @@ function RootTableExport(props) {
         width: 150,
         tableName: 'RootTable',
         id: 'cognate',
-        show: true,
+        show: false,
         label: 'Cognate',
       },
     ], []
@@ -290,37 +409,37 @@ function RootTableExport(props) {
   const fetchIdRef = React.useRef(0)
   const { client, setAuthTokens, user } = useAuth();
 
-  async function getRoots(limit, offset, sortBy) {
+
+
+  async function getAllRoots(offset, sortBy, filters) {
     let res = {}
     if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) { 
       res = await client.query({
-        query: getRootsQuery,
+        query: getAllRootsQuery,
         variables: { 
-          limit: 10000,
-          offset: 0,
+          offset: offset,
           root_order: sortBy,
-          where: { },
+          where: filters,
          }
       })
     }
     return res.data
   } 
- 
 
- 
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex }) => {
+
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter}) => {
     const fetchId = ++fetchIdRef.current
     setLoading(true)
     setTimeout(() => {
       if (fetchId === fetchIdRef.current) {
-        getRoots(pageSize, pageSize * pageIndex)
+        getAllRoots(pageIndex, sortBy, filters)
         .then((data) => {
           let totalCount = data.roots_aggregate.aggregate.count
           setData(data.roots)
           setPageCount(Math.ceil(totalCount / pageSize))
           setLoading(false)
-        })
+        })          
         .catch((error) => {
           console.log(error)
           handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
@@ -331,8 +450,9 @@ function RootTableExport(props) {
         })
       }
     }, 1000)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
+
 
   return (
     <TableStyles>

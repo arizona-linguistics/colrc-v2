@@ -394,6 +394,37 @@ export const getRootsQuery = gql`
   }
   `;
 
+  export const getAllRootsQuery = gql`
+    query getRootsQuery($where: roots_bool_exp = {}, $offset: Int = 0, $root_order: [roots_order_by!] = {}) {
+      roots_aggregate(where: $where) {
+        aggregate {
+          count
+        }
+      }
+      roots(where: $where, offset: $offset, order_by: $root_order) {
+        cognate
+        createdAt
+        crossref
+        editnote
+        english
+        grammar
+        id
+        nicodemus
+        number
+        root
+        salish
+        sense
+        symbol
+        updatedAt
+        variant
+        user {
+          username
+          id
+        }
+      }
+    }
+  `;
+
 export const getRootHistoryByIdQuery = gql`
   query getRootHistoryById($row_data: jsonb!, $table_name: String!) {
     audit_logged_actions(where: {table_name: {_eq: $table_name}, row_data: {_contains: $row_data}}, order_by: {action_tstamp_clk: asc})  {

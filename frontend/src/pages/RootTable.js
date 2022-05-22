@@ -6,7 +6,7 @@ import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilte
 import { useAuth } from "../context/auth";
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
-import { Icon, Button, Segment, Header, Message } from "semantic-ui-react";
+import { Icon, Button, Grid, Header, Label, Segment} from "semantic-ui-react";
 import { getRootsQuery, getAnonRootsQuery } from './../queries/queries'
 import { handleErrors } from '../utils/messages';
 import  BrowseList  from '../utils/BrowseList'
@@ -20,7 +20,6 @@ function Table({
   fetchData,
   loading,
   pageCount: controlledPageCount,
-  selectValues,
   globalSearch
 }) {
 
@@ -100,7 +99,6 @@ function Table({
       defaultColumn,
       filterTypes,
       //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      selectValues,
       getExportFileBlob,
     },
     useGlobalFilter,
@@ -129,60 +127,71 @@ React.useEffect(
   // Render the UI for your table
   return (
     <>
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
-
-        {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
-          (<Segment>
-            <Header as='h3'>Export View</Header>
-            <Message>Select your export format to export the data from this view only.  To export all roots, select 'export all'</Message>
-            <Button basic color='blue'
-              onClick={() => {
-                exportData("csv", false);
-              }}
-            >
-             to csv
-            </Button>
-            <Button basic color='blue'
-              onClick={() => {
-                exportData("xlsx", false);
-              }}
-            >
-              to xlsx
-            </Button>
-            <Button basic color='blue'
-              onClick={() => {
-                exportData("pdf", false);
-              }}
-            >
-              to pdf
-            </Button>
-              <Link 
-                  to={{
-                    pathname: "/rootexports",
-                  }}>
-                  <Button color='blue'>
-                      export all
-                  </Button> 
-                </Link> 
-          </Segment>) : (<div></div>)
-        }
+      {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
+        (<div>
+          <Header as="h3">Export visible rows or <Link to={{pathname: "/rootexports"}}>export all rows</Link></Header>
+          <Grid columns={2}>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  only selected columns
+                </Label>
+                <Button.Group size='mini'>
+                  <Button 
+                    onClick={() => {
+                      exportData("csv", false);
+                    }}>
+                      to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", false);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", false);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  all columns 
+                </Label>
+                <Button.Group size='mini'>
+                  <Button onClick={() => {
+                      exportData("csv", true);
+                    }}>
+                    to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", true);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", true);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </div>
+        ) : (<div></div>)
+      }
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
@@ -610,9 +619,6 @@ function RootTable(props) {
     }
     return res.data
   } 
- 
-
- 
 
   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
     const fetchId = ++fetchIdRef.current
@@ -641,8 +647,6 @@ function RootTable(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
-
-
   let columns = {}
     if(authTokens && user && intersectionWith(path_column_permissions['canEdit'], user.roles, isEqual).length >= 1) {
       columns = updateColumns
@@ -658,7 +662,6 @@ function RootTable(props) {
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
-        selectValues={props.selectValues}
         globalSearch={props.globalSearch}
       />
     </TableStyles>
