@@ -100,6 +100,7 @@ function Table({
       filterTypes,
       //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
       getExportFileBlob,
+      getExportFileName, 
     },
     useGlobalFilter,
     useFilters,
@@ -124,17 +125,23 @@ React.useEffect(
   [columns, setHiddenColumns]
 );
 
+function getExportFileName({fileType, all}) {
+  let fileName = ''
+  fileName = (all === true) ? 'roots_view_columns_all' : 'roots_view_columns_select'
+  return fileName
+}
+
   // Render the UI for your table
   return (
     <>
       {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
         (<div>
-          <Header as="h3">Export visible rows or <Link to={{pathname: "/rootexports"}}>export all rows</Link></Header>
+          <Header as="h3">Export visible rows or <Link to={{pathname: "/rootexports" }}>export all rows</Link></Header>
           <Grid columns={2}>
             <Grid.Column>
               <Segment>
                 <Label as='a' color='blue' ribbon>
-                  only selected columns
+                  selected columns only
                 </Label>
                 <Button.Group size='mini'>
                   <Button 
