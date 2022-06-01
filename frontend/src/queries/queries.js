@@ -43,6 +43,36 @@ export const getAffixesQuery = gql`
   }
   `;
 
+  export const getAllAffixesQuery = gql`
+  query getAffixesQuery($affix_order: [affixes_order_by!], $offset: Int = 0, $where: affixes_bool_exp) {
+    affixes_aggregate(where: $where) {
+      aggregate {
+        count
+      }
+    }
+    affixes(offset: $offset, where: $where, order_by: $affix_order) {
+      english
+      nicodemus
+      createdAt
+      editnote
+      link
+      page
+      salish
+      affix_type {
+        value
+        id
+      }
+      updatedAt
+      id
+      user {
+        username
+        id
+      }
+    }
+  }
+  `;
+
+
 export const getAnonAffixesQuery = gql`
   query getAnonAffixesQuery($limit: Int, $offset: Int, $affix_order: [affixes_order_by!], $where: affixes_bool_exp) {
     affixes_aggregate(where: $where) {
@@ -640,6 +670,36 @@ export const getStemsQuery = gql`
       }
     }
     stems(where: $where, limit: $limit, offset: $offset, order_by: $stem_order) {
+      createdAt
+      editnote
+      english
+      id
+      nicodemus
+      salish
+      updatedAt
+      user {
+        username
+        id
+      }
+      reichard
+      note
+      doak
+      stem_category {
+        id
+        value
+      }
+    }
+  }
+`;
+
+export const getAllStemsQuery = gql`
+  query getStemsQuery($where: stems_bool_exp = {}, $offset: Int = 0, $stem_order: [stems_order_by!] = {}) {
+    stems_aggregate(where: $where) {
+      aggregate {
+        count
+      }
+    }
+    stems(where: $where, offset: $offset, order_by: $stem_order) {
       createdAt
       editnote
       english

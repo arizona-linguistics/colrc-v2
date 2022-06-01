@@ -1,27 +1,28 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { intersectionWith, isEqual } from 'lodash';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import TableStyles from "../stylesheets/table-styles"
-import { Button, Segment, Header, Grid, Label } from "semantic-ui-react";
+import { Button, Segment, Message, Grid, Label } from "semantic-ui-react";
 import { getAllRootsQuery } from '../queries/queries'
 import { handleErrors } from '../utils/messages';
 import { useExportData } from 'react-table-plugins';
 import { getExportFileBlob } from '../utils/ExportFileBlob';
 
+// this table does not use server-side paging, etc.  
+// It has one dropdown menu, so it uses selectValues.
+// the Table function from react-tables version 7 creates the basic table setup
 function Table({
   columns,
   data,
   fetchData,
   loading,
-  globalSearch,
-}) {
-  
-  //console.log("Inside table, I have select values: ", selectValues)
-  console.log("Inside table, I have globalSearch ", globalSearch)
+  //globalSearch,
+}) {  
 
+ // set up a fuzzy text filter that gets rid of upper case chars
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -39,17 +40,22 @@ function Table({
     []
   )
 
-
+  // set default parameters for columns  
   const defaultColumn = React.useMemo(
     () => ({
-      Filter: DefaultColumnFilter,   
-      minWidth: 50, // minWidth is only used as a limit for resizing
-      width: 200, // width is used for both the flex-basis and flex-grow
-      maxWidth: 500, // maxWidth is only used as a limit for resizing
+      Filter: DefaultColumnFilter,  
+      minWidth: 50, 
+      width: 200, 
+      maxWidth: 500, 
     }),
     []
   )
 
+  const location = useLocation()
+  console.log ('my location.state.globalSearch is ', location.state.globalSearch)
+  const globalSearch  = location.state.globalSearch
+
+  // get all the utils we need for the table
   const {
     getTableProps,
     getTableBodyProps,
@@ -85,6 +91,7 @@ function Table({
       defaultColumn,
       filterTypes,
       getExportFileBlob,
+      getExportFileName, 
     },
     useGlobalFilter,
     useFilters,
@@ -95,11 +102,12 @@ function Table({
 
 
 
-// Listen for changes in pagination and use the state to fetch our new data
+// we don't fetch new data on page size changes, etc.
 React.useEffect(() => {
   fetchData({  })
 }, [fetchData])
 
+// Listen for changes in the column selections to toggle visible columms
 React.useEffect(
   () => {
     setHiddenColumns(
@@ -109,71 +117,92 @@ React.useEffect(
   [columns, setHiddenColumns]
 );
 
+  // set up the filenames for exported files from this page
+function getExportFileName({fileType, all}) {
+  let fileName = ''
+  fileName = (all === true) ? 'roots_all_rows_all_cols' : 'roots_all_rows_sel_cols'
+  return fileName
+}
+
+  // create a hook to show or hide material from the return, set to hide
+  const [show, setShow] = React.useState(false);
+
   // Render the UI for your table
   return (
     <>
-      <div>
-        <Header as="h3">Export all rows or <Link to={{pathname: "/roots"}}>go back to roots table</Link></Header>
-        <Grid columns={2}>
-          <Grid.Column>
-            <Segment>
-              <Label as='a' color='blue' ribbon>
-                only selected columns
-              </Label>
-              <Button.Group size='mini'>
-                <Button 
-                  onClick={() => {
-                    exportData("csv", false);
-                  }}>
+    <Grid.Row>
+      <Button size='mini' basic color='blue'
+        type="button"
+        onClick={() => setShow(!show)}
+      >
+        show/hide export options
+      </Button>
+    </Grid.Row>
+      { !show ? 
+        (<>
+          <Message>Export all rows or <Link to={{ pathname: "/roots"}}>export visible rows</Link></Message>
+          <Message>This page provides access to all data in the roots table, so page loading and export may be slower than expected.  Export to pdf, in particular, will take several seconds to complete.</Message>
+          <Grid columns={2}>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  selected columns only
+                </Label>
+                <Button.Group size='mini'>
+                  <Button 
+                    onClick={() => {
+                      exportData("csv", false);
+                    }}>
+                      to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", false);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", false);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  all columns 
+                </Label>
+                <Button.Group size='mini'>
+                  <Button onClick={() => {
+                      exportData("csv", true);
+                    }}>
                     to csv
-                </Button>
-                <Button.Or />
-                <Button color='blue'
-                  onClick={() => {
-                    exportData("xlsx", false);
-                  }}>
-                  to xlsx
-                </Button>
-                <Button.Or />
-                <Button 
-                  onClick={() => {
-                    exportData("pdf", false);
-                  }}>
-                  to pdf
-                </Button>
-              </Button.Group>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column>
-            <Segment>
-              <Label as='a' color='blue' ribbon>
-                all columns 
-              </Label>
-              <Button.Group size='mini'>
-                <Button onClick={() => {
-                    exportData("csv", true);
-                  }}>
-                  to csv
-                </Button>
-                <Button.Or />
-                <Button color='blue'
-                  onClick={() => {
-                    exportData("xlsx", true);
-                  }}>
-                  to xlsx
-                </Button>
-                <Button.Or />
-                <Button 
-                  onClick={() => {
-                    exportData("pdf", true);
-                  }}>
-                  to pdf
-                </Button>
-              </Button.Group>
-            </Segment>
-          </Grid.Column>
-        </Grid>
-      </div>
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", true);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", true);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </>) : null 
+      }
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
@@ -409,8 +438,6 @@ function RootTableExport(props) {
   const fetchIdRef = React.useRef(0)
   const { client, setAuthTokens, user } = useAuth();
 
-
-
   async function getAllRoots(offset, sortBy, filters) {
     let res = {}
     if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) { 
@@ -427,8 +454,7 @@ function RootTableExport(props) {
   } 
 
 
-
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter}) => {
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters }) => {
     const fetchId = ++fetchIdRef.current
     setLoading(true)
     setTimeout(() => {
@@ -462,6 +488,7 @@ function RootTableExport(props) {
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
+        globalSearch={props.globalSearch}
       />
     </TableStyles>
   )

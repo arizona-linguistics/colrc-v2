@@ -7,11 +7,16 @@ import { useAuth } from "../context/auth";
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import DecoratedTextSpan from "./../utils/DecoratedTextSpan"
 import TableStyles from "./../stylesheets/table-styles"
-import { Icon, Button } from "semantic-ui-react";
+import { Icon, Button, Grid, Message, Label, Segment} from "semantic-ui-react";
 import { getStemsQuery, getAnonStemsQuery } from './../queries/queries'
 import { handleErrors } from '../utils/messages';
-import { path_column_permissions } from "../access/permissions";
+import { path_segment_permissions, path_column_permissions } from "../access/permissions";
+import { useExportData } from 'react-table-plugins';
+import { getExportFileBlob } from '../utils/ExportFileBlob';
 
+// this table uses server-side paging, sorting and filtering.  
+// It has one dropdown menu, so it uses selectValues.
+// the Table function from react-tables version 7 creates the basic table setup
 function Table({
   columns,
   data,
@@ -22,7 +27,7 @@ function Table({
   globalSearch
 }) {
 
-  const { user } = useAuth();
+  const { user, authTokens } = useAuth();
   //console.log("Inside table, I have select values: ", selectValues)
 
   const filterTypes = React.useMemo(
@@ -42,16 +47,17 @@ function Table({
     []
   )
 
-
+  // set default parameters for columns  
   const defaultColumn = React.useMemo(
     () => ({
-      Filter: DefaultColumnFilter,       // Let's set up our default Filter UI
-      minWidth: 25, // minWidth is only used as a limit for resizing
-      width: 50, // width is used for both the flex-basis and flex-grow
-      maxWidth: 500, // maxWidth is only used as a limit for resizing
+      Filter: DefaultColumnFilter,  
+      minWidth: 25, 
+      width: 50, 
+      maxWidth: 500, 
     }),
     []
   )
+  // get all the utils we need for the table 
   const {
     getTableProps,
     getTableBodyProps,
@@ -73,7 +79,8 @@ function Table({
     nextPage,
     previousPage,
     setPageSize,
-    // Get the state from the instance
+    exportData,
+    // list the state variables we need to pay attention to
     state: { pageIndex, pageSize, sortBy, filters, globalFilter }
   } = useTable(
     {
@@ -82,11 +89,8 @@ function Table({
       initialState: { 
         pageIndex: 0, 
         globalFilter: ((globalSearch && globalSearch !== '') ? globalSearch : null)
-      }, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
+      }, // Pass our hoisted table state, tell the table we're doing server-side stuff
+      manualPagination: true, 
       pageCount: controlledPageCount,
       manualSortBy: true,
       manualFilters: true,
@@ -94,11 +98,15 @@ function Table({
       defaultColumn,
       filterTypes,
       //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      selectValues
+      selectValues,
+      getExportFileBlob,
+      getExportFileName, 
     },
+    // list the built-in hooks we're gonna use.  Order matters.
     useGlobalFilter,
     useFilters,
     useSortBy,
+    useExportData,
     usePagination,   
   )
 
@@ -117,27 +125,94 @@ React.useEffect(
   [columns, setHiddenColumns]
 );
 
+  // set up the filenames for exported files from this page
+  function getExportFileName({fileType, all}) {
+    let fileName = ''
+    fileName = (all === true) ? 'stems_sel_rows_all_cols' : 'stems_sel_rows_sel_cols'
+    return fileName
+  }
+
+  // create a hook to show or hide material from the return, set to hide
+  const [show, setShow] = React.useState(false);
+
   // Render the UI for your table
   return (
     <>
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
+      {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
+      ( <>
+      <Grid.Row>
+        <Button size='mini' basic color='blue'
+          type="button"
+          onClick={() => setShow(!show)}
+        >
+          show/hide export options
+        </Button>
+      </Grid.Row>
+      { show ? 
+        ( <>
+          <Message>Export all rows or <Link to={{pathname: "/stemexports", state: { selectValues, globalSearch }}}>export visible rows</Link></Message>         
+          <Grid columns={2}>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  selected columns only
+                </Label>
+                <Button.Group size='mini'>
+                  <Button 
+                    onClick={() => {
+                      exportData("csv", false);
+                    }}>
+                      to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", false);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", false);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  all columns 
+                </Label>
+                <Button.Group size='mini'>
+                  <Button onClick={() => {
+                      exportData("csv", true);
+                    }}>
+                    to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", true);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", true);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </>) : null} </>)
+        : (<div></div>)  
+      }
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
@@ -269,6 +344,8 @@ React.useEffect(
   )
 }
 
+// now we build the columns of the table, paying attention to whether the user 
+// has update permissions or not, and calculating any fields we need.
 function StemTable(props) {
   let history = useHistory()
 
@@ -430,7 +507,6 @@ function StemTable(props) {
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
-  //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
   const fetchIdRef = React.useRef(0)
   const { client, user, setAuthTokens, authTokens } = useAuth();
 
@@ -462,27 +538,13 @@ function StemTable(props) {
   }  
 
   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
-    // This will get called when the table needs new data
-    // You could fetch your data from literally anywhere,
-    // even a server. But for this example, we'll just fake it.
-
     // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
-
-    // Set the loading state
     setLoading(true)
-
-    // We'll even set a delay to simulate a server here
     setTimeout(() => {
-      // Only update the data if this is the latest fetch
       if (fetchId === fetchIdRef.current) {
         const controlledSort = sortReshape(sortBy) 
         const controlledFilter = filterReshape(filters, globalFilter, ["english", "nicodemus", "salish", "reichard", "doak"])
-        console.log(controlledFilter)
-        // reset to first page when filters change
-        // if (filters.length > 0) {
-        //   pageIndex = 0
-        // }
         getStems(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
         .then((data) => {
           let totalCount = data.stems_aggregate.aggregate.count

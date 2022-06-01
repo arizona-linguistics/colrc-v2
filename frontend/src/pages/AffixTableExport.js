@@ -1,29 +1,34 @@
 import React from 'react'
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { intersectionWith, isEqual } from 'lodash';
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
-import { getSpellingListQuery } from './../queries/queries'
-import { sortReshape, filterReshape } from "./../utils/reshapers"
-import { Button, Grid, Label, Segment} from "semantic-ui-react";
-import DecoratedTextSpan from "./../utils/DecoratedTextSpan"
-import TableStyles from "./../stylesheets/table-styles"
-import { path_segment_permissions } from "../access/permissions";
+import { getAllAffixesQuery } from '../queries/queries'
+import TableStyles from "../stylesheets/table-styles"
+import { Button, Grid, Message, Label, Segment} from "semantic-ui-react";
+import { handleErrors } from '../utils/messages';
 import { useExportData } from 'react-table-plugins';
 import { getExportFileBlob } from '../utils/ExportFileBlob';
-import { intersectionWith, isEqual } from 'lodash';
 
+// this table does not use server-side paging, etc.  
+// It has one dropdown menu, so it uses selectValues.
+// the Table function from react-tables version 7 creates the basic table setup
 function Table({
   columns,
   data,
   fetchData,
   loading,
-  pageCount: controlledPageCount,
-  selectValues, 
+  //globalSearch,
 }) {
 
-  // get user information so we can check permissions
-  const { user, authTokens } = useAuth();
+  //get the selectValues out of the state
+  const location = useLocation()
+  console.log ('my location.state.selectValues is ', location.state.selectValues)
+  const selectValues  = location.state.selectValues
+  const globalSearch = location.state.globalSearch
 
+  // set up a fuzzy text filter that gets rid of upper case chars
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -41,62 +46,56 @@ function Table({
     []
   )
 
+  // set default parameters for columns  
   const defaultColumn = React.useMemo(
     () => ({
-      Filter: DefaultColumnFilter,       // Let's set up our default Filter UI
-      minWidth: 25, // minWidth is only used as a limit for resizing
-      width: 50, // width is used for both the flex-basis and flex-grow
-      maxWidth: 500, // maxWidth is only used as a limit for resizing
+      Filter: DefaultColumnFilter,  
+      minWidth: 25, 
+      width: 50, 
+      maxWidth: 500, 
     }),
     []
   )
-
+  // get all the utils we need for the table
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
+    prepareRow,
     page,
-    rows,
     state,
     allColumns,
     setHiddenColumns,
+    visibleColumns,
     preGlobalFilteredRows,
     setGlobalFilter,
     canPreviousPage,
     canNextPage,
     pageOptions,
     pageCount,
-    visibleColumns,
-    prepareRow,
     gotoPage,
     nextPage,
     previousPage,
     setPageSize,
     exportData,
-    // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy, filters, globalFilter }
+    // list the state variables we need to pay attention to
+    state: { pageIndex, pageSize }
   } = useTable(
     {
       columns,
       data,
       initialState: { 
         pageIndex: 0,
-       }, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
-      pageCount: controlledPageCount,
-      manualSortBy: true,
-      manualFilters: true,
-      manualGlobalFilter: true,
+        pageSize: 10, 
+        globalFilter: ((globalSearch && globalSearch !== '') ? globalSearch : null)
+      }, // Pass our hoisted table state, tell the table we're doing server-side stuff
       defaultColumn,
       filterTypes,
+      selectValues,
       getExportFileBlob,
       getExportFileName, 
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      selectValues
     },
+    // list the built-in hooks we're gonna use.  Order matters.
     useGlobalFilter,
     useFilters,
     useSortBy,
@@ -104,12 +103,20 @@ function Table({
     usePagination,   
   )
 
+  // console.log('filters ', filters.map(f => {
+  //   if (f.id === "salish") {
+  //     return f.value
+  //   } else {
+  //     return null
+  //   }
+  // }))
 
-  // Listen for changes in pagination and use the state to fetch our new data
+  // we don't fetch new data on page size changes, etc.
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+    fetchData({  })
+  }, [fetchData])
 
+  // Listen for changes in the column selections to toggle visible columms
   React.useEffect(
     () => {
       setHiddenColumns(
@@ -119,77 +126,89 @@ function Table({
     [columns, setHiddenColumns]
   );
 
+  // set up the filenames for exported files from this page
   function getExportFileName({fileType, all}) {
     let fileName = ''
-    fileName = (all === true) ? 'spell_all_cols' : 'spell_sel_cols'
+    fileName = (all === true) ? 'affixes_all_rows_all_cols' : 'affixes_all_rows_sel_cols'
     return fileName
   }
+  // create a hook to show or hide material from the return, set to hide
+  const [show, setShow] = React.useState(false);
+
   // Render the UI for your table
   return (
-    <>  
-        {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
-        (<div>
+   <>
+    <Grid.Row>
+      <Button size='mini' basic color='blue'
+        type="button"
+        onClick={() => setShow(!show)}
+      >
+        show/hide export options
+      </Button>
+    </Grid.Row>
+      { !show ? 
+        ( <>
+          <Message>Export all rows or <Link to={{pathname: "/affixes" }}>export visible rows</Link></Message>
           <Grid columns={2}>
             <Grid.Column>
-              <Segment>
-                <Label as='a' color='blue' ribbon>
-                  export selected columns
-                </Label>
+                <Segment>
+                  <Label as='a' color='blue' ribbon>
+                      selected columns only
+                  </Label>
                 <Button.Group size='mini'>
                   <Button 
-                    onClick={() => {
+                  onClick={() => {
                       exportData("csv", false);
-                    }}>
+                  }}>
                       to csv
                   </Button>
                   <Button.Or />
                   <Button color='blue'
-                    onClick={() => {
+                  onClick={() => {
                       exportData("xlsx", false);
-                    }}>
-                    to xlsx
+                  }}>
+                  to xlsx
                   </Button>
                   <Button.Or />
                   <Button 
-                    onClick={() => {
+                  onClick={() => {
                       exportData("pdf", false);
-                    }}>
-                    to pdf
+                  }}>
+                  to pdf
                   </Button>
                 </Button.Group>
               </Segment>
             </Grid.Column>
             <Grid.Column>
-              <Segment>
+                <Segment>
                 <Label as='a' color='blue' ribbon>
-                  export all columns 
+                    all columns 
                 </Label>
                 <Button.Group size='mini'>
                   <Button onClick={() => {
                       exportData("csv", true);
-                    }}>
-                    to csv
+                  }}>
+                  to csv
                   </Button>
                   <Button.Or />
                   <Button color='blue'
-                    onClick={() => {
+                  onClick={() => {
                       exportData("xlsx", true);
-                    }}>
-                    to xlsx
+                  }}>
+                  to xlsx
                   </Button>
                   <Button.Or />
                   <Button 
-                    onClick={() => {
+                  onClick={() => {
                       exportData("pdf", true);
-                    }}>
-                    to pdf
+                  }}>
+                  to pdf
                   </Button>
                 </Button.Group>
               </Segment>
             </Grid.Column>
           </Grid>
-        </div>
-        ) : (<div></div>)
+      </>) : null
       }
       <div className="columnToggle">
         {allColumns.map(column => (
@@ -222,8 +241,8 @@ function Table({
                     {column.render('Header')}                 
                     {column.isSorted
                       ? column.isSortedDesc
-                        ? '▲'
-                        : '▼'
+                        ? ' ▼'
+                        : ' ▲'
                       : ''}
                   </span>
                   <div>
@@ -234,33 +253,28 @@ function Table({
             </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()}>          
-          {rows.map((row) => {
-            prepareRow(row);
+        <tbody {...getTableBodyProps()}>
+          {page.map((row, i) => {
+            prepareRow(row)
             return (
-              <React.Fragment key={row.getRowProps().key}>
-                <tr>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                    );
-                  })}
-                </tr>
-              </React.Fragment>
-            );
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                })}
+              </tr>
+            )
           })}
-
-          <tr>  
+          <tr>
             {loading ? (
               // Use our custom loading state to show a loading indicator
-              <td colSpan="10"> Loading... </td>
+              <td colSpan="10000">Loading...</td>
             ) : (
-              <td colSpan="10">
-                Showing {page.length} of ~{pageCount * pageSize} results
+              <td colSpan="10000">
+                Showing {page.length} of ~{pageCount * pageSize}{' '}
+                results
               </td>
             )}
           </tr>
-          
         </tbody>
       </table>
 
@@ -312,123 +326,109 @@ function Table({
   )
 }
 
+// now we build the columns of the table
+function AffixTableExport(props) {
 
-function SpellingTable(props) {
+  let history = useHistory()
 
   const columns = React.useMemo(
     () => [
       {
+        Header: 'Type',
+        accessor: 'affix_type.value',
+        Filter: SelectColumnFilter,
+        disableSortBy: true,
+        tableName: 'AffixTable',
+        show: true,
+        id: 'affix_type.value',
+        label: 'Type'
+      },
+      {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
-        width: 75,
-        Filter: NarrowColumnFilter,
-        tableName: 'SpellingsTable',
+        tableName: 'AffixTable',
         show: true,
         id: 'nicodemus',
-        label: 'Nicodemus',
-        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />)
-      }, 
-      {
-        Header: 'Reichard',
-        accessor: 'reichard',
-        width: 75,
-        Filter: NarrowColumnFilter,
-        tableName: 'SpellingsTable',
-        show: false,
-        id: 'reichard',
-        label: 'Reichard',
-        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />)
-      }, 
+        label: 'Nicodemus'
+      },
       {
         Header: 'Salish',
         accessor: 'salish',
-        width: 75,
-        Filter: NarrowColumnFilter,
-        tableName: 'SpellingsTable',
+        filter: 'fuzzyText',
+        tableName: 'AffixTable',
         show: false,
         id: 'salish',
-        label: 'Salish',
-        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
-      }, 
+        label: 'Salish'
+      },
       {
         Header: 'English',
-        id: 'english',
-        accessor: 'english', 
-        label: 'English',
-        tableName: 'SpellingsTable',
+        accessor: 'english',
+        tableName: 'AffixTable',
         show: true,
-        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />)
-      }, 
+        id: 'english',
+        label: 'English'
+      },
       {
-        Header: 'Note',
-        accessor: 'note',
-        tableName: 'SpellingsTable',
-        show: false,
-        id: 'note',
-        label: 'Note'
-      }
+        Header: 'Link',
+        accessor: 'page',
+        Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
+        tableName: 'AffixTable',
+        show: true,
+        id: 'page',
+        label: 'Link'
+      },
     ], []
   )
 
 
-// We'll start our table without any data
-const [data, setData] = React.useState([])
-const [loading, setLoading] = React.useState(false)
-const [pageCount, setPageCount] = React.useState(0)
-//const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
-const fetchIdRef = React.useRef(0)
-const { client } = useAuth();
+  // We'll start our table without any data
+  const [data, setData] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+  const [pageCount, setPageCount] = React.useState(0)
+  const fetchIdRef = React.useRef(0)
+  const { client, setAuthTokens, user } = useAuth();
 
-
-async function getSpellingList(limit, offset, sortBy, filters) {
+  
+  async function getAllAffixes(offset, sortBy, filters) {
     let res = {}
-    res = await client.query({
-      query: getSpellingListQuery,
-      variables: { 
-        limit: limit,
-        offset: offset,
-        spellings_order: sortBy,
-        where: filters,
-        }
-    })
+    if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) { 
+      res = await client.query({
+        query: getAllAffixesQuery,
+        variables: { 
+          offset: offset,
+          affix_order: sortBy,
+          where: filters,
+         }
+      })
+    }
     return res.data
   }  
 
 
-const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
-  // This will get called when the table needs new data
-  // You could fetch your data from literally anywhere,
-  // even a server. But for this example, we'll just fake it.
-
-  // Give this fetch an ID
-  const fetchId = ++fetchIdRef.current
-
-  // Set the loading state
-  setLoading(true)
-
-  // We'll even set a delay to simulate a server here
-  setTimeout(() => {
-    if (fetchId === fetchIdRef.current) {
-      const controlledSort = sortReshape(sortBy) 
-      const controlledFilter = filterReshape(filters, globalFilter, [])
-      getSpellingList(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
-      .then((data) => {
-        let totalCount = data.spellings_aggregate.aggregate.count
-        setData(data.spellings)
-        setPageCount(Math.ceil(totalCount / pageSize))
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.log(error)
-        setData([])
-        setPageCount(0)
-        setLoading(false)
-      })
-    }
-  }, 1000)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [])
-
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters }) => {
+    const fetchId = ++fetchIdRef.current
+    setLoading(true)
+    setTimeout(() => {
+      if (fetchId === fetchIdRef.current) {
+        getAllAffixes(pageIndex, sortBy, filters)
+        .then((data) => {
+          let totalCount = data.affixes_aggregate.aggregate.count
+          setData(data.affixes)
+          setPageCount(Math.ceil(totalCount / pageSize))
+          setLoading(false)
+        })
+        .catch((error) => {
+          console.log(error)
+          handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
+          setData([])
+          setPageCount(0)
+          setLoading(false)
+          history.push('./login')
+        })
+      }
+    }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history, setAuthTokens])
 
   return (
     <TableStyles>
@@ -438,9 +438,11 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
+        selectValues={props.selectValues}
+        globalSearch={props.globalSearch}
       />
     </TableStyles>
   )
 }
 
-export default SpellingTable
+export default AffixTableExport

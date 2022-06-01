@@ -133,7 +133,7 @@ export function SelectColumnFilter({
   selectValues,
   column: { filterValue, setFilter, id },
 }) {
-  console.log(selectValues)
+  console.log('my selectValues are ', selectValues)
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = React.useMemo(() => {

@@ -6,7 +6,7 @@ import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilte
 import { useAuth } from "../context/auth";
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
-import { Icon, Button, Grid, Header, Label, Segment} from "semantic-ui-react";
+import { Icon, Button, Grid, Message, Label, Segment} from "semantic-ui-react";
 import { getRootsQuery, getAnonRootsQuery } from './../queries/queries'
 import { handleErrors } from '../utils/messages';
 import  BrowseList  from '../utils/BrowseList'
@@ -14,6 +14,9 @@ import { path_segment_permissions, path_column_permissions } from "../access/per
 import { useExportData } from 'react-table-plugins';
 import { getExportFileBlob } from '../utils/ExportFileBlob';
 
+// this table uses server-side paging, sorting and filtering.  
+// It does not have any dropdown menus.
+// the Table function from react-tables version 7 creates the basic table setup
 function Table({
   columns,
   data,
@@ -23,10 +26,10 @@ function Table({
   globalSearch
 }) {
 
+  // get user information so we can check permissions
   const { user, authTokens } = useAuth();
-  //console.log("Inside table, I have select values: ", selectValues)
-  console.log("Inside table, I have globalSearch ", globalSearch)
 
+  // set up a fuzzy text filter that gets rid of upper case chars
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -44,19 +47,17 @@ function Table({
     []
   )
 
-
+  // set default parameters for columns
   const defaultColumn = React.useMemo(
     () => ({
       Filter: DefaultColumnFilter,   
-      minWidth: 50, // minWidth is only used as a limit for resizing
-      width: 200, // width is used for both the flex-basis and flex-grow
-      maxWidth: 500, // maxWidth is only used as a limit for resizing
+      minWidth: 50, 
+      width: 200, 
+      maxWidth: 500, 
     }),
     []
   )
-  
- 
-
+  // get all the utils we need for the table
   const {
     getTableProps,
     getTableBodyProps,
@@ -78,7 +79,7 @@ function Table({
     previousPage,
     setPageSize,
     exportData,
-    // Get the state from the instance
+    // list the state variables we need to pay attention to
     state: { pageIndex, pageSize, sortBy, filters, globalFilter }
   } = useTable(
     {
@@ -87,21 +88,18 @@ function Table({
       initialState: { 
         pageIndex: 0,
         globalFilter: ((globalSearch && globalSearch !== '') ? globalSearch : null)
-       }, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
+       }, // Pass our hoisted table state, tell the table we're doing server-side stuff
+      manualPagination: true, 
       pageCount: controlledPageCount,
       manualSortBy: true,
       manualFilters: true,
       manualGlobalFilter: true,
       defaultColumn,
       filterTypes,
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
       getExportFileBlob,
       getExportFileName, 
     },
+    // list the built-in hooks we're gonna use.  Order matters.
     useGlobalFilter,
     useFilters,
     useSortBy,
@@ -109,13 +107,12 @@ function Table({
     usePagination,
   )
 
-
-
 // Listen for changes in pagination and use the state to fetch our new data
 React.useEffect(() => {
   fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
 }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
 
+// Listen for changes in the column selections to toggle visible columms
 React.useEffect(
   () => {
     setHiddenColumns(
@@ -125,18 +122,32 @@ React.useEffect(
   [columns, setHiddenColumns]
 );
 
+// set up the filenames for exported files from this page
 function getExportFileName({fileType, all}) {
   let fileName = ''
-  fileName = (all === true) ? 'roots_view_columns_all' : 'roots_view_columns_select'
+  fileName = (all === true) ? 'roots_sel_rows_all_cols' : 'roots_sel_rows_sel_cols'
   return fileName
 }
+
+// create a hook to show or hide material from the return, set to hide
+const [show, setShow] = React.useState(false);
 
   // Render the UI for your table
   return (
     <>
       {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
-        (<div>
-          <Header as="h3">Export visible rows or <Link to={{pathname: "/rootexports" }}>export all rows</Link></Header>
+        (<>
+          <Grid.Row>
+            <Button size='mini' basic color='blue'
+              type="button"
+              onClick={() => setShow(!show)}
+            >
+              show/hide export options
+            </Button>
+          </Grid.Row>
+        { show ? 
+        (<>
+          <Message>Export visible rows or <Link to={{pathname: "/rootexports", state: { globalSearch }}}>export all rows</Link></Message>
           <Grid columns={2}>
             <Grid.Column>
               <Segment>
@@ -196,7 +207,7 @@ function getExportFileName({fileType, all}) {
               </Segment>
             </Grid.Column>
           </Grid>
-        </div>
+        </>): null}</>
         ) : (<div></div>)
       }
       <div className="columnToggle">
@@ -330,9 +341,10 @@ function getExportFileName({fileType, all}) {
     </>
   )
 }
-
+// now we build the columns of the table, paying attention to whether the user 
+// has update permissions or not, and calculating any fields we need.
 function RootTable(props) {
-  //console.log('my props.globalSearch is ', props.globalSearch)
+
   let history = useHistory()
  
   const updateColumns = React.useMemo(

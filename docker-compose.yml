@@ -7,9 +7,11 @@ services:
     image: lumai/odinson-rest-api:experimental
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+    user: 'root'
     container_name: odinson-rest-api
     volumes: 
-      - /Users/alicekwak/data/odinson:/data/odinson
+      #- /Users/alicekwak/data/odinson:/data/odinson
+      - /home/graceniko/data/odinson:/app/data/odinson
     ports:
       - "9001:9000"
     restart: always
