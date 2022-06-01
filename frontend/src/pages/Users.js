@@ -7,7 +7,7 @@ import { path_button_permissions } from "../access/permissions";
 
 function Users(props) {
 
-  const { client, authTokens, setAuthTokens, user } = useAuth()
+  const { authTokens, setAuthTokens, user } = useAuth()
   console.log('the user.roles is', user.roles)
 
   function logOut() {

@@ -529,6 +529,7 @@ function BrowseRootTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, location, root, setAuthTokens])
 
   let columns = {}

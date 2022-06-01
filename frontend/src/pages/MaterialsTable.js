@@ -141,7 +141,7 @@ function MaterialMetadataTable({ materialMetadata }) {
         id: 'value',
         accessor: 'value'
       }
-  ])
+    ], [])
 
   const [data] = React.useState(() => materialMetadata);
 

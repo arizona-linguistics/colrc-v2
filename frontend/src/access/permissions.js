@@ -26,6 +26,9 @@ export const path_role_permissions = {
     '/buildmetadata': ['manager', 'update'],
     '/buildmetadatatypes': ['manager', 'update'],
     '/upload' : ['manager', 'update'],
+    '/rootexports' : ['manager', 'update'],
+    '/affixexports' : ['manager', 'update'],
+    '/stemexports' : ['manager', 'update'],
     '/home' : ['*'],
 }
 
@@ -37,6 +40,14 @@ export const path_button_permissions = {
     'adminUsers': ['manager'],
     'adminNav': ['manager', 'update'],
     'users':  ['manager', 'update', 'view']
+}
+
+export const path_segment_permissions = {
+    'canExport': ['manager', 'update'],
+}
+
+export const path_column_permissions = {
+    'canEdit': ['manager', 'update'],
 }
 
 export const path_role_field_permissions = {

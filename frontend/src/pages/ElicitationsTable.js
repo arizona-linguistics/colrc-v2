@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link,useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getElicitationSetsQuery } from './../queries/queries'
 import ElicitationsPlayer from '../utils/ElicitationsPlayer';
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
-import { Icon, Button } from "semantic-ui-react";
+import { Icon } from "semantic-ui-react";
 import { handleErrors } from '../utils/messages';
 
 function Table({
@@ -19,7 +19,7 @@ function Table({
   selectValues, 
 }) {
 
-  const { user } = useAuth();
+  //const { user } = useAuth();
 
   const filterTypes = React.useMemo(
     () => ({
@@ -325,7 +325,7 @@ const [loading, setLoading] = React.useState(false)
 const [pageCount, setPageCount] = React.useState(0)
 //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
 const fetchIdRef = React.useRef(0)
-const { client, setAuthTokens, user } = useAuth();
+const { client, setAuthTokens } = useAuth();
 
 
 async function getElicitations(limit, offset, sortBy, filters) {
@@ -339,13 +339,7 @@ async function getElicitations(limit, offset, sortBy, filters) {
         where: filters,
         }
     })
-    // let texts = textReshape(res.data.texts)
-    // let i = 0
-    // for ( i = 0; i < texts.length; i++ ) {
-    //   res.data.texts[i].sourcefiles = texts[i].sourcefiles
-    // }
-    // console.log("this is res.data ", res.data)
-    // console.log("this is texts ", texts)
+
     console.log(res.data)
     return res.data
   }  
@@ -384,6 +378,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
       })
     }
   }, 1000)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [history, setAuthTokens])
 
 

@@ -20,7 +20,7 @@ function Affixes(props) {
 
   if (affixTypesError) {
     console.error(affixTypesError)
-    const { graphQLErrors, networkError } = affixTypesError
+    const { graphQLErrors } = affixTypesError
     if (graphQLErrors)
       graphQLErrors.forEach(({ message, locations, path }) => {
         if (message.includes('JWTExpired')) {

@@ -6,7 +6,7 @@ import { Grid, Segment, Header } from 'semantic-ui-react'
 import SpellingAccordion from "./accordions/SpellingAccordion";
 
 function Spelling(props) {
-  //const { client } = useAuth()
+
   return (
     <React.Fragment>
       <Grid>

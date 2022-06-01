@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { Link,useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
@@ -18,8 +18,6 @@ function Table({
   pageCount: controlledPageCount,
   globalSearch
 }) {
-
-  const { user } = useAuth();
 
   function exportPDF() {
     const unit = "pt";
@@ -46,9 +44,6 @@ function Table({
     doc.autoTable(content);
     doc.save("report.pdf")
 }
-
-  //console.log("Inside table, I have select values: ", selectValues)
-  //console.log("Inside table, I have a globalSearch ", globalSearch)
 
   const filterTypes = React.useMemo(
     () => ({
@@ -117,8 +112,6 @@ function Table({
       manualGlobalFilter: true,
       defaultColumn,
       filterTypes,
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      //selectValues
     },
     useGlobalFilter,
     useFilters,
@@ -151,25 +144,6 @@ function Table({
   // Render the UI for your table
   return (
     <>
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
-      {/* <SimpleKeyboard /> */}
       <div><button onClick={() => exportPDF()}>Generate Report</button></div>
       <div className="columnToggle">
         {allColumns.map(column => (
@@ -341,7 +315,7 @@ function BibliographyTable(props) {
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
   const fetchIdRef = React.useRef(0)
-  const { client, setAuthTokens, user } = useAuth();
+  const { client, setAuthTokens } = useAuth();
   
   
   async function getBibliography(limit, offset, sortBy, filters) {
@@ -361,8 +335,6 @@ function BibliographyTable(props) {
   
   const fetchData = React.useCallback(({  pageSize, pageIndex, sortBy, filters, globalFilter }) => {
     // This will get called when the table needs new data
-    // You could fetch your data from literally anywhere,
-    // even a server. But for this example, we'll just fake it.
   
     // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
@@ -370,7 +342,6 @@ function BibliographyTable(props) {
     // Set the loading state
     setLoading(true)
   
-    // We'll even set a delay to simulate a server here
     setTimeout(() => {
       if (fetchId === fetchIdRef.current) {
         const controlledSort = sortReshape(sortBy) 
@@ -392,6 +363,7 @@ function BibliographyTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
   
   

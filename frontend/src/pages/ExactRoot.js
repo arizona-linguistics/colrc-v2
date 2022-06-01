@@ -41,6 +41,7 @@ function Table({
 
         fetchData({ })
     }, 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
         []
     );
 
@@ -380,6 +381,7 @@ function ExactRootTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   let columns = {}
