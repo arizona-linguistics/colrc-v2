@@ -89,21 +89,21 @@ const NavBarMobile = ({
     {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
       <Menu.Item as={NavLink} to="/elicitations" name="Elicitations" size='mini' key="minielicitations">
         <Icon name="file audio outline" />
-          Elicitations
+          In Dev: Elicitations
         </Menu.Item>
         ): ( <div></div> )
       }
     {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
     <Menu.Item as={NavLink} to="/log" name="Log" size='mini' key="minilog">
       <Icon name="history" />
-        Log
+        In Dev: Log
       </Menu.Item>
       ): ( <div></div> )
     }
     {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
     <Menu.Item as={NavLink} to="/upload" name="Upload" size='mini' key="miniupload">
       <Icon name="file" />
-        Upload
+        In Dev: Upload
       </Menu.Item>
       ): ( <div></div> )
     }
@@ -153,13 +153,13 @@ const NavBarDesktop = ({ rightItems, currentUser, authTokens }) => (
        Bibliography
     </Menu.Item>
     {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
-      <Menu.Item as={NavLink} to="/elicitations" name="Elicitations" key="melicitations">Elicitations</Menu.Item>) : ( <div></div> )
+      <Menu.Item as={NavLink} to="/elicitations" name="Elicitations" key="melicitations">In-Dev: Elicitations</Menu.Item>) : ( <div></div> )
     }
     {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
-      <Menu.Item as={NavLink} to="/log" name="Log" key="mlog">Log</Menu.Item>) : ( <div></div> )
+      <Menu.Item as={NavLink} to="/log" name="Log" key="mlog">In-Dev: Log</Menu.Item>) : ( <div></div> )
     }
     {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
-      <Menu.Item as={NavLink} to="/upload" name="Upload" key="mupload">Upload</Menu.Item>) : ( <div></div> )
+      <Menu.Item as={NavLink} to="/upload" name="Upload" key="mupload">In-Dev: Upload</Menu.Item>) : ( <div></div> )
     }
     <Menu.Menu position="right">
       {map(rightItems, item  => <Popup key={item.key} content={ item.content } trigger={<Menu.Item as={NavLink} to={item.to} key={item.key} icon={item.icon} /> } /> )}
@@ -173,7 +173,7 @@ const NavBarChildren = ({ children }) => (
 
 function NavBar(props) {
   let [visible, setVisible] = useState(false)
-  const { client, authTokens, setAuthTokens, user } = useAuth()
+  const { authTokens, user } = useAuth()
 
   const handlePusher = () => {
     if (visible) setVisible(false)

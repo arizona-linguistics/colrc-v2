@@ -1,25 +1,8 @@
-import React, { useState } from "react";
-import { Grid, Header, Dropdown, Segment, Button, Table, Input, Label, Checkbox } from  "semantic-ui-react";
-import { Formik, Form } from 'formik';
-import { confirmAlert } from 'react-confirm-alert';
-import { useAuth } from "../context/auth";
-import { Redirect, useHistory } from 'react-router-dom';
-import { insertRootMutation } from '../queries/queries';
-import { handleErrors, broadCastSuccess } from '../utils/messages';
+import React from "react";
+import { Grid, Header, Dropdown, Segment, Button, Table, Input, Checkbox } from  "semantic-ui-react";
 
 
-// Production URL: https://thecolrc.org/upload_file
-// Development URL: http://localhost:80/upload_file
-// In either case this should be redirected by nginx to http://localhost:8081/upload_handler
-
-
-function BuildMetadataType (props) {
-    const { client } = useAuth();
-    const [ hasUpdated, setHasUpdated] = useState(false)
-    const history = useHistory()
-
- 
-    
+function BuildMetadataType (props) {    
 
 
     return (

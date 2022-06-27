@@ -1,19 +1,18 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { intersectionWith, isEqual } from 'lodash';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
-import { getAffixesQuery, getAnonAffixesQuery } from './../queries/queries'
-import { sortReshape, filterReshape } from "./../utils/reshapers"
+import DecoratedTextSpan from "./../utils/DecoratedTextSpan"
 import TableStyles from "./../stylesheets/table-styles"
-import { Icon, Button, Grid, Message, Label, Segment} from "semantic-ui-react";
+import { Button, Grid, Label, Segment, Message} from "semantic-ui-react";
+import { getAllStemsQuery } from './../queries/queries'
 import { handleErrors } from '../utils/messages';
-import { path_segment_permissions, path_column_permissions } from "../access/permissions";
 import { useExportData } from 'react-table-plugins';
 import { getExportFileBlob } from '../utils/ExportFileBlob';
 
-// this table uses server-side paging, sorting and filtering.  
+// this table does not use server-side paging, etc.  
 // It has one dropdown menu, so it uses selectValues.
 // the Table function from react-tables version 7 creates the basic table setup
 function Table({
@@ -22,14 +21,17 @@ function Table({
   fetchData,
   loading,
   pageCount: controlledPageCount,
-  selectValues,
-  globalSearch
+  //globalSearch
 }) {
 
-  // get user information so we can check permissions
-  const { user, authTokens } = useAuth();
-
-  // set up a fuzzy text filter that gets rid of upper case chars
+  //get the selectValues & global search out of the state
+  const location = useLocation()
+  console.log ('my location.state.selectValues is ', location.state.selectValues)
+  const selectValues  = location.state.selectValues
+  const globalSearch = location.state.globalSearch
+ 
+  
+   //console.log("Inside table, I have select values: ", selectValues)
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -57,7 +59,7 @@ function Table({
     }),
     []
   )
-  // get all the utils we need for the table
+  // get all the utils we need for the table 
   const {
     getTableProps,
     getTableBodyProps,
@@ -66,6 +68,7 @@ function Table({
     page,
     state,
     allColumns,
+    //getToggleHideAllColumnsProps,
     setHiddenColumns,
     visibleColumns,
     preGlobalFilteredRows,
@@ -80,7 +83,7 @@ function Table({
     setPageSize,
     exportData,
     // list the state variables we need to pay attention to
-    state: { pageIndex, pageSize, sortBy, filters, globalFilter }
+    state: { pageIndex, pageSize }
   } = useTable(
     {
       columns,
@@ -89,11 +92,6 @@ function Table({
         pageIndex: 0, 
         globalFilter: ((globalSearch && globalSearch !== '') ? globalSearch : null)
       }, // Pass our hoisted table state, tell the table we're doing server-side stuff
-      manualPagination: true, 
-      pageCount: controlledPageCount,
-      manualSortBy: true,
-      manualFilters: true,
-      manualGlobalFilter: true,
       defaultColumn,
       filterTypes,
       selectValues,
@@ -108,55 +106,47 @@ function Table({
     usePagination,   
   )
 
-  // console.log('filters ', filters.map(f => {
-  //   if (f.id === "salish") {
-  //     return f.value
-  //   } else {
-  //     return null
-  //   }
-  // }))
 
-  // Listen for changes in pagination and use the state to fetch our new data
-  React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+// Listen for changes in pagination and use the state to fetch our new data
+React.useEffect(() => {
+  fetchData({  })
+}, [fetchData])
 
-  // Listen for changes in the column selections to toggle visible columms
-  React.useEffect(
-    () => {
-      setHiddenColumns(
-        columns.filter(column => !column.show).map(column => column.id)
-      );
-    },
-    [columns, setHiddenColumns]
-  );
+React.useEffect(
+  () => {
+    setHiddenColumns(
+      columns.filter(column => !column.show).map(column => column.id)
+    );
+  },
+  [columns, setHiddenColumns]
+);
 
   // set up the filenames for exported files from this page
   function getExportFileName({fileType, all}) {
     let fileName = ''
-    fileName = (all === true) ? 'affixes_sel_rows_all_cols' : 'affixes_sel_rows_sel_cols'
+    fileName = (all === true) ? 'stems_all_rows_all_cols' : 'stems_all_rows_sel_cols'
     return fileName
   }
+
 
   // create a hook to show or hide material from the return, set to hide
   const [show, setShow] = React.useState(false);
 
+
   // Render the UI for your table
   return (
     <>
-      {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
-        (<>
-        <Grid.Row>
-          <Button size='mini' basic color='blue'
-            type="button"
-            onClick={() => setShow(!show)}
-          >
-            show/hide export options
-          </Button>
-        </Grid.Row>
-      { show ? 
+    <Grid.Row>
+      <Button size='mini' basic color='blue'
+        type="button"
+        onClick={() => setShow(!show)}
+      >
+        show/hide export options
+      </Button>
+    </Grid.Row>
+      { !show ? 
         ( <>
-          <Message as="h3">Export visible rows or <Link to={{pathname: "/affixexports", state: { selectValues, globalSearch } }}>export all rows</Link></Message>
+          <Message>Export all rows or <Link to={{pathname: "/stems" }}>export visible rows</Link></Message>         
           <Grid columns={2}>
             <Grid.Column>
               <Segment>
@@ -216,10 +206,8 @@ function Table({
               </Segment>
             </Grid.Column>
           </Grid>
-        </>): null} </>)
-        : (<div></div>)
+        </>) : null
       }
-
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
@@ -230,27 +218,12 @@ function Table({
           </div>
         ))}
       </div>
-      <table {...getTableProps()}>
+      <table {...getTableProps()} className="table">
         <thead>
           <tr>
             <th
               colSpan={visibleColumns.length}
             >
-            { (user && (user.roles.includes('update') || user.roles.includes('manager')))  &&
-              (
-                <Link 
-                  to={{
-                    pathname: "/addaffix",
-                  }}>
-                  <Button animated='vertical' color='blue'>
-                    <Button.Content hidden>Add Affix</Button.Content>
-                    <Button.Content visible>
-                      <Icon name='plus' />
-                    </Button.Content>
-                  </Button> 
-                </Link> 
-              )
-            }
               <GlobalFilter
                 preGlobalFilteredRows={preGlobalFilteredRows}
                 globalFilter={state.globalFilter}
@@ -261,7 +234,7 @@ function Table({
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
+                <th {...column.getHeaderProps()} className="th">
                   <span {...column.getSortByToggleProps()}>
                     {column.render('Header')}                 
                     {column.isSorted
@@ -295,7 +268,7 @@ function Table({
               <td colSpan="10000">Loading...</td>
             ) : (
               <td colSpan="10000">
-                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
+                Showing {page.length} of ~{pageCount * pageSize}{' '}
                 results
               </td>
             )}
@@ -353,194 +326,97 @@ function Table({
 
 // now we build the columns of the table, paying attention to whether the user 
 // has update permissions or not, and calculating any fields we need.
-function AffixTable(props) {
+function StemTableExport(props) {
   let history = useHistory()
 
-  const updateColumns = React.useMemo(
-    () => [
-      {
-        Header: 'History/Edit/Delete',
-        disableFilters: true,
-        sortable: false,
-        width: 100,
-        show: true,
-        id: 'historyEditDelete',
-        label: 'History/Edit/Delete',
-        tableName: 'AffixTable',
-        Cell: ({row, original}) => (
-          <div className="buttons">
-            <Link 
-              to={{
-                pathname: "/affixhistory",
-                search: "?id=" + row.original.id,
-              }}>
-              <button className="ui mini blue icon button">
-                <Icon name="history" />
-              </button>              
-            </Link>
-            <Link 
-              to={{
-                pathname: "/editaffix",
-                search: "?id=" + row.original.id,
-              }}>
-              <button className="ui mini black icon button">
-                <Icon name="edit" />
-              </button>              
-            </Link>
-            <Link 
-              to={{
-                pathname: "/deleteaffix",
-                search: "?id=" + row.original.id,
-              }}>
-              <button className="ui mini blue icon button">
-                <Icon name="close" />
-              </button>              
-            </Link>
-          </div>
-        )
-      }, 
-      {
-        Header: 'Type',
-        accessor: 'affix_type.value',
-        Filter: SelectColumnFilter,
-        tableName: 'AffixTable',
-        show: true,
-        disableSortBy: true,
-        id: 'affix_type.value',
-        label: 'Type'
-      },
-      {
-        Header: 'Nicodemus',
-        accessor: 'nicodemus',
-        tableName: 'AffixTable',
-        show: true,
-        id: 'nicodemus',
-        label: 'Nicodemus'
-      },
-      {
-        Header: 'Salish',
-        accessor: 'salish',
-        tableName: 'AffixTable',
-        show: false,
-        id: 'salish',
-        label: 'Salish'
-      },
-      {
-        Header: 'English',
-        accessor: 'english',
-        tableName: 'AffixTable',
-        show: true,
-        id: 'english',
-        label: 'English'
-      },
-      {
-        Header: 'Link',
-        accessor: 'page',
-        Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
-        tableName: 'AffixTable',
-        show: true,
-        id: 'page',
-        label: 'Link'
-      },
+  const columns = React.useMemo(
+    () => [         
+        {
+            Header: 'Category',
+            accessor: 'stem_category.value',
+            Filter: SelectColumnFilter,
+            tableName: 'StemTable',
+            show: true,
+            id: 'stem_category.value',
+            label: 'Category'
+          },
+        {
+            Header: 'Reichard',
+            accessor: 'reichard',
+            tableName: 'StemTable',
+            Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
+            show: false,
+            id: 'reichard',
+            label: 'Reichard'
+          },
+        {
+            Header: 'Doak',
+            accessor: 'doak',
+            tableName: 'StemTable',
+            show: false,
+            id: 'doak',
+            label: 'Doak'
+          },
+        {
+            Header: 'Nicodemus',
+            accessor: 'nicodemus',
+            tableName: 'StemTable',
+            Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
+            show: true,
+            id: 'nicodemus',
+            label: 'Nicodemus'
+          },
+          {
+            Header: 'Salish',
+            accessor: 'salish',
+            filter: 'fuzzyText',
+            tableName: 'StemTable',
+            show: false,
+            id: 'salish',
+            label: 'Salish'
+          },
+          {
+            Header: 'English',
+            accessor: 'english',
+            tableName: 'StemTable',
+            show: true,
+            id: 'english',
+            label: 'English'
+          },
     ], []
   )
-
-  const anonColumns = React.useMemo(
-    () => [
-      {
-        Header: 'Type',
-        accessor: 'affix_type.value',
-        Filter: SelectColumnFilter,
-        disableSortBy: true,
-        tableName: 'AffixTable',
-        show: true,
-        id: 'affix_type.value',
-        label: 'Type'
-      },
-      {
-        Header: 'Nicodemus',
-        accessor: 'nicodemus',
-        tableName: 'AffixTable',
-        show: true,
-        id: 'nicodemus',
-        label: 'Nicodemus'
-      },
-      {
-        Header: 'Salish',
-        accessor: 'salish',
-        filter: 'fuzzyText',
-        tableName: 'AffixTable',
-        show: false,
-        id: 'salish',
-        label: 'Salish'
-      },
-      {
-        Header: 'English',
-        accessor: 'english',
-        tableName: 'AffixTable',
-        show: true,
-        id: 'english',
-        label: 'English'
-      },
-      {
-        Header: 'Link',
-        accessor: 'page',
-        Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
-        tableName: 'AffixTable',
-        show: true,
-        id: 'page',
-        label: 'Link'
-      },
-    ], []
-  )
-
-
   // We'll start our table without any data
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
   const fetchIdRef = React.useRef(0)
-  const { client, setAuthTokens, authTokens, user } = useAuth();
+  const { client, user, setAuthTokens } = useAuth();
 
-  async function getAffixes(limit, offset, sortBy, filters) {
+  async function getStems(offset, sortBy, filters) {
     let res = {}
     if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) { 
       res = await client.query({
-        query: getAffixesQuery,
+        query: getAllStemsQuery,
         variables: { 
-          limit: limit,
           offset: offset,
-          affix_order: sortBy,
+          stem_order: sortBy,
           where: filters,
          }
-      })
-    }
-    else {
-      res = await client.query({
-        query: getAnonAffixesQuery,
-        variables: { 
-          limit: limit,
-          offset: offset,
-          affix_order: sortBy,
-          where: filters,
-        }
       })
     }
     return res.data
   }  
 
-
   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
+    // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
     setLoading(true)
     setTimeout(() => {
       if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy) 
-        const controlledFilter = filterReshape(filters, globalFilter, ["english", "nicodemus", "salish", "page"])
-        getAffixes(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
+        getStems(pageSize, pageSize * pageIndex)
         .then((data) => {
-          let totalCount = data.affixes_aggregate.aggregate.count
-          setData(data.affixes)
+          let totalCount = data.stems_aggregate.aggregate.count
+          setData(data.stems)
           setPageCount(Math.ceil(totalCount / pageSize))
           setLoading(false)
         })
@@ -557,13 +433,6 @@ function AffixTable(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
-  let columns = {}
-    if(authTokens && user && intersectionWith(path_column_permissions['canEdit'], user.roles, isEqual).length >= 1) {
-      columns = updateColumns
-    } else {
-      columns = anonColumns
-    }
-
   return (
     <TableStyles>
       <Table
@@ -579,4 +448,4 @@ function AffixTable(props) {
   )
 }
 
-export default AffixTable
+export default StemTableExport

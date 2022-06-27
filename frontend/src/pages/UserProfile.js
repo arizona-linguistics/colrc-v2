@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
-import { Redirect, useLocation, useHistory } from 'react-router-dom';
-import { Grid, Button, Label, Message, Header, Input, Dropdown } from 'semantic-ui-react';
+import { Redirect, useHistory } from 'react-router-dom';
+import { Grid, Button, Label, Message, Header, Input } from 'semantic-ui-react';
 import * as Yup from 'yup';
 import { getUserByIdQuery, updateUserMutation } from './../queries/queries'
 import { useQuery } from '@apollo/react-hooks'

@@ -9,6 +9,7 @@ import matchSorter from 'match-sorter'
 // }
 
 // Define a default UI for filtering
+
 export function GlobalFilter({
     globalFilter,
     setGlobalFilter
@@ -132,7 +133,7 @@ export function SelectColumnFilter({
   selectValues,
   column: { filterValue, setFilter, id },
 }) {
-  console.log(selectValues)
+  console.log('my selectValues are ', selectValues)
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = React.useMemo(() => {

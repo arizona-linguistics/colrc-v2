@@ -53,9 +53,11 @@ import BuildMetadata from './pages/BuildMetadata'
 import TestUpload from './pages/TestUpload';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-import Export from './pages/Export';
-// import OdinsonSearch from "./pages/OdinsonSearch";
-// import OdinsonTable from "./pages/OdinsonTable";
+import RootTableExport from './pages/RootTableExport';
+import AffixTableExport from './pages/AffixTableExport';
+import StemTableExport from './pages/StemTableExport';
+//import OdinsonSearch from "./pages/OdinsonSearch";
+//import OdinsonTable from "./pages/OdinsonTable";
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -196,10 +198,12 @@ function App(props) {
               <PrivateRoute path="/buildmetadata" component={BuildMetadata} key="BuildMetadata" />
               <PrivateRoute path="/buildmetadatatypes" component={BuildMetadataTypes} key="BuildMetadataTypes" />
               <PrivateRoute path="/upload" component={Upload} key="Upload" />
+              <PrivateRoute path="/rootexports" component={RootTableExport} key="RootTableExport" />
+              <PrivateRoute path="/affixexports" component={AffixTableExport} key="AffixTableExport" />
+              <PrivateRoute path="/stemexports" component={StemTableExport} key="StemTableExport" />
               <Route path="/crap/" component={TestUpload} key="TestUpload" />
               <Route path="/search" component={Search} key="Search" />
               <Route path="/searchresults" component={SearchResults} key="SearchResults" />
-              <Route path="/export" component={Export} key="Export" />
               <Route path="/not-found" component={NotFound} key="NotFound" />
               <Route component={NotFoundRedirect} key="NotFoundRedirect" />
             </Switch>

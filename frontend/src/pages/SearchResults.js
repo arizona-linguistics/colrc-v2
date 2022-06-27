@@ -7,9 +7,9 @@ import { Grid, Segment, Header, Message } from 'semantic-ui-react'
 import RootTable from "./RootTable"
 import AffixTable from "./AffixTable"
 import StemTable from "./StemTable"
-import OdinsonTable from "./OdinsonTable"
-import { intersectionWith, isEqual } from 'lodash';
-import { path_odinson_permissions } from "../access/permissions";
+// import OdinsonTable from "./OdinsonTable"
+// import { intersectionWith, isEqual } from 'lodash';
+// import { path_odinson_permissions } from "../access/permissions";
 
 function SearchResults(props) {
   const { client, authTokens, user } = useAuth()
@@ -55,7 +55,6 @@ function SearchResults(props) {
     "stem_category.value": stemCategorySelections
   }
 
-
   return (
     <React.Fragment>
       <Grid>
@@ -92,7 +91,7 @@ function SearchResults(props) {
                 <StemTable selectValues={selectStemValues} globalSearch={globalSearch}/>
               </Grid.Row>
             </Segment>
-            {authTokens && user && intersectionWith(path_odinson_permissions['searchResults'], user.roles, isEqual).length >= 1 ? (
+{/*             {authTokens && user && intersectionWith(path_odinson_permissions['searchResults'], user.roles, isEqual).length >= 1 ? (
             <Segment>
               <Grid.Row>
                 <Header as='h3'  textAlign='left'>
@@ -100,15 +99,8 @@ function SearchResults(props) {
                 </Header>
                 <OdinsonTable globalSearch={globalSearch}/>
               </Grid.Row>
-            </Segment>): (
-            <Segment>
-              <Grid.Row>
-                <Header as='h3'  textAlign='left'>
-                  You must have proper permission to search texts.
-                </Header>
-              </Grid.Row>
-            </Segment>)
-            }
+            </Segment>): (<div></div>)
+            }  */}
         </Grid.Column>
       </Grid>
     </React.Fragment>

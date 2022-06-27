@@ -1,26 +1,34 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { intersectionWith, isEqual } from 'lodash';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
-import { getLogQuery } from './../queries/queries'
-import { sortReshape, filterReshape } from "./../utils/reshapers"
-import TableStyles from "./../stylesheets/table-styles"
+import { getAllAffixesQuery } from '../queries/queries'
+import TableStyles from "../stylesheets/table-styles"
+import { Button, Grid, Message, Label, Segment} from "semantic-ui-react";
 import { handleErrors } from '../utils/messages';
+import { useExportData } from 'react-table-plugins';
+import { getExportFileBlob } from '../utils/ExportFileBlob';
 
+// this table does not use server-side paging, etc.  
+// It has one dropdown menu, so it uses selectValues.
+// the Table function from react-tables version 7 creates the basic table setup
 function Table({
   columns,
   data,
   fetchData,
   loading,
-  pageCount: controlledPageCount,
-//   selectValues
+  //globalSearch,
 }) {
 
-  const { user } = useAuth();
-  //console.log("Inside table, I have select values: ", selectValues)
+  //get the selectValues out of the state
+  const location = useLocation()
+  console.log ('my location.state.selectValues is ', location.state.selectValues)
+  const selectValues  = location.state.selectValues
+  const globalSearch = location.state.globalSearch
 
+  // set up a fuzzy text filter that gets rid of upper case chars
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -38,16 +46,17 @@ function Table({
     []
   )
 
+  // set default parameters for columns  
   const defaultColumn = React.useMemo(
     () => ({
-      Filter: DefaultColumnFilter,       // Let's set up our default Filter UI
-      minWidth: 25, // minWidth is only used as a limit for resizing
-      width: 50, // width is used for both the flex-basis and flex-grow
-      maxWidth: 500, // maxWidth is only used as a limit for resizing
+      Filter: DefaultColumnFilter,  
+      minWidth: 25, 
+      width: 50, 
+      maxWidth: 500, 
     }),
     []
   )
-
+  // get all the utils we need for the table
   const {
     getTableProps,
     getTableBodyProps,
@@ -68,38 +77,46 @@ function Table({
     nextPage,
     previousPage,
     setPageSize,
-    // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy, filters, globalFilter }
+    exportData,
+    // list the state variables we need to pay attention to
+    state: { pageIndex, pageSize }
   } = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 0 }, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
-      pageCount: controlledPageCount,
-      manualSortBy: true,
-      manualFilters: true,
-      manualGlobalFilter: true,
+      initialState: { 
+        pageIndex: 0,
+        pageSize: 10, 
+        globalFilter: ((globalSearch && globalSearch !== '') ? globalSearch : null)
+      }, // Pass our hoisted table state, tell the table we're doing server-side stuff
       defaultColumn,
       filterTypes,
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-    //   selectValues
+      selectValues,
+      getExportFileBlob,
+      getExportFileName, 
     },
+    // list the built-in hooks we're gonna use.  Order matters.
     useGlobalFilter,
     useFilters,
     useSortBy,
+    useExportData,
     usePagination,   
   )
 
+  // console.log('filters ', filters.map(f => {
+  //   if (f.id === "salish") {
+  //     return f.value
+  //   } else {
+  //     return null
+  //   }
+  // }))
 
-  // Listen for changes in pagination and use the state to fetch our new data
+  // we don't fetch new data on page size changes, etc.
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+    fetchData({  })
+  }, [fetchData])
 
+  // Listen for changes in the column selections to toggle visible columms
   React.useEffect(
     () => {
       setHiddenColumns(
@@ -109,27 +126,90 @@ function Table({
     [columns, setHiddenColumns]
   );
 
+  // set up the filenames for exported files from this page
+  function getExportFileName({fileType, all}) {
+    let fileName = ''
+    fileName = (all === true) ? 'affixes_all_rows_all_cols' : 'affixes_all_rows_sel_cols'
+    return fileName
+  }
+  // create a hook to show or hide material from the return, set to hide
+  const [show, setShow] = React.useState(false);
+
   // Render the UI for your table
   return (
-    <>
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
+   <>
+    <Grid.Row>
+      <Button size='mini' basic color='blue'
+        type="button"
+        onClick={() => setShow(!show)}
+      >
+        show/hide export options
+      </Button>
+    </Grid.Row>
+      { !show ? 
+        ( <>
+          <Message>Export all rows or <Link to={{pathname: "/affixes" }}>export visible rows</Link></Message>
+          <Grid columns={2}>
+            <Grid.Column>
+                <Segment>
+                  <Label as='a' color='blue' ribbon>
+                      selected columns only
+                  </Label>
+                <Button.Group size='mini'>
+                  <Button 
+                  onClick={() => {
+                      exportData("csv", false);
+                  }}>
+                      to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                  onClick={() => {
+                      exportData("xlsx", false);
+                  }}>
+                  to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                  onClick={() => {
+                      exportData("pdf", false);
+                  }}>
+                  to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+                <Segment>
+                <Label as='a' color='blue' ribbon>
+                    all columns 
+                </Label>
+                <Button.Group size='mini'>
+                  <Button onClick={() => {
+                      exportData("csv", true);
+                  }}>
+                  to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                  onClick={() => {
+                      exportData("xlsx", true);
+                  }}>
+                  to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                  onClick={() => {
+                      exportData("pdf", true);
+                  }}>
+                  to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+      </>) : null
+      }
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
@@ -146,8 +226,6 @@ function Table({
             <th
               colSpan={visibleColumns.length}
             >
-            { (user && (user.roles.includes('update') || user.roles.includes('manager')))
-            }
               <GlobalFilter
                 preGlobalFilteredRows={preGlobalFilteredRows}
                 globalFilter={state.globalFilter}
@@ -192,7 +270,7 @@ function Table({
               <td colSpan="10000">Loading...</td>
             ) : (
               <td colSpan="10000">
-                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
+                Showing {page.length} of ~{pageCount * pageSize}{' '}
                 results
               </td>
             )}
@@ -248,146 +326,94 @@ function Table({
   )
 }
 
+// now we build the columns of the table
+function AffixTableExport(props) {
 
-function LogTable(props) {
   let history = useHistory()
 
-  const updateColumns = React.useMemo(
+  const columns = React.useMemo(
     () => [
-      // {
-      //   Header: 'ID',
-      //   accessor: 'id',
-      //   tableName: 'LogTable',
-      //   show: false,
-      //   disableFilters: true,
-      //   id: 'id'
-      // },
       {
-        Header: 'Action',
-        accessor: 'action',
-        Filter: DefaultColumnFilter,
-        tableName: 'LogTable',
-        show: true,
+        Header: 'Type',
+        accessor: 'affix_type.value',
+        Filter: SelectColumnFilter,
         disableSortBy: true,
-        id: 'action',
-        label: 'action'
-      },
-      {
-        Header: 'Changed_fields',
-        accessor: 'changed_fields',
-        tableName: 'LogTable',
-        Cell: ({ row }) => <span>{JSON.stringify(row.original.changed_fields)}</span>,
+        tableName: 'AffixTable',
         show: true,
-        id: 'changed_fields',
-        label: 'Changed_fields'
+        id: 'affix_type.value',
+        label: 'Type'
       },
       {
-        Header: 'User',
-        accessor: 'audit_user[0].first',
+        Header: 'Nicodemus',
+        accessor: 'nicodemus',
+        tableName: 'AffixTable',
+        show: true,
+        id: 'nicodemus',
+        label: 'Nicodemus'
+      },
+      {
+        Header: 'Salish',
+        accessor: 'salish',
         filter: 'fuzzyText',
-        tableName: 'LogTable',
-        //Cell: ({ row }) => <span>{JSON.stringify(row.original.hasura_user)}</span>,
-        show: true,
-        id: 'user',
-        label: 'user'
-      },
-      {
-        Header: 'Row_data',
-        accessor: 'row_data',
-        tableName: 'LogTable',
-        Cell: ({ row }) => <span>{JSON.stringify(row.original.row_data)}</span>,
-        show: true,
-        id: 'row_data',
-        label: 'Row_data'
-      },
-      {
-        Header: 'schema_name',
-        accessor: 'schema_name',
-        Filter: DefaultColumnFilter,
-        tableName: 'LogTable',
-        disableSortBy: true,
+        tableName: 'AffixTable',
         show: false,
-        id: 'schema_name',
-        label: 'schema_name'
+        id: 'salish',
+        label: 'Salish'
       },
       {
-        Header: 'table_name',
-        accessor: 'table_name',
-        tableName: 'LogTable',
-        disableFilters: true,
+        Header: 'English',
+        accessor: 'english',
+        tableName: 'AffixTable',
         show: true,
-        id: 'table_name',
-        label: 'table_name'
+        id: 'english',
+        label: 'English'
+      },
+      {
+        Header: 'Link',
+        accessor: 'page',
+        Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
+        tableName: 'AffixTable',
+        show: true,
+        id: 'page',
+        label: 'Link'
       },
     ], []
   )
-
 
 
   // We'll start our table without any data
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
-  //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
   const fetchIdRef = React.useRef(0)
   const { client, setAuthTokens, user } = useAuth();
 
   
-  async function getLog(limit, offset, sortBy, filters) {
+  async function getAllAffixes(offset, sortBy, filters) {
     let res = {}
     if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) { 
       res = await client.query({
-        query: getLogQuery,
+        query: getAllAffixesQuery,
         variables: { 
-          limit: limit,
           offset: offset,
-          log_order: sortBy,
+          affix_order: sortBy,
           where: filters,
          }
       })
     }
-    // else {
-    //   res = await client.query({
-    //     query: getAnonAffixesQuery,
-    //     variables: { 
-    //       limit: limit,
-    //       offset: offset,
-    //       affix_order: sortBy,
-    //       where: filters,
-    //     }
-    //   })
-    // }
     return res.data
   }  
 
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
-    // This will get called when the table needs new data
-    // You could fetch your data from literally anywhere,
-    // even a server. But for this example, we'll just fake it.
-
-    // Give this fetch an ID
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters }) => {
     const fetchId = ++fetchIdRef.current
-
-    // Set the loading state
     setLoading(true)
-
-    // We'll even set a delay to simulate a server here
     setTimeout(() => {
-      // Only update the data if this is the latest fetch
       if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy,"event_id")
-        const controlledFilter = filterReshape(filters, globalFilter, ['action', 'table_name'])
-        console.log(controlledFilter)
-        // reset to first page when filters change
-        // if (filters.length > 0) {
-        //   pageIndex = 0
-        // }
-        getLog(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
+        getAllAffixes(pageIndex, sortBy, filters)
         .then((data) => {
-          console.log(data)  
-          let totalCount = data.audit_logged_actions_aggregate.aggregate.count
-          setData(data.audit_logged_actions)
+          let totalCount = data.affixes_aggregate.aggregate.count
+          setData(data.affixes)
           setPageCount(Math.ceil(totalCount / pageSize))
           setLoading(false)
         })
@@ -404,9 +430,6 @@ function LogTable(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
-  let columns = updateColumns
-  
-
   return (
     <TableStyles>
       <Table
@@ -415,10 +438,11 @@ function LogTable(props) {
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
-        // selectValues={props.selectValues}
+        selectValues={props.selectValues}
+        globalSearch={props.globalSearch}
       />
     </TableStyles>
   )
 }
 
-export default LogTable
+export default AffixTableExport

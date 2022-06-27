@@ -6,27 +6,30 @@ import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilte
 import { useAuth } from "../context/auth";
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
-//import styled from 'styled-components'
-import { Icon, Button } from "semantic-ui-react";
+import { Icon, Button, Grid, Message, Label, Segment} from "semantic-ui-react";
 import { getRootsQuery, getAnonRootsQuery } from './../queries/queries'
 import { handleErrors } from '../utils/messages';
 import  BrowseList  from '../utils/BrowseList'
+import { path_segment_permissions, path_column_permissions } from "../access/permissions";
+import { useExportData } from 'react-table-plugins';
+import { getExportFileBlob } from '../utils/ExportFileBlob';
 
-
+// this table uses server-side paging, sorting and filtering.  
+// It does not have any dropdown menus.
+// the Table function from react-tables version 7 creates the basic table setup
 function Table({
   columns,
   data,
   fetchData,
   loading,
   pageCount: controlledPageCount,
-  selectValues,
   globalSearch
 }) {
 
-  const { user } = useAuth();
-  //console.log("Inside table, I have select values: ", selectValues)
-  console.log("Inside table, I have globalSearch ", globalSearch)
+  // get user information so we can check permissions
+  const { user, authTokens } = useAuth();
 
+  // set up a fuzzy text filter that gets rid of upper case chars
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -44,17 +47,17 @@ function Table({
     []
   )
 
-
+  // set default parameters for columns
   const defaultColumn = React.useMemo(
     () => ({
       Filter: DefaultColumnFilter,   
-      minWidth: 50, // minWidth is only used as a limit for resizing
-      width: 200, // width is used for both the flex-basis and flex-grow
-      maxWidth: 500, // maxWidth is only used as a limit for resizing
+      minWidth: 50, 
+      width: 200, 
+      maxWidth: 500, 
     }),
     []
   )
-
+  // get all the utils we need for the table
   const {
     getTableProps,
     getTableBodyProps,
@@ -63,7 +66,6 @@ function Table({
     page,
     state,
     allColumns,
-    //getToggleHideAllColumnsProps,
     setHiddenColumns,
     visibleColumns,
     preGlobalFilteredRows,
@@ -76,7 +78,8 @@ function Table({
     nextPage,
     previousPage,
     setPageSize,
-    // Get the state from the instance
+    exportData,
+    // list the state variables we need to pay attention to
     state: { pageIndex, pageSize, sortBy, filters, globalFilter }
   } = useTable(
     {
@@ -85,33 +88,31 @@ function Table({
       initialState: { 
         pageIndex: 0,
         globalFilter: ((globalSearch && globalSearch !== '') ? globalSearch : null)
-       }, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
+       }, // Pass our hoisted table state, tell the table we're doing server-side stuff
+      manualPagination: true, 
       pageCount: controlledPageCount,
       manualSortBy: true,
       manualFilters: true,
       manualGlobalFilter: true,
       defaultColumn,
       filterTypes,
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      selectValues
+      getExportFileBlob,
+      getExportFileName, 
     },
+    // list the built-in hooks we're gonna use.  Order matters.
     useGlobalFilter,
     useFilters,
     useSortBy,
+    useExportData,
     usePagination,
-    //useFlexLayout,   
   )
-
 
 // Listen for changes in pagination and use the state to fetch our new data
 React.useEffect(() => {
   fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
 }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
 
+// Listen for changes in the column selections to toggle visible columms
 React.useEffect(
   () => {
     setHiddenColumns(
@@ -121,27 +122,94 @@ React.useEffect(
   [columns, setHiddenColumns]
 );
 
+// set up the filenames for exported files from this page
+function getExportFileName({fileType, all}) {
+  let fileName = ''
+  fileName = (all === true) ? 'roots_sel_rows_all_cols' : 'roots_sel_rows_sel_cols'
+  return fileName
+}
+
+// create a hook to show or hide material from the return, set to hide
+const [show, setShow] = React.useState(false);
+
   // Render the UI for your table
   return (
     <>
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
+      {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
+        (<>
+          <Grid.Row>
+            <Button size='mini' basic color='blue'
+              type="button"
+              onClick={() => setShow(!show)}
+            >
+              show/hide export options
+            </Button>
+          </Grid.Row>
+        { show ? 
+        (<>
+          <Message>Export visible rows or <Link to={{pathname: "/rootexports", state: { globalSearch }}}>export all rows</Link></Message>
+          <Grid columns={2}>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  selected columns only
+                </Label>
+                <Button.Group size='mini'>
+                  <Button 
+                    onClick={() => {
+                      exportData("csv", false);
+                    }}>
+                      to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", false);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", false);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  all columns 
+                </Label>
+                <Button.Group size='mini'>
+                  <Button onClick={() => {
+                      exportData("csv", true);
+                    }}>
+                    to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", true);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", true);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </>): null}</>
+        ) : (<div></div>)
+      }
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
@@ -263,7 +331,7 @@ React.useEffect(
             setPageSize(Number(e.target.value))
           }}
         >
-          {[10, 20, 30, 40, 50].map(pageSize => (
+          {[10, 20, 30, 40, 50, 100, 200].map(pageSize => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
@@ -273,9 +341,10 @@ React.useEffect(
     </>
   )
 }
-
+// now we build the columns of the table, paying attention to whether the user 
+// has update permissions or not, and calculating any fields we need.
 function RootTable(props) {
-  //console.log('my props.globalSearch is ', props.globalSearch)
+
   let history = useHistory()
  
   const updateColumns = React.useMemo(
@@ -541,7 +610,7 @@ function RootTable(props) {
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
   const fetchIdRef = React.useRef(0)
-  const { client, setAuthTokens, user } = useAuth();
+  const { client, setAuthTokens, authTokens, user } = useAuth();
 
   async function getRoots(limit, offset, sortBy, filters) {
     let res = {}
@@ -569,8 +638,6 @@ function RootTable(props) {
     }
     return res.data
   } 
- 
-
 
   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
     const fetchId = ++fetchIdRef.current
@@ -596,14 +663,15 @@ function RootTable(props) {
         })
       }
     }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
 
   let columns = {}
-  if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) {
-    columns = updateColumns
-  } else {
-    columns = anonColumns
-  }
+    if(authTokens && user && intersectionWith(path_column_permissions['canEdit'], user.roles, isEqual).length >= 1) {
+      columns = updateColumns
+    } else {
+      columns = anonColumns
+    }
 
   return (
     <TableStyles>
@@ -613,7 +681,6 @@ function RootTable(props) {
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
-        selectValues={props.selectValues}
         globalSearch={props.globalSearch}
       />
     </TableStyles>

@@ -43,6 +43,36 @@ export const getAffixesQuery = gql`
   }
   `;
 
+  export const getAllAffixesQuery = gql`
+  query getAffixesQuery($affix_order: [affixes_order_by!], $offset: Int = 0, $where: affixes_bool_exp) {
+    affixes_aggregate(where: $where) {
+      aggregate {
+        count
+      }
+    }
+    affixes(offset: $offset, where: $where, order_by: $affix_order) {
+      english
+      nicodemus
+      createdAt
+      editnote
+      link
+      page
+      salish
+      affix_type {
+        value
+        id
+      }
+      updatedAt
+      id
+      user {
+        username
+        id
+      }
+    }
+  }
+  `;
+
+
 export const getAnonAffixesQuery = gql`
   query getAnonAffixesQuery($limit: Int, $offset: Int, $affix_order: [affixes_order_by!], $where: affixes_bool_exp) {
     affixes_aggregate(where: $where) {
@@ -363,9 +393,8 @@ export const getMetadataQuery = gql `
 `;
 
 // getRoots
-
 export const getRootsQuery = gql`
-  query getRootsQuery($where: roots_bool_exp = {}, $limit: Int = 10, $offset: Int = 10, $root_order: [roots_order_by!] = {}) {
+  query getRootsQuery($where: roots_bool_exp = {}, $limit: Int = 10, $offset: Int = 0, $root_order: [roots_order_by!] = {}) {
     roots_aggregate(where: $where) {
       aggregate {
         count
@@ -393,6 +422,37 @@ export const getRootsQuery = gql`
       }
     }
   }
+  `;
+
+  export const getAllRootsQuery = gql`
+    query getRootsQuery($where: roots_bool_exp = {}, $offset: Int = 0, $root_order: [roots_order_by!] = {}) {
+      roots_aggregate(where: $where) {
+        aggregate {
+          count
+        }
+      }
+      roots(where: $where, offset: $offset, order_by: $root_order) {
+        cognate
+        createdAt
+        crossref
+        editnote
+        english
+        grammar
+        id
+        nicodemus
+        number
+        root
+        salish
+        sense
+        symbol
+        updatedAt
+        variant
+        user {
+          username
+          id
+        }
+      }
+    }
   `;
 
 export const getRootHistoryByIdQuery = gql`
@@ -610,6 +670,36 @@ export const getStemsQuery = gql`
       }
     }
     stems(where: $where, limit: $limit, offset: $offset, order_by: $stem_order) {
+      createdAt
+      editnote
+      english
+      id
+      nicodemus
+      salish
+      updatedAt
+      user {
+        username
+        id
+      }
+      reichard
+      note
+      doak
+      stem_category {
+        id
+        value
+      }
+    }
+  }
+`;
+
+export const getAllStemsQuery = gql`
+  query getStemsQuery($where: stems_bool_exp = {}, $offset: Int = 0, $stem_order: [stems_order_by!] = {}) {
+    stems_aggregate(where: $where) {
+      aggregate {
+        count
+      }
+    }
+    stems(where: $where, offset: $offset, order_by: $stem_order) {
       createdAt
       editnote
       english

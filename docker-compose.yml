@@ -7,10 +7,10 @@ services:
     image: lumai/odinson-rest-api:experimental
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+    user: 'root'
     container_name: odinson-rest-api
     volumes: 
       # - /Users/alicekwak/data/odinson:/data/odinson
-      - /home/graceniko/data/odinson:/app/data/odinson
     ports:
       - "9001:9000"
     restart: always
@@ -24,8 +24,8 @@ services:
     container_name: colrc-v2-hasura
     ports:
       - "8080:8080"
-    depends_on:
-      - "postgres"
+    # depends_on:
+    #   - "postgres"
     depends_on:
       postgres:
         condition: service_healthy

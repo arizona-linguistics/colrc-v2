@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link,useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
 import { useAuth } from "../context/auth";
@@ -17,8 +17,6 @@ function Table({
   pageCount: controlledPageCount,
   selectValues, 
 }) {
-
-  const { user } = useAuth();
 
   const filterTypes = React.useMemo(
     () => ({
@@ -289,9 +287,8 @@ function AudioTable(props) {
 const [data, setData] = React.useState([])
 const [loading, setLoading] = React.useState(false)
 const [pageCount, setPageCount] = React.useState(0)
-//const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
 const fetchIdRef = React.useRef(0)
-const { client, setAuthTokens, user } = useAuth();
+const { client, setAuthTokens } = useAuth();
 
 
 async function getAudios(limit, offset, sortBy, filters) {
@@ -305,21 +302,13 @@ async function getAudios(limit, offset, sortBy, filters) {
         where: filters,
         }
     })
-    // let texts = textReshape(res.data.texts)
-    // let i = 0
-    // for ( i = 0; i < texts.length; i++ ) {
-    //   res.data.texts[i].sourcefiles = texts[i].sourcefiles
-    // }
-    // console.log("this is res.data ", res.data)
-    // console.log("this is texts ", texts)
     return res.data
   }  
 
 
 const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
   // This will get called when the table needs new data
-  // You could fetch your data from literally anywhere,
-  // even a server. But for this example, we'll just fake it.
+
 
   // Give this fetch an ID
   const fetchId = ++fetchIdRef.current
@@ -349,6 +338,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
       })
     }
   }, 1000)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [history, setAuthTokens])
 
 
