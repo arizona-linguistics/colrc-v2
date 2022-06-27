@@ -25,6 +25,7 @@ import ElicitationHistory from "./pages/ElicitationHistory";
 import UserList from './pages/UserList';
 import AddUser from './pages/AddUser';
 import EditUser from './pages/EditUser';
+import DeleteUser from './pages/DeleteUser';
 import Affixes from './pages/Affixes';
 import Roots from './pages/Roots';
 import Stems from './pages/Stems';
@@ -191,6 +192,7 @@ function App(props) {
               <PrivateRoute path="/userlist" component={UserList} key="UserList" />
               <PrivateRoute path="/adduser" component={AddUser} key="AddUser" />
               <PrivateRoute path="/edituser" component={EditUser} key="EditUser" />
+              <PrivateRoute path="/deleteuser" component={DeleteUser} key="DeleteUser" />
               <PrivateRoute path="/metadatalexicon" component={MetadataLexicon} key="MetadataLexicon" />
               <PrivateRoute path="/managetypes" component={ManageTypes} key="ManageTypes" />
               <PrivateRoute path="/buildmetadata" component={BuildMetadata} key="BuildMetadata" />

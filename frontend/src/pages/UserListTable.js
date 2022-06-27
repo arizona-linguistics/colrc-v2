@@ -223,7 +223,7 @@ function UserListTable(props) {
             </Link>
             <Link 
               to={{
-                pathname: "/removeuser",
+                pathname: "/deleteuser",
                 search: "?id=" + row.original.id,
               }}>
               <button className="ui mini blue icon button">
