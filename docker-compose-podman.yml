@@ -1,10 +1,8 @@
 version: "3.6"
-volumes:
-  nginx_colrc:
-    # external: true
+
 services:
   odinson-rest-api:
-    image: lumai/odinson-rest-api:experimental
+    image: docker.io/lumai/odinson-rest-api:experimental
     stdin_open: true # docker run -i
     tty: true        # docker run -t
     user: 'root'
@@ -12,17 +10,15 @@ services:
     volumes: 
       #- /Users/alicekwak/data/odinson:/data/odinson
       #- /home/graceniko/data/odinson:/app/data/odinson
-      - /Users/amy/data/odinson:/data/odinson
+      - odinson:/Users/amy/data/odinson:/data/odinson:Z
     ports:
       - "9001:9000"
     restart: always
     environment: 
       HOME: /app
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.8
+
   hasura:
-    image: hasura/graphql-engine:v1.3.3
+    image: docker.io/hasura/graphql-engine:v1.3.3
     container_name: colrc-v2-hasura
     ports:
       - "8080:8080"
@@ -43,15 +39,16 @@ services:
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
       HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}'
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.2
+
   postgres:
-    image: postgres:12
+    image: docker.io/library/postgres:13 
     container_name: colrc-v2-postgres-db
     # see https://hub.docker.com/_/postgres/
     ports:
       - "5432:5432"
+    user: 'root'
+    uuserns_mode: "keep-id"
+    #privileged: true
     restart: always
     env_file:
       - ./.env
@@ -59,9 +56,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       #POSTGRES_PASSWORD: 11chastq
     volumes:
-      - ./misc/db_data:/var/lib/postgresql/data
+      - data:/misc/db_data:/var/lib/postgresql/data: Z
       # SQL scripts in this directory will be executed in alphabetical order
-      - ./misc/sql:/docker-entrypoint-initdb.d
+      - scripts:./misc/sql:/docker-entrypoint-initdb.d: Z
     healthcheck:
         # https://www.postgresql.org/docs/12/app-pg-isready.html
         test: ["CMD", "pg_isready", "--dbname=$DB_NAME", "--username=$DB_USERNAME"]
@@ -69,9 +66,7 @@ services:
         interval: 10s
         timeout: 5s
         retries: 10
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.3
+
   backend:
     container_name: colrc-v2-backend
     build:
@@ -94,12 +89,10 @@ services:
       # used by Sequelize
       DB_DIALECT: postgres
     volumes:
-      - ./auth:/app:rw
+      - auth:./auth:/app:rw
       # don't bind mount node_modules
       #- /app/node_modules
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.4
+
   frontend:
     container_name: colrc-v2-frontend
     build:
@@ -116,10 +109,8 @@ services:
     volumes:
       # FIXME: build the code and then deploy it to the volume
       #- nginx_colrc:/app/build:rw
-      - ./frontend:/app:rw
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.5
+      - frontend:/frontend:/app:rw
+
   nginx:
     container_name: nginx
     build:
@@ -130,14 +121,12 @@ services:
       - frontend
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "2080:2080"
+      - "2443:2443"
     volumes:
       # FIXME: add files and colrc frontend
-      - ./misc/file_data:/var/www/colrc:rw
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.6
+      - files:/misc/file_data:/var/www/colrc:rw
+
   file_upload:
     container_name: file_upload
     build: 
@@ -151,14 +140,21 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      - ./misc/file_data:/var/www/colrc:rw
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.7
-networks:
-  vpcbr:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.5.0.0/16
-          gateway: 10.5.0.1
+      - upload:/misc/file_data:/var/www/colrc:rw
+ 
+volumes:
+  - odinson:
+      external: true
+  - data:
+      external: true
+  - scripts:
+      external: true
+  - auth:
+      external: false
+  - frontend:
+      external: false
+  - files:
+      external: true
+  - upload:
+      external: false
+

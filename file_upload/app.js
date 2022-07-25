@@ -73,6 +73,7 @@ app.post('/upload-handler', cors(), (req, res) => {
 			body: JSON.stringify(JSON.parse(data))
 		};
 		fetch('http://10.5.0.8:9000/api/index/document', requestOptions)
+		//fetch('http://localhost:9000/api/index/document', requestOptions)
 			.then(response => response.json())
 			// .then(data => setPostId(data.id))
 			.catch(error => console.log(error));
