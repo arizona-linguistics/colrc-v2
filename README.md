@@ -46,11 +46,11 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
     `git clone https://github.com/arizona-linguistics/colrc-v2`
 
-2a. Afterward, change to the newly-created directory and pull to make sure you have all of the current changes to the repository.  Note that the default branch, "main," is the branch you should clone and/or pull.
+2. Afterward, change to the newly-created directory and pull to make sure you have all of the current changes to the repository.  Note that the default branch, "main," is the branch you should clone and/or pull.
 
     `cd colrc-v2 && git pull`
  
-2b. Create a directory somewhere on your local machine called `data` and inside of that directory create another one called `odinson`.  Make sure you can find the path to that directory.  Then open the file called `docker-compose.yml`, find the volumes list for odinson-api (around lines 13-15), and add your path, plus :/data/odinson as the sole uncommented entry in the list.  For example, your path might be something like `- /Users/[yourusername]/data/odinson:/data/odinson`.  This lets the system find and store stuff in that directory.
+Create a directory somewhere on your local machine called `data` and inside of that directory create another one called `odinson`.  Make sure you can find the path to that directory.  Then open the file called `docker-compose.yml`, find the volumes list for odinson-api (around lines 13-15), and add your path, plus :/data/odinson as the sole uncommented entry in the list.  For example, your path might be something like `- /Users/[yourusername]/data/odinson:/data/odinson`.  This lets the system find and store stuff in that directory.
 
 
 3. <a id="step-3"></a> At the command line, build our development environment. The initial build may take a while, but subsequent builds will go faster.
