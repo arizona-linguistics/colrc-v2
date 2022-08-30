@@ -224,6 +224,27 @@ export const getAudioSetById = gql`
 
 // getBibliography
 
+export const getAllBibliographyQuery = gql `
+  query getBibliographyQuery($bibliographies_order: [bibliographies_order_by!], $offset: Int = 0, $where: bibliographies_bool_exp) {
+    bibliographies_aggregate(where: $where) {
+      aggregate {
+        count
+      }
+    }
+    bibliographies(offset: $offset, where: $where, order_by: $bibliographies_order) {
+      author
+      year
+      title
+      reference
+      link
+      linktext
+      createdAt
+      updatedAt
+      id
+    }
+  }
+`;
+
 export const getBibliographyQuery = gql `
   query getBibliographyQuery($limit: Int, $offset: Int, $bibliographies_order: [bibliographies_order_by!], $where: bibliographies_bool_exp) {
     bibliographies_aggregate(where: $where) {

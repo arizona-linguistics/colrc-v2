@@ -90,10 +90,10 @@ const loginUser_C = input => {
     where: { email: input.email, password: input.password },
     include: Role 
   }).then(user => {
-    //console.log("we have results")
-    //console.log(user)
-    //console.log("=========")
-    //console.log(user.roles)
+    console.log("we have results")
+    console.log(user)
+    console.log("=========")
+    console.log(user.roles)
     console.log(user.email)
     console.log(user.username)
     hasura_roles = []

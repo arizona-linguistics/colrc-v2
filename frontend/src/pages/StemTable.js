@@ -150,7 +150,7 @@ React.useEffect(
       </Grid.Row>
       { show ? 
         ( <>
-          <Message>Export all rows or <Link to={{pathname: "/stemexports", state: { selectValues, globalSearch }}}>export visible rows</Link></Message>         
+          <Message>Export visible rows or <Link to={{pathname: "/stemexports", state: { selectValues, globalSearch }}}>export all rows</Link></Message>         
           <Grid columns={2}>
             <Grid.Column>
               <Segment>

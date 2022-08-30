@@ -4,25 +4,27 @@ volumes:
     # external: true
 services:
   odinson-rest-api:
-    image: lumai/odinson-rest-api:experimental
+    image: docker.io/lumai/odinson-rest-api:experimental
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+    env_file:
+      - ./.env
     user: 'root'
     container_name: odinson-rest-api
     volumes: 
+      # get this path from your local docker-compose.override.yml file, else use this default
+      - /Users/${ODINSON_USER}/data/odinson:/data/odinson
       #- /Users/alicekwak/data/odinson:/data/odinson
-      #- /home/graceniko/data/odinson:/app/data/odinson
-      - /Users/amy/data/odinson:/data/odinson
     ports:
       - "9001:9000"
     restart: always
     environment: 
       HOME: /app
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.8
+    # networks:
+    #   vpcbr:
+    #     ipv4_address: 10.5.0.8
   hasura:
-    image: hasura/graphql-engine:v1.3.3
+    image: docker.io/hasura/graphql-engine:v1.3.3
     container_name: colrc-v2-hasura
     ports:
       - "8080:8080"
@@ -43,11 +45,11 @@ services:
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
       HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}'
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.2
+    # networks:
+    #   vpcbr:
+    #     ipv4_address: 10.5.0.2
   postgres:
-    image: postgres:12
+    image: docker.io/library/postgres:12
     container_name: colrc-v2-postgres-db
     # see https://hub.docker.com/_/postgres/
     ports:
@@ -69,9 +71,9 @@ services:
         interval: 10s
         timeout: 5s
         retries: 10
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.3
+    # networks:
+    #   vpcbr:
+    #     ipv4_address: 10.5.0.3
   backend:
     container_name: colrc-v2-backend
     build:
@@ -97,9 +99,9 @@ services:
       - ./auth:/app:rw
       # don't bind mount node_modules
       #- /app/node_modules
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.4
+    # networks:
+    #   vpcbr:
+    #     ipv4_address: 10.5.0.4
   frontend:
     container_name: colrc-v2-frontend
     build:
@@ -117,9 +119,9 @@ services:
       # FIXME: build the code and then deploy it to the volume
       #- nginx_colrc:/app/build:rw
       - ./frontend:/app:rw
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.5
+    # networks:
+    #   vpcbr:
+    #     ipv4_address: 10.5.0.5
   nginx:
     container_name: nginx
     build:
@@ -135,11 +137,16 @@ services:
     volumes:
       # FIXME: add files and colrc frontend
       - ./misc/file_data:/var/www/colrc:rw
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.6
+    # networks:
+    #   vpcbr:
+    #     ipv4_address: 10.5.0.6
+    environment:
+      - URL_UPLOAD=localhost
+      - URL_ODINSON=localhost
   file_upload:
     container_name: file_upload
+    env_file:
+      - ./.env
     build: 
       context: ./file_upload
       dockerfile: Dockerfile.dev
@@ -152,13 +159,13 @@ services:
       - "8081:8081"
     volumes:
       - ./misc/file_data:/var/www/colrc:rw
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.7
-networks:
-  vpcbr:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.5.0.0/16
-          gateway: 10.5.0.1
+    # networks:
+    #   vpcbr:
+    #     ipv4_address: 10.5.0.7
+# networks:
+#   vpcbr:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 10.5.0.0/16
+#           gateway: 10.5.0.1

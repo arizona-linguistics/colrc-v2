@@ -1,49 +1,51 @@
 import React from "react";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+// import jsPDF from "jspdf";
+// import "jspdf-autotable";
 import { useHistory } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
-import { getBibliographyQuery } from '../queries/queries'
-import { sortReshape, filterReshape } from "../utils/reshapers"
+import { getAllBibliographyQuery } from '../queries/queries'
+//import { sortReshape, filterReshape } from "../utils/reshapers"
+import { Button, Grid, Message, Label, Segment} from "semantic-ui-react";
 import TableStyles from "../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
+import { useExportData } from 'react-table-plugins';
+import { getExportFileBlob } from '../utils/ExportFileBlob';
 
 function Table({
   columns,
   data,
   fetchData,
   loading,
-  pageCount: controlledPageCount,
-  globalSearch
+  //globalSearch
 }) {
 
-  function exportPDF() {
-    const unit = "pt";
-    const size = "A4"; // Use A1, A2, A3 or A4
-    const orientation = "portrait"; // portrait or landscape
+//   function exportPDF() {
+//     const unit = "pt";
+//     const size = "A4"; // Use A1, A2, A3 or A4
+//     const orientation = "portrait"; // portrait or landscape
 
-    const marginLeft = 40;
-    const doc = new jsPDF(orientation, unit, size);
+//     const marginLeft = 40;
+//     const doc = new jsPDF(orientation, unit, size);
 
-    doc.setFontSize(15);
+//     doc.setFontSize(15);
 
-    const title = "COLRC bibliography";
-    const headers = [["TITLE", "AUTHOR"]];
+//     const title = "COLRC bibliography";
+//     const headers = [["TITLE", "AUTHOR"]];
 
-    const bibData = data.map(elt=> [elt.title, elt.author]);
+//     const bibData = data.map(elt=> [elt.title, elt.author]);
 
-    let content = {
-    startY: 50,
-    head: headers,
-    body: bibData
-    };
+//     let content = {
+//     startY: 50,
+//     head: headers,
+//     body: bibData
+//     };
 
-    doc.text(title, marginLeft, 40);
-    doc.autoTable(content);
-    doc.save("report.pdf")
-}
+//     doc.text(title, marginLeft, 40);
+//     doc.autoTable(content);
+//     doc.save("report.pdf")
+// }
 
   const filterTypes = React.useMemo(
     () => ({
@@ -92,45 +94,43 @@ function Table({
     nextPage,
     previousPage,
     setPageSize,
+    exportData,
     // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy, filters, globalFilter }
+    state: { pageIndex, pageSize }
   } = useTable(
     {
       columns,
       data,
       initialState: { 
         pageIndex: 0, 
+        pageSize: 10,
         sortBy: [{ id: 'author'}, { id: 'year', desc: true }]
       }, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
-      pageCount: controlledPageCount,
-      manualSortBy: true,
-      manualFilters: true,
-      manualGlobalFilter: true,
+    
       defaultColumn,
       filterTypes,
+      getExportFileBlob,
+      getExportFileName, 
     },
     useGlobalFilter,
     useFilters,
     useSortBy,
+    useExportData,
     usePagination,   
   )
 
-  console.log('filters ', filters.map(f => {
-    if (f.id === "salish") {
-      return f.value
-    } else {
-      return null
-    }
-  }))
+  // console.log('filters ', filters.map(f => {
+  //   if (f.id === "salish") {
+  //     return f.value
+  //   } else {
+  //     return null
+  //   }
+  // }))
 
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+    fetchData({  })
+  }, [fetchData])
 
   React.useEffect(
     () => {
@@ -141,10 +141,91 @@ function Table({
     [columns, setHiddenColumns]
   );
 
+  // set up the filenames for exported files from this page
+  function getExportFileName({fileType, all}) {
+    let fileName = ''
+    fileName = (all === true) ? 'bib_sel_rows_all_cols' : 'bib_sel_rows_sel_cols'
+    return fileName
+  }
+
+  // create a hook to show or hide material from the return, set to hide
+  const [show, setShow] = React.useState(false);
+
   // Render the UI for your table
   return (
     <>
-      <div><button onClick={() => exportPDF()}>Generate Report</button></div>
+<>
+      <Grid.Row>
+        <Button size='mini' basic color='blue'
+          type="button"
+          onClick={() => setShow(!show)}
+        >
+          show/hide export options
+        </Button>
+      </Grid.Row>
+      { show ? 
+        ( <>
+          <Message>Export Bibliography</Message>         
+          <Grid columns={2}>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  selected columns only
+                </Label>
+                <Button.Group size='mini'>
+                  <Button 
+                    onClick={() => {
+                      exportData("csv", false);
+                    }}>
+                      to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", false);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", false);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <Label as='a' color='blue' ribbon>
+                  all columns 
+                </Label>
+                <Button.Group size='mini'>
+                  <Button onClick={() => {
+                      exportData("csv", true);
+                    }}>
+                    to csv
+                  </Button>
+                  <Button.Or />
+                  <Button color='blue'
+                    onClick={() => {
+                      exportData("xlsx", true);
+                    }}>
+                    to xlsx
+                  </Button>
+                  <Button.Or />
+                  <Button 
+                    onClick={() => {
+                      exportData("pdf", true);
+                    }}>
+                    to pdf
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </>) : null} </>
       <div className="columnToggle">
         {allColumns.map(column => (
           <div key={column.id} className="columnToggle">
@@ -205,7 +286,7 @@ function Table({
               <td colSpan="10000">Loading...</td>
             ) : (
               <td colSpan="10000">
-                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
+                Showing {page.length} of ~{pageCount * pageSize}{' '}
                 results
               </td>
             )}
@@ -318,12 +399,11 @@ function BibliographyTable(props) {
   const { client, setAuthTokens } = useAuth();
   
   
-  async function getBibliography(limit, offset, sortBy, filters) {
+  async function getBibliography( offset, sortBy, filters) {
       let res = {}
       res = await client.query({
-        query: getBibliographyQuery,
+        query: getAllBibliographyQuery,
         variables: { 
-          limit: limit,
           offset: offset,
           bibliographies_order: sortBy,
           where: filters,
@@ -334,19 +414,11 @@ function BibliographyTable(props) {
   
   
   const fetchData = React.useCallback(({  pageSize, pageIndex, sortBy, filters, globalFilter }) => {
-    // This will get called when the table needs new data
-  
-    // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
-  
-    // Set the loading state
     setLoading(true)
-  
     setTimeout(() => {
       if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy) 
-        const controlledFilter = filterReshape(filters, globalFilter, [])
-        getBibliography(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
+        getBibliography(pageIndex, sortBy, filters)
         .then((data) => {
           let totalCount = data.bibliographies_aggregate.aggregate.count
           setData(data.bibliographies)

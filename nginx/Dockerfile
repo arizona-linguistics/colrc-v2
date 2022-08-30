@@ -8,7 +8,7 @@ ENV NGINX_VERSION=1.19.7 \
     HTTP_SUBSTITUTIONS_FILTER_VERSION=0.6.4 \
     UPSTREAM_FAIR_VERSION=0.1.3 \
     NGINX_BUILD_ASSETS_DIR=/var/lib/docker-nginx \
-    NGINX_BUILD_ROOT_DIR=/var/lib/docker-nginx/rootfs
+    NGINX_BUILD_ROOT_DIR=/var/lib/docker-nginx/rootfs 
 
 ARG WITH_DEBUG=false
 ARG WITH_DAV=true
@@ -22,7 +22,8 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
       wget ca-certificates make gcc g++ pkg-config perl
 
-RUN apt-get update && apt-get install -yyq netcat
+RUN apt-get update \
+ && apt-get install -yyq netcat 
 
 COPY assets/build/ ${NGINX_BUILD_ASSETS_DIR}/
 
@@ -48,8 +49,9 @@ ENV NGINX_USER=www-data \
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-    ca-certificates curl libssl1.1 libxslt1.1 libgd3 libgeoip1 rsync unzip \
+    ca-certificates curl libssl1.1 libxslt1.1 libgd3 libgeoip1 rsync unzip gettext-base \
  && rm -rf /var/lib/apt/lists/*
+
 
 # two-step copy
 COPY --from=builder /var/lib/docker-nginx/rootfs /rootfs
@@ -63,6 +65,11 @@ RUN rsync -rtvazP /rootfs/* / \
 #    && curl -Lo audio.zip https://www.dropbox.com/sh/jtd0hw3r97rj48q/AADPJFTY0KvJnz83zK97vZh0a?dl=0  \ 
 #    && unzip audio.zip -x / \
 #    && rm -f audio.zip
+
+# COPY ./assets/build/config/default.conf /etc/nginx/conf.d
+COPY ./assets/build/config/nginx.conf /etc/nginx.conf
+COPY ./assets/build/config/sites-enabled/colrc.template /etc/nginx/sites-enabled/
+
 RUN mkdir -p ${NGINX_FILE_DIR} && touch ${NGINX_FILE_DIR}/nothing.txt
 
 RUN chmod 755 ${NGINX_FILE_DIR} && chmod 644 ${NGINX_FILE_DIR}/*

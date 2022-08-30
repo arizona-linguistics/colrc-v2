@@ -38,6 +38,14 @@ create_siteconf_dir
 create_cache_dir
 create_html_dir
 
+# export URL_UPLOAD
+# export URL_ODINSON
+
+echo "my URL_UPLOAD is ${URL_UPLOAD}"
+echo "my URL_ODINSON is ${URL_ODINSON}"
+
+envsubst `{$URL_UPLOAD} {$URL_ODINSON}` < /etc/nginx/sites-enabled/colrc.template > /etc/nginx/sites-enabled/colrc 
+
 # allow arguments to be passed to nginx
 if [[ ${1:0:1} = '-' ]]; then
   EXTRA_ARGS="$@"
