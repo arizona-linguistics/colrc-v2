@@ -35,12 +35,13 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
 Install these applications in the appropriate format for your machine (Windows, Mac or Linux).  Windows users can download docker and vscode Windows versions; and/or download and install from the WSL command line as you prefer.
 
+- You will need sudo/root access on your system at the command line.
 - [`docker`](https://docs.docker.com/install/)
 - [`docker-compose`](https://docs.docker.com/compose/install/)
 - [`git`](https://git-scm.com/downloads)
 - [`python3`](https://www.python.org/downloads/)
 - If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
-- You will need sudo/root access on your system at the command line.
+- - once you have Debian installed, you will need to run `sudo apt-get update` and then `sudo apt-get upgrade`
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
 
 ### First Installation
