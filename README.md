@@ -33,6 +33,8 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
 ### Requirements
 
+Install these applications in the appropriate format for your machine (Windows, Mac or Linux).  Windows users can download docker and vscode Windows versions; and/or download and install from the WSL command line as you prefer.
+
 - [`docker`](https://docs.docker.com/install/)
 - [`docker-compose`](https://docs.docker.com/compose/install/)
 - [`git`](https://git-scm.com/downloads)
