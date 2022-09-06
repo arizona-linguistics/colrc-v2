@@ -130,7 +130,7 @@ services:
         edu.arizona.colrc.description: "Nginx for COLRC v2"
     depends_on:
       - frontend
-    restart: always
+    restart: 'no'
     ports:
       - "80:80"
       - "443:443"

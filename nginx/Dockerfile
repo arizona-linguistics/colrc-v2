@@ -67,15 +67,20 @@ RUN rsync -rtvazP /rootfs/* / \
 #    && rm -f audio.zip
 
 # COPY ./assets/build/config/default.conf /etc/nginx/conf.d
-COPY ./assets/build/config/nginx.conf /etc/nginx.conf
-COPY ./assets/build/config/sites-enabled/colrc.template /etc/nginx/sites-enabled/
+# COPY ./assets/build/config/nginx.conf /etc/nginx.conf
+# COPY ./assets/build/config/sites-enabled/colrc.template /etc/nginx/sites-enabled/colrc
 
 RUN mkdir -p ${NGINX_FILE_DIR} && touch ${NGINX_FILE_DIR}/nothing.txt
 
 RUN chmod 755 ${NGINX_FILE_DIR} && chmod 644 ${NGINX_FILE_DIR}/*
+
 
 EXPOSE 80/tcp 443/tcp 1935/tcp
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
 
 CMD ["/usr/sbin/nginx"]
+
+# CMD ["nginx", "-g", "daemon off;"]
+
+
