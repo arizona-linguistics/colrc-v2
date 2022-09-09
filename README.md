@@ -56,7 +56,7 @@ Install these applications in the appropriate format for your machine (Windows, 
 Create a directory somewhere on your local machine called `data` and inside of that directory create another one called `odinson`.  Make sure you can find the path to that directory.  Then open the file called `docker-compose.yml`, find the volumes list for odinson-api (around lines 13-15), and add your path, plus :/data/odinson as the sole uncommented entry in the list.  For example, your path might be something like `- /Users/[yourusername]/data/odinson:/data/odinson`.  This lets the system find and store stuff in that directory.
 
 
-3. <a id="step-3"></a> At the command line, build our development environment. The initial build may take a while, but subsequent builds will go faster.
+3. <a id="step-3"></a> At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
     `docker-compose build`
 
