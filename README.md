@@ -53,6 +53,8 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 3. <a id="step-3"></a> At the command line, build our development environment. The initial build may take a while, but subsequent builds will go faster.
     
     `docker-compose build`
+    
+(important: in the podman environment on our vultr machine, the command must be DOCKER_BUILDKIT=0 docker-compose build)
 
 4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
   
