@@ -40,6 +40,7 @@ Install these applications in the appropriate format for your machine (Windows, 
 - [`docker-compose`](https://docs.docker.com/compose/install/)
 - [`git`](https://git-scm.com/downloads)
 - [`python3`](https://www.python.org/downloads/)
+- [`node`](https://nodejs.org/en/download/)
 - If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
 - - once you have Debian installed, you will need to run `sudo apt-get update` and then `sudo apt-get upgrade`
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
