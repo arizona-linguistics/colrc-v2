@@ -107,18 +107,19 @@ services:
     build:
       context: ./frontend
       # specify .dev or .prod variant
-      dockerfile: Dockerfile.dev
+      # dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
       labels:
         edu.arizona.colrc.description: "Frontend for COLRC v2"
     depends_on:
       - backend
     restart: always
-    ports:
-      - "3000:3000"
-    volumes:
+    # ports:
+    #   - "3000:3000"
+    # volumes:
       # FIXME: build the code and then deploy it to the volume
       #- nginx_colrc:/app/build:rw
-      - ./frontend:/app:rw
+      # - ./frontend:/app:rw
     # networks:
     #   vpcbr:
     #     ipv4_address: 10.5.0.5
