@@ -79,6 +79,8 @@ EXPOSE 80/tcp 443/tcp 1935/tcp
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
 
+COPY --from=frontend /app/build /var/www/colrc
+
 CMD ["/usr/sbin/nginx"]
 
 # CMD ["nginx", "-g", "daemon off;"]
