@@ -113,7 +113,7 @@ services:
         edu.arizona.colrc.description: "Frontend for COLRC v2"
     depends_on:
       - backend
-    restart: always
+    # restart: always
     # ports:
     #   - "3000:3000"
     # volumes:
