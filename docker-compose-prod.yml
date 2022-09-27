@@ -92,7 +92,7 @@ services:
       - ./.env
     environment:
       # For dev, this should just use the service name
-      DB_HOST: localhost
+      DB_HOST: 0.0.0.0
       # used by Sequelize
       DB_DIALECT: postgres
     volumes:
