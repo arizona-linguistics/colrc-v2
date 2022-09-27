@@ -6,6 +6,7 @@ const axios = require('axios');
 const _ = require('lodash');
 const { noRoleError } = require('../errors/error');
 
+console.log('my env vars are', process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_HOST, process.env.DB_DIALECT)
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USERNAME,
