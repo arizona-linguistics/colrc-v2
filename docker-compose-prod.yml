@@ -3,6 +3,9 @@ volumes:
   nginx_colrc:
     # external: true
 services:
+  pod:
+    image: debian
+    command: [ "sh", "-c", "while true; do sleep 5; done" ]
   odinson-rest-api:
     image: docker.io/lumai/odinson-rest-api:experimental
     stdin_open: true # docker run -i
@@ -20,6 +23,9 @@ services:
     restart: always
     environment: 
       HOME: /app
+    depends_on: 
+      - pod
+    network_mode: service:pod
     # networks:
     #   vpcbr:
     #     ipv4_address: 10.5.0.8
@@ -31,8 +37,9 @@ services:
     # depends_on:
     #   - "postgres"
     depends_on:
-      postgres:
-        condition: service_healthy
+      - pod
+      - postgres:
+          condition: service_healthy
     restart: always
     env_file:
       - ./.env
@@ -45,9 +52,7 @@ services:
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
       HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}'
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
-    # networks:
-    #   vpcbr:
-    #     ipv4_address: 10.5.0.2
+    network_mode: service:pod
   postgres:
     image: docker.io/library/postgres:12
     container_name: colrc-v2-postgres-db
@@ -71,9 +76,9 @@ services:
         interval: 10s
         timeout: 5s
         retries: 10
-    # networks:
-    #   vpcbr:
-    #     ipv4_address: 10.5.0.3
+    depends_on: 
+      - pod
+    network_mode: service:pod
   backend:
     container_name: colrc-v2-backend
     build:
@@ -83,6 +88,7 @@ services:
       labels:
         edu.arizona.colrc.description: "API for COLRC v2"
     depends_on:
+      - pod
       - postgres
       - hasura
     restart: always
@@ -97,32 +103,7 @@ services:
       DB_DIALECT: postgres
     volumes:
       - ./auth:/app:rw
-      # don't bind mount node_modules
-      #- /app/node_modules
-    # networks:
-    #   vpcbr:
-    #     ipv4_address: 10.5.0.4
-  # frontend:
-  #   container_name: colrc-v2-frontend
-  #   build:
-  #     context: ./frontend
-  #     # specify .dev or .prod variant
-  #     # dockerfile: Dockerfile.dev
-  #     dockerfile: Dockerfile.prod
-  #     labels:
-  #       edu.arizona.colrc.description: "Frontend for COLRC v2"
-  #   depends_on:
-      # - backend
-    # restart: always
-    # ports:
-    #   - "3000:3000"
-    # volumes:
-      # FIXME: build the code and then deploy it to the volume
-      #- nginx_colrc:/app/build:rw
-      # - ./frontend:/app:rw
-    # networks:
-    #   vpcbr:
-    #     ipv4_address: 10.5.0.5
+    network_mode: service:pod
   nginx:
     container_name: nginx
     build:
@@ -131,6 +112,7 @@ services:
         edu.arizona.colrc.description: "Nginx for COLRC v2"
       dockerfile: ./nginx/Dockerfile.prod
     depends_on:
+      - pod
       - backend
     restart: 'no'
     ports:
@@ -139,9 +121,7 @@ services:
     volumes:
       # FIXME: add files and colrc frontend
       - ./misc/file_data:/var/www/colrc/files:rw
-    # networks:
-    #   vpcbr:
-    #     ipv4_address: 10.5.0.6
+    network_mode: service:pod
     environment:
       - URL_UPLOAD=localhost
       - URL_ODINSON=localhost
@@ -155,19 +135,11 @@ services:
       labels:
         edu.arizona.colrc.description: "File upload processor for COLRC v2"
     depends_on:
+      - pod
       - nginx
     restart: always
     ports:
       - "8081:8081"
     volumes:
       - ./misc/file_data:/var/www/colrc:rw
-    # networks:
-    #   vpcbr:
-    #     ipv4_address: 10.5.0.7
-# networks:
-#   vpcbr:
-#     driver: bridge
-#     ipam:
-#       config:
-#         - subnet: 10.5.0.0/16
-#           gateway: 10.5.0.1
+    network_mode: service:pod
