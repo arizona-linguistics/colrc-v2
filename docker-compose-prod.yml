@@ -35,9 +35,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      pod:
-      postgres:
-          condition: service_healthy
+      - pod
+      - postgres
     restart: always
     env_file:
       - ./.env
