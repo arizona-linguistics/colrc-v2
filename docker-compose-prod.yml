@@ -4,7 +4,7 @@ volumes:
     # external: true
 services:
   pod:
-    image: debian
+    image: alpine
     command: [ "sh", "-c", "while true; do sleep 5; done" ]
   odinson-rest-api:
     image: docker.io/lumai/odinson-rest-api:experimental
