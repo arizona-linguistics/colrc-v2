@@ -1,38 +1,38 @@
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: postgres-volume
-  labels:  
-    app: psql
-    ver: psql-1
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "./misc/db_data"
-  persistentVolumeReclaimPolicy: Retain
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: postgres-volume
+#   labels:  
+#     app: psql
+#     ver: psql-1
+# spec:
+#   storageClassName: manual
+#   capacity:
+#     storage: 1Gi
+#   accessModes:
+#     - ReadWriteMany
+#   hostPath:
+#     path: "./misc/db_data"
+#   persistentVolumeReclaimPolicy: Retain
 
----
+# ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-volume-claim
-spec:
-  selector:
-    matchLabels:
-      app: psql
-      ver: psql-1
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: postgres-volume-claim
+# spec:
+#   selector:
+#     matchLabels:
+#       app: psql
+#       ver: psql-1
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 1Gi
 
----
+# ---
 
 apiVersion: apps/v1
 kind: Deployment
