@@ -14,9 +14,24 @@ spec:
       labels:
         app: colrc
     spec:
+      volumes:
+        - name: scripts
+          hostPath: 
+            path: ./misc/sql 
+            type: Directory
+        - name: colrc
+          hostPath:
+            path: ./misc/db_data
+            type: Directory
       containers:
       - name: postgres
         image: docker.io/library/postgres:12
+        volumeMounts:
+          - name: scripts
+            mountPath: ./docker-entrypoint-initdb.d
+            readOnly: true
+          - name: colrc
+            mountPath: ./var/lib/postgresql/data
         env:
         - name: POSTGRES_USER
           value: postgres
@@ -27,6 +42,7 @@ spec:
         ports:
           - containerPort: 5432
             hostPort: 5432
+            protocol: TCP
 
       - name: hasura
         image: docker.io/hasura/graphql-engine:v1.3.3
