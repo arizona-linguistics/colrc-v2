@@ -28,10 +28,10 @@ spec:
         image: docker.io/library/postgres:12
         volumeMounts:
           - name: scripts
-            mountPath: ./docker-entrypoint-initdb.d
+            mountPath: /docker-entrypoint-initdb.d
             readOnly: true
           - name: colrc
-            mountPath: ./var/lib/postgresql/data
+            mountPath: /var/lib/postgresql/data
         env:
         - name: POSTGRES_USER
           value: postgres
