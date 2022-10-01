@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: colrc
+  labels:
+    app: colrc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: colrc
+  template:
+    metadata:
+      labels:
+        app: colrc
+    spec:
+      containers:
+      - name: postgres
+        image: docker.io/library/postgres:12
+        env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: 11chastq
+        - name: POSTGRES_DB
+          value: colrc
+        ports:
+          - containerPort: 5432
+            hostPort: 5432
+
+      - name: hasura
+        image: docker.io/hasura/graphql-engine:v1.3.3
+        env:
+        - name: HASURA_GRAPHQL_DATABASE_URL
+          # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
+          value: postgres://postgres:11chastq@127.0.0.1:5432/colrc?application_name=colrc
+        - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+          value: "true"
+        - name: HASURA_GRAPHQL_ADMIN_SECRET
+          value: secret
+        - name: HASURA_GRAPHQL_DEV_MODE
+          value: "true"
+        - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
+          value: "startup, http-log, webhook-log, websocket-log, query-log" 
+        - name: HASURA_GRAPHQL_ADMIN_SECRET
+          value: myadminsecretkey 
+        - name: HASURA_GRAPHQL_JWT_SECRET
+          value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
+        - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+          value: anonymous 
+        ports:
+          - containerPort: 8080
+            hostPort: 8080
