@@ -34,6 +34,24 @@
 
 # ---
 
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hasura
+  name: hasura
+  namespace: default
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  selector:
+    app: hasura
+  type: LoadBalancer
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -58,6 +76,7 @@ spec:
         - name: pgdatavol
           persistentVolumeClaim:
             claimName: postgres-volume-claim
+
       containers:
       - name: postgres
         image: docker.io/library/postgres:12
@@ -78,27 +97,34 @@ spec:
           - containerPort: 5432
             hostPort: 5432
             protocol: TCP
-
-      - name: hasura
-        image: docker.io/hasura/graphql-engine:v1.3.3
-        env:
-        - name: HASURA_GRAPHQL_DATABASE_URL
-          # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
-          value: postgres://postgres:11chastq@127.0.0.1:5432/colrc?application_name=colrc
-        - name: HASURA_GRAPHQL_ENABLE_CONSOLE
-          value: "true"
-        - name: HASURA_GRAPHQL_ADMIN_SECRET
-          value: secret
-        - name: HASURA_GRAPHQL_DEV_MODE
-          value: "true"
-        - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
-          value: "startup, http-log, webhook-log, websocket-log, query-log" 
-        - name: HASURA_GRAPHQL_ADMIN_SECRET
-          value: myadminsecretkey 
-        - name: HASURA_GRAPHQL_JWT_SECRET
-          value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
-        - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
-          value: anonymous 
-        ports:
-          - containerPort: 8080
-            hostPort: 8080
+  spec:
+    initContainers:
+    - name: check-db-ready
+      image: postgres:12
+      command: [ 'sh', '-c', 'until pg_isready -h localhost -p 5432 -U postgres; do echo waiting for database; sleep 2; done;' ]
+    containers: 
+    - name: hasura
+      image: docker.io/hasura/graphql-engine:v2.12.0
+      imagePullPolicy: IfNotPresent
+      env:
+      - name: HASURA_GRAPHQL_DATABASE_URL
+        # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
+        value: postgres://postgres:11chastq@127.0.0.1:5432/colrc?application_name=colrc
+      - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+        value: "true"
+      - name: HASURA_GRAPHQL_ADMIN_SECRET
+        value: secret
+      - name: HASURA_GRAPHQL_DEV_MODE
+        value: "true"
+      - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
+        value: "startup, http-log, webhook-log, websocket-log, query-log" 
+      - name: HASURA_GRAPHQL_ADMIN_SECRET
+        value: myadminsecretkey 
+      - name: HASURA_GRAPHQL_JWT_SECRET
+        value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
+      - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+        value: anonymous 
+    ports:
+      - containerPort: 8080
+        protocol: TCP
+    resources: {}
