@@ -34,25 +34,8 @@
 
 # ---
 
+
 apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: hasura
-  name: hasura
-  namespace: default
-spec:
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
-  selector:
-    app: hasura
-  type: LoadBalancer
-
----
-
-apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: colrc
@@ -76,7 +59,6 @@ spec:
         - name: pgdatavol
           persistentVolumeClaim:
             claimName: postgres-volume-claim
-
       containers:
       - name: postgres
         image: docker.io/library/postgres:12
@@ -97,34 +79,96 @@ spec:
           - containerPort: 5432
             hostPort: 5432
             protocol: TCP
-  spec:
-    initContainers:
-    - name: check-db-ready
-      image: postgres:12
-      command: [ 'sh', '-c', 'until pg_isready -h localhost -p 5432 -U postgres; do echo waiting for database; sleep 2; done;' ]
-    containers: 
-    - name: hasura
-      image: docker.io/hasura/graphql-engine:v2.12.0
-      imagePullPolicy: IfNotPresent
-      env:
-      - name: HASURA_GRAPHQL_DATABASE_URL
-        # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
-        value: postgres://postgres:11chastq@127.0.0.1:5432/colrc?application_name=colrc
-      - name: HASURA_GRAPHQL_ENABLE_CONSOLE
-        value: "true"
-      - name: HASURA_GRAPHQL_ADMIN_SECRET
-        value: secret
-      - name: HASURA_GRAPHQL_DEV_MODE
-        value: "true"
-      - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
-        value: "startup, http-log, webhook-log, websocket-log, query-log" 
-      - name: HASURA_GRAPHQL_ADMIN_SECRET
-        value: myadminsecretkey 
-      - name: HASURA_GRAPHQL_JWT_SECRET
-        value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
-      - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
-        value: anonymous 
+            
+      - name: hasura
+        image: docker.io/hasura/graphql-engine:v2.12.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: HASURA_GRAPHQL_DATABASE_URL
+          # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
+          value: postgres://postgres:11chastq@127.0.0.1:5432/colrc?application_name=colrc
+        - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+          value: "true"
+        - name: HASURA_GRAPHQL_ADMIN_SECRET
+          value: secret
+        - name: HASURA_GRAPHQL_DEV_MODE
+          value: "true"
+        - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
+          value: "startup, http-log, webhook-log, websocket-log, query-log" 
+        - name: HASURA_GRAPHQL_ADMIN_SECRET
+          value: myadminsecretkey 
+        - name: HASURA_GRAPHQL_JWT_SECRET
+          value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
+        - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+          value: anonymous 
+        ports:
+          - containerPort: 8080
+            hostPort: 8080
+            protocol: TCP
+        resources: {}
+      
+      - name: backend
+        image: localhost/colrc-v2-backend
+        env: 
+        - name: DB_HOST
+          value: localhost
+        - name: DB_DIALECT
+          value: postgres
+        - name: DB_NAME
+          value: colrc
+        - name: DB_USERNAME
+          value: postgres
+        - name: DB_PASSWORD
+          value: 11chastq
+        - name: ALGORITHM
+          value: RS256
+        - name: EXPIRES_IN
+          value: 1d
+        - name: JWT_PRIVATE_KEY
+          value: "-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEApNQ+GQ9sfCdPJh/J9Vo5qMBIm/EMiznaXbirJnr7Eispo6TP\nwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEttwGiHJIRVp/dN0sQRhHgCUO6P76g\nRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4kAGTsA8uQoSWnpFS+QS0Rzc8HcFrO\nRTiToQny9G2h1ji9xU5d28onE/0kXPMNm27xoznXgKkg6rS1Qz9RgKueU9riBWhs\nFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4HntPLnHE5dPcxwQapa1qvQ38xqgd4E\nVVolP15N6fEOGQarHMGPP939Ajxh51vr12yTswIDAQABAoIBAEb3nvj5PBNEdX6L\np0+9FiBDEcAai/UR5qP9k6sQvjL3ZIkxt8XSvbHura/W4JsgeYW4EbiPmHvWygio\nF8sJqN4nlN3KQi7Sy9M3vXz9y0ER6QnzEFzmikyEwh1UdvyWeCqZHlVAx/ZzOs6b\nl4cIy2VkDn4f0liftss5NWUoe4bpkGj2wblJ62W/AHi0beGI1972Okh/6QVl5hYY\nOModIRWs77qD+45WTGQYUryhSudZYuWL73VFo4a1qhwXN5CiCInpu/L3+tOkOeJB\ntRlL8w/25DK9A7oZcwQC1Y+R3jE0D1/C/ykjeMyhOrTJXDskEqdFJ0VUHt/6cZ6r\neG5NSSECgYEA08pS3xLrRjrbnE+aUGJ0qZIUlcIt9TV1zCngXRu/aMDzraq+J+jn\nSs1/b5r4ZZK57K27gwrADz2hls/WVesczPjeOEAIsDa2X4T1BKI28Bt72esQjyft\nly1IEQX0VGP1ww16OrItkq08sGWLBwkAFVb3TVhw8Lrw5KfZVFUD3IMCgYEAxzxl\n2NwGec/x8xpAl3ciZLYtjLReK4+gIFcEAIZPM1vYko5Pliikrr7U3BK3wMzroLI9\nNYfydJXgD3hvD9MeVerwGPWZvfUNtO75v473112RirkzXgwrnBb9NwpgwUDDziHt\nEvg0kOaKwQSVfGStyz4618KK4r5VNafVocXEJRECgYB1mTRm1TR6rJfgtXq0A9dP\niOORPF8UdvjPwrjoOk4QNoOX/OTVeEdli7GlIOGoVM6UEuu5mbCHReuBuCoFTyWQ\n0udhSH0Ki3a8lzENv5zNuhUNLa7mLn+IoAYSHcJLUa3W/pbOHL2dYj/+moOWBnNb\nZgyvj9o2cTbtYB4W65XXTQKBgEQqxxH+nfyZiEfMCKOKMGtS5ZzJrZqr5naKLyVa\nzshcuWnTZSmUOFxNkJjHkrVVp5zwvv6MyAjZqrLAWweIDU4KNyHjDjovGQR561t+\nOBAoxH45RXj9IwKh3vsxAs+8MAJcGzgtUhbtujW2Mss/yzLJ1Oozdr+DrbXQ+cgC\n2UxxAoGAZxwPY5y+8BXtFsABmgd3OaDEpjNWOg9L3DS6eTq4RQ6k6G8gZW8q0HPP\ni+M3CziVevEJJmaZGV/doqh1AVVZ/RG2YfuXyXuxf68hnomKPd5mRbhEUnA9sXa5\nMlPJbC6WuOTjTLi12LNUIFwxPgeWQqC9Lo9RdBZj+qzLMQy7+DA=\n-----END RSA PRIVATE KEY-----\n"
+        - name: JWT_PUBLIC_KEY
+          value: "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"
+        ports:
+          - containerPort: 4000
+            hostPort: 4000
+    
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hasura
+  name: colrc
+  namespace: default
+spec:
+  ports:
+  - name: hasura
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  - name: postgres
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+  selector:
+    app: hasura
+  # type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Endpoints
+metadata:
+  # the name here should match the name of the Service
+  name: colrc
+subsets:
+  - addresses:
+      - ip: localhost
     ports:
-      - containerPort: 8080
-        protocol: TCP
-    resources: {}
+      - name: hasura
+        port: 8080
+      - name: postgres
+        port: 5432
