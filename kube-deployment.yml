@@ -5,6 +5,7 @@
 #   labels:  
 #     app: psql
 #     ver: psql-1
+#     type: local
 # spec:
 #   storageClassName: manual
 #   capacity:
@@ -12,7 +13,7 @@
 #   accessModes:
 #     - ReadWriteMany
 #   hostPath:
-#     path: "./misc/db_data"
+#     path: "/home/amyfou/colrc-v2/misc/db_data"
 #   persistentVolumeReclaimPolicy: Retain
 
 # ---
@@ -34,6 +35,48 @@
 
 # ---
 
+# kind: PersistentVolume
+# apiVersion: v1
+# metadata:
+#   name: postgres-initdb-pv-volume
+#   labels:
+#     type: local
+#     app: postgres
+# spec:
+#   storageClassName: manual
+#   capacity:
+#     storage: 1Mi
+#   accessModes:
+#     - ReadOnlyMany
+#   hostPath:
+#     path: "/home/amyfou/colrc-v2/misc/sql"
+
+# ---
+
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: postgres-initdb-pv-claim
+#   labels:
+#     app: postgres
+# spec:
+#   storageClassName: manual
+#   accessModes:
+#     - ReadOnlyMany
+#   resources:
+#     requests:
+#       storage: 1Mi
+
+# ---
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: postgresql-initdb-config
+# data:
+#   command: 'psql -h localhost -p 5432 -d postgres -U postgres -f ./colrc.sql --password'
+
+# ---
 
 apiVersion: v1
 kind: Deployment
@@ -51,23 +94,17 @@ spec:
       labels:
         app: colrc
     spec:
-      volumes:
-        - name: scripts
-          hostPath: 
-            path: ./misc/sql 
-            type: Directory
-        - name: pgdatavol
-          persistentVolumeClaim:
-            claimName: postgres-volume-claim
-      containers:
+      containers:   
       - name: postgres
         image: docker.io/library/postgres:12
+        imagePullPolicy: "IfNotPresent"
         volumeMounts:
-          - name: scripts
-            mountPath: /docker-entrypoint-initdb.d
+          - mountPath: /docker-entrypoint-initdb.d
+            name: postgres-initdb 
             readOnly: true
-          - name: pgdatavol
-            mountPath: /var/lib/postgresql/data
+            defaultMode: 07
+          - mountPath: /var/lib/postgresql/data 
+            name: pgdatavol
         env:
         - name: POSTGRES_USER
           value: postgres
@@ -78,15 +115,14 @@ spec:
         ports:
           - containerPort: 5432
             hostPort: 5432
-            protocol: TCP
-            
+            protocol: TCP       
       - name: hasura
-        image: docker.io/hasura/graphql-engine:v2.12.0
+        image: docker.io/hasura/graphql-engine:v1.3.3
         imagePullPolicy: IfNotPresent
         env:
         - name: HASURA_GRAPHQL_DATABASE_URL
           # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
-          value: postgres://postgres:11chastq@127.0.0.1:5432/colrc?application_name=colrc
+          value: postgres://postgres:11chastq@localhost:5432/colrc?application_name=colrc
         - name: HASURA_GRAPHQL_ENABLE_CONSOLE
           value: "true"
         - name: HASURA_GRAPHQL_ADMIN_SECRET
@@ -105,10 +141,13 @@ spec:
           - containerPort: 8080
             hostPort: 8080
             protocol: TCP
-        resources: {}
-      
+        resources: {}      
       - name: backend
-        image: localhost/colrc-v2-backend
+      # if you build from sudo, use this
+      # image: localhost/colrc-v2-backend
+      # if you copy from sudo to amyfou, use this
+      # image: docker.io/library/colrc-v2-backend 
+        image: docker.io/library/colrc-v2-backend
         env: 
         - name: DB_HOST
           value: localhost
@@ -131,8 +170,22 @@ spec:
         ports:
           - containerPort: 4000
             hostPort: 4000
-    
-
+      volumes:
+        - name: postgres-initdb
+          hostPath: 
+            path: /home/amyfou/colrc-v2/misc/sql 
+            type: Directory
+          configMap:
+            name: postgresql-initdb-config
+          persistentVolumeClaim:
+            claimName: postgres-initdb-pv-claim
+          
+        - name: pgdatavol
+          hostPath:
+            path: /home/amyfou/colrc-v2/misc/db_data
+            type: Directory
+          persistentVolumeClaim:
+            claimName: postgres-volume-claim
 
 ---
 
