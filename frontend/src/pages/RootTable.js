@@ -646,7 +646,7 @@ function RootTable(props) {
       if (fetchId === fetchIdRef.current) {
         const controlledSort = sortReshape(sortBy) 
         const controlledFilter = filterReshape(filters, globalFilter, ["root", "variant", "crossref", "cognate", "grammar", "english", "nicodemus", "salish"])
-        getRoots(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
+        getRoots(pageSize, pageSize * pageIndex, controlledSort, controlledFilter, {mode: 'cors'})
         .then((data) => {
           let totalCount = data.roots_aggregate.aggregate.count
           setData(data.roots)

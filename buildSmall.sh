@@ -9,9 +9,6 @@
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 systemctl enable --now --user podman.socket
 
-# build the images
- DOCKER_BUILDKIT=0 docker-compose -f docker-compose-prod.yml build nginx
-
 # bring up persistent volumes and pvcs, start postgres and run the colrc.sql script, then bring it all down 
  podman play kube kube-deployment-psql.yml
  sleep 10
@@ -23,4 +20,4 @@ systemctl enable --now --user podman.socket
  sleep 10
  
 # bring up backend, postgres and hasura in a single pod
- podman play kube kube-deployment.yml 
+ podman play kube kube-small.yml 
