@@ -5,6 +5,7 @@
 #   labels:  
 #     app: psql
 #     ver: psql-1
+#     type: local
 # spec:
 #   storageClassName: manual
 #   capacity:
@@ -12,7 +13,7 @@
 #   accessModes:
 #     - ReadWriteMany
 #   hostPath:
-#     path: "./misc/db_data"
+#     path: "/home/amyfou/colrc-v2/misc/db_data"
 #   persistentVolumeReclaimPolicy: Retain
 
 # ---
@@ -34,8 +35,50 @@
 
 # ---
 
+# kind: PersistentVolume
+# apiVersion: v1
+# metadata:
+#   name: postgres-initdb-pv-volume
+#   labels:
+#     type: local
+#     app: postgres
+# spec:
+#   storageClassName: manual
+#   capacity:
+#     storage: 1Mi
+#   accessModes:
+#     - ReadOnlyMany
+#   hostPath:
+#     path: "/home/amyfou/colrc-v2/misc/sql"
 
-apiVersion: apps/v1
+# ---
+
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: postgres-initdb-pv-claim
+#   labels:
+#     app: postgres
+# spec:
+#   storageClassName: manual
+#   accessModes:
+#     - ReadOnlyMany
+#   resources:
+#     requests:
+#       storage: 1Mi
+
+# ---
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: postgresql-initdb-config
+# data:
+#   command: 'psql -h localhost -p 5432 -d postgres -U postgres -f ./colrc.sql --password'
+
+# ---
+
+apiVersion: v1
 kind: Deployment
 metadata:
   name: colrc
@@ -59,15 +102,18 @@ spec:
         - name: pgdatavol
           persistentVolumeClaim:
             claimName: postgres-volume-claim
+
       containers:
       - name: postgres
         image: docker.io/library/postgres:12
+        imagePullPolicy: "IfNotPresent"
         volumeMounts:
-          - name: scripts
-            mountPath: /docker-entrypoint-initdb.d
+          - mountPath: /docker-entrypoint-initdb.d
+            name: postgres-initdb 
             readOnly: true
-          - name: pgdatavol
-            mountPath: /var/lib/postgresql/data
+            defaultMode: 07
+          - mountPath: /var/lib/postgresql/data 
+            name: pgdatavol
         env:
         - name: POSTGRES_USER
           value: postgres
@@ -79,29 +125,34 @@ spec:
           - containerPort: 5432
             hostPort: 5432
             protocol: TCP
-            
-      - name: hasura
-        image: docker.io/hasura/graphql-engine:v2.12.0
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: HASURA_GRAPHQL_DATABASE_URL
-          # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
-          value: postgres://postgres:11chastq@127.0.0.1:5432/colrc?application_name=colrc
-        - name: HASURA_GRAPHQL_ENABLE_CONSOLE
-          value: "true"
-        - name: HASURA_GRAPHQL_ADMIN_SECRET
-          value: secret
-        - name: HASURA_GRAPHQL_DEV_MODE
-          value: "true"
-        - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
-          value: "startup, http-log, webhook-log, websocket-log, query-log" 
-        - name: HASURA_GRAPHQL_ADMIN_SECRET
-          value: myadminsecretkey 
-        - name: HASURA_GRAPHQL_JWT_SECRET
-          value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
-        - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
-          value: anonymous 
-      ports:
-        - containerPort: 8080
-          protocol: TCP
-      resources: {}
+  spec:
+    initContainers:
+    - name: check-db-ready
+      image: postgres:12
+      command: [ 'sh', '-c', 'until pg_isready -h localhost -p 5432 -U postgres; do echo waiting for database; sleep 2; done;' ]
+    containers: 
+    - name: hasura
+      image: docker.io/hasura/graphql-engine:v2.12.0
+      imagePullPolicy: IfNotPresent
+      env:
+      - name: HASURA_GRAPHQL_DATABASE_URL
+        # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
+        value: postgres://postgres:11chastq@127.0.0.1:5432/colrc?application_name=colrc
+      - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+        value: "true"
+      - name: HASURA_GRAPHQL_ADMIN_SECRET
+        value: secret
+      - name: HASURA_GRAPHQL_DEV_MODE
+        value: "true"
+      - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
+        value: "startup, http-log, webhook-log, websocket-log, query-log" 
+      - name: HASURA_GRAPHQL_ADMIN_SECRET
+        value: myadminsecretkey 
+      - name: HASURA_GRAPHQL_JWT_SECRET
+        value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
+      - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+        value: anonymous 
+    ports:
+      - containerPort: 8080
+        protocol: TCP
+    resources: {}
