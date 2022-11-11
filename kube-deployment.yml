@@ -35,7 +35,6 @@
 # ---
 
 
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -80,9 +79,10 @@ spec:
           - containerPort: 5432
             hostPort: 5432
             protocol: TCP
-
+            
       - name: hasura
-        image: docker.io/hasura/graphql-engine:v1.3.3
+        image: docker.io/hasura/graphql-engine:v2.12.0
+        imagePullPolicy: IfNotPresent
         env:
         - name: HASURA_GRAPHQL_DATABASE_URL
           # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
@@ -101,6 +101,7 @@ spec:
           value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
         - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
           value: anonymous 
-        ports:
-          - containerPort: 8080
-            hostPort: 8080
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+      resources: {}
