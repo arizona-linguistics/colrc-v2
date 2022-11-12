@@ -1,82 +1,72 @@
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: postgres-volume
-#   labels:  
-#     app: psql
-#     ver: psql-1
-#     type: local
-# spec:
-#   storageClassName: manual
-#   capacity:
-#     storage: 1Gi
-#   accessModes:
-#     - ReadWriteMany
-#   hostPath:
-#     path: "/home/amyfou/colrc-v2/misc/db_data"
-#   persistentVolumeReclaimPolicy: Retain
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: odinson-volume
+  labels:  
+    app: odinson
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "./data/odinson"
+  persistentVolumeReclaimPolicy: Retain
 
-# ---
+---
 
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: postgres-volume-claim
-# spec:
-#   selector:
-#     matchLabels:
-#       app: psql
-#       ver: psql-1
-#   accessModes:
-#     - ReadWriteMany
-#   resources:
-#     requests:
-#       storage: 1Gi
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odinson-volume-claim
+spec:
+  selector:
+    matchLabels:
+      app: odinson
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
 
-# ---
+---
 
-# kind: PersistentVolume
-# apiVersion: v1
-# metadata:
-#   name: postgres-initdb-pv-volume
-#   labels:
-#     type: local
-#     app: postgres
-# spec:
-#   storageClassName: manual
-#   capacity:
-#     storage: 1Mi
-#   accessModes:
-#     - ReadOnlyMany
-#   hostPath:
-#     path: "/home/amyfou/colrc-v2/misc/sql"
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-volume
+  labels:  
+    app: nginx
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "./misc/file_data"
+  persistentVolumeReclaimPolicy: Retain
 
-# ---
+---
 
-# kind: PersistentVolumeClaim
-# apiVersion: v1
-# metadata:
-#   name: postgres-initdb-pv-claim
-#   labels:
-#     app: postgres
-# spec:
-#   storageClassName: manual
-#   accessModes:
-#     - ReadOnlyMany
-#   resources:
-#     requests:
-#       storage: 1Mi
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-volume-claim
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
 
-# ---
-
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: postgresql-initdb-config
-# data:
-#   command: 'psql -h localhost -p 5432 -d postgres -U postgres -f ./colrc.sql --password'
-
-# ---
+---
 
 apiVersion: v1
 kind: Deployment
@@ -115,7 +105,7 @@ spec:
         ports:
           - containerPort: 5432
             hostPort: 5432
-            protocol: TCP       
+            protocol: TCP
       - name: hasura
         image: docker.io/hasura/graphql-engine:v1.3.3
         imagePullPolicy: IfNotPresent
@@ -136,7 +126,7 @@ spec:
         - name: HASURA_GRAPHQL_JWT_SECRET
           value: '{"type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApNQ+GQ9sfCdPJh/J9Vo5\nqMBIm/EMiznaXbirJnr7Eispo6TPwdJJxBH1zqHgWuFi1Dik1fFLNyCUDxRoggEt\ntwGiHJIRVp/dN0sQRhHgCUO6P76gRncwFcP7VmcxqeDjVNS0h2P/4lf17ZF2Gl4k\nAGTsA8uQoSWnpFS+QS0Rzc8HcFrORTiToQny9G2h1ji9xU5d28onE/0kXPMNm27x\noznXgKkg6rS1Qz9RgKueU9riBWhsFZQoCImF2tT59buyIHCyRiMF0v3XKcLLg4Hn\ntPLnHE5dPcxwQapa1qvQ38xqgd4EVVolP15N6fEOGQarHMGPP939Ajxh51vr12yT\nswIDAQAB\n-----END PUBLIC KEY-----\n"}' 
         - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
-          value: anonymous 
+          value: anonymous
         ports:
           - containerPort: 8080
             hostPort: 8080
@@ -170,6 +160,22 @@ spec:
         ports:
           - containerPort: 4000
             hostPort: 4000
+      - name: nginx
+        image: docker.io/library/colrc-v2-nginx
+        imagePullPolicy: "IfNotPresent"
+        volumeMounts:
+          - mountPath: /var/www/colrc/files
+            name: nginxvol
+        env:
+        - name: URL_UPLOAD
+          value: localhost
+        - name: URL_ODINSON
+          value: localhost
+        ports:
+          - containerPort: 80
+            hostPort: 80
+            protocol: TCP
+      
       volumes:
         - name: postgres-initdb
           hostPath: 
@@ -186,6 +192,13 @@ spec:
             type: Directory
           persistentVolumeClaim:
             claimName: postgres-volume-claim
+
+        - name: nginxvol
+          hostPath: 
+            path: /home/amyfou/colrc-v2/misc/file_data
+            type: Directory
+          persistentVolumeClaim:
+            claimName: nginx-volume-claim
 
 ---
 
@@ -211,6 +224,42 @@ spec:
   # type: LoadBalancer
 
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: colrc
+  name: backend
+  namespace: default
+spec:
+  selector:
+    app: backend
+  ports:
+  - name: backend
+    protocol: TCP
+    port: 4000
+    targetPort: 4000
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: colrc
+  name: nginx
+  namespace: default
+spec:
+  selector:
+    app: nginx
+  ports:
+  - name: nginx
+    protocol: TCP
+    port: 80
+    targetPort: 80
+
+---
 
 apiVersion: v1
 kind: Endpoints
@@ -225,3 +274,7 @@ subsets:
         port: 8080
       - name: postgres
         port: 5432
+      - name: backend
+        port: 4000
+      - name: nginx
+        port: 80

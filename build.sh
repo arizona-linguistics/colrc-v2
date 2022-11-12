@@ -10,7 +10,7 @@ export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 systemctl enable --now --user podman.socket
 
 # build the images
- DOCKER_BUILDKIT=0 docker-compose -f docker-compose-prod.yml build nginx
+DOCKER_BUILDKIT=0 docker-compose -f docker-compose-prod.yml build nginx
 
 # bring up persistent volumes and pvcs, start postgres and run the colrc.sql script, then bring it all down 
  podman play kube kube-deployment-psql.yml
