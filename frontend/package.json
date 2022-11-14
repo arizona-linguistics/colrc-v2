@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "react-error-overlay": "^6.0.9",
-    "react-scripts": "^4.0.1"
+    "react-scripts": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
