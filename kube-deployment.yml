@@ -175,6 +175,36 @@ spec:
           - containerPort: 80
             hostPort: 80
             protocol: TCP
+      - name: odinson
+        stdin: true
+        tty: true
+        image: docker.io/lumai/odinson-rest-api:experimental
+        imagePullPolicy: "IfNotPresent"
+        volumeMounts:
+          - mountPath: /data/odinson
+            name: odinsonvol
+        env:
+        - name: HOME
+          value: /app
+        - name: ODINSON_USER
+          value: colrc-v2
+        - name: USER
+          value: root
+        ports:
+          - containerPort: 9000
+            hostPort: 9001
+            protocol: TCP
+
+      - name: file_upload
+        image: docker.io/library/colrc-v2-file_upload
+        imagePullPolicy: "IfNotPresent"
+        volumeMounts:
+          - mountPath: /var/www/colrc/files
+            name: nginxvol
+        ports: 
+          - containerPort: 8081
+            hostPort: 8081
+            protocol: TCP
       
       volumes:
         - name: postgres-initdb
@@ -199,6 +229,13 @@ spec:
             type: Directory
           persistentVolumeClaim:
             claimName: nginx-volume-claim
+
+        - name: odinsonvol
+          hostPath: 
+            path: /home/amyfou/colrc-v2/data/odinson
+            type: Directory
+          persistentVolumeClaim:
+            claimName: odinson-volume-claim
 
 ---
 
@@ -240,7 +277,22 @@ spec:
     port: 4000
     targetPort: 4000
 
-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: colrc
+  name: odinson
+  namespace: default
+spec:
+  selector:
+    app: odinson
+  ports:
+  - name: odinson
+    protocol: TCP
+    port: 9001
+    targetPort: 9000
 ---
 
 apiVersion: v1
@@ -260,6 +312,22 @@ spec:
     targetPort: 80
 
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: colrc
+  name: file_upload
+  namespace: default
+spec:
+  selector:
+    app: file_upload
+  ports:
+  - name: file_upload
+    protocol: TCP
+    port: 8081
+    targetPort: 8081
+---
 
 apiVersion: v1
 kind: Endpoints
@@ -278,3 +346,11 @@ subsets:
         port: 4000
       - name: nginx
         port: 80
+      - name: file_upload
+        port: 8081
+      
+  - addresses:
+      - ip: thecolrc.org
+    ports:
+      name: odinson
+      port: 9001

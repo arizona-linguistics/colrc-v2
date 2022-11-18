@@ -113,7 +113,7 @@ server {
 	}
 
 	location = /upload_file {
-		upload_store /var/www/colrc/tmp;
+		upload_store /var/www/colrc/files/tmp;
 		upload_store_access user:rw;
 		upload_pass /crap/; 
 
