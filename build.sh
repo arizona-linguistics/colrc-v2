@@ -15,6 +15,7 @@ systemctl enable --now --user podman.socket
 # bring up persistent volumes and pvcs, start postgres and run the colrc.sql script, then bring it all down 
  podman play kube kube-deployment-psql.yml
  sleep 10
+ PGPASSWORD=11chastq psql -h localhost -p 5432 -d postgres -U postgres -f ./misc/sql/setPathsProd.sql
  PGPASSWORD=11chastq psql -h localhost -p 5432 -d postgres -U postgres -f ./misc/sql/colrc.sql
  sleep 10
 
