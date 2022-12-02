@@ -69,6 +69,41 @@ spec:
 ---
 
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: certs-volume
+  labels:  
+    app: certs
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "./certbot"
+  persistentVolumeReclaimPolicy: Retain
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: certs-volume-claim
+spec:
+  selector:
+    matchLabels:
+      app: certs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
+apiVersion: v1
 kind: Deployment
 metadata:
   name: colrc
@@ -113,6 +148,7 @@ spec:
         - name: HASURA_GRAPHQL_DATABASE_URL
           # value: postgres://hasura:hasura@127.0.0.1:5432/hasura
           value: postgres://postgres:11chastq@localhost:5432/colrc?application_name=colrc
+          # value: postgres://postgres:11chastq@localhost:5432/colrc?application_name=colrc&path.audiofile=http://thecolrc.org:80/files/files/texts/&path.elicitationfile=http://thecolrc.org:80/files/files/elicitations/&path.textfile=http://thecolrc.org:80/files/files/texts/&path.textimage=http://thecolrc.org:80/files/files/texts/
         - name: HASURA_GRAPHQL_ENABLE_CONSOLE
           value: "true"
         - name: HASURA_GRAPHQL_ADMIN_SECRET
@@ -160,21 +196,31 @@ spec:
         ports:
           - containerPort: 4000
             hostPort: 4000
+            protocol: TCP
+ 
       - name: nginx
         image: docker.io/library/colrc-v2-nginx
         imagePullPolicy: "IfNotPresent"
         volumeMounts:
           - mountPath: /var/www/colrc/files
             name: nginxvol
+          - mountPath: /var/www/colrc/certs
+            name: certs
         env:
         - name: URL_UPLOAD
           value: localhost
         - name: URL_ODINSON
           value: localhost
         ports:
-          - containerPort: 80
-            hostPort: 80
-            protocol: TCP
+        - containerPort: 80
+          hostPort: 80
+          protocol: TCP
+          name: http
+        - containerPort: 443
+          hostPort: 443
+          protocol: TCP
+          name: https
+
       - name: odinson
         stdin: true
         tty: true
@@ -236,6 +282,13 @@ spec:
             type: Directory
           persistentVolumeClaim:
             claimName: odinson-volume-claim
+
+        - name: certs
+          hostPath: 
+            path: /home/amyfou/colrc-v2/certbot
+            type: Directory
+          persistentVolumeClaim:
+            claimName: certs-volume-claim
 
 ---
 
@@ -306,10 +359,12 @@ spec:
   selector:
     app: nginx
   ports:
-  - name: nginx
+  - port: 80
     protocol: TCP
-    port: 80
-    targetPort: 80
+    name: http
+  - port: 443
+    protocol: TCP
+    name: https
 
 ---
 apiVersion: v1
@@ -345,7 +400,7 @@ subsets:
       - name: backend
         port: 4000
       - name: nginx
-        port: 80
+        port: 443
       - name: file_upload
         port: 8081
       

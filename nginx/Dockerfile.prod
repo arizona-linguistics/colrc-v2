@@ -65,7 +65,8 @@ ENV NGINX_USER=www-data \
     NGINX_TEMP_DIR=/var/lib/nginx \
     NGINX_CACHE_DIR=/var/cache/nginx \
     NGINX_HTML_DIR=/var/www/colrc \
-    NGINX_FILE_DIR=/var/www/colrc/files
+    NGINX_FILE_DIR=/var/www/colrc/files \
+    NGINX_CERT_DIR=/var/www/colrc/certs
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
@@ -96,6 +97,12 @@ RUN mkdir -p ${NGINX_FILE_DIR} && touch ${NGINX_FILE_DIR}/nothing.txt
 RUN chmod 755 ${NGINX_FILE_DIR} && chmod 644 ${NGINX_FILE_DIR}/*
 
 RUN chown -R ${NGINX_USER}:${NGINX_USER} ${NGINX_FILE_DIR}/*
+
+RUN mkdir -p ${NGINX_CERT_DIR} 
+
+RUN chmod 755 ${NGINX_CERT_DIR}
+
+RUN chown ${NGINX_USER}:${NGINX_USER} ${NGINX_CERT_DIR}
 
 EXPOSE 80/tcp 443/tcp 1935/tcp
 

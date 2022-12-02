@@ -20,7 +20,7 @@ function Upload (props) {
     <Grid textAlign='center'  verticalAlign='top'>
         <Grid.Column>
             <Segment>
-                <Uploady destination={{url: "http://thecolrc.org:80/upload_file"}}>
+                <Uploady destination={{url: "https://thecolrc.org:80/upload_file"}}>
                     <UploadButton className="ui black button"/>
                 </Uploady>
             </Segment>
