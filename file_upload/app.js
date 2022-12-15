@@ -56,7 +56,7 @@ app.post('/upload-handler', cors(), (req, res) => {
 	var fpath = req.body['file.path']
 	console.log(fname, ftype, fpath)
 	var oldPath = fpath
-	var newPath = '/var/www/colrc/tmp/testing.json'
+	var newPath = '/var/www/colrc/files/tmp/testing.json'
 
 	// fs.rename(oldPath, newPath, function (err) {
 	// 	if (err) throw err
@@ -64,7 +64,7 @@ app.post('/upload-handler', cors(), (req, res) => {
 	// })
 	fs.renameSync(oldPath, newPath)
 
-	fs.readFile(newPath, (error, data) => {
+/* 	fs.readFile(newPath, (error, data) => {
 		if(error) {
 			throw error;
 		}
@@ -81,7 +81,7 @@ app.post('/upload-handler', cors(), (req, res) => {
 			// .then(data => setPostId(data.id))
 			.catch(error => console.log(error));
 
-	});
+	}); */
 
 	res.status(200).send("Received file")
 })

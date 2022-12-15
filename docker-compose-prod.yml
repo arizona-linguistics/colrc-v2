@@ -16,7 +16,7 @@ services:
     container_name: odinson-rest-api
     volumes: 
       # get this path from your local docker-compose.override.yml file, else use this default
-      - /root/data/odinson:/data/odinson
+      - ./data/odinson:/data/odinson
       #- /Users/alicekwak/data/odinson:/data/odinson
     ports:
       - "9001:9000"
@@ -117,7 +117,8 @@ services:
       - "443:443"
     volumes:
       # FIXME: add files and colrc frontend
-      - ./misc/file_data:/var/www/colrc/files:rw
+      - ./misc/file_data:/var/www/colrc:rw
+      - ./certbot:/var/www/colrc/certs:rw 
     network_mode: service:pod
     environment:
       - URL_UPLOAD=localhost
