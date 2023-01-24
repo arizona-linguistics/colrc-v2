@@ -83,8 +83,8 @@ function App(props) {
       new HttpLink({
         //proxy_pass http://localhost:8080/;
         //uri: 'http://hasura:8080/v1/graphql',
-        //uri: 'http://localhost:8080/v1/graphql',
-        uri: 'https://thecolrc.org/hasura/v1/graphql',
+        uri: 'http://localhost:8080/v1/graphql',
+        //uri: 'https://thecolrc.org/hasura/v1/graphql',
       })
     ),
     cache: new InMemoryCache(),
@@ -108,8 +108,8 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        //uri: 'http://backend:4000/api',
-        uri: 'https://thecolrc.org/api/',
+        uri: 'http://localhost:4000/api',
+        //uri: 'https://thecolrc.org/api/',
       })
     ),
     cache: new InMemoryCache(),

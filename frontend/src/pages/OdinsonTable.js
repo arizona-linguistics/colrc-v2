@@ -314,8 +314,8 @@ function OdinsonTable(props) {
         prevDoc: prevDoc
       })
     }
-    // let odindata = await fetch('http://localhost:80/odinson/?' + searchParams, {mode:'cors'})
-    let odindata = await fetch('http://thecolrc.org:80/odinson/?' + searchParams, {mode:'cors'})
+    let odindata = await fetch('http://localhost:80/odinson/?' + searchParams, {mode:'cors'})
+    // let odindata = await fetch('https://thecolrc.org:80/odinson/?' + searchParams, {mode:'cors'})
     .then((res) => res.json())
     .then((data) => {
       return data
