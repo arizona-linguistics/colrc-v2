@@ -43,6 +43,7 @@ Install these applications in the appropriate format for your machine (Windows, 
 - [`node`](https://nodejs.org/en/download/)
 - If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
 - - once you have Debian installed, you will need to run `sudo apt-get update` and then `sudo apt-get upgrade`
+- - you will also want to be sure you configure [`Docker Desktop to connect with WSL`](https://docs.docker.com/desktop/windows/wsl/)
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
 
 ### First Installation
