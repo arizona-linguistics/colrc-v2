@@ -11,7 +11,7 @@ services:
     container_name: odinson-rest-api
     volumes: 
       #- /Users/alicekwak/data/odinson:/data/odinson
-      - /Users/amy/data/odinson:/data/odinson
+      - /Users/blarg/data/odinson:/data/odinson
     ports:
       - "9001:9000"
     restart: always
