@@ -59,10 +59,10 @@ Create a directory somewhere on your local machine called `data` and inside of t
 
 Then create a file at the root of the colrc-v2 project called `docker-compose.override.yml', and add the following text to it, substituting your path as above:
 
-``services:
+```services:
   odinson-rest-api:
     volumes: 
-      - /[yourfilepath]/data/odinson:/data/odinson``
+      - /[yourfilepath]/data/odinson:/data/odinson```
 
 
 3. <a id="step-3"></a> At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
