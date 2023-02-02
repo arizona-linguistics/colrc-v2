@@ -43,6 +43,7 @@ Install these applications in the appropriate format for your machine (Windows, 
 - [`node`](https://nodejs.org/en/download/)
 - If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
 - - once you have Debian installed, you will need to run `sudo apt-get update` and then `sudo apt-get upgrade`
+- - you will also want to be sure you configure [`Docker Desktop to connect with WSL`](https://docs.docker.com/desktop/windows/wsl/)
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
 
 ### First Installation
@@ -56,10 +57,19 @@ Install these applications in the appropriate format for your machine (Windows, 
  
 Create a directory somewhere on your local machine called `data` and inside of that directory create another one called `odinson`.  Make sure you can find the path to that directory.  Then open the file called `docker-compose.yml`, find the volumes list for odinson-api (around lines 13-15), and add your path, plus :/data/odinson as the sole uncommented entry in the list.  For example, your path might be something like `- /Users/[yourusername]/data/odinson:/data/odinson`.  This lets the system find and store stuff in that directory.
 
+Then create a file at the root of the colrc-v2 project called `docker-compose.override.yml`, and add the following text to it, substituting your path as above:
+
+```
+services:
+  odinson-rest-api:
+    volumes: 
+      - /[yourfilepath]/data/odinson:/data/odinson
+```
+
 
 3. <a id="step-3"></a> At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
-    `docker-compose build`
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml --build`
 
 4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
   
@@ -77,7 +87,7 @@ Create a directory somewhere on your local machine called `data` and inside of t
 
 5. Then you may finally start our development environment as a background process!
 
-    `docker-compose up -d`
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
 
     Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
 
