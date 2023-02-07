@@ -10,7 +10,6 @@ services:
     user: 'root'
     container_name: odinson-rest-api
     volumes: 
-      #- /Users/alicekwak/data/odinson:/data/odinson
       - /Users/blarg/data/odinson:/data/odinson
     ports:
       - "9001:9000"
@@ -25,8 +24,6 @@ services:
     container_name: colrc-v2-hasura
     ports:
       - "8080:8080"
-    # depends_on:
-    #   - "postgres"
     depends_on:
       postgres:
         condition: service_healthy
@@ -56,7 +53,6 @@ services:
       - ./.env
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      #POSTGRES_PASSWORD: 11chastq
     volumes:
       - ./misc/db_data:/var/lib/postgresql/data
       # SQL scripts in this directory will be executed in alphabetical order
