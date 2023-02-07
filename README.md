@@ -69,7 +69,7 @@ services:
 
 3. <a id="step-3"></a> At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
-    `docker compose -f docker-compose.yml -f docker-compose.override.yml --build`
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml build`
 
 4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
   
@@ -90,6 +90,18 @@ services:
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
 
     Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
+    
+6.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
+
+    `docker compose down`
+    
+    To relaunch for a new work session, if you haven't done a new pull from the repo, you can just 'up' the system without rebuilding it like this:
+
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
+    
+    To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
+
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
 ### Subsequent Pulls
 As we progress in development, this repository will change. To get the most recent version of the repository, you will need to pull from the main branch. You will need to take a look at the most recent commits to see whether there have been changes to [`colrc.sql`](./misc/sql/colrc.sql) (which is the file that defines the database, including table permissions and relations via Hasura). Then:  
