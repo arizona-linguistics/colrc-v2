@@ -82,7 +82,8 @@ function App(props) {
     }).concat(
       new HttpLink({
         //uri: 'http://hasura:8080/v1/graphql',
-        uri: 'http://localhost:8080/v1/graphql',
+        //uri: 'http://localhost:8080/v1/graphql',
+        uri: process.env.REACT_APP_HASURA_CLIENT       
       })
     ),
     cache: new InMemoryCache(),
@@ -107,7 +108,8 @@ function App(props) {
     }).concat(
       new HttpLink({
         //uri: 'http://backend:4000/api',
-        uri: 'http://localhost:4000/api',
+        //uri: 'http://localhost:4000/api',
+        uri: process.env.REACT_APP_AUTH_CLIENT
       })
     ),
     cache: new InMemoryCache(),
