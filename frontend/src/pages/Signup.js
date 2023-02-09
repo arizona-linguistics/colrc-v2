@@ -22,11 +22,11 @@ let signupSchema = Yup.object().shape({
   email: Yup.string()
     .email('Please enter a valid email address')
     .required('Required'),
-  password: Yup.string()
+  password: Yup.string().trim()
     .min(2, 'Password must be more than 2 characters')
     .max(30, 'Password must be less than 30 characters')
     .required('Required'),
-  passwordConfirmation: Yup.string()
+  passwordConfirmation: Yup.string().trim()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
     .required('Password confirmation is required!')
   });
@@ -50,7 +50,7 @@ function Signup(props) {
           last: values.last,
           username: values.username,
           email: values.email,
-          password: values.password
+          password: values.password.trim()
         }
       })
       if (result.error) {
@@ -73,7 +73,7 @@ function Signup(props) {
         query: getUserToken,
         variables: {
           email: values.email,
-          password: values.password
+          password: values.password.trim()
           
         },
         errorPolicy: 'all'

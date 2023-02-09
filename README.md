@@ -33,28 +33,43 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
 ### Requirements
 
+Install these applications in the appropriate format for your machine (Windows, Mac or Linux).  Windows users can download docker and vscode Windows versions; and/or download and install from the WSL command line as you prefer.
+
+- You will need sudo/root access on your system at the command line.
 - [`docker`](https://docs.docker.com/install/)
 - [`docker-compose`](https://docs.docker.com/compose/install/)
 - [`git`](https://git-scm.com/downloads)
 - [`python3`](https://www.python.org/downloads/)
+- [`node`](https://nodejs.org/en/download/)
 - If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
-- You will need sudo/root access on your system at the command line.
+- - once you have Debian installed, you will need to run `sudo apt-get update` and then `sudo apt-get upgrade`
+- - you will also want to be sure you configure [`Docker Desktop to connect with WSL`](https://docs.docker.com/desktop/windows/wsl/)
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
 
 ### First Installation
-1. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone or pull this repository:
+1. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone or pull these repositories:
 
     `git clone https://github.com/arizona-linguistics/colrc-v2`
 
 2. Afterward, change to the newly-created directory and pull to make sure you have all of the current changes to the repository.  Note that the default branch, "main," is the branch you should clone and/or pull.
 
     `cd colrc-v2 && git pull`
+ 
+Create a directory somewhere on your local machine called `data` and inside of that directory create another one called `odinson`.  Make sure you can find the path to that directory.  Then open the file called `docker-compose.yml`, find the volumes list for odinson-api (around lines 13-15), and add your path, plus :/data/odinson as the sole uncommented entry in the list.  For example, your path might be something like `- /Users/[yourusername]/data/odinson:/data/odinson`.  This lets the system find and store stuff in that directory.
 
-3. <a id="step-3"></a> At the command line, build our development environment. The initial build may take a while, but subsequent builds will go faster.
+Then create a file at the root of the colrc-v2 project called `docker-compose.override.yml`, and add the following text to it, substituting your path as above:
+
+```
+services:
+  odinson-rest-api:
+    volumes: 
+      - /[yourfilepath]/data/odinson:/data/odinson
+```
+
+
+3. <a id="step-3"></a> At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
-    `docker-compose build`
-    
-(important: in the podman environment on our vultr machine, the command must be DOCKER_BUILDKIT=0 docker-compose build)
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml build`
 
 4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
   
@@ -72,9 +87,21 @@ Here are the steps we recommend to start (as of 7/14/2021). If this is your firs
 
 5. Then you may finally start our development environment as a background process!
 
-    `docker-compose up -d`
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
 
     Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
+    
+6.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
+
+    `docker compose down`
+    
+    To relaunch for a new work session, if you haven't done a new pull from the repo, you can just 'up' the system without rebuilding it like this:
+
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
+    
+    To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
+
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
 ### Subsequent Pulls
 As we progress in development, this repository will change. To get the most recent version of the repository, you will need to pull from the main branch. You will need to take a look at the most recent commits to see whether there have been changes to [`colrc.sql`](./misc/sql/colrc.sql) (which is the file that defines the database, including table permissions and relations via Hasura). Then:  

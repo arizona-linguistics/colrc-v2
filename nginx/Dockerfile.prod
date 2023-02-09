@@ -27,9 +27,9 @@ RUN apt-get update \
 
 COPY ./nginx/assets/build/ ${NGINX_BUILD_ASSETS_DIR}/
 
-RUN chmod +x ${NGINX_BUILD_ASSETS_DIR}/install.sh
+RUN chmod +x ${NGINX_BUILD_ASSETS_DIR}/installProd.sh
 
-RUN ${NGINX_BUILD_ASSETS_DIR}/install.sh
+RUN ${NGINX_BUILD_ASSETS_DIR}/installProd.sh
 
 COPY ./nginx/entrypoint.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
 
@@ -106,12 +106,10 @@ RUN chown ${NGINX_USER}:${NGINX_USER} ${NGINX_CERT_DIR}
 
 EXPOSE 80/tcp 443/tcp 1935/tcp
 
-ENTRYPOINT ["/sbin/entrypoint.sh"]
+ENTRYPOINT ["/sbin/entrypointProd.sh"]
 
 COPY --from=frontend /app/build /var/www/colrc
 
 CMD ["/usr/sbin/nginx"]
 
 # CMD ["nginx", "-g", "daemon off;"]
-
-

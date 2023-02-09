@@ -23,7 +23,7 @@ let addUserSchema = Yup.object().shape({
       .required('Required'),
     roles: Yup.string()
       .required('Assign one or more roles'),
-    password: Yup.string()
+    password: Yup.string().trim()
       .min(2, 'Password must be more than 2 characters')
       .max(30, 'Password must be less than 30 characters')
       .required('Required'),
@@ -133,7 +133,7 @@ function AddUser(props) {
         <Grid centered>
             <Grid.Row>
                 <Grid.Column textAlign="center" width={12}>
-                    <Header as="h2">Add a User</Header>
+                    <Header as="h2">Add a User to me Now</Header>
                     <Message>Use this form to add a new authorized account. The password you set should be changed by the user.</Message>
                 </Grid.Column>
             </Grid.Row>
@@ -174,6 +174,7 @@ function AddUser(props) {
                     <Grid.Row>
                         <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">First Name</Label></Grid.Column>
                         <Grid.Column width={10}>
+                            <div>Yes I'm live</div>
                             <Input
                                 id="first"
                                 placeholder="First Name"
