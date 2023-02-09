@@ -108,6 +108,8 @@ services:
     restart: always
     ports:
       - "3000:3000"
+    env_file:
+      - ./frontend/.env.development
     volumes:
       # FIXME: build the code and then deploy it to the volume
       #- nginx_colrc:/app/build:rw

@@ -1,0 +1,159 @@
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+##
+# COLRC server configuration
+#
+
+server {
+    # access_log  /var/log/nginx/colrc.access.log colrc_format; 
+    error_log  /var/log/nginx/colrc.error.log debug;
+	# error_log  /var/log/nginx/colrc.error.log;
+
+    client_max_body_size 100m;
+    # listen              80;
+    listen              443 ssl http2;
+
+	ssl on;
+
+    # Production thecolrc.org, Development localhost.*      
+    server_name thecolrc.org "";
+    # server_name localhost.* "";
+    add_header X-debug-root "location root reloaded" always;
+    add_header Access-Control-Allow-Origin "*" always;
+	add_header 'Content-Security-Policy' 'upgrade-insecure-requests';
+
+	# use the certificates 
+    ssl_certificate     /var/www/colrc/certs/letsencrypt/live/thecolrc.org/fullchain.pem;
+    ssl_certificate_key /var/www/colrc/certs/letsencrypt/live/thecolrc.org/privkey.pem;
+
+	root /var/www/colrc/;
+	
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	# define buffers, necessary for proper communication to prevent 502s
+	proxy_buffer_size 1024k;
+	proxy_buffers 4 1024k;
+	proxy_busy_buffers_size 1024k;
+
+
+	location / {
+        #First attempt to serve request as file, then
+        #as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ /index.html =404;
+        rewrite ^ /index.html break;
+        # proxy_set_header Access-Control-Allow-Origin "*";
+        proxy_pass_request_headers      on;
+        add_header Access-Control-Allow-Origin "*" always;
+        add_header X-debug-slash "location slash preloaded" always;
+    }
+
+	location /hasura/ {
+		proxy_pass http://localhost:8080/;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		add_header X-debug-hasura "location hasura";
+	}
+
+	location /api/ {
+		proxy_pass http://localhost:4000/api;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		add_header X-debug-api "location api";
+	}
+
+	location /crap/ {
+		proxy_pass_request_headers on;
+		proxy_pass_request_body on;
+		proxy_set_header X-File-Name $request_body_file;
+		# proxy_pass http://localhost:8081/upload-handler;
+		# proxy_pass http://10.5.0.7:8081/upload-handler;
+		proxy_pass http://${URL_UPLOAD}:8081/upload-handler;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header X-Real-IP "$http_xrealip";
+		proxy_set_header xrealip $remote_addr;
+		proxy_set_header Name $http_name;
+	}
+
+	location /files/ {
+		alias /files/;
+		gzip_static on;
+		expires max;
+		add_header Cache-Control private;
+	}
+
+	location = /upload_file {
+		upload_store /var/www/colrc/files/tmp;
+		upload_store_access user:rw;
+		upload_pass /crap/; 
+
+		upload_set_form_field $upload_field_name.name "$upload_file_name";
+ 		upload_set_form_field $upload_field_name.content_type "$upload_content_type";
+ 		upload_set_form_field $upload_field_name.path "$upload_tmp_path";
+
+		upload_pass_form_field "^.*$";
+		proxy_pass_request_headers on;
+		proxy_pass_request_body on;
+		proxy_set_header X-File-Name \$request_body_file;
+		proxy_set_header xrealip $remote_addr;
+		proxy_set_header Host $host;
+		upload_pass_args off;
+        #upload_cleanup 400 404 499 500-505;
+	}
+
+	location /odinson/ {
+		proxy_pass_request_headers on;
+		proxy_pass_request_body on;
+		proxy_set_header X-File-Name \$request_body_file;
+		proxy_pass http://${URL_ODINSON}:9000/api/execute/pattern;
+		proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+		proxy_set_header X-Real-IP "$http_xrealip";
+		proxy_set_header xrealip \$remote_addr;
+		proxy_set_header Name \$http_name;
+    }	
+
+	location ~* \.(?:css|js)$ {
+		try_files $uri =404;
+		expires 1y;
+		access_log off;
+		add_header Cache-Control "public";
+	}
+	
+	location ~ ^.+\..+$ {
+		try_files $uri =404;
+	}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	location ~ /\.ht {
+		deny all;
+	}
+
+}
+
+
+server {
+	if ($host = thecolrc.org) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+        listen  80;
+        server_name thecolrc.org "";
+    return 404; # managed by Certbot
+
+}
+
+
+
