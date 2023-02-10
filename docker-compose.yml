@@ -132,6 +132,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - URL_UPLOAD=localhost
+      - URL_ODINSON=localhost
     volumes:
       # FIXME: add files and colrc frontend
       - ./misc/file_data:/var/www/colrc:rw

@@ -53,7 +53,7 @@ fi
 
 echo "my URL_UPLOAD is ${URL_UPLOAD}" 
 echo "my URL_ODINSON is ${URL_ODINSON}"
-envsubst '$${URL_UPLOAD} $${URL_ODINSON}' < /etc/nginx/templates/colrc.template > /etc/nginx/sites-enabled/colrc 
+envsubst '$${URL_UPLOAD} $${URL_ODINSON}' < /etc/nginx/templates/colrcProd.template > /etc/nginx/sites-enabled/colrc 
 exec "$@"
 cat /etc/nginx/sites-enabled/colrc 
 exec "$@"

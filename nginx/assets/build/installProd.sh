@@ -169,4 +169,4 @@ mkdir -p ${NGINX_BUILD_ROOT_DIR}/etc/nginx/sites-enabled
 mkdir -p ${NGINX_BUILD_ROOT_DIR}/etc/nginx/templates
 
 cp ${NGINX_BUILD_ASSETS_DIR}/config/nginx.conf ${NGINX_BUILD_ROOT_DIR}/etc/nginx/nginx.conf
-cp ${NGINX_BUILD_ASSETS_DIR}/config/templates/colrc.template ${NGINX_BUILD_ROOT_DIR}/etc/nginx/templates/colrc.template
+cp ${NGINX_BUILD_ASSETS_DIR}/config/templates/colrcProd.template ${NGINX_BUILD_ROOT_DIR}/etc/nginx/templates/colrcProd.template
