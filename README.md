@@ -69,7 +69,15 @@ services:
 
 3. <a id="step-3"></a> At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
-    `docker compose -f docker-compose.yml -f docker-compose.override.yml build`
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
+    
+If you prefer, you can review the shell script `devBuild.sh` which contains the above command; which you can toggle with a version of that command without the --build flag.  To execute the shell script, go to your command line at the root of the colrc-v2 directory and write:
+
+    `./devBuild.sh`
+    
+The first time you run this script, you may need to set the execute bit for it; here is the command to do so:
+
+    `chmod +x ./devBuild.sh`
 
 4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
   
