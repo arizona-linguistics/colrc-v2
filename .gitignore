@@ -6,3 +6,4 @@ colrc-v2.code-workspace
 .DS_Store
 nginx/nginx_colrc/
 docker-compose.override.yml
+./certbot/

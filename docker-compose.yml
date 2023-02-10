@@ -4,9 +4,11 @@ volumes:
     # external: true
 services:
   odinson-rest-api:
-    image: lumai/odinson-rest-api:experimental
+    image: docker.io/lumai/odinson-rest-api:experimental
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+    env_file:
+      - ./.env
     user: 'root'
     container_name: odinson-rest-api
     volumes: 
@@ -20,7 +22,7 @@ services:
       vpcbr:
         ipv4_address: 10.5.0.8
   hasura:
-    image: hasura/graphql-engine:v1.3.3
+    image: docker.io/hasura/graphql-engine:v1.3.3
     container_name: colrc-v2-hasura
     ports:
       - "8080:8080"
@@ -43,7 +45,7 @@ services:
       vpcbr:
         ipv4_address: 10.5.0.2
   postgres:
-    image: postgres:12
+    image: docker.io/library/postgres:12
     container_name: colrc-v2-postgres-db
     # see https://hub.docker.com/_/postgres/
     ports:
@@ -101,6 +103,7 @@ services:
       context: ./frontend
       # specify .dev or .prod variant
       dockerfile: Dockerfile.dev
+      # dockerfile: Dockerfile.prod
       labels:
         edu.arizona.colrc.description: "Frontend for COLRC v2"
     depends_on:
@@ -112,7 +115,7 @@ services:
       - ./frontend/.env.development
     volumes:
       # FIXME: build the code and then deploy it to the volume
-      #- nginx_colrc:/app/build:rw
+      - nginx_colrc:/app/build:rw
       - ./frontend:/app:rw
     networks:
       vpcbr:
@@ -125,7 +128,7 @@ services:
         edu.arizona.colrc.description: "Nginx for COLRC v2"
     depends_on:
       - frontend
-    restart: always
+    restart: 'no'
     ports:
       - "80:80"
       - "443:443"
@@ -137,6 +140,8 @@ services:
         ipv4_address: 10.5.0.6
   file_upload:
     container_name: file_upload
+    env_file:
+      - ./.env
     build: 
       context: ./file_upload
       dockerfile: Dockerfile.dev

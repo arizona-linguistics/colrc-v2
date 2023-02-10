@@ -1,0 +1,147 @@
+STEP 1/6: FROM node:12
+STEP 2/6: WORKDIR /app
+--> Using cache 88ce7ec9865bb76545f18f5a3b2a204d06627ca34bb22575ce93b4edd0b2f095
+--> 88ce7ec9865
+STEP 3/6: COPY . .
+--> Using cache a43abed5585e5a87f90abc982045c52eb9a216116890cef3ba26db30bd50e039
+--> a43abed5585
+STEP 4/6: RUN npm install
+--> Using cache 230d15f6007b1f182ef6ea07e34680d7ae65c53affe957c5b78c93cbc15f73dc
+--> 230d15f6007
+STEP 5/6: EXPOSE 4000
+--> Using cache 5e2b98694471674413dc9bc06d6536379650fdd5e7e5cbbf1fca21abc7642665
+--> 5e2b9869447
+STEP 6/6: CMD [ "sh", "-c", "npm i && npm run dev" ]
+--> Using cache 8d90daf84e57305b62af9caf5fec3b3337bfaad187002995d5b012abbfc8905d
+COMMIT colrc-v2_backend
+--> 8d90daf84e5
+Successfully tagged localhost/colrc-v2_backend:latest
+8d90daf84e57305b62af9caf5fec3b3337bfaad187002995d5b012abbfc8905d
+STEP 1/6: FROM node:16.13.0
+STEP 2/6: WORKDIR /app
+--> Using cache 357d3187409ac195e48bdb823adb9feefeceb5ff646018adbe38843a728fcd11
+--> 357d3187409
+STEP 3/6: COPY . .
+--> Using cache ab1e811da14c8c332db40ad4fc677fa11daf0330d4ce41e5d160e0cfeb31a651
+--> ab1e811da14
+STEP 4/6: RUN npm install
+--> Using cache 7121dfa52490741458a3c48bb2482ab10de7d22eba6e03f2716e4e91752f0508
+--> 7121dfa5249
+STEP 5/6: EXPOSE 3000
+--> Using cache 62f598c350f5cfd674e286895a0cb79fd01d5a0084772de162f2df54afc3efbb
+--> 62f598c350f
+STEP 6/6: CMD ["sh", "-c", "npm i && npm run start"]
+--> Using cache 3002c7aeeeebc30958b2de036da531172f1dfb617f7127c6be738729443f5ccd
+COMMIT colrc-v2_frontend
+--> 3002c7aeeee
+Successfully tagged localhost/colrc-v2_frontend:latest
+3002c7aeeeebc30958b2de036da531172f1dfb617f7127c6be738729443f5ccd
+[1/2] STEP 1/16: FROM debian:latest AS builder
+[1/2] STEP 2/16: ENV NGINX_VERSION=1.19.7     DAV_VERSION=3.0.0     ECHO_VERSION=0.62     FILE_UPLOAD_VERSION=2.3.0     HTTP_AUTH_PAM_VERSION=1.5.2     HTTP_SUBSTITUTIONS_FILTER_VERSION=0.6.4     UPSTREAM_FAIR_VERSION=0.1.3     NGINX_BUILD_ASSETS_DIR=/var/lib/docker-nginx     NGINX_BUILD_ROOT_DIR=/var/lib/docker-nginx/rootfs
+--> Using cache 8b69b65ef90e074bf2010ac6ffb39e0773ce75430c6413712db83cae5a22a4c5
+--> 8b69b65ef90
+[1/2] STEP 3/16: ARG WITH_DEBUG=false
+--> Using cache 51fd286da04fcdb45761b930b5e89ee64d575f128b29390d7395a470b949d506
+--> 51fd286da04
+[1/2] STEP 4/16: ARG WITH_DAV=true
+--> Using cache 4adf6176dd8e20b5111aeedc3badb31feb48c9cdd49120a7360a81065472d967
+--> 4adf6176dd8
+[1/2] STEP 5/16: ARG WITH_ECHO=true
+--> Using cache e0050f90d53c8d33e0e6100ff0ea21d676e2e21e4c49affa7368089abde88108
+--> e0050f90d53
+[1/2] STEP 6/16: ARG WITH_FILE_UPLOAD=true
+--> Using cache 9608abfb7f679463cf9e9e3cc16b61e042086cb3e5a65e948bf515ac2688bd13
+--> 9608abfb7f6
+[1/2] STEP 7/16: ARG WITH_HTTP_AUTH_PAM=true
+--> Using cache 37aaccb60ff7175ce28352fe28c7b936835e27f9fa767535282927a944ea148e
+--> 37aaccb60ff
+[1/2] STEP 8/16: ARG WITH_HTTP_SUBSTITUTIONS_FILTER=true
+--> Using cache 894200310adf589d11fd91cfc6c5790ecc2c22b33947d300ac306b4d01f2055e
+--> 894200310ad
+[1/2] STEP 9/16: ARG WITH_UPSTREAM_FAIR=true
+--> Using cache 57aa6e5ca25c2fc97259a5001f918f6b8050bb03a19c248376f275bae00097d7
+--> 57aa6e5ca25
+[1/2] STEP 10/16: RUN apt-get update  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y       wget ca-certificates make gcc g++ pkg-config perl
+--> Using cache 9f525bed3dcc0221a5c308d64365b1c9a9d39a4f7fcc905acd195d3c8f6b6276
+--> 9f525bed3dc
+[1/2] STEP 11/16: RUN apt-get update && apt-get install -yyq netcat
+--> Using cache a626abb1e1c9442825702d6b23a1bcb841fc9bb391bd04d4de8c049989fe9f54
+--> a626abb1e1c
+[1/2] STEP 12/16: COPY assets/build/ ${NGINX_BUILD_ASSETS_DIR}/
+--> Using cache 2d08c169cf96fb96c6720d6e85c0220adce2f3446e5a54a0625a948f6afdd2b0
+--> 2d08c169cf9
+[1/2] STEP 13/16: RUN chmod +x ${NGINX_BUILD_ASSETS_DIR}/install.sh
+--> Using cache adb0a0b72fa31ab51e82217412e64a5b2d05000a380d1aade48b43a0fc253e9f
+--> adb0a0b72fa
+[1/2] STEP 14/16: RUN ${NGINX_BUILD_ASSETS_DIR}/install.sh
+--> Using cache 6f3b662ea8b2f41ee4a85a947e358646e0fc21b7c162605d46b99b4fe2a66c31
+--> 6f3b662ea8b
+[1/2] STEP 15/16: COPY entrypoint.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
+--> Using cache 085a09599c3c97e62d6374beb22e5ba2b1b26c04d772383a6faaed1bb08b047a
+--> 085a09599c3
+[1/2] STEP 16/16: RUN chmod 755 ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
+--> Using cache 7d5a014fdb50718e0a96ced2c21cbb5c654e308fc3122148baaf36599752c5ef
+--> 7d5a014fdb5
+[2/2] STEP 1/11: FROM debian:latest
+[2/2] STEP 2/11: LABEL maintainer="colrc@thecolrc.org"
+--> Using cache 6c14b4cdc62c711cc8ff233353d4839f8a0e0341b6183d62cec6b8975083f51b
+--> 6c14b4cdc62
+[2/2] STEP 3/11: ENV NGINX_USER=www-data     NGINX_SITECONF_DIR=/etc/nginx/sites-enabled     NGINX_LOG_DIR=/var/log/nginx     NGINX_TEMP_DIR=/var/lib/nginx     NGINX_CACHE_DIR=/var/cache/nginx     NGINX_HTML_DIR=/var/www/colrc     NGINX_FILE_DIR=/var/www/colrc/files
+--> Using cache fac1251165427e185a9d16232f42dc84aed6ec85aac42bce54c83da32e60d03e
+--> fac12511654
+[2/2] STEP 4/11: RUN apt-get update  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y     ca-certificates curl libssl1.1 libxslt1.1 libgd3 libgeoip1 rsync unzip  && rm -rf /var/lib/apt/lists/*
+--> Using cache 4a127f19968ac9dcf48ce8c163b243ad4af79b1caadda5406975e413729d054b
+--> 4a127f19968
+[2/2] STEP 5/11: COPY --from=builder /var/lib/docker-nginx/rootfs /rootfs
+--> Using cache b7bce7524d266f83afecab1ce45682db7bdb7f78afd423fcdf265fd1118176a4
+--> b7bce7524d2
+[2/2] STEP 6/11: RUN rsync -rtvazP /rootfs/* /     && rm -rf /rootfs
+--> Using cache 985800b41490c864679962e4d3965305a642a62e069d8dcfbddc6684cc85d6a6
+--> 985800b4149
+[2/2] STEP 7/11: RUN mkdir -p ${NGINX_FILE_DIR} && touch ${NGINX_FILE_DIR}/nothing.txt
+--> Using cache 3e270fa2c89d7267a82c8a0b80918f0e1a1625d47fca643d4513d1544ab8dd5e
+--> 3e270fa2c89
+[2/2] STEP 8/11: RUN chmod 755 ${NGINX_FILE_DIR} && chmod 644 ${NGINX_FILE_DIR}/*
+--> Using cache 195019a94432a85c5f95192a91c83d512588b0cf2ac77e3c762311972652bc4c
+--> 195019a9443
+[2/2] STEP 9/11: EXPOSE 80/tcp 443/tcp 1935/tcp
+--> Using cache bf9ac9939a1378030c3a263b37689c6df8e27106a10c8c9e7b04978522e0e524
+--> bf9ac9939a1
+[2/2] STEP 10/11: ENTRYPOINT ["/sbin/entrypoint.sh"]
+--> Using cache 0264dc745215a9d1525290bb43cf81b83a9c1250258aef67158e8f9f22696205
+--> 0264dc74521
+[2/2] STEP 11/11: CMD ["/usr/sbin/nginx"]
+--> Using cache a427e404d3a1d6840d8b206c189035e62a02c1b9840f73685de32b3e0a2322bf
+[2/2] COMMIT colrc-v2_nginx
+--> a427e404d3a
+Successfully tagged localhost/colrc-v2_nginx:latest
+a427e404d3a1d6840d8b206c189035e62a02c1b9840f73685de32b3e0a2322bf
+STEP 1/6: FROM node:12
+STEP 2/6: WORKDIR /app
+--> Using cache 88ce7ec9865bb76545f18f5a3b2a204d06627ca34bb22575ce93b4edd0b2f095
+--> 88ce7ec9865
+STEP 3/6: COPY . .
+--> Using cache 2d5612128aea3df43b69760d693e8df7f23d3cc781e1d745ebaba994b56c693d
+--> 2d5612128ae
+STEP 4/6: RUN npm install
+--> Using cache 691011996401dbbd3518c2c4c0fb76b82555f2903e245114e9a4cd19d1dd9db6
+--> 69101199640
+STEP 5/6: EXPOSE 8081
+--> Using cache bc60c8d0fe812c9dc33274f4086b97b660586bf133d2d50925ec092fa823ce2f
+--> bc60c8d0fe8
+STEP 6/6: CMD [ "sh", "-c", "npm i && npm start" ]
+--> Using cache 1c84db930df9db6f1f9a668781b742a8d5f0755d16f7ed9de07b51001ca3e970
+COMMIT colrc-v2_file_upload
+--> 1c84db930df
+Successfully tagged localhost/colrc-v2_file_upload:latest
+1c84db930df9db6f1f9a668781b742a8d5f0755d16f7ed9de07b51001ca3e970
+['podman', '--version', '']
+using podman version: 4.1.1
+podman build -t colrc-v2_backend -f ./auth/Dockerfile.dev ./auth
+exit code: 0
+podman build -t colrc-v2_frontend -f ./frontend/Dockerfile.dev ./frontend
+exit code: 0
+podman build -t colrc-v2_nginx -f ./nginx/Dockerfile ./nginx
+exit code: 0
+podman build -t colrc-v2_file_upload -f ./file_upload/Dockerfile.dev ./file_upload
+exit code: 0

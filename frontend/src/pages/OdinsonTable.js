@@ -283,10 +283,20 @@ function OdinsonTable(props) {
     while (pageIndex*pageSize >= tempCache.length) {
       let odindata = await getNextCachePage(globalSearch, tempScore, tempDoc)
       hits = odindata.totalHits
+      if (hits === 0) { 
+        break
+      } 
       tempDoc = odindata.scoreDocs[odindata.scoreDocs.length-1].sentenceId
       tempScore = odindata.scoreDocs[odindata.scoreDocs.length-1].score
       tempCache = addPageToCache(tempCache, odindata, setCache)
       setPriorDocScoreHits(tempDoc, tempScore, hits, setDoc, setScore, setTotalHits)
+    }
+    if (hits === 0) {
+      let tempData = {
+        totalHits: 0,
+        scoreDocs: []
+      } 
+      return tempData
     }
     let data = getCurrentViewPage(pageIndex, pageSize, tempCache, hits)
     return data
@@ -305,6 +315,7 @@ function OdinsonTable(props) {
       })
     }
     let odindata = await fetch('http://localhost:80/odinson/?' + searchParams, {mode:'cors'})
+    // let odindata = await fetch('https://thecolrc.org:80/odinson/?' + searchParams, {mode:'cors'})
     .then((res) => res.json())
     .then((data) => {
       return data

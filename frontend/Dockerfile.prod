@@ -1,0 +1,26 @@
+# based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+# FROM node:12
+FROM node:16.13.0
+
+# Create app directory
+WORKDIR /app
+
+# Bundle app source
+COPY . .
+
+# Install app dependencies
+
+
+# RUN npm install --no-optional
+
+RUN npm install
+
+# Build, minify, etc.
+# FIXME: add webpack file
+
+RUN npm run build
+
+# EXPOSE 3000
+
+# CMD ["sh", "-c", "npm i && npm run start"]
+# CMD ["npm", "start"]

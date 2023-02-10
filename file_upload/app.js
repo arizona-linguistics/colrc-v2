@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const fetch = require('node-fetch');
 const cors = require('cors');
+const URL = process.env.NETWORK_URL_BASE || 'localhost'
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -21,6 +22,7 @@ const fs = require('fs');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 
 
 // app.use(cors({
@@ -54,7 +56,7 @@ app.post('/upload-handler', cors(), (req, res) => {
 	var fpath = req.body['file.path']
 	console.log(fname, ftype, fpath)
 	var oldPath = fpath
-	var newPath = '/var/www/colrc/tmp/testing.json'
+	var newPath = '/var/www/colrc/files/tmp/testing.json'
 
 	// fs.rename(oldPath, newPath, function (err) {
 	// 	if (err) throw err
@@ -62,7 +64,7 @@ app.post('/upload-handler', cors(), (req, res) => {
 	// })
 	fs.renameSync(oldPath, newPath)
 
-	fs.readFile(newPath, (error, data) => {
+/* 	fs.readFile(newPath, (error, data) => {
 		if(error) {
 			throw error;
 		}
@@ -72,12 +74,14 @@ app.post('/upload-handler', cors(), (req, res) => {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(JSON.parse(data))
 		};
-		fetch('http://10.5.0.8:9000/api/index/document', requestOptions)
+		fetch('http:${URL}:9000/api/index/document', requestOptions)
+		//fetch('http://10.5.0.8:9000/api/index/document', requestOptions)
+		//fetch('http://localhost:9000/api/index/document', requestOptions)
 			.then(response => response.json())
 			// .then(data => setPostId(data.id))
 			.catch(error => console.log(error));
 
-	});
+	}); */
 
 	res.status(200).send("Received file")
 })

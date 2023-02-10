@@ -55,8 +55,8 @@ import Footer from './components/Footer';
 import RootTableExport from './pages/RootTableExport';
 import AffixTableExport from './pages/AffixTableExport';
 import StemTableExport from './pages/StemTableExport';
-//import OdinsonSearch from "./pages/OdinsonSearch";
-//import OdinsonTable from "./pages/OdinsonTable";
+// import OdinsonSearch from "./pages/OdinsonSearch";
+// import OdinsonTable from "./pages/OdinsonTable";
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -81,6 +81,7 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
+        //proxy_pass http://localhost:8080/;
         //uri: 'http://hasura:8080/v1/graphql',
         //uri: 'http://localhost:8080/v1/graphql',
         uri: process.env.REACT_APP_HASURA_CLIENT       
