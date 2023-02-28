@@ -29,12 +29,11 @@ Coeur d'Alene Online Language Resource Center Version 2.0
 
 Our recommended development environment can be easily launched using [`docker-compose`](https://docs.docker.com/compose/install/). Note that when we refer to 'the command line,' we mean the *WSL/Linux/Mac command line* (not Windows Powershell, nor the Windows-native terminal app).
 
-Here are the steps we recommend to start (as of 7/14/2021). If this is your first time using the development environment, read the [requirements](#requirements) below and the [first installation](#first-installation) steps. If you are reinstalling or trying to integrate new changes, see the [subsequent installation](#subsequent-installations) steps.
+Here are the steps we recommend to start (as of 2/28/2023). If this is your first time using the development environment, read the [requirements](#requirements) below and the [first installation](#first-installation) steps. If you are reinstalling or trying to integrate new changes, see the [subsequent installation](#subsequent-installations) steps.
 
 ### Requirements
 
-Install these applications in the appropriate format for your machine (Windows, Mac or Linux).  Windows users can download docker and vscode Windows versions; and/or download and install from the WSL command line as you prefer.
-
+Install these applications in the appropriate format for your machine (Windows, Mac or Linux).  Windows users should ensure that they are using the 'education' or 'enterprise' editions of WindowsOS, the 'home' editions do not fully support WSL.  
 - You will need sudo/root access on your system at the command line.
 - [`docker`](https://docs.docker.com/install/)
 - [`docker-compose`](https://docs.docker.com/compose/install/)
@@ -134,11 +133,11 @@ To easily remove old volumes and containers, you can run [`./cleanup.sh`](./clea
 
 ## Working with Git
 
-This section will serve as a tutorial on how to use Git/GitHub, as well as a guide regarding our personal workflow in this repository.
+This section will serve as a tutorial on how to use Git/GitHub, as well as a guide regarding our specific workflow in this repository.
 
 
 ### The GitHub Workflow
-In short, the basic GitHub workflow is `checkout > add > commit > push`. This workflow is described more in detail below.
+In short, the basic GitHub workflow is `checkout > add > commit > push`, and work is done on a `branch` before it is merged into the `main` part of the repo. This workflow is described more in detail below.  As you begin to develop code, please make sure that you create and checkout a git branch that is named for the issue that you're working on.  We use the issue number as at least part of the branch name so that we can better track which branches address which issues.
 
 #### Checkout
 - `git checkout <branch>` switches your branch to the one you specified, and `git checkout -b <new-branch> <starting-point>` will make a new branch and switch to it, using another branch as a starting point (which is typically the main branch).
