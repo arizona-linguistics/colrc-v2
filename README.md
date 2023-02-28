@@ -74,7 +74,7 @@ can right or control-click on the Explorer view and select 'new text file', and 
 
 No matter how you created the file, copy and paste the following code block into the file.  Then
 change the [yourfilepath] to match your path to the data/odinson directory.  If you're not
-sure what yourfilepath is, you can type `pwd` (print working directory) at the command line To
+sure what yourfilepath is, you can type `pwd` (print working directory) at the command line to
 reveal your current location.
 
 
