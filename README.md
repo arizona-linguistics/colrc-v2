@@ -90,8 +90,12 @@ services:
     
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
     
+The first build will fail with an nginx error.  Do not dispair.  Instead, down the system with:
 
-6. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
+  `docker compose down`
+    
+
+6. With the system down, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
   
       If you do not have the [`requests`](https://docs.python-requests.org/en/master/user/install/#install) library, you will need to install it:
       
