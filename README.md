@@ -90,9 +90,9 @@ services:
     
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
     
-The first build will fail with an nginx error.  Do not dispair.  Instead, down the system with:
+  The first build will fail with an nginx error.  Do not dispair.  Instead, down the system with:
 
-  `docker compose down`
+    `docker compose down`
     
 
 6. With the system down, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
