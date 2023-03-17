@@ -16,7 +16,7 @@ services:
     container_name: odinson-rest-api
     volumes: 
       # get this path from your local docker-compose.override.yml file, else use this default
-      - ./data/odinson:/data/odinson
+      - /Users/otabekabduraimov/Desktop/Temp/data/odinson:/data/odinson
       #- /Users/alicekwak/data/odinson:/data/odinson
     ports:
       - "9001:9000"

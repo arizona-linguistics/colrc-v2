@@ -9,6 +9,9 @@ import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
 
+// what i am importing
+import { getTextsQuery } from './../queries/queries';
+
 function Table({
   columns,
   data,
@@ -239,7 +242,7 @@ function AudioTable(props) {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Audio',
+        Header: 'AudioMine',
         id: 'audio',
         accessor: 'audiosets_audiofiles', 
         label: 'Audio',
@@ -248,7 +251,7 @@ function AudioTable(props) {
         Cell: ({ row }) => (<AudioPlayer id={row.original.id} title={row.original.title} speaker={row.original.speaker} sources={row.original.audiosets_audiofiles} />)
       }, 
       {
-        Header: 'Title',
+        Header: 'TitleMine',
         accessor: 'title',
         tableName: 'AudioTable',
         show: true,
@@ -256,7 +259,7 @@ function AudioTable(props) {
         label: 'Title'
       },
       {
-        Header: 'Speaker',
+        Header: 'SpeakerMine',
         accessor: 'speaker',
         tableName: 'Audio',
         show: true,
@@ -264,7 +267,7 @@ function AudioTable(props) {
         label: 'Speaker'
       },
       {
-        Header: 'Text',
+        Header: 'TextMine',
         accessor: 'text.title',
         tableName: 'Audio',
         show: false,
@@ -272,7 +275,7 @@ function AudioTable(props) {
         label: 'Text'
       },
       {
-        Header: 'Cycle',
+        Header: 'CycleMine',
         accessor: 'text.cycle',
         tableName: 'Audio',
         show: false,
@@ -303,7 +306,21 @@ async function getAudios(limit, offset, sortBy, filters) {
         }
     })
     return res.data
-  }  
+  } 
+  
+  async function getTextFiles(limit, offset, sortBy, filters) {
+   let res = {}
+   res = await client.query({
+     query: getTextsQuery,
+     variables: { 
+       limit: limit,
+       offset: offset,
+       order: sortBy,
+       where: filters,
+       }
+   })
+   return res.data
+ } 
 
 
 const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {

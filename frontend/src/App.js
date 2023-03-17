@@ -209,7 +209,7 @@ function App(props) {
               <Route component={NotFoundRedirect} key="NotFoundRedirect" />
             </Switch>
           </NavBar>
-        </div>            
+        </div>
         <Footer />
       </Router>
     </AuthContext.Provider>
