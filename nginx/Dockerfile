@@ -27,7 +27,7 @@ RUN apt-get update \
 
 COPY assets/build/ ${NGINX_BUILD_ASSETS_DIR}/
 
-RUN chmod +x ${NGINX_BUILD_ASSETS_DIR}/install.sh
+RUN chmod a+x ${NGINX_BUILD_ASSETS_DIR}/install.sh
 
 RUN ${NGINX_BUILD_ASSETS_DIR}/install.sh
 

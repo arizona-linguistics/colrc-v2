@@ -205,8 +205,8 @@ function App(props) {
               <Route path="/crap/" component={TestUpload} key="TestUpload" />
               <Route path="/search" component={Search} key="Search" />
               <Route path="/searchresults" component={SearchResults} key="SearchResults" />
-              <Route path="/not-found" component={NotFound} key="NotFound" />
-              <Route component={NotFoundRedirect} key="NotFoundRedirect" />
+              <Route path="/files/" key="files" />              
+              <Route path="/not-found" component={NotFound} key="NotFound" />             
             </Switch>
           </NavBar>
         </div>            

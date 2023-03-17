@@ -93,12 +93,12 @@ function SearchResults(props) {
             </Segment>
            {authTokens && user && intersectionWith(path_odinson_permissions['searchResults'], user.roles, isEqual).length >= 1 ? (
             <Segment>
-              {/* <Grid.Row>
+              <Grid.Row>
                 <Header as='h3'  textAlign='left'>
                   Odinson
                 </Header>
                 <OdinsonTable globalSearch={globalSearch}/>
-              </Grid.Row> */}
+              </Grid.Row>
             </Segment>): (<div></div>)
             }
         </Grid.Column>

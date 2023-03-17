@@ -314,8 +314,12 @@ function OdinsonTable(props) {
         prevDoc: prevDoc
       })
     }
-    let odindata = await fetch('http://localhost:80/odinson/?' + searchParams, {mode:'cors'})
+    console.log("searchParams are ", searchParams)
+    console.log("process.env is ", process.env.REACT_APP_ODINSON)
+    let odindata = await fetch(process.env.REACT_APP_ODINSON + '/execute/pattern?' + searchParams, {mode:'cors'})
+    // let odindata = await fetch('http://localhost:9001/api/execute/pattern?' + searchParams, {mode:'cors'})
     // let odindata = await fetch('https://thecolrc.org:80/odinson/?' + searchParams, {mode:'cors'})
+    
     .then((res) => res.json())
     .then((data) => {
       return data
