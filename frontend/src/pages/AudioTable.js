@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useExpanded } from 'react-table' // mine: added useExpanded
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getAudioSetsQuery } from './../queries/queries'
@@ -9,7 +9,10 @@ import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
 
-// what i am importing
+// My imports
+import SubTable from "./MaterialsTable";
+
+// mine: what i am importing
 import { getTextsQuery } from './../queries/queries';
 
 function Table({
@@ -19,6 +22,7 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   selectValues, 
+  renderRowSubComponent // my part 3
 }) {
 
   const filterTypes = React.useMemo(
@@ -93,6 +97,7 @@ function Table({
     useGlobalFilter,
     useFilters,
     useSortBy,
+    useExpanded, // my part
     usePagination,   
   )
 
@@ -157,6 +162,7 @@ function Table({
             </tr>
           ))}
         </thead>
+        
         <tbody {...getTableBodyProps()}>          
           {rows.map((row) => {
             prepareRow(row);
@@ -169,6 +175,16 @@ function Table({
                     );
                   })}
                 </tr>
+
+                {/* My Part 1 */}
+                {row.isExpanded && (
+                  <tr>
+                    <td colSpan={visibleColumns.length}>
+                      {renderRowSubComponent({ row })}
+                    </td>
+                  </tr>
+                )}
+                
               </React.Fragment>
             );
           })}
@@ -183,7 +199,6 @@ function Table({
               </td>
             )}
           </tr>
-          
         </tbody>
       </table>
 
@@ -244,12 +259,17 @@ function AudioTable(props) {
       {
         Header: 'AudioMine',
         id: 'audio',
-        accessor: 'audiosets_audiofiles', 
+        accessor: 'audiosets_audiofiles',
         label: 'Audio',
         show: true,
         //Cell: ({ row }) => <span>{JSON.stringify(row.original)}</span>,
-        Cell: ({ row }) => (<AudioPlayer id={row.original.id} title={row.original.title} speaker={row.original.speaker} sources={row.original.audiosets_audiofiles} />)
-      }, 
+        Cell: ({ row }) =>
+        (<AudioPlayer
+          id={row.original.id}
+          title={row.original.title}
+          speaker={row.original.speaker}
+          sources={row.original.audiosets_audiofiles}/>)
+      },
       {
         Header: 'TitleMine',
         accessor: 'title',
@@ -266,11 +286,33 @@ function AudioTable(props) {
         id: 'speaker',
         label: 'Speaker'
       },
+
+      // My part for showing the subtable
       {
+        Header: () => null, // No header
+        id: 'expander', // It needs an ID
+        show: true,
+        Cell: ({ row }) => (
+          <span {...row.getToggleRowExpandedProps()}>
+            {row.isExpanded ? '▼' : '▶'}
+          </span>
+        ),
+      },
+      {
+
+        // Header: () => null, // No header
+        //     id: 'expander', // It needs an ID
+        //     show: true,
+        //     Cell: ({ row }) => (
+        //        <span {...row.getToggleRowExpandedProps()}>
+        //           {row.isExpanded ? '▼' : '▶'}
+        //        </span>
+        //     ),
+
         Header: 'TextMine',
         accessor: 'text.title',
         tableName: 'Audio',
-        show: false,
+        show: true, // mine: shows the text table on load
         id: 'text',
         label: 'Text'
       },
@@ -283,6 +325,16 @@ function AudioTable(props) {
         label: 'Cycle'
       }
     ], []
+  )
+
+  // My Part 2
+  const renderRowSubComponent = React.useCallback(
+    ({ row }) => (
+      <div>
+        <SubTable materialData={row.values.sourcefiles} />
+      </div>
+    ),
+    []
   )
 
 
@@ -307,21 +359,6 @@ async function getAudios(limit, offset, sortBy, filters) {
     })
     return res.data
   } 
-  
-  async function getTextFiles(limit, offset, sortBy, filters) {
-   let res = {}
-   res = await client.query({
-     query: getTextsQuery,
-     variables: { 
-       limit: limit,
-       offset: offset,
-       order: sortBy,
-       where: filters,
-       }
-   })
-   return res.data
- } 
-
 
 const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
   // This will get called when the table needs new data
@@ -364,6 +401,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
       <Table
         columns={columns}
         data={data}
+        renderRowSubComponent={renderRowSubComponent} // part 4
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}

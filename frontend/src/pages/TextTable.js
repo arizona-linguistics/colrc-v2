@@ -216,6 +216,7 @@ function Table({
                               </td>
                            </tr>
                         )}
+                        
                      </React.Fragment>
                   );
                })}
@@ -429,7 +430,7 @@ function TextTable(props) {
                   history.push('./login')
                })
          }
-      }, 000)
+      }, 1000)
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [history, setAuthTokens])
 
