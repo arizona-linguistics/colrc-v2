@@ -29,12 +29,11 @@ Coeur d'Alene Online Language Resource Center Version 2.0
 
 Our recommended development environment can be easily launched using [`docker-compose`](https://docs.docker.com/compose/install/). Note that when we refer to 'the command line,' we mean the *WSL/Linux/Mac command line* (not Windows Powershell, nor the Windows-native terminal app).
 
-Here are the steps we recommend to start (as of 7/14/2021). If this is your first time using the development environment, read the [requirements](#requirements) below and the [first installation](#first-installation) steps. If you are reinstalling or trying to integrate new changes, see the [subsequent installation](#subsequent-installations) steps.
+Here are the steps we recommend to start (as of 2/28/2023). If this is your first time using the development environment, read the [requirements](#requirements) below and the [first installation](#first-installation) steps. If you are reinstalling or trying to integrate new changes, see the [subsequent installation](#subsequent-installations) steps.
 
 ### Requirements
 
-Install these applications in the appropriate format for your machine (Windows, Mac or Linux).  Windows users can download docker and vscode Windows versions; and/or download and install from the WSL command line as you prefer.
-
+Install these applications in the appropriate format for your machine (Windows, Mac or Linux).  Windows users should ensure that they are using the 'education' or 'enterprise' editions of WindowsOS, the 'home' editions do not fully support WSL.  
 - You will need sudo/root access on your system at the command line.
 - [`docker`](https://docs.docker.com/install/)
 - [`docker-compose`](https://docs.docker.com/compose/install/)
@@ -46,8 +45,12 @@ Install these applications in the appropriate format for your machine (Windows, 
 - - you will also want to be sure you configure [`Docker Desktop to connect with WSL`](https://docs.docker.com/desktop/windows/wsl/)
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
 
-### First Installation
-1. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone or pull these repositories:
+## First Installation
+
+You will do these steps at a command line - windows users will use the WSL/Debian command lime; Mac and 
+Linux users will use your regular terminal application.
+
+1. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone or pull this repository:
 
     `git clone https://github.com/arizona-linguistics/colrc-v2`
 
@@ -55,9 +58,25 @@ Install these applications in the appropriate format for your machine (Windows, 
 
     `cd colrc-v2 && git pull`
  
-Create a directory somewhere on your local machine called `data` and inside of that directory create another one called `odinson`.  Make sure you can find the path to that directory.  Then open the file called `docker-compose.yml`, find the volumes list for odinson-api (around lines 13-15), and add your path, plus :/data/odinson as the sole uncommented entry in the list.  For example, your path might be something like `- /Users/[yourusername]/data/odinson:/data/odinson`.  This lets the system find and store stuff in that directory.
+3. Create the external directories needed to run Odinson: Move up one directory, `cd ..`, and create a new directory named 'data' `mkdir data`.  
+Move into the new directory, `cd data`, and make another directory called 'odinson', `mkdir odinson`. 
 
-Then create a file at the root of the colrc-v2 project called `docker-compose.override.yml`, and add the following text to it, substituting your path as above:
+Move back to the root of the colrc-v2 directory, `cd ..` to move up one level, then `cd colrc-v2` to move into the root of the colrc-v2 dirctory.
+
+4. Create your docker override yml file.  The purpose of this file is to tell our application where your external 
+Odinson directory lives, so that it can map a drive to that directory.  The override file will not be copied back into 
+the public git repo, as it will have information in it that's specific to you.
+
+You will make a new file at the command line: `touch docker-compose.override.yml`, OR open your VS Code editor from the 
+command line by typing `code .`. This command will open VSCode in the directory where you are 
+currently working, so you'll be able to see all the files there and manipulate them.  If you open VSCode, you
+can right or control-click on the Explorer view and select 'new text file', and save the new file as `docker-compose.override.yml`.
+
+No matter how you created the file, copy and paste the following code block into the file.  Then
+change the [yourfilepath] to match your path to the data/odinson directory.  If you're not
+sure what yourfilepath is, you can type `pwd` (print working directory) at the command line to
+reveal your current location.
+
 
 ```
 services:
@@ -67,19 +86,16 @@ services:
 ```
 
 
-3. <a id="step-3"></a> At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
+5.  At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
     
-If you prefer, you can review the shell script `devBuild.sh` which contains the above command; which you can toggle with a version of that command without the --build flag.  To execute the shell script, go to your command line at the root of the colrc-v2 directory and write:
+  The first build will fail with an nginx error.  Do not dispair.  Instead, down the system with:
 
-    `./devBuild.sh`
+    `docker compose down`
     
-The first time you run this script, you may need to set the execute bit for it; here is the command to do so:
 
-    `chmod +x ./devBuild.sh`
-
-4. Once the build has finished, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
+6. With the system down, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
   
       If you do not have the [`requests`](https://docs.python-requests.org/en/master/user/install/#install) library, you will need to install it:
       
@@ -93,13 +109,13 @@ The first time you run this script, you may need to set the execute bit for it; 
       
       `sudo chown -R $USER file_data`
 
-5. Then you may finally start our development environment as a background process!
+7. Then you may finally start our development environment as a background process!
 
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
 
     Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
     
-6.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
+8.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
 
     `docker compose down`
     
@@ -110,6 +126,7 @@ The first time you run this script, you may need to set the execute bit for it; 
     To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
 
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
+
 
 ### Subsequent Pulls
 As we progress in development, this repository will change. To get the most recent version of the repository, you will need to pull from the main branch. You will need to take a look at the most recent commits to see whether there have been changes to [`colrc.sql`](./misc/sql/colrc.sql) (which is the file that defines the database, including table permissions and relations via Hasura). Then:  
@@ -134,11 +151,11 @@ To easily remove old volumes and containers, you can run [`./cleanup.sh`](./clea
 
 ## Working with Git
 
-This section will serve as a tutorial on how to use Git/GitHub, as well as a guide regarding our personal workflow in this repository.
+This section will serve as a tutorial on how to use Git/GitHub, as well as a guide regarding our specific workflow in this repository.
 
 
 ### The GitHub Workflow
-In short, the basic GitHub workflow is `checkout > add > commit > push`. This workflow is described more in detail below.
+In short, the basic GitHub workflow is `checkout > add > commit > push`, and work is done on a `branch` before it is merged into the `main` part of the repo. This workflow is described more in detail below.  As you begin to develop code, please make sure that you create and checkout a git branch that is named for the issue that you're working on.  We use the issue number as at least part of the branch name so that we can better track which branches address which issues.
 
 #### Checkout
 - `git checkout <branch>` switches your branch to the one you specified, and `git checkout -b <new-branch> <starting-point>` will make a new branch and switch to it, using another branch as a starting point (which is typically the main branch).
