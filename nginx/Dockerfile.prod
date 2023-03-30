@@ -31,9 +31,9 @@ RUN chmod +x ${NGINX_BUILD_ASSETS_DIR}/installProd.sh
 
 RUN ${NGINX_BUILD_ASSETS_DIR}/installProd.sh
 
-COPY ./nginx/entrypoint.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
+COPY ./nginx/entrypointProd.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypointProd.sh
 
-RUN chmod 755 ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
+RUN chmod 755 ${NGINX_BUILD_ROOT_DIR}/sbin/entrypointProd.sh
 
 FROM node:16.13.0 AS frontend
 

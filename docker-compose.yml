@@ -73,7 +73,6 @@ services:
     container_name: colrc-v2-backend
     build:
       context: ./auth
-      # specify .dev or .prod variant
       dockerfile: Dockerfile.dev
       labels:
         edu.arizona.colrc.description: "API for COLRC v2"
@@ -101,9 +100,7 @@ services:
     container_name: colrc-v2-frontend
     build:
       context: ./frontend
-      # specify .dev or .prod variant
       dockerfile: Dockerfile.dev
-      # dockerfile: Dockerfile.prod
       labels:
         edu.arizona.colrc.description: "Frontend for COLRC v2"
     depends_on:
@@ -124,6 +121,7 @@ services:
     container_name: nginx
     build:
       context: ./nginx
+      dockerfile: Dockerfile.dev
       labels:
         edu.arizona.colrc.description: "Nginx for COLRC v2"
     depends_on:

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ApolloClient, ApolloLink, InMemoryCache, HttpLink } from 'apollo-boost';
 import { getUserFromToken } from './queries/queries';
 import PrivateRoute from './PrivateRoute';
@@ -149,7 +149,7 @@ function App(props) {
   }
 
   const NotFound = () => <div>Not found</div>
-  const NotFoundRedirect = () => <Redirect to='/not-found' />
+  // const NotFoundRedirect = () => <Redirect to='/not-found' />
 
   return (
     <AuthContext.Provider value={{ client: client, authClient: authClient, user, setUser, authTokens, setAuthTokens: setTokens}}>

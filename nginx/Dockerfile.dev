@@ -31,9 +31,9 @@ RUN chmod a+x ${NGINX_BUILD_ASSETS_DIR}/install.sh
 
 RUN ${NGINX_BUILD_ASSETS_DIR}/install.sh
 
-COPY entrypoint.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
+COPY entrypointDev.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypointDev.sh
 
-RUN chmod 755 ${NGINX_BUILD_ROOT_DIR}/sbin/entrypoint.sh
+RUN chmod 755 ${NGINX_BUILD_ROOT_DIR}/sbin/entrypointDev.sh
 
 FROM debian:latest
 
@@ -77,7 +77,7 @@ RUN chmod 755 ${NGINX_FILE_DIR} && chmod 644 ${NGINX_FILE_DIR}/*
 
 EXPOSE 80/tcp 443/tcp 1935/tcp
 
-ENTRYPOINT ["/sbin/entrypoint.sh"]
+ENTRYPOINT ["/sbin/entrypointDev.sh"]
 
 # COPY --from=colrc-v2_frontend /app/build /var/www/colrc
 
