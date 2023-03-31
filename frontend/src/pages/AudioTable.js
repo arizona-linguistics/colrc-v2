@@ -5,14 +5,12 @@ import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/F
 import { useAuth } from "../context/auth";
 import { getAudioSetsQuery } from './../queries/queries'
 import AudioPlayer from '../utils/AudioPlayer';
-import { sortReshape, filterReshape } from "./../utils/reshapers"
+import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
 
 // My imports
 import SubTable from "./MaterialsTable";
-
-// mine: what i am importing
 import { getTextsQuery } from './../queries/queries';
 
 function Table({
@@ -22,7 +20,7 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   selectValues, 
-  renderRowSubComponent // my part 3
+  renderRowSubComponent // mine: my part 3
 }) {
 
   const filterTypes = React.useMemo(
@@ -121,14 +119,27 @@ function Table({
     <>
       <div className="columnToggle">
         {allColumns.map(column => (
-          <div key={column.id} className="columnToggle">
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-              {column.label}
-            </label>
-          </div>
+          // Original 
+          // <div key={column.id} className="columnToggle">
+          //   <label>
+          //     <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+          //     {column.label}
+          //   </label>
+          // </div>
+
+          // mine: start
+          (column.label !== "sourcefiles" && column.id !== "expander") ?
+            (<div key={column.id} className="columnToggle">
+              <label>
+                <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                {column.label}
+              </label>
+            </div>) : (null)
+          // mine: end
+          
         ))}
       </div>
+
       <table {...getTableProps()}>
         <thead>
           <tr>
@@ -162,7 +173,6 @@ function Table({
             </tr>
           ))}
         </thead>
-        
         <tbody {...getTableBodyProps()}>          
           {rows.map((row) => {
             prepareRow(row);
@@ -171,12 +181,12 @@ function Table({
                 <tr>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
                     );
                   })}
                 </tr>
 
-                {/* My Part 1 */}
+                {/* mine: start */}
                 {row.isExpanded && (
                   <tr>
                     <td colSpan={visibleColumns.length}>
@@ -184,7 +194,8 @@ function Table({
                     </td>
                   </tr>
                 )}
-                
+                {/* mine: end */}
+
               </React.Fragment>
             );
           })}
@@ -287,7 +298,7 @@ function AudioTable(props) {
         label: 'Speaker'
       },
 
-      // My part for showing the subtable
+      // mine: for showing the subtable
       {
         Header: () => null, // No header
         id: 'expander', // It needs an ID
@@ -298,17 +309,9 @@ function AudioTable(props) {
           </span>
         ),
       },
+      // my part: end
+
       {
-
-        // Header: () => null, // No header
-        //     id: 'expander', // It needs an ID
-        //     show: true,
-        //     Cell: ({ row }) => (
-        //        <span {...row.getToggleRowExpandedProps()}>
-        //           {row.isExpanded ? '▼' : '▶'}
-        //        </span>
-        //     ),
-
         Header: 'TextMine',
         accessor: 'text.title',
         tableName: 'Audio',
@@ -327,7 +330,7 @@ function AudioTable(props) {
     ], []
   )
 
-  // My Part 2
+  // mine: start
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
       <div>
@@ -336,6 +339,7 @@ function AudioTable(props) {
     ),
     []
   )
+  // mine: end
 
 
 // We'll start our table without any data
@@ -357,8 +361,32 @@ async function getAudios(limit, offset, sortBy, filters) {
         where: filters,
         }
     })
+    console.log(res.data);
     return res.data
   } 
+
+  // mine: start
+  async function getTexts(limit, offset, sortBy, filters) {
+    let res = {}
+    res = await client.query({
+       query: getTextsQuery,
+       variables: {
+          limit: limit,
+          offset: offset,
+          order: sortBy,
+          where: filters,
+       }
+    })
+    let texts = textReshape(res.data.texts)
+    let i = 0
+    for (i = 0; i < texts.length; i++) {
+       res.data.texts[i].sourcefiles = texts[i].sourcefiles
+    }
+    console.log("this is res.data ", res.data)
+    console.log("this is texts ", texts)
+    return res.data
+ }
+ // mine: end
 
 const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
   // This will get called when the table needs new data
@@ -390,6 +418,8 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
         setLoading(false)
         history.push('./login')
       })
+
+      
     }
   }, 1000)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -401,7 +431,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
       <Table
         columns={columns}
         data={data}
-        renderRowSubComponent={renderRowSubComponent} // part 4
+        renderRowSubComponent={renderRowSubComponent} // mine
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
