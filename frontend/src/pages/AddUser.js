@@ -172,8 +172,8 @@ function AddUser(props) {
               },
               {
                 label: "No",
-                // eslint-disable-next-line no-self-assign
                 onClick: () => {
+                  // eslint-disable-next-line no-self-assign
                   values = values;
                   setSubmitting(false);
                 },
