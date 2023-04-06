@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const TableStyles = styled.div`
   padding: 1rem;
-   table {
+  table {
     display: block;
     width: 100%;
     overflow: auto;
@@ -11,8 +11,8 @@ const TableStyles = styled.div`
     }
     tbody {
       width: 100%;
-      box-sizing:border-box;
-      box-shadow:0 2px 15px 0 rgba(0,0,0,0.15);
+      box-sizing: border-box;
+      box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.15);
       overflow: auto;
       padding: 1rem;
     }
@@ -27,9 +27,10 @@ const TableStyles = styled.div`
     th {
       border: 0px;
       background: #fafafa;
-      padding: .5rem;
+      padding: 0.5rem;
       text-align: left;
-    },
+    }
+    ,
     td {
       margin: 0;
       padding: 0.5rem;
@@ -37,11 +38,11 @@ const TableStyles = styled.div`
       border-left: 1px solid #ddd;
       :first-child {
         border-left: 0;
-        }
+      }
       position: relative;
       :last-child {
         border-right: 0;
-        }
+      }
       .resizer {
         right: -1.5px;
         background: #ddd;
@@ -50,7 +51,7 @@ const TableStyles = styled.div`
         position: absolute;
         top: 0;
         z-index: 1;
-        touch-action:none;
+        touch-action: none;
         &.isResizing {
           background: #ddd;
         }
@@ -69,7 +70,7 @@ const TableStyles = styled.div`
     padding: 10px;
   }
 
-  globalFilter: {
+  globalfilter: {
     padding: 50px 10px 20px 30px;
   }
   ul {
@@ -84,6 +85,6 @@ const TableStyles = styled.div`
   li {
     padding: 1rem;
   }
-`
+`;
 
-export default TableStyles
+export default TableStyles;
