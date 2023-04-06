@@ -1,19 +1,20 @@
-const { makeExecutableSchema } = require('graphql-tools');
-require('dotenv').config({path:__dirname+'./../.env'});
+const { makeExecutableSchema } = require("graphql-tools");
+require("dotenv").config({ path: __dirname + "./../.env" });
 
-const { 
+const {
   User,
   loginUser_C,
   addUser_C,
   getUserFromToken_C,
   isHuman_C,
-} = require('../connectors/postgresDB');
-const { // define resolvers
+} = require("../connectors/postgresDB");
+const {
+  // define resolvers
   loginUser_R,
   addUser_R,
   getUserFromToken_R,
   isHuman_R,
-} = require('../resolvers/postgresDBResolver');
+} = require("../resolvers/postgresDBResolver");
 
 // *** set the variables needed for auditing *** //
 // async function setSessionVariables() {
@@ -68,14 +69,14 @@ const typeDefs = `
 const resolvers = {
   Query: {
     loginUser_Q: (_, args, context) => loginUser_R(args, loginUser_C),
-    getUserFromToken_Q: (_, args, context) => getUserFromToken_R(context, args, getUserFromToken_C),
-    isHuman_Q: (_, args, context) => isHuman_R(args, isHuman_C)
+    getUserFromToken_Q: (_, args, context) =>
+      getUserFromToken_R(context, args, getUserFromToken_C),
+    isHuman_Q: (_, args, context) => isHuman_R(args, isHuman_C),
   },
   Mutation: {
     // first time user is created see - connector where a view role is inserted
-    addUser_M: (_, args, context) => addUser_R(args,addUser_C)
-  }
+    addUser_M: (_, args, context) => addUser_R(args, addUser_C),
+  },
 };
 
 module.exports = new makeExecutableSchema({ typeDefs, resolvers });
-
