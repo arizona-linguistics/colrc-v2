@@ -345,8 +345,8 @@ function AudioTable(props) {
             });
         }
       }, 1000);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [history, setAuthTokens]
   );
 

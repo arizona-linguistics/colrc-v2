@@ -142,15 +142,16 @@ function Table({
         </code>
       </pre> */}
       <div className="columnToggle">
-        {allColumns.map((column) =>
-          column.label !== "sourcefiles" && column.id !== "expander" ? (
-            <div key={column.id} className="columnToggle">
-              <label>
-                <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
-                {column.label}
-              </label>
-            </div>
-          ) : null
+        {allColumns.map(
+          (column) =>
+            column.label !== "sourcefiles" && column.id !== "expander" ? (
+              <div key={column.id} className="columnToggle">
+                <label>
+                  <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
+                  {column.label}
+                </label>
+              </div>
+            ) : null
           // condition ? (operation) : (operation)
         )}
       </div>
@@ -435,8 +436,8 @@ function TextTable(props) {
             });
         }
       }, 1000);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [history, setAuthTokens]
   );
 
