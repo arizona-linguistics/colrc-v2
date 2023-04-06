@@ -1,14 +1,14 @@
 import React from "react";
 import { Button } from "../components/AuthForm";
 import { useAuth } from "../context/auth";
-import { broadCastSuccess } from '../utils/messages'
+import { broadCastSuccess } from "../utils/messages";
 
 function Admin(props) {
   const { setAuthTokens } = useAuth();
 
   function logOut() {
     setAuthTokens();
-    broadCastSuccess(`Logged Out`)
+    broadCastSuccess(`Logged Out`);
   }
 
   return (

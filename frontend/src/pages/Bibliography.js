@@ -1,11 +1,9 @@
-import React from "react"
-import { Grid } from "semantic-ui-react"
+import React from "react";
+import { Grid } from "semantic-ui-react";
 import BibliographyAccordion from "./accordions/BibliographyAccordion";
-import BibliographyTable from "./BibliographyTable"
+import BibliographyTable from "./BibliographyTable";
 
 function Bibliography(props) {
-
-
   return (
     <React.Fragment>
       <Grid>
@@ -19,7 +17,7 @@ function Bibliography(props) {
         </Grid.Column>
       </Grid>
     </React.Fragment>
-  )
+  );
 }
 
 export default Bibliography;

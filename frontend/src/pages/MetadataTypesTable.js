@@ -1,25 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  useTable,
+  usePagination,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+} from "react-table";
+import {
+  DefaultColumnFilter,
+  GlobalFilter,
+  fuzzyTextFilterFn,
+} from "../utils/Filters";
 import { Icon, Button } from "semantic-ui-react";
-import TableStyles from "../stylesheets/table-styles"
+import TableStyles from "../stylesheets/table-styles";
 
-  
 function MetadataTypes(props) {
- 
-  function Table({ 
-    columns, 
-    data,
-    fetchData,
-    loading,
-   }) {
-
+  function Table({ columns, data, fetchData, loading }) {
     const filterTypes = React.useMemo(
       () => ({
         fuzzyText: fuzzyTextFilterFn,
         text: (rows, id, filterValue) => {
-          return rows.filter(row => {
+          return rows.filter((row) => {
             const rowValue = row.values[id];
             return rowValue !== undefined
               ? String(rowValue)
@@ -27,11 +29,10 @@ function MetadataTypes(props) {
                   .startsWith(String(filterValue).toLowerCase())
               : true;
           });
-        }
+        },
       }),
       []
     );
-  
 
     const defaultColumn = React.useMemo(
       () => ({
@@ -58,7 +59,7 @@ function MetadataTypes(props) {
       nextPage,
       previousPage,
       setPageSize,
-      state: { pageIndex, pageSize }
+      state: { pageIndex, pageSize },
     } = useTable(
       {
         columns,
@@ -69,182 +70,173 @@ function MetadataTypes(props) {
       useGlobalFilter,
       useFilters,
       useSortBy,
-      usePagination,
-    )
+      usePagination
+    );
 
     // Render the UI for your table
     return (
       <>
-
-<table className="table" {...getTableProps()}>
-        <thead>
-          <tr>
-            <th colSpan={visibleColumns.length}>
-                <Link 
+        <table className="table" {...getTableProps()}>
+          <thead>
+            <tr>
+              <th colSpan={visibleColumns.length}>
+                <Link
                   to={{
                     pathname: "/adduser",
-                  }}>
-                  <Button animated='vertical' color='blue'>
+                  }}
+                >
+                  <Button animated="vertical" color="blue">
                     <Button.Content hidden>Add User</Button.Content>
                     <Button.Content visible>
-                      <Icon name='plus' />
+                      <Icon name="plus" />
                     </Button.Content>
-                  </Button> 
-                </Link> 
-              <GlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
-              />
-            </th>
-          </tr>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  <span {...column.getSortByToggleProps()}>
-                    {column.render('Header')}                 
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? '▲'
-                        : '▼'
-                      : ''}
-                  </span>
-                  <div>
-                    {column.canFilter ? column.render('Filter') : null}
-                  </div>
-                </th>
-              ))}
+                  </Button>
+                </Link>
+                <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+              </th>
             </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>          
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <React.Fragment key={row.getRowProps().key}>
-                <tr>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                    );
-                  })}
-                </tr>
-              </React.Fragment>
-            );
-          })}
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>
+                    <span {...column.getSortByToggleProps()}>
+                      {column.render("Header")}
+                      {column.isSorted ? (column.isSortedDesc ? "▲" : "▼") : ""}
+                    </span>
+                    <div>
+                      {column.canFilter ? column.render("Filter") : null}
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <React.Fragment key={row.getRowProps().key}>
+                  <tr>
+                    {row.cells.map((cell) => {
+                      return (
+                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      );
+                    })}
+                  </tr>
+                </React.Fragment>
+              );
+            })}
 
-          <tr>  
-            {loading ? (
-              // Use our custom loading state to show a loading indicator
-              <td colSpan="10"> Loading... </td>
-            ) : (
-              <td colSpan="10">
-                Showing {page.length} of ~{pageCount * pageSize} results
-              </td>
-            )}
-          </tr>
-          
-        </tbody>
-      </table>
+            <tr>
+              {loading ? (
+                // Use our custom loading state to show a loading indicator
+                <td colSpan="10"> Loading... </td>
+              ) : (
+                <td colSpan="10">
+                  Showing {page.length} of ~{pageCount * pageSize} results
+                </td>
+              )}
+            </tr>
+          </tbody>
+        </table>
 
-      <div className="pagination">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>{' '}
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-        <span>
-          | Go to page:{' '}
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
+        <div className="pagination">
+          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            {"<<"}
+          </button>{" "}
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            {"<"}
+          </button>{" "}
+          <button onClick={() => nextPage()} disabled={!canNextPage}>
+            {">"}
+          </button>{" "}
+          <button
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+          >
+            {">>"}
+          </button>{" "}
+          <span>
+            Page{" "}
+            <strong>
+              {pageIndex + 1} of {pageOptions.length}
+            </strong>{" "}
+          </span>
+          <span>
+            | Go to page:{" "}
+            <input
+              type="number"
+              defaultValue={pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                gotoPage(page);
+              }}
+              style={{ width: "100px" }}
+            />
+          </span>{" "}
+          <select
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
             }}
-            style={{ width: '100px' }}
-          />
-        </span>{' '}
-        <select
-          value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value))
-          }}
-        >
-          {[10, 20, 30, 40, 50].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
-    </>
-  )
-}
-      
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
+      </>
+    );
+  }
 
-  const data = props.data
- 
+  const data = props.data;
+
   const columns = React.useMemo(
     () => [
       {
-        Header: '',
+        Header: "",
         disableFilters: true,
         sortable: false,
         width: 100,
         show: true,
-        id: 'manageUser',
-        label: 'Manage',
-        tableName: 'MetadataTypesTable',
-        Cell: ({row, original}) => (
+        id: "manageUser",
+        label: "Manage",
+        tableName: "MetadataTypesTable",
+        Cell: ({ row, original }) => (
           <div className="buttons">
-              <button className="ui mini black icon button">
-                <Icon name="edit" />
-              </button>              
-              <button className="ui mini blue icon button">
-                <Icon name="close" />
-              </button>              
+            <button className="ui mini black icon button">
+              <Icon name="edit" />
+            </button>
+            <button className="ui mini blue icon button">
+              <Icon name="close" />
+            </button>
           </div>
-        )
-      }, 
-      {
-        Header: 'name',
-        accessor: 'name'
+        ),
       },
       {
-        Header: 'fields',
-        accessor: 'fields',
+        Header: "name",
+        accessor: "name",
+      },
+      {
+        Header: "fields",
+        accessor: "fields",
         Cell: ({ row }) => <span>{JSON.stringify(row.original.fields)}</span>,
-      }
+      },
     ],
     []
-  )
-
+  );
 
   return (
-        <TableStyles>
-            <Table 
-              columns={columns} 
-              data={data}
-            />
-        </TableStyles>
-
-  )
-
+    <TableStyles>
+      <Table columns={columns} data={data} />
+    </TableStyles>
+  );
 }
 
 export default MetadataTypes;
