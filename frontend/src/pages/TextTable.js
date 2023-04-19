@@ -386,6 +386,7 @@ function TextTable(props) {
             where: filters,
          }
       })
+
       let texts = textReshape(res.data.texts)
       let i = 0
       for (i = 0; i < texts.length; i++) {

@@ -5,13 +5,11 @@ import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/F
 import { useAuth } from "../context/auth";
 import { getAudioSetsQuery } from './../queries/queries'
 import AudioPlayer from '../utils/AudioPlayer';
-import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers"
+import { sortReshape, filterReshape, audioReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
+import AudioMaterialsTable from "./AudioMaterialsTable";
 
-// My imports
-import SubTable from "./MaterialsTable";
-import { getTextsQuery } from './../queries/queries';
 
 function Table({
   columns,
@@ -20,7 +18,7 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   selectValues, 
-  renderRowSubComponent // mine: my part 3
+  renderRowSubComponent
 }) {
 
   const filterTypes = React.useMemo(
@@ -119,15 +117,6 @@ function Table({
     <>
       <div className="columnToggle">
         {allColumns.map(column => (
-          // Original 
-          // <div key={column.id} className="columnToggle">
-          //   <label>
-          //     <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-          //     {column.label}
-          //   </label>
-          // </div>
-
-          // mine: start
           (column.label !== "sourcefiles" && column.id !== "expander") ?
             (<div key={column.id} className="columnToggle">
               <label>
@@ -135,8 +124,6 @@ function Table({
                 {column.label}
               </label>
             </div>) : (null)
-          // mine: end
-          
         ))}
       </div>
 
@@ -185,8 +172,6 @@ function Table({
                     );
                   })}
                 </tr>
-
-                {/* mine: start */}
                 {row.isExpanded && (
                   <tr>
                     <td colSpan={visibleColumns.length}>
@@ -194,8 +179,6 @@ function Table({
                     </td>
                   </tr>
                 )}
-                {/* mine: end */}
-
               </React.Fragment>
             );
           })}
@@ -264,16 +247,17 @@ function Table({
 
 function AudioTable(props) {
   let history = useHistory()
+  
 
   const columns = React.useMemo(
     () => [
       {
-        Header: 'AudioMine',
+        Header: 'Audio',
         id: 'audio',
         accessor: 'audiosets_audiofiles',
         label: 'Audio',
         show: true,
-        //Cell: ({ row }) => <span>{JSON.stringify(row.original)}</span>,
+        // Cell: ({ row }) => <span>{JSON.stringify(row.original)}</span>,
         Cell: ({ row }) =>
         (<AudioPlayer
           id={row.original.id}
@@ -282,25 +266,7 @@ function AudioTable(props) {
           sources={row.original.audiosets_audiofiles}/>)
       },
       {
-        Header: 'TitleMine',
-        accessor: 'title',
-        tableName: 'AudioTable',
-        show: true,
-        id: 'title',
-        label: 'Title'
-      },
-      {
-        Header: 'SpeakerMine',
-        accessor: 'speaker',
-        tableName: 'Audio',
-        show: true,
-        id: 'speaker',
-        label: 'Speaker'
-      },
-
-      // mine: for showing the subtable
-      {
-        Header: () => null, // No header
+        Header: "Associated Text Files", // No header
         id: 'expander', // It needs an ID
         show: true,
         Cell: ({ row }) => (
@@ -309,18 +275,32 @@ function AudioTable(props) {
           </span>
         ),
       },
-      // my part: end
-
       {
-        Header: 'TextMine',
+        Header: 'Title',
+        accessor: 'title',
+        tableName: 'AudioTable',
+        show: true,
+        id: 'title',
+        label: 'Title'
+      },
+      {
+        Header: 'Speaker',
+        accessor: 'speaker',
+        tableName: 'Audio',
+        show: true,
+        id: 'speaker',
+        label: 'Speaker'
+      },
+      {
+        Header: 'Text',
         accessor: 'text.title',
         tableName: 'Audio',
-        show: true, // mine: shows the text table on load
+        show: true,
         id: 'text',
         label: 'Text'
       },
       {
-        Header: 'CycleMine',
+        Header: 'Cycle',
         accessor: 'text.cycle',
         tableName: 'Audio',
         show: false,
@@ -330,17 +310,14 @@ function AudioTable(props) {
     ], []
   )
 
-  // mine: start
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
       <div>
-        <SubTable materialData={row.values.sourcefiles} />
+        <AudioMaterialsTable materialData={row.original.sourcefiles} />
       </div>
     ),
     []
   )
-  // mine: end
-
 
 // We'll start our table without any data
 const [data, setData] = React.useState([])
@@ -361,32 +338,16 @@ async function getAudios(limit, offset, sortBy, filters) {
         where: filters,
         }
     })
-    console.log(res.data);
-    return res.data
-  } 
 
-  // mine: start
-  async function getTexts(limit, offset, sortBy, filters) {
-    let res = {}
-    res = await client.query({
-       query: getTextsQuery,
-       variables: {
-          limit: limit,
-          offset: offset,
-          order: sortBy,
-          where: filters,
-       }
-    })
-    let texts = textReshape(res.data.texts)
-    let i = 0
-    for (i = 0; i < texts.length; i++) {
-       res.data.texts[i].sourcefiles = texts[i].sourcefiles
+    let audioSets = audioReshape(res.data.audiosets);
+    for (let i = 0; i < audioSets.length; i++) {
+      res.data.audiosets[i]["sourcefiles"] = audioSets[i].sourcefiles;
     }
+
     console.log("this is res.data ", res.data)
-    console.log("this is texts ", texts)
-    return res.data
- }
- // mine: end
+    console.log("this is texts of audios: ", audioSets)
+    return res.data;
+  } 
 
 const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
   // This will get called when the table needs new data
@@ -431,7 +392,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
       <Table
         columns={columns}
         data={data}
-        renderRowSubComponent={renderRowSubComponent} // mine
+        renderRowSubComponent={renderRowSubComponent}
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}

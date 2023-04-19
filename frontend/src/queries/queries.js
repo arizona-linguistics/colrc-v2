@@ -221,7 +221,6 @@ query getAudioSetsQuery($limit: Int, $offset: Int, $order: [audiosets_order_by!]
        type
        audio_with_path
      }
-     
      text {
        cycle
        id
