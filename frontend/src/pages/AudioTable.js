@@ -267,7 +267,9 @@ function AudioTable(props) {
       },
       {
         Header: "Associated Text Files", // No header
-        id: 'expander', // It needs an ID
+        id: 'expander', // It needs an ID, 
+        accessor: "text",
+        tableName: 'Audio',
         show: true,
         Cell: ({ row }) => (
           <span {...row.getToggleRowExpandedProps()}>
