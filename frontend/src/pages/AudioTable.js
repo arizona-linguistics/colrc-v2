@@ -252,10 +252,24 @@ function AudioTable(props) {
   const columns = React.useMemo(
     () => [
       {
+        Header: () => null, // No header
+        id: 'expander', // It needs an ID, 
+        accessor: "text",
+        tableName: 'Audio',
+        show: true,
+        disableFilters: true,
+        Cell: ({ row }) => (
+          <span {...row.getToggleRowExpandedProps()}>
+            {row.isExpanded ? '▼' : '▶'}
+          </span>
+        ),
+      },
+      {
         Header: 'Audio',
         id: 'audio',
         accessor: 'audiosets_audiofiles',
         label: 'Audio',
+        disableFilters: true,
         show: true,
         // Cell: ({ row }) => <span>{JSON.stringify(row.original)}</span>,
         Cell: ({ row }) =>
@@ -264,18 +278,6 @@ function AudioTable(props) {
           title={row.original.title}
           speaker={row.original.speaker}
           sources={row.original.audiosets_audiofiles}/>)
-      },
-      {
-        Header: "Associated Text Files", // No header
-        id: 'expander', // It needs an ID, 
-        accessor: "text",
-        tableName: 'Audio',
-        show: true,
-        Cell: ({ row }) => (
-          <span {...row.getToggleRowExpandedProps()}>
-            {row.isExpanded ? '▼' : '▶'}
-          </span>
-        ),
       },
       {
         Header: 'Title',
