@@ -12,4 +12,4 @@ SELECT set_config('path.textfile', 'http://thecolrc.org:80/files/files/texts/', 
 
 -- set path to textimages
 SELECT set_config('path.textimage', 'http://thecolrc.org:80/files/files/texts/', FALSE);
--- SELECT current_setting('path.textimage')
+-- SELECT current_setting('path.textimage'

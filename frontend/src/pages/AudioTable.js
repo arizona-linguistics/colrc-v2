@@ -1,13 +1,15 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useExpanded } from 'react-table' // mine: added useExpanded
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getAudioSetsQuery } from './../queries/queries'
 import AudioPlayer from '../utils/AudioPlayer';
-import { sortReshape, filterReshape } from "./../utils/reshapers"
+import { sortReshape, filterReshape, audioReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
+import AudioMaterialsTable from "./AudioMaterialsTable";
+
 
 function Table({
   columns,
@@ -16,6 +18,7 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   selectValues, 
+  renderRowSubComponent
 }) {
 
   const filterTypes = React.useMemo(
@@ -90,6 +93,7 @@ function Table({
     useGlobalFilter,
     useFilters,
     useSortBy,
+    useExpanded, // my part
     usePagination,   
   )
 
@@ -113,14 +117,16 @@ function Table({
     <>
       <div className="columnToggle">
         {allColumns.map(column => (
-          <div key={column.id} className="columnToggle">
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-              {column.label}
-            </label>
-          </div>
+          (column.label !== "sourcefiles" && column.id !== "expander") ?
+            (<div key={column.id} className="columnToggle">
+              <label>
+                <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                {column.label}
+              </label>
+            </div>) : (null)
         ))}
       </div>
+
       <table {...getTableProps()}>
         <thead>
           <tr>
@@ -162,10 +168,17 @@ function Table({
                 <tr>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
                     );
                   })}
                 </tr>
+                {row.isExpanded && (
+                  <tr>
+                    <td colSpan={visibleColumns.length}>
+                      {renderRowSubComponent({ row })}
+                    </td>
+                  </tr>
+                )}
               </React.Fragment>
             );
           })}
@@ -180,7 +193,6 @@ function Table({
               </td>
             )}
           </tr>
-          
         </tbody>
       </table>
 
@@ -235,18 +247,36 @@ function Table({
 
 function AudioTable(props) {
   let history = useHistory()
+  
 
   const columns = React.useMemo(
     () => [
       {
         Header: 'Audio',
         id: 'audio',
-        accessor: 'audiosets_audiofiles', 
+        accessor: 'audiosets_audiofiles',
         label: 'Audio',
         show: true,
-        //Cell: ({ row }) => <span>{JSON.stringify(row.original)}</span>,
-        Cell: ({ row }) => (<AudioPlayer id={row.original.id} title={row.original.title} speaker={row.original.speaker} sources={row.original.audiosets_audiofiles} />)
-      }, 
+        // Cell: ({ row }) => <span>{JSON.stringify(row.original)}</span>,
+        Cell: ({ row }) =>
+        (<AudioPlayer
+          id={row.original.id}
+          title={row.original.title}
+          speaker={row.original.speaker}
+          sources={row.original.audiosets_audiofiles}/>)
+      },
+      {
+        Header: "Associated Text Files", // No header
+        id: 'expander', // It needs an ID, 
+        accessor: "text",
+        tableName: 'Audio',
+        show: true,
+        Cell: ({ row }) => (
+          <span {...row.getToggleRowExpandedProps()}>
+            {row.isExpanded ? '▼' : '▶'}
+          </span>
+        ),
+      },
       {
         Header: 'Title',
         accessor: 'title',
@@ -267,7 +297,7 @@ function AudioTable(props) {
         Header: 'Text',
         accessor: 'text.title',
         tableName: 'Audio',
-        show: false,
+        show: true,
         id: 'text',
         label: 'Text'
       },
@@ -282,6 +312,14 @@ function AudioTable(props) {
     ], []
   )
 
+  const renderRowSubComponent = React.useCallback(
+    ({ row }) => (
+      <div>
+        <AudioMaterialsTable materialData={row.original.sourcefiles} />
+      </div>
+    ),
+    []
+  )
 
 // We'll start our table without any data
 const [data, setData] = React.useState([])
@@ -302,9 +340,16 @@ async function getAudios(limit, offset, sortBy, filters) {
         where: filters,
         }
     })
-    return res.data
-  }  
 
+    let audioSets = audioReshape(res.data.audiosets);
+    for (let i = 0; i < audioSets.length; i++) {
+      res.data.audiosets[i]["sourcefiles"] = audioSets[i].sourcefiles;
+    }
+
+    console.log("this is res.data ", res.data)
+    console.log("this is texts of audios: ", audioSets)
+    return res.data;
+  } 
 
 const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
   // This will get called when the table needs new data
@@ -336,6 +381,8 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
         setLoading(false)
         history.push('./login')
       })
+
+      
     }
   }, 1000)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -347,6 +394,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
       <Table
         columns={columns}
         data={data}
+        renderRowSubComponent={renderRowSubComponent}
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
