@@ -101,6 +101,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
+      # dockerfile: Dockerfile.prod
       labels:
         edu.arizona.colrc.description: "Frontend for COLRC v2"
     depends_on:

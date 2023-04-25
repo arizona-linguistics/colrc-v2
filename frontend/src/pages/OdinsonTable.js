@@ -286,6 +286,9 @@ function OdinsonTable(props) {
       if (hits === 0) { 
         break
       } 
+      if (hits === 0) { 
+        break
+      } 
       tempDoc = odindata.scoreDocs[odindata.scoreDocs.length-1].sentenceId
       tempScore = odindata.scoreDocs[odindata.scoreDocs.length-1].score
       tempCache = addPageToCache(tempCache, odindata, setCache)
@@ -320,6 +323,7 @@ function OdinsonTable(props) {
     // let odindata = await fetch('http://localhost:9001/api/execute/pattern?' + searchParams, {mode:'cors'})
     // let odindata = await fetch('https://thecolrc.org:80/odinson/?' + searchParams, {mode:'cors'})
     
+    // let odindata = await fetch('https://thecolrc.org:80/odinson/?' + searchParams, {mode:'cors'})
     .then((res) => res.json())
     .then((data) => {
       return data

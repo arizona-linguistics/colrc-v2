@@ -81,7 +81,7 @@ ENTRYPOINT ["/sbin/entrypointDev.sh"]
 
 # COPY --from=colrc-v2_frontend /app/build /var/www/colrc
 
-CMD ["/usr/sbin/nginx"]
+
 
 # CMD ["nginx", "-g", "daemon off;"]
 

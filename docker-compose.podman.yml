@@ -1,0 +1,59 @@
+
+services:
+  odinson-rest-api:
+    image: docker.io/lumai/odinson-rest-api:experimental
+    networks:
+
+  hasura:
+    image: docker.io/hasura/graphql-engine:v1.3.3
+    networks:
+
+  postgres:
+    image: docker.io/library/postgres:12 
+    user: 'root'
+    uuserns_mode: "keep-id"
+    #privileged: true
+    volumes:
+      - data:/misc/db_data:/var/lib/postgresql/data
+      # SQL scripts in this directory will be executed in alphabetical order
+      - scripts:./misc/sql:/docker-entrypoint-initdb.d
+    networks:
+
+  backend:
+    volumes:
+      - auth:./auth:/app:rw
+    networks:
+
+  frontend:
+    networks:
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    ports:
+      - "2080:2080"
+      - "2443:2443"
+    networks:
+
+  file_upload:
+    volumes:
+      - upload:/misc/file_data:/var/www/colrc:rw
+    networks:
+ 
+volumes:
+  - odinson:
+      external: true
+  - postgres:
+      data:
+        external: true
+      scripts:
+        external: true
+  - auth:
+      external: false
+  - frontend:
+      external: false
+  - files:
+      external: true
+  - upload:
+      external: false
