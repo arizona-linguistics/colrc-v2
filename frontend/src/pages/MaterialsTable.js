@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 function Table({ columns, data, renderRowSubComponent }) {
-
+   
   const {
     getTableProps,
     getTableBodyProps,
@@ -36,7 +36,7 @@ function Table({ columns, data, renderRowSubComponent }) {
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.map((row, i) => {
-            prepareRow(row)
+            prepareRow(row);
             return (
               <React.Fragment key={row.getRowProps().key}>
                 <tr>
@@ -120,8 +120,8 @@ function MaterialsTable({ materialData }) {
   
   return (
     <Table 
-      className = 'materialMetadataTable'  
-      columns={columns} 
+        className='materialMetadataTable'
+        columns={columns}
         data={data}
         renderRowSubComponent={renderRowSubComponent}
       />

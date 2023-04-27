@@ -157,44 +157,110 @@ export const getAffixHistoryByIdQuery = gql`
 
 // getAudioSets
 
+// ORIGINAL: start
+// export const getAudioSetsQuery = gql`
+//   query getAudioSetsQuery($limit: Int, $offset: Int, $order: [audiosets_order_by!], $where: audiosets_bool_exp) {
+//     audiosets_aggregate(where: $where) {
+//       aggregate {
+//         count
+//       }
+//     }
+//     audiosets(limit: $limit, offset: $offset, order_by: $order, where: $where) {
+//       id
+//       speaker
+//       title
+//       textId
+//       audiosets_audiofiles {
+//         audiosetId
+//         direct
+//         id
+//         src
+//         subdir
+//         type
+//         audio_with_path
+//       }
+//       user {
+//         id
+//         last
+//         first
+//         username
+//       }
+//       text {
+//         cycle
+//         id
+//         speaker
+//         rnumber
+//         title
+//         tnumber
+//       }
+//     }
+//   }
+// `;
+// ORIGINAL: end
+
+// mine: start
 export const getAudioSetsQuery = gql`
-  query getAudioSetsQuery($limit: Int, $offset: Int, $order: [audiosets_order_by!], $where: audiosets_bool_exp) {
-    audiosets_aggregate(where: $where) {
-      aggregate {
-        count
-      }
-    }
-    audiosets(limit: $limit, offset: $offset, order_by: $order, where: $where) {
-      id
-      speaker
-      title
-      textId
-      audiosets_audiofiles {
-        audiosetId
-        direct
-        id
-        src
-        subdir
-        type
-        audio_with_path
-      }
-      user {
-        id
-        last
-        first
-        username
-      }
-      text {
-        cycle
-        id
-        speaker
-        rnumber
-        title
-        tnumber
-      }
-    }
-  }
+query getAudioSetsQuery($limit: Int, $offset: Int, $order: [audiosets_order_by!], $where: audiosets_bool_exp) {
+   audiosets_aggregate(where: $where) {
+     aggregate {
+       count
+     }
+   }
+   audiosets(limit: $limit, offset: $offset, order_by: $order, where: $where) {
+     id
+     speaker
+     title
+     textId
+     
+     audiosets_audiofiles {
+       audiosetId
+       direct
+       id
+       src
+       subdir
+       type
+       audio_with_path
+     }
+     text {
+       cycle
+       id
+       speaker
+       rnumber
+       title
+       tnumber 
+       texts_textfiles {
+         fileType
+         id
+         msType
+         resType
+         src
+         subdir
+         textId
+         textfile_with_path
+         textfilemetadata {
+           metadata
+           textFileId
+         }
+         textimages {
+           id
+           src
+           subdir
+           textimage_with_path
+           textFileId
+         }
+       }
+     }
+     
+     user {
+       id
+       last
+       first
+       username
+     }
+   }
+  } 
 `;
+// mine: end
 
 export const getAudioSetById = gql`
   query getAudioSetsByIdQuery($id: Int) {
