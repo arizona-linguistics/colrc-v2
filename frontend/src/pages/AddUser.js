@@ -9,6 +9,7 @@ import { useAuth } from "../context/auth";
 import { handleErrors, broadCastSuccess } from '../utils/messages';
 import { confirmAlert } from 'react-confirm-alert';
 import '../stylesheets/react-confirm-alert.css';
+import bcrypt from "bcryptjs";
 
 // first we set up validation for our form fields, using Yup (https://www.npmjs.com/package/yup)
 let addUserSchema = Yup.object().shape({
@@ -32,6 +33,18 @@ let addUserSchema = Yup.object().shape({
       .required('Password confirmation is required!')
     }); 
 
+function encodePassword(password, saltRounds) {
+    console.log("original password" + password)
+    let hash = bcrypt.hashSync(password, saltRounds, function(err, hash) {
+        if (err) {
+        console.log(err)
+        throw new Error(err)
+        }
+        // Store hash in your password DB.
+    });
+    return hash
+}
+
 // next we set up the things that will happen when the form is submitted    
 function AddUser(props) {
     //create a hook to set the outcome, set the state to false
@@ -53,7 +66,8 @@ function AddUser(props) {
     async function onFormSubmit (values, setSubmitting) {
         //console.log(values)
         try {
-        const result = await client.mutate({
+            let passwd = encodePassword(values.password, 15)
+            const result = await client.mutate({
             mutation: insertUserWithRoleMutation,
             //these are the variables allowed to be passed into the insertUserWithRole mutation in queries.js
             variables: {
@@ -61,7 +75,7 @@ function AddUser(props) {
             last: values.last,
             username: values.username,
             email: values.email,
-            password: values.password,
+            password: passwd,
             user_roles: rolesReshape(values.roles)
             }
         })
@@ -74,6 +88,7 @@ function AddUser(props) {
             sethasAddedUser(true)
         }
         } catch (error) {
+            console.log(error)
         handleErrors(error)
         setSubmitting(false)
         }
