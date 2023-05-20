@@ -88,7 +88,7 @@ services:
 
 5.  At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
-    `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
+    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build`
     
   The first build will fail with an nginx error.  Do not dispair.  Instead, down the system with:
 
