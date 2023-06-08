@@ -123,11 +123,11 @@ services:
 
     `docker compose down`
     
-    To relaunch for a new work session, if you haven't done a new pull from the repo, you can just 'up' the system without rebuilding it like this:
+To relaunch for a new work session, if you haven't done a new pull from the repo, you can just 'up' the system without rebuilding it like this:
 
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
     
-    To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
+To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
 
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
