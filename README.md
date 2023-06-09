@@ -88,11 +88,11 @@ services:
 
 5.  At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
-    `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
+    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build` or `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
     
   The first build will fail with an nginx error.  Do not dispair.  Instead, down the system with:
 
-    `docker compose down`
+    `docker compose down` or `docker-compose down`
     
 
 6. With the system down, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
@@ -109,21 +109,25 @@ services:
       
       `sudo chown -R $USER file_data`
 
-7. Then you may finally start our development environment as a background process!
+7. If you are running the development environment on a VM in the cloud (your own or our jetstream2 allocation), in `frontend/App.js` find the functions that set up the two clients we use - each will have a `uri` that uses `localhost`.  Change `localhost` to the IP address of your hosted VM.
+ 
+8. Then you may finally start our development environment as a background process!
 
-    `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up` or `docker-compose -f docker-compose.yml -f docker-compose.override.yml up`
 
-    Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!
+    Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check http://localhost:3000 and make sure you can see the website before proceeding!  The terminal window that you've used for this command will be occupied - it will *not* come back to a command prompt.  This is because the process is not daemonized.  If you want to run the application in a deamonized way, you can add a `-d` flag after `up`.
     
-8.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
+9.  If you are working on a remote VM, you'll need to open the hasura console by directing your browser to `localhost:8080/console`.  Navigate to the tables view, and On each of these four tables:  `audiofiles`, `textfiles`, `textimages`, `elicitationfiles`, under `modify`, you'll find a computed field.  Edit the computed field - which is an SQL statement that tells the machine where it can find our pdf, png, wav and mp3 files.  In the SQL statement is a URL path.  Change the stem of that path (which is probably `localhost`) to `yourmachineURL:80`. Then click the button to execute the SQL.
+    
+10.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
 
     `docker compose down`
     
-    To relaunch for a new work session, if you haven't done a new pull from the repo, you can just 'up' the system without rebuilding it like this:
+To relaunch for a new work session, if you haven't done a new pull from the repo, you can just 'up' the system without rebuilding it like this:
 
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
     
-    To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
+To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
 
     `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
