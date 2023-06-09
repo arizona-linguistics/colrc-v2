@@ -70,14 +70,20 @@ const NavBarMobile = ({
      <Icon name="code branch" />
       Stems
     </Menu.Item>
-    <Menu.Item as={NavLink} to="/texts" name="Texts" size='mini' key="minitexts">
-     <Icon name="book" />
-      Texts
-    </Menu.Item>
-    <Menu.Item as={NavLink} to="/audios" name="Audios" size='mini' key="miniaudios">
-     <Icon name="file audio outline" />
-      Audios
-    </Menu.Item>
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+      <Menu.Item as={NavLink} to="/texts" name="Texts" size='mini' key="minitexts">
+        <Icon name="book" />
+          Texts
+        </Menu.Item>
+        ): ( <div></div> )
+      }
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+      <Menu.Item as={NavLink} to="/audios" name="Audios" size='mini' key="miniaudios">
+        <Icon name="file audio outline" />
+          Audios
+        </Menu.Item>
+        ): ( <div></div> )
+      }
     <Menu.Item as={NavLink} to="/spelling" name="Spelling" size='mini' key="minispelling">
      <Icon name="pencil" />
       Spelling
@@ -140,12 +146,12 @@ const NavBarDesktop = ({ rightItems, currentUser, authTokens }) => (
     <Menu.Item as={NavLink} to="/stems" name="Stems" key="mstems">
        Stems
     </Menu.Item>
-    <Menu.Item as={NavLink} to="/texts" name="Texts" key="mtexts">
-       Texts
-    </Menu.Item>
-    <Menu.Item as={NavLink} to="/audios" name="Audios" key="maudios">
-       Audios
-    </Menu.Item>
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+      <Menu.Item as={NavLink} to="/texts" name="Texts" key="mtexts">Texts</Menu.Item>) : ( <div></div> )
+    }
+    {authTokens && currentUser && intersectionWith(path_button_permissions['adminNav'], currentUser.roles, isEqual).length >= 1 ? (
+      <Menu.Item as={NavLink} to="/audios" name="Audios" key="maudios">Audios</Menu.Item>) : ( <div></div> )
+    }  
     <Menu.Item as={NavLink} to="/spelling" name="Spelling" key="mspelling">
        Spelling
     </Menu.Item>

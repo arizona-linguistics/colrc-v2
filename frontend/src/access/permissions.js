@@ -29,6 +29,8 @@ export const path_role_permissions = {
     '/rootexports' : ['manager', 'update'],
     '/affixexports' : ['manager', 'update'],
     '/stemexports' : ['manager', 'update'],
+    '/texts' : ['manager', 'update'],
+    '/audios' : ['manager', 'update'],
     '/home' : ['*'],
 }
 

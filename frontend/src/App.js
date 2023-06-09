@@ -166,9 +166,9 @@ function App(props) {
               <Route path="/browseroot" component={BrowseRoot} key="BrowseRoot" />
               <Route path="/exactroot" component={ExactRoot} key="ExactRoot" />
               <Route path="/stems" component={Stems} key="Stems" />
-              <Route path="/texts" component={Texts} key="Texts" />
+              <PrivateRoute path="/texts" component={Texts} key="Texts" />
               <Route path="/metadata" component={Metadata} key="Metadata" />
-              <Route path="/audios" component={Audios} key="Audios" />
+              <PrivateRoute path="/audios" component={Audios} key="Audios" />
               <Route path="/spelling" component={Spelling} key="Spelling" />
               <Route path="/bibliography" component={Bibliography} key="Bibliography" />
               <Route path="/contact" component={Contact} key="Contact" />
