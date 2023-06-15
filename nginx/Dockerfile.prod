@@ -1,4 +1,4 @@
-FROM debian:latest AS builder
+FROM debian:11 AS builder
 
 ENV NGINX_VERSION=1.19.7 \
     DAV_VERSION=3.0.0 \
@@ -55,7 +55,7 @@ RUN npm install
 
 RUN npm run build
 
-FROM debian:latest
+FROM debian:11
 
 LABEL maintainer="colrc@thecolrc.org"
 

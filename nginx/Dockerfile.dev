@@ -1,4 +1,4 @@
-FROM debian:latest AS builder
+FROM debian:11 AS builder
 
 ENV NGINX_VERSION=1.19.7 \
     DAV_VERSION=3.0.0 \
@@ -23,7 +23,7 @@ RUN apt-get update \
       wget ca-certificates make gcc g++ pkg-config perl
 
 RUN apt-get update \
- && apt-get install -yyq netcat 
+ && apt-get install -yyq netcat-openbsd 
 
 COPY assets/build/ ${NGINX_BUILD_ASSETS_DIR}/
 
@@ -35,7 +35,7 @@ COPY entrypointDev.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypointDev.sh
 
 RUN chmod 755 ${NGINX_BUILD_ROOT_DIR}/sbin/entrypointDev.sh
 
-FROM debian:latest
+FROM debian:11
 
 LABEL maintainer="colrc@thecolrc.org"
 
