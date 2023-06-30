@@ -206,6 +206,8 @@ In short, the basic GitHub workflow is `checkout > add > commit > push`, and wor
  
 - Once you have verified that all looks well in the dump, you can overwrite the previous
 
+   `mv colrc.sql colrc_old.sql`
+
    `mv colrc_new.sql colrc.sql`
 
 - Then commit your changes and push to the repo.
