@@ -5,6 +5,7 @@ require('dotenv').config({path:__dirname+'./../.env'});
 const axios = require('axios');
 const _ = require('lodash');
 const { noRoleError } = require('../errors/error');
+const bcrypt = require("bcrypt");
 
 console.log('my env vars are', process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_HOST, process.env.DB_DIALECT)
 const sequelize = new Sequelize(
@@ -86,59 +87,67 @@ Role.belongsToMany(User, {
 });
 
 const loginUser_C = input => {
-  //console.log(input)
+  
+  //finds matching email
   return User.findOne({
-    where: { email: input.email, password: input.password },
+    where: { email: input.email },
     include: Role 
   }).then(user => {
-    console.log("we have results")
-    console.log(user)
-    console.log("=========")
-    console.log(user.roles)
-    console.log(user.email)
-    console.log(user.username)
-    hasura_roles = []
-    default_role = ''
-    user.roles.forEach(function(role) {
-      hasura_roles.push(role.role_code)
-      if (role.role_code === 'manager'){
-        default_role = 'manager'
-      }
-      if (default_role !== 'manager' && role.role_code === 'update') {
-        default_role = 'update'
-      }
-      if (default_role !== 'manager' && default_role !== 'update') {
-        default_role = role.role_code
-      }
-    })
-    console.log("Roles and default role")
-    console.log(hasura_roles)
-    console.log(default_role)
-    console.log("Algorithm and expiration")
-    console.log(process.env.ALGORITHM)
-    console.log(process.env.EXPIRES_IN)
-    if (user) {
-      return [{
-        password: createJwtToken(
-          {
-            "id": user.id,
-            "email": user.email,
-            "username": user.username,
-            "application.name": 'colrc',
-            "https://hasura.io/jwt/claims": {
-              "x-hasura-allowed-roles": hasura_roles,
-              "x-hasura-default-role": default_role,
-              "x-hasura-user-id": user.id.toString()
+    // compares bcrpyted password
+    result = bcrypt.compareSync(input.password, user.password)
+    if (!result)
+      console.log("false!!!!!!!")
+    if (result) {
+      console.log("we have results")
+      console.log(user)
+      console.log("=========")
+      console.log(user.roles)
+      console.log(user.email)
+      console.log(user.username)
+      hasura_roles = []
+      default_role = ''
+      user.roles.forEach(function(role) {
+        hasura_roles.push(role.role_code)
+        if (role.role_code === 'manager'){
+          default_role = 'manager'
+        }
+        if (default_role !== 'manager' && role.role_code === 'update') {
+          default_role = 'update'
+        }
+        if (default_role !== 'manager' && default_role !== 'update') {
+          default_role = role.role_code
+        }
+      })
+      console.log("Roles and default role")
+      console.log(hasura_roles)
+      console.log(default_role)
+      console.log("Algorithm and expiration")
+      console.log(process.env.ALGORITHM)
+      console.log(process.env.EXPIRES_IN)
+      if (user) {
+        return [{
+          password: createJwtToken(
+            {
+              "id": user.id,
+              "email": user.email,
+              "username": user.username,
+              "application.name": 'colrc',
+              "https://hasura.io/jwt/claims": {
+                "x-hasura-allowed-roles": hasura_roles,
+                "x-hasura-default-role": default_role,
+                "x-hasura-user-id": user.id.toString()
+              }
+            }, 
+            { 
+              algorithm: process.env.ALGORITHM,
+              expiresIn: process.env.EXPIRES_IN
             }
-          }, 
-          { 
-            algorithm: process.env.ALGORITHM,
-            expiresIn: process.env.EXPIRES_IN
-          }
-        )
-      }]
-    } // if
-  }) // then
+          )
+        }]
+      } // if
+    }
+  });
+    
   // do not feed password back to query, password stays in database
 }
 
