@@ -1,28 +1,37 @@
 import React from "react";
-import Uploady from "@rpldy/uploady";
-import UploadButton from "@rpldy/upload-button"
 import { Grid, Segment } from  "semantic-ui-react";
-//import { useAuth } from "../context/auth";
-//import { useHistory } from 'react-router-dom';
-
-
-// Production URL: https://thecolrc.org/upload_file
-// Development URL: http://localhost:80/upload_file
-// In either case this should be redirected by nginx to http://localhost:8081/upload_handler
+import { getBlobQuery } from './../queries/queries';
+import { useQuery } from '@apollo/react-hooks';
+import { useAuth } from "../context/auth";
 
 
 function Upload (props) {
-    //const { client, user } = useAuth();
-    //let history = useHistory()
+    const { client } = useAuth()
+    let { loading, error, data } = useQuery(getBlobQuery, {client: client })  
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (error) {
+        console.error(error)
+        return <div>Error retreiving blob</div>
+    } 
+    console.log(data)
+
+    const renderFiles = (data) => {
+        return data.uploads.map(row => <li>{row.file}</li>)
+      }
+
 
     return (
 
     <Grid textAlign='center'  verticalAlign='top'>
         <Grid.Column>
             <Segment>
-                <Uploady destination={{url: "https://localhost/upload_file/"}}>
-                    <UploadButton className="ui black button"/>
-                </Uploady>
+                <ol>
+                    {renderFiles(data)}
+                </ol>
             </Segment>
         </Grid.Column>
     </Grid>

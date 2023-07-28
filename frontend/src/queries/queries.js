@@ -2,6 +2,17 @@ import { gql } from 'apollo-boost';
 
 // Queries
 
+export const getBlobQuery = gql`
+  query getBlobQuery {
+    uploads {
+      file
+      extension
+      filename
+      id
+    }
+  }
+`
+
 // captcha
 
 export const isHuman = gql`

@@ -198,7 +198,7 @@ function App(props) {
               <PrivateRoute path="/managetypes" component={ManageTypes} key="ManageTypes" />
               <PrivateRoute path="/buildmetadata" component={BuildMetadata} key="BuildMetadata" />
               <PrivateRoute path="/buildmetadatatypes" component={BuildMetadataTypes} key="BuildMetadataTypes" />
-              <PrivateRoute path="/upload" component={Upload} key="Upload" />
+              <Route path="/upload" component={Upload} key="Upload" />
               <PrivateRoute path="/rootexports" component={RootTableExport} key="RootTableExport" />
               <PrivateRoute path="/affixexports" component={AffixTableExport} key="AffixTableExport" />
               <PrivateRoute path="/stemexports" component={StemTableExport} key="StemTableExport" />
