@@ -40,10 +40,10 @@ Install these applications in the appropriate format for your machine (Windows, 
 - [`git`](https://git-scm.com/downloads)
 - [`python3`](https://www.python.org/downloads/)
 - [`node`](https://nodejs.org/en/download/)
-- If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux) 
-- - once you have Debian installed, you will need to run `sudo apt-get update` and then `sudo apt-get upgrade`
-- - you will also want to be sure you configure [`Docker Desktop to connect with WSL`](https://docs.docker.com/desktop/windows/wsl/)
+- If you are running Windows, you'll need to use [`WSL`](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with [`Debian`](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux). Once you have Debian installed, you will need to run `sudo apt-get update` and then `sudo apt-get upgrade`. You will also want to be sure you configure [`Docker Desktop to connect with WSL`](https://docs.docker.com/desktop/windows/wsl/)
 - We recommend using [`VSCode`](https://code.visualstudio.com/) as your code editor for this project.
+
+Note that if you're using one of our Jetstream2 virtual machines, all of these prereqs are already there except for node.  You'll only need node and NPM if you're working on running or trouble-shooting node processes outside of the docker container.  But they're very easy to install on Jetstream - you can just type `node` or `npm` at the command line, and that system will tell you the command to use to install these libraries.
 
 ## First Installation
 
@@ -84,52 +84,63 @@ services:
     volumes: 
       - /[yourfilepath]/data/odinson:/data/odinson
 ```
+If you are on a Jetstream2 VM, and if you created a src directory within your home dir to use as your coding homebase, your docker-compose.override.yml file will be:
 
+```
+services:
+  odinson-rest-api:
+    volumes: 
+      - /home/exouser/src/data/odinson:/data/odinson
+```
+5. Next, download our image, pdf and audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.  From the colrc-v2 directory:
 
-5.  At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
-    
-    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build` or `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
-    
-  The first build will fail with an nginx error.  Do not dispair.  Instead, down the system with:
-
-    `docker compose down` or `docker-compose down`
-    
-
-6. With the system down, download our image/audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.
+     `cd ./misc` and then `python3 dropbox-sync.py`
   
-      If you do not have the [`requests`](https://docs.python-requests.org/en/master/user/install/#install) library, you will need to install it:
+If you do not have the [`requests`](https://docs.python-requests.org/en/master/user/install/#install) library, you will need to install it:
       
       `pip3 install requests` or `python3 -m pip install requests`
-      
-      If you already have it or you have finished installing `requests`, you can run the script using the command below:
 
-      `python3 misc/dropbox-sync.py`
-      
-      If you get a permissions error when running the script, you can use the command below to fix the permissions you need (if the file/folder that has the permissions issue is different, substitute `file_data` with that file/folder):
+If you get a permissions error when running the script, you can use the command below to fix the permissions you need (if the file/folder that has the permissions issue is different, substitute `file_data` with that file/folder):
       
       `sudo chown -R $USER file_data`
+   
+6.  *Only if you are running the development environment on a VM*, you will need to change the clients in `frontend/src/App.js`. Nano or vi that file, find the functions that set up the two clients we use, these are defined immediately below the import statements. Each will have a `uri` that uses `localhost`.  Change `localhost` to the IP address of your hosted VM.  In each case
 
-7. If you are running the development environment on a VM in the cloud (your own or our jetstream2 allocation), in `frontend/src/App.js` find the functions that set up the two clients we use - each will have a `uri` that uses `localhost`.  Change `localhost` to the IP address of your hosted VM.
+     ```
+        new HttpLink({
+        uri: 'http://localhost:4000/api',
+        //uri: process.env.REACT_APP_AUTH_CLIENT
+      })
+     ```
+     will become
+
+     ```
+        new HttpLink({
+        uri: 'http://[yourIPaddress]:4000/api',
+        //uri: process.env.REACT_APP_AUTH_CLIENT
+      })
+     ```
+
  
-8. Then you may finally start our development environment as a background process!
+7.  At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
+    
+    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build` or `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
-    `docker compose -f docker-compose.yml -f docker-compose.override.yml up` or `docker-compose -f docker-compose.yml -f docker-compose.override.yml up`
-
-    Note that it may take a tiny bit after the command has completed in order for the environment to be fully up and running. To see if it is ready to go, check `http://localhost:3000` or `http://[yourIPaddress]:3000` if you're working on a virtual machine. and make sure you can see the website before proceeding!  The terminal window that you've used for this command will be occupied - it will *not* come back to a command prompt.  This is because the process is not daemonized.  If you want to run the application in a deamonized way, you can add a `-d` flag after `up`.
+The environment is fully up and running when you see a message that says 'Compiled successfully!'. At that point, you can go to `http://localhost:3000` if you're working on your own machine, or `http://[yourIPaddress]:3000` if you're working on a virtual machine, and you'll be able to access the running application!  The terminal window that you've used for this command will be occupied - it will *not* come back to a command prompt.  This is because the process is not daemonized.  If you want to run the application in a deamonized way, you can add a `-d` flag after `up`.
     
 9.  If you are working on a remote VM, you'll need to open the hasura console by directing your browser to `[yourIPaddress]:8080/console`.  Navigate to the tables view, and On each of these four tables:  `audiofiles`, `textfiles`, `textimages`, `elicitationfiles`, under `modify`, you'll find a computed field.  Edit the computed field - which is an SQL statement that tells the machine where it can find our pdf, png, wav and mp3 files.  In the SQL statement is a URL path.  Change the stem of that path (which is probably `localhost`) to `[yourIPaddress]:80`. Then click the button to execute the SQL.
     
 10.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
 
-    `docker compose down`
+    `docker-compose down`
     
 To relaunch for a new work session, if you haven't done a new pull from the repo, you can just 'up' the system without rebuilding it like this:
 
-    `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
+    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up`
     
 To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
 
-    `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
+    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
 
 ### Subsequent Pulls
