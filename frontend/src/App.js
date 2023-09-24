@@ -55,8 +55,6 @@ import Footer from './components/Footer';
 import RootTableExport from './pages/RootTableExport';
 import AffixTableExport from './pages/AffixTableExport';
 import StemTableExport from './pages/StemTableExport';
-// import OdinsonSearch from "./pages/OdinsonSearch";
-// import OdinsonTable from "./pages/OdinsonTable";
 
 import 'react-toastify/dist/ReactToastify.css';
 
