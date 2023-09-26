@@ -5,7 +5,7 @@ import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/F
 import { useAuth } from "../context/auth";
 import { getTextsQuery } from './../queries/queries'
 import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers"
-import SubTable from "./MaterialsTable";
+import MaterialsTable from "./MaterialsTable";
 import TableStyles from "./../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
 
@@ -360,7 +360,7 @@ function TextTable(props) {
    const renderRowSubComponent = React.useCallback(
       ({ row }) => (
          <div>
-            <SubTable materialData={row.values.sourcefiles} />
+            <MaterialsTable materialData={row.values.sourcefiles} />
          </div>
       ),
       []
