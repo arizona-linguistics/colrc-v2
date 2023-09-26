@@ -7,6 +7,7 @@ import { useAuth } from "../context/auth";
 import { getLogQuery } from './../queries/queries'
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
+import MaterialsTable from "./MaterialsTable";
 import { handleErrors } from '../utils/messages';
 
 function Table({
@@ -322,6 +323,14 @@ function LogTable(props) {
     ], []
   )
 
+  const renderRowSubComponent = React.useCallback(
+      ({ row }) => (
+         <div>
+            <MaterialsTable materialData={row.original.row_data} />
+         </div>
+      ),
+      []
+   )
 
 
   // We'll start our table without any data
@@ -412,6 +421,7 @@ function LogTable(props) {
       <Table
         columns={columns}
         data={data}
+        renderRowSubComponent={renderRowSubComponent}
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
