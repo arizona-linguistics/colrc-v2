@@ -74,7 +74,7 @@ function LogSubTable({ rowData, modifiedRows }) {
         })
     )], [])
   const [data] = React.useState(() => (isUpdate ? [rowData, modifiedRows] : [rowData]));
-  console.log(columns)
+  
   return (
     <Table 
         columns={columns} 
