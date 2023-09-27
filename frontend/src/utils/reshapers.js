@@ -1,4 +1,4 @@
-export function sortReshape(sortBy, sortId) {
+export function sortReshape(sortBy, sortId, order) {
    let res = []
    sortBy.forEach((item) => {
       let h = {}
@@ -11,7 +11,7 @@ export function sortReshape(sortBy, sortId) {
       res.push(h)
    })
    if (sortId) {
-      res.push({ [sortId]: "asc" })
+      res.push({ [sortId]: order || "asc" })
    }
    else {
       res.push({ "id": "asc" })

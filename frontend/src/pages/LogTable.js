@@ -1,12 +1,13 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
 import { intersectionWith, isEqual } from 'lodash';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useExpanded } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getLogQuery } from './../queries/queries'
 import { sortReshape, filterReshape } from "./../utils/reshapers"
 import TableStyles from "./../stylesheets/table-styles"
+import LogSubTable from "./LogSubTable";
 import { handleErrors } from '../utils/messages';
 
 function Table({
@@ -15,9 +16,9 @@ function Table({
   fetchData,
   loading,
   pageCount: controlledPageCount,
+  renderRowSubComponent
 //   selectValues
 }) {
-
   const { user } = useAuth();
   //console.log("Inside table, I have select values: ", selectValues)
 
@@ -54,6 +55,7 @@ function Table({
     headerGroups,
     prepareRow,
     page,
+    rows,
     state,
     allColumns,
     setHiddenColumns,
@@ -91,6 +93,7 @@ function Table({
     useGlobalFilter,
     useFilters,
     useSortBy,
+    useExpanded,
     usePagination,   
   )
 
@@ -132,12 +135,13 @@ function Table({
       </pre> */}
       <div className="columnToggle">
         {allColumns.map(column => (
-          <div key={column.id} className="columnToggle">
+         (column.label !== undefined) ?
+          (<div key={column.id} className="columnToggle">
             <label>
               <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
               {column.label}
             </label>
-          </div>
+          </div>) : (null)
         ))}
       </div>
       <table {...getTableProps()}>
@@ -176,16 +180,28 @@ function Table({
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-              </tr>
-            )
-          })}
+          {rows.map((row) => {
+              prepareRow(row);
+              return (
+                 <React.Fragment key={row.getRowProps().key}>
+                    <tr>
+                       {row.cells.map((cell) => {
+                          return (
+                             <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+                          );
+                       })}
+                    </tr>
+                    {row.isExpanded && (
+                       <tr>
+                          <td colSpan={visibleColumns.length}>
+                             {renderRowSubComponent({ row })}
+                          </td>
+                       </tr>
+                    )}
+                    
+                 </React.Fragment>
+              );
+           })}
           <tr>
             {loading ? (
               // Use our custom loading state to show a loading indicator
@@ -254,81 +270,84 @@ function LogTable(props) {
 
   const updateColumns = React.useMemo(
     () => [
-      // {
-      //   Header: 'ID',
-      //   accessor: 'id',
-      //   tableName: 'LogTable',
-      //   show: false,
-      //   disableFilters: true,
-      //   id: 'id'
-      // },
+       {
+        Header: () => null, // No header
+        id: 'expander', // It needs an ID
+        show: true,
+        Cell: ({ row }) => (
+           <span {...row.getToggleRowExpandedProps()}>
+              {row.isExpanded ? '▼' : '▶'}
+           </span>
+        ),
+      },
       {
         Header: 'Action',
         accessor: 'action',
         Filter: DefaultColumnFilter,
         tableName: 'LogTable',
         show: true,
-        disableSortBy: true,
         id: 'action',
         label: 'action'
       },
       {
-        Header: 'Changed_fields',
-        accessor: 'changed_fields',
+        Header: 'Schema',
+        accessor: 'schema_name',
+        Filter: DefaultColumnFilter,
         tableName: 'LogTable',
-        Cell: ({ row }) => <span>{JSON.stringify(row.original.changed_fields)}</span>,
+        show: false,
+        id: 'schema_name',
+        label: 'schema'
+      },
+      {
+        Header: 'Table',
+        accessor: 'table_name',
+        tableName: 'LogTable',
         show: true,
-        id: 'changed_fields',
-        label: 'Changed_fields'
+        id: 'table_name',
+        label: 'table'
       },
       {
         Header: 'User',
         accessor: 'audit_user[0].first',
         filter: 'fuzzyText',
         tableName: 'LogTable',
-        //Cell: ({ row }) => <span>{JSON.stringify(row.original.hasura_user)}</span>,
         show: true,
         id: 'user',
         label: 'user'
       },
+
+      // Helper Fields
       {
-        Header: 'Row_data',
+        show: false,
         accessor: 'row_data',
         tableName: 'LogTable',
-        Cell: ({ row }) => <span>{JSON.stringify(row.original.row_data)}</span>,
-        show: true,
         id: 'row_data',
-        label: 'Row_data'
       },
       {
-        Header: 'schema_name',
-        accessor: 'schema_name',
-        Filter: DefaultColumnFilter,
-        tableName: 'LogTable',
-        disableSortBy: true,
         show: false,
-        id: 'schema_name',
-        label: 'schema_name'
-      },
-      {
-        Header: 'table_name',
-        accessor: 'table_name',
+        accessor: 'changed_fields',
         tableName: 'LogTable',
-        disableFilters: true,
-        show: true,
-        id: 'table_name',
-        label: 'table_name'
-      },
+        id: 'changed_fields',
+      }
     ], []
   )
 
+  const renderRowSubComponent = React.useCallback(
+      ({ row }) => (
+         <div>
+            <LogSubTable 
+              rowData={row.values.row_data} 
+              modifiedRows={row.original.changed_fields} />
+         </div>
+      ),
+      []
+   )
 
 
   // We'll start our table without any data
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
-  //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
   const fetchIdRef = React.useRef(0)
   const { client, setAuthTokens, user } = useAuth();
 
@@ -376,10 +395,9 @@ function LogTable(props) {
     setTimeout(() => {
       // Only update the data if this is the latest fetch
       if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy,"event_id")
+        const controlledSort = sortReshape(sortBy, 'event_id', 'desc') 
         const controlledFilter = filterReshape(filters, globalFilter, ['action', 'table_name'])
-        console.log(controlledFilter)
-        // reset to first page when filters change
+        // // reset to first page when filters change
         // if (filters.length > 0) {
         //   pageIndex = 0
         // }
@@ -412,6 +430,7 @@ function LogTable(props) {
       <Table
         columns={columns}
         data={data}
+        renderRowSubComponent={renderRowSubComponent}
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
