@@ -134,3 +134,11 @@ export function findDecorations(str) {
 
   return decorations;
 }
+
+export function formatCell(contents) {
+  if (/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}\+\d{2}:\d{2}/.test(contents)) {
+    return new Date(contents).toLocaleString()
+  }
+  // Eventually add more formatters...
+  return contents;
+}

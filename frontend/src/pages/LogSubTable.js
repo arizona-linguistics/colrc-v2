@@ -1,5 +1,6 @@
 import React from "react";
 import {useTable} from "react-table";
+import { formatCell } from '../utils/helpers'
 
 
 function Table({ columns, data }) {
@@ -8,8 +9,18 @@ function Table({ columns, data }) {
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow
+    prepareRow,
+    setHiddenColumns,
   } = useTable({columns, data})
+
+  React.useEffect(
+    () => {
+      setHiddenColumns(
+        columns.filter(column => column.hide).map(column => column.id)
+      );
+    },
+    [columns, setHiddenColumns]
+  );
 
   // Render the UI for your table
   return (
@@ -44,16 +55,26 @@ function Table({ columns, data }) {
 }
 
 function LogSubTable({ rowData, modifiedRows }) {
+  const isUpdate = !!(modifiedRows !== null && rowData !== modifiedRows)
   const columns = React.useMemo(
-    () => Object.keys(rowData).map(
-            key => ({
-              Header: modifiedRows && key in modifiedRows ? (<mark>{key}</mark>) : key, 
-              id: key, 
-              accessor: (obj) => obj[key] || "NULL"}
-            )
-    ), [])
-  const [data] = React.useState(() => [rowData]);
-
+    () => [
+      {
+        Header: '',
+        id: 'before_or_after',
+        accessor: (obj) => obj === rowData ? 'Before' : 'After',
+        hide: !isUpdate
+      },
+      ...Object.keys(rowData).map(
+        key => ({
+          Header: modifiedRows && key in modifiedRows 
+                  ? (<span style={{backgroundColor: "#88bbff"}}>{key}</span>) 
+                  : key, 
+          id: key, 
+          accessor: (obj) => formatCell(obj[key] || rowData[key] || "NULL")
+        })
+    )], [])
+  const [data] = React.useState(() => (isUpdate ? [rowData, modifiedRows] : [rowData]));
+  console.log(columns)
   return (
     <Table 
         columns={columns} 
