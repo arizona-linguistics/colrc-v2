@@ -4,6 +4,15 @@ import { formatCellValue } from '../utils/helpers'
 import { getRowHistoryQuery } from './../queries/queries'
 import { useAuth } from "../context/auth";
 
+// These are rows with PKs other than just {id} or {}.  Add them here as they're added.
+const specialRowPKs = {
+  public: {
+    user_roles: ['roleId', 'userId']
+  },
+  audit: {
+    logged_actions: ['event_id'],  // Oh god, hopefully nobody audits changes to the audits
+  }
+}
 
 
 function Table({ columns, data, fetchData, getCellProps }) {
@@ -88,7 +97,7 @@ function LogSubTable({ originalRow }) {
         id: 'user',
         accessor: (row) => row.audit_user[0]?.first ?? "N/A"
       },
-      ...Object.keys(originalRow.values.row_data).map(
+      ...Object.keys(originalRow.original.row_data).map(
         key => ({
           Header: key,
           key: key,
@@ -103,19 +112,26 @@ function LogSubTable({ originalRow }) {
   const { client } = useAuth();
 
   async function getLog() {
+    const values = originalRow.original
+
+    // The PK isn't simply {id} for all tables.  This will special case some.
+    const wherePK = {}
+    for (var PK of specialRowPKs[values.schema_name][values.table_name] ?? ['id']) {
+      wherePK[PK] = values.row_data[PK]
+    }
+
     var res = await client.query({
       query: getRowHistoryQuery,
       variables: { 
-        row_contains: {id: originalRow.values.row_data.id},
-        table_name: originalRow.values.table_name
+        row_contains: wherePK,
+        table_name: values.table_name
       }
     })
     return res.data
   }  
 
   const fetchData = React.useCallback(({}) => {
-    getLog()
-    .then((data) => {
+    getLog().then((data) => {
       console.log(data) 
       setData(data.audit_logged_actions)
     })

@@ -309,20 +309,6 @@ function LogTable(props) {
         tableName: 'LogTable',
         id: 'user',
         label: 'user'
-      },
-
-      // Helper Fields
-      {
-        hide: true,
-        accessor: 'row_data',
-        tableName: 'LogTable',
-        id: 'row_data',
-      },
-      {
-        hide: true,
-        accessor: 'changed_fields',
-        tableName: 'LogTable',
-        id: 'changed_fields',
       }
     ], []
   )
