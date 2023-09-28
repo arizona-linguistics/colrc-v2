@@ -19,8 +19,7 @@ function Table({
   pageCount: controlledPageCount,
   selectValues, 
   renderRowSubComponent,
-  allExpanded, 
-  setAllExpanded
+  setExpandAllChecked
 }) {
 
   const filterTypes = React.useMemo(
@@ -102,8 +101,8 @@ function Table({
 
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded })
+  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded])
 
   React.useEffect(
     () => {
@@ -114,19 +113,16 @@ function Table({
     [columns, setHiddenColumns]
   );
 
-  React.useEffect(
-    () => {toggleAllRowsExpanded(allExpanded)},
-    [allExpanded, loading]
-  );
-
 
   // Render the UI for your table
   return (
     <>
       <div className="allExpandToggle">
         <label>
-          <input type="checkbox" onClick={(e) => setAllExpanded(e.target.checked)}/>{' '}
-          {"Expand All"}
+          <input type="checkbox" onChange={(e) => {
+            setExpandAllChecked(e.target.checked);
+            toggleAllRowsExpanded(e.target.checked);}}/>
+          {' Expand All'}
         </label>
       </div>
 
@@ -337,16 +333,16 @@ function AudioTable(props) {
     []
   )
 
-// We'll start our table without any data
-const [data, setData] = React.useState([])
-const [loading, setLoading] = React.useState(false)
-const [pageCount, setPageCount] = React.useState(0)
-const [allExpanded, setAllExpanded] = React.useState(false)
-const fetchIdRef = React.useRef(0)
-const { client, setAuthTokens } = useAuth();
+  // We'll start our table without any data
+  const [data, setData] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+  const [pageCount, setPageCount] = React.useState(0)
+  const [expandAllChecked, setExpandAllChecked] = React.useState(false)
+  const fetchIdRef = React.useRef(0)
+  const { client, setAuthTokens } = useAuth();
 
 
-async function getAudios(limit, offset, sortBy, filters) {
+  async function getAudios(limit, offset, sortBy, filters) {
     let res = {}
     res = await client.query({
       query: getAudioSetsQuery,
@@ -368,42 +364,43 @@ async function getAudios(limit, offset, sortBy, filters) {
     return res.data;
   } 
 
-const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
-  // This will get called when the table needs new data
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, toggleAllRowsExpanded }) => {
+    // This will get called when the table needs new data
 
 
-  // Give this fetch an ID
-  const fetchId = ++fetchIdRef.current
+    // Give this fetch an ID
+    const fetchId = ++fetchIdRef.current
 
-  // Set the loading state
-  setLoading(true)
+    // Set the loading state
+    setLoading(true)
 
-  // We'll even set a delay to simulate a server here
-  setTimeout(() => {
-    if (fetchId === fetchIdRef.current) {
-      const controlledSort = sortReshape(sortBy) 
-      const controlledFilter = filterReshape(filters, globalFilter, [])
-      getAudios(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
-      .then((data) => {
-        let totalCount = data.audiosets_aggregate.aggregate.count
-        setData(data.audiosets)
-        setPageCount(Math.ceil(totalCount / pageSize))
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.log(error)
-        handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
-        setData([])
-        setPageCount(0)
-        setLoading(false)
-        history.push('./login')
-      })
+    // We'll even set a delay to simulate a server here
+    setTimeout(() => {
+      if (fetchId === fetchIdRef.current) {
+        const controlledSort = sortReshape(sortBy) 
+        const controlledFilter = filterReshape(filters, globalFilter, [])
+        getAudios(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
+        .then((data) => {
+          let totalCount = data.audiosets_aggregate.aggregate.count
+          setData(data.audiosets)
+          setPageCount(Math.ceil(totalCount / pageSize))
+          setLoading(false)
+          toggleAllRowsExpanded(expandAllChecked)
+        })
+        .catch((error) => {
+          console.log(error)
+          handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
+          setData([])
+          setPageCount(0)
+          setLoading(false)
+          history.push('./login')
+        })
 
-      
-    }
-  }, 1000)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [history, setAuthTokens])
+        
+      }
+    }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history, setAuthTokens, expandAllChecked])
 
 
   return (
@@ -415,8 +412,7 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
-        allExpanded={allExpanded}
-        setAllExpanded={setAllExpanded}
+        setExpandAllChecked={setExpandAllChecked}
       />
     </TableStyles>
   )

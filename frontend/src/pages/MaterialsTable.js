@@ -4,7 +4,7 @@ import AudioPlayer from '../utils/AudioPlayer';
 import { Link } from 'react-router-dom';
 
 
-function Table({ columns, data, renderRowSubComponent, allExpanded }) {
+function Table({ columns, data, renderRowSubComponent, expandAllChecked }) {
    
   const {
     getTableProps,
@@ -13,7 +13,6 @@ function Table({ columns, data, renderRowSubComponent, allExpanded }) {
     rows,
     prepareRow,
     visibleColumns,
-    toggleAllRowsExpanded,
   } = useTable({
     columns,
     data,
@@ -25,12 +24,12 @@ function Table({ columns, data, renderRowSubComponent, allExpanded }) {
   React.useEffect(
     () => {
       for (var row of rows) {
-        if (row.original.metadata?.length || 0 > 0) {
-          row.toggleRowExpanded(allExpanded)
+        if (row.original.metadata?.length) {
+          row.toggleRowExpanded(expandAllChecked)
         }
       }
     },
-    [allExpanded]
+    [expandAllChecked]
   );
 
   // Render the UI for your table
@@ -56,7 +55,7 @@ function Table({ columns, data, renderRowSubComponent, allExpanded }) {
                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   })}
                 </tr>
-                {row.isExpanded && (
+                {row.isExpanded && renderRowSubComponent != null && (
                   <tr>
                     <td colSpan={visibleColumns.length}>
                       {renderRowSubComponent({row})}
@@ -72,8 +71,8 @@ function Table({ columns, data, renderRowSubComponent, allExpanded }) {
   );
 }
 
-function MaterialsTable({ materialData, allExpanded }) {
-  console.log(materialData, allExpanded)
+function MaterialsTable({ materialData, expandAllChecked }) {
+  console.log(materialData, expandAllChecked)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = React.useMemo(() => [
     {
@@ -81,7 +80,7 @@ function MaterialsTable({ materialData, allExpanded }) {
       id: "subexpander",
       // remove arrow if engl
       Cell: ({ row }) => (
-        row.original.metadata && row.original.metadata.length > 0 
+        row.original.metadata?.length
         ? <span {...row.getToggleRowExpandedProps()}> {row.isExpanded ? '▼' : '▶'} </span>
         : <span/>
       ),
@@ -136,7 +135,7 @@ function MaterialsTable({ materialData, allExpanded }) {
         columns={columns}
         data={data}
         renderRowSubComponent={renderRowSubComponent}
-        allExpanded={allExpanded}
+        expandAllChecked={expandAllChecked}
       />
   );
 }

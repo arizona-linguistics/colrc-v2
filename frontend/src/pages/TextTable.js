@@ -18,8 +18,8 @@ function Table({
    pageCount: controlledPageCount,
    selectValues,
    renderRowSubComponent,
-   allExpanded, 
-   setAllExpanded
+   expandAllChecked,
+   setExpandAllChecked
 }) {
 
    //const { user } = useAuth();
@@ -103,11 +103,10 @@ function Table({
       usePagination,
    )
 
-
    // Listen for changes in pagination and use the state to fetch our new data
    React.useEffect(() => {
-      fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+      fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded });
+   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded])
 
    React.useEffect(
       () => {
@@ -118,18 +117,15 @@ function Table({
       [columns, setHiddenColumns]
    );
 
-   React.useEffect(
-      () => {toggleAllRowsExpanded(allExpanded)},
-      [allExpanded, loading]
-   );
-
    // Render the UI for your table
    return (
       <>
          <div className="allExpandToggle">
             <label>
-               <input type="checkbox" onClick={(e) => setAllExpanded(e.target.checked)}/>{' '}
-               {"Expand All"}
+               <input type="checkbox" onChange={(e) => {
+                  setExpandAllChecked(e.target.checked);
+                  toggleAllRowsExpanded(e.target.checked);}}/>
+               {' Expand All'}
             </label>
          </div>
 
@@ -207,7 +203,7 @@ function Table({
                         {row.isExpanded && (
                            <tr>
                               <td colSpan={visibleColumns.length}>
-                                 {renderRowSubComponent({ row, allExpanded })}
+                                 {renderRowSubComponent({ row, expandAllChecked })}
                               </td>
                            </tr>
                         )}
@@ -281,7 +277,6 @@ function Table({
 
 function TextTable(props) {
    let history = useHistory()
-   console.log(props.selectValues)
 
    const columns = React.useMemo(
       () => [
@@ -344,9 +339,9 @@ function TextTable(props) {
 
 
    const renderRowSubComponent = React.useCallback(
-      ({ row, allExpanded }) => (
+      ({ row, expandAllChecked }) => (
          <div>
-            <MaterialsTable materialData={row.original.sourcefiles} allExpanded={allExpanded}/>
+            <MaterialsTable materialData={row.original.sourcefiles} expandAllChecked={expandAllChecked}/>
          </div>
       ),
       []
@@ -356,7 +351,7 @@ function TextTable(props) {
    const [data, setData] = React.useState([])
    const [loading, setLoading] = React.useState(false)
    const [pageCount, setPageCount] = React.useState(0)
-   const [allExpanded, setAllExpanded] = React.useState(false)
+   const [expandAllChecked, setExpandAllChecked] = React.useState(false)
    //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
    const fetchIdRef = React.useRef(0)
    const { client, setAuthTokens } = useAuth();
@@ -385,7 +380,7 @@ function TextTable(props) {
    }
 
 
-   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
+   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, toggleAllRowsExpanded }) => {
       // This will get called when the table needs new data
       // You could fetch your data from literally anywhere,
       // even a server. But for this example, we'll just fake it.
@@ -408,6 +403,7 @@ function TextTable(props) {
                   setData(data.texts)
                   setPageCount(Math.ceil(totalCount / pageSize))
                   setLoading(false)
+                  toggleAllRowsExpanded(expandAllChecked)
                })
                .catch((error) => {
                   console.log(error)
@@ -420,7 +416,7 @@ function TextTable(props) {
          }
       }, 1000)
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [history, setAuthTokens])
+   }, [history, setAuthTokens, expandAllChecked])
 
 
    return (
@@ -432,8 +428,8 @@ function TextTable(props) {
             fetchData={fetchData}
             loading={loading}
             pageCount={pageCount}
-            allExpanded={allExpanded}
-            setAllExpanded={setAllExpanded}
+            expandAllChecked={expandAllChecked}
+            setExpandAllChecked={setExpandAllChecked}
          />
       </TableStyles>
    )

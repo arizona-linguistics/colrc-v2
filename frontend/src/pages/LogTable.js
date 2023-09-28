@@ -17,8 +17,7 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   renderRowSubComponent,
-  allExpanded, 
-  setAllExpanded
+  setExpandAllChecked
 //   selectValues
 }) {
   const { user } = useAuth();
@@ -103,8 +102,8 @@ function Table({
 
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded })
+  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded])
 
   React.useEffect(
     () => {
@@ -113,11 +112,6 @@ function Table({
       );
     },
     [columns, setHiddenColumns]
-  );
-
-  React.useEffect(
-    () => {toggleAllRowsExpanded(allExpanded)},
-    [allExpanded, loading]
   );
 
   // Render the UI for your table
@@ -143,8 +137,10 @@ function Table({
       </pre> */}
       <div className="allExpandToggle">
         <label>
-          <input type="checkbox" onClick={(e) => setAllExpanded(e.target.checked)}/>{' '}
-          {"Expand All"}
+          <input type="checkbox" onChange={(e) => {
+            setExpandAllChecked(e.target.checked);
+            toggleAllRowsExpanded(e.target.checked);}}/>
+          {' Expand All'}
         </label>
       </div>
 
@@ -363,7 +359,7 @@ function LogTable(props) {
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
-  const [allExpanded, setAllExpanded] = React.useState(false)
+  const [expandAllChecked, setExpandAllChecked] = React.useState(false)
   const fetchIdRef = React.useRef(0)
   const { client, setAuthTokens, user } = useAuth();
 
@@ -396,7 +392,7 @@ function LogTable(props) {
   }  
 
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, toggleAllRowsExpanded }) => {
     // This will get called when the table needs new data
     // You could fetch your data from literally anywhere,
     // even a server. But for this example, we'll just fake it.
@@ -424,6 +420,7 @@ function LogTable(props) {
           setData(data.audit_logged_actions)
           setPageCount(Math.ceil(totalCount / pageSize))
           setLoading(false)
+          toggleAllRowsExpanded(expandAllChecked)
         })
         .catch((error) => {
           console.log(error)
@@ -436,7 +433,7 @@ function LogTable(props) {
       }
     }, 1000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history, setAuthTokens])
+  }, [history, setAuthTokens, expandAllChecked])
 
   let columns = updateColumns
   
@@ -451,8 +448,7 @@ function LogTable(props) {
         loading={loading}
         pageCount={pageCount}
         // selectValues={props.selectValues}
-        allExpanded={allExpanded}
-        setAllExpanded={setAllExpanded}
+        setExpandAllChecked={setExpandAllChecked}
       />
     </TableStyles>
   )
