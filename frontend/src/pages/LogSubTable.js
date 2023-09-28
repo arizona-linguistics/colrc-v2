@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from 'react-router-dom';
 import { useTable } from "react-table";
 import { formatCellValue } from '../utils/helpers'
 import { getRowHistoryQuery } from './../queries/queries'
@@ -27,7 +28,7 @@ function Table({ columns, data, fetchData, getCellProps }) {
 
   // I don't know enough about React to know if this is necessary, 
   //  but I'm too scared to deal with async stuff in a different way
-  React.useEffect(() => {fetchData({})}, [])
+  React.useEffect(() => {fetchData({})})
 
   React.useEffect(
     () => {
@@ -35,7 +36,7 @@ function Table({ columns, data, fetchData, getCellProps }) {
         columns.filter(column => column.hide).map(column => column.id)
       );
     },
-    [columns]
+    [setHiddenColumns, columns]
   );
 
   // Render the UI for your table
@@ -71,6 +72,8 @@ function Table({ columns, data, fetchData, getCellProps }) {
 }
 
 function LogSubTable({ originalRow }) {
+  let history = useHistory()
+
   function getCellProps(cell) {
     var header = cell.column.key
     var modifiedRows = cell.row.original.changed_fields
@@ -106,32 +109,30 @@ function LogSubTable({ originalRow }) {
           Cell: ({ value }) => formatCellValue(value),
         })
       ),
-    ], [])
+    ], [originalRow])
   
   const [data, setData] = React.useState([])
   const { client } = useAuth();
 
-  async function getLog() {
-    const values = originalRow.original
+  const fetchData = React.useCallback(() => {
+    (async function () {
+      const values = originalRow.original
 
-    // The PK isn't simply {id} for all tables.  This will special case some.
-    const wherePK = {}
-    for (var PK of specialRowPKs[values.schema_name][values.table_name] ?? ['id']) {
-      wherePK[PK] = values.row_data[PK]
-    }
-
-    var res = await client.query({
-      query: getRowHistoryQuery,
-      variables: { 
-        row_contains: wherePK,
-        table_name: values.table_name
+      // The PK isn't simply {id} for all tables.  This will special case some.
+      const wherePK = {}
+      for (var PK of specialRowPKs[values.schema_name][values.table_name] ?? ['id']) {
+        wherePK[PK] = values.row_data[PK]
       }
-    })
-    return res.data
-  }  
 
-  const fetchData = React.useCallback(({}) => {
-    getLog().then((data) => {
+      var res = await client.query({
+        query: getRowHistoryQuery,
+        variables: { 
+          row_contains: wherePK,
+          table_name: values.table_name
+        }
+      })
+      return res.data
+    })().then((data) => {
       console.log(data) 
       setData(data.audit_logged_actions)
     })
