@@ -55,7 +55,8 @@ function Table({ columns, data }) {
 }
 
 function LogSubTable({ rowData, modifiedRows }) {
-  const isUpdate = !!(modifiedRows !== null && rowData !== modifiedRows)
+  console.log(rowData)
+  const isUpdate = !!(modifiedRows !== null)
   const columns = React.useMemo(
     () => [
       {
@@ -70,10 +71,11 @@ function LogSubTable({ rowData, modifiedRows }) {
                   ? (<span style={{backgroundColor: "#88bbff"}}>{key}</span>) 
                   : key, 
           id: key, 
-          accessor: (obj) => formatCell(obj[key] || rowData[key] || "NULL")
+          Cell: (obj) => {console.log(obj); return formatCell(obj.value || "NULL")},
+          accessor: (row) => row[key] || rowData[key]
         })
     )], [])
-  const [data] = React.useState(() => (isUpdate ? [rowData, modifiedRows] : [rowData]));
+  const [data] = React.useState(() => (isUpdate ? [modifiedRows, rowData] : [rowData]));
   
   return (
     <Table 
