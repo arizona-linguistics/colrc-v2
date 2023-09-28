@@ -1,9 +1,12 @@
 import React from "react";
-import {useTable} from "react-table";
-import { formatCell } from '../utils/helpers'
+import { useTable } from "react-table";
+import { formatCellValue } from '../utils/helpers'
+import { getRowHistoryQuery } from './../queries/queries'
+import { useAuth } from "../context/auth";
 
 
-function Table({ columns, data }) {
+
+function Table({ columns, data, fetchData, getCellProps }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -11,7 +14,11 @@ function Table({ columns, data }) {
     rows,
     prepareRow,
     setHiddenColumns,
-  } = useTable({columns, data})
+  } = useTable({columns, data, getCellProps})
+
+  // I don't know enough about React to know if this is necessary, 
+  //  but I'm too scared to deal with async stuff in a different way
+  React.useEffect(() => {fetchData({})}, [])
 
   React.useEffect(
     () => {
@@ -19,7 +26,7 @@ function Table({ columns, data }) {
         columns.filter(column => column.hide).map(column => column.id)
       );
     },
-    [columns, setHiddenColumns]
+    [columns]
   );
 
   // Render the UI for your table
@@ -42,7 +49,7 @@ function Table({ columns, data }) {
               <React.Fragment key={row.getRowProps().key}>
                 <tr>
                   {row.cells.map(cell => {
-                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    return <td {...cell.getCellProps([getCellProps(cell)])}>{cell.render('Cell')}</td>
                   })}
                 </tr>
               </React.Fragment>
@@ -54,31 +61,71 @@ function Table({ columns, data }) {
   );
 }
 
-function LogSubTable({ rowData, modifiedRows }) {
-  const isUpdate = !!(modifiedRows !== null && rowData !== modifiedRows)
+function LogSubTable({ rowData, modifiedRows, tableName }) {
+  function getCellProps(cell) {
+    var header = cell.column.key
+    var modifiedRows = cell.row.original.changed_fields
+
+    if (modifiedRows !== null && header in modifiedRows) {
+      return {bgcolor: '#5e97e0'}
+    }
+    return {}
+  }
+
   const columns = React.useMemo(
     () => [
       {
-        Header: '',
-        id: 'before_or_after',
-        accessor: (obj) => obj === rowData ? 'Before' : 'After',
-        hide: !isUpdate
+        Header: 'Action',
+        id: 'action',
+        accessor: 'action'
+      },
+      {
+        Header: 'Actor',
+        id: 'user',
+        accessor: (row) => row.audit_user[0]?.first ?? "N/A"
       },
       ...Object.keys(rowData).map(
         key => ({
-          Header: modifiedRows && key in modifiedRows 
-                  ? (<span style={{backgroundColor: "#88bbff"}}>{key}</span>) 
-                  : key, 
-          id: key, 
-          accessor: (obj) => formatCell(obj[key] || rowData[key] || "NULL")
+          Header: key,
+          key: key,
+          id: "rd_" + key, 
+          accessor: (row) => (row.changed_fields !== null ? row.changed_fields[key] : false) || row.row_data[key],
+          Cell: ({ value }) => formatCellValue(value ?? "N/A (COLUMN DOES NOT EXIST)"),
         })
-    )], [])
-  const [data] = React.useState(() => (isUpdate ? [rowData, modifiedRows] : [rowData]));
-  console.log(columns)
+      ),
+    ], [])
+  
+  const [data, setData] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+  const { client } = useAuth();
+
+  async function getLog() {
+    var res = await client.query({
+      query: getRowHistoryQuery,
+      variables: { 
+        row_contains: {id: rowData.id},
+        table_name: tableName
+      }
+    })
+    return res.data
+  }  
+
+  const fetchData = React.useCallback(({}) => {
+    setLoading(true)
+    getLog()
+    .then((data) => {
+      console.log(data) 
+      setData(data.audit_logged_actions)
+      setLoading(false)
+    })
+  })
+
   return (
     <Table 
         columns={columns} 
         data={data}
+        fetchData={fetchData}
+        getCellProps={getCellProps}
       />
   );
 }
