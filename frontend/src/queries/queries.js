@@ -424,6 +424,7 @@ export const getLogQuery = gql`
       }
     }
     audit_logged_actions(limit: $limit, offset: $offset, where: $where, order_by: $log_order) {
+      event_id
       action
       changed_fields
       hasura_user

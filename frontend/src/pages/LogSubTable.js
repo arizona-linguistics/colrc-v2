@@ -61,14 +61,18 @@ function Table({ columns, data, fetchData, getCellProps }) {
   );
 }
 
-function LogSubTable({ rowData, modifiedRows, tableName }) {
+function LogSubTable({ originalRow }) {
   function getCellProps(cell) {
+    console.log(cell)
     var header = cell.column.key
     var modifiedRows = cell.row.original.changed_fields
 
-    if (modifiedRows !== null && header in modifiedRows) {
-      return {bgcolor: '#5e97e0'}
-    }
+    var isChanged = modifiedRows !== null && header in modifiedRows;
+    var isCurRow = cell.row.original.event_id === originalRow.original.event_id;
+
+    if (isChanged && isCurRow) return {bgcolor: '#5adb8c'}
+    if (isChanged) return {bgcolor: '#5e97e0'}
+    if (isCurRow) return {bgcolor: '#daf4e4'}
     return {}
   }
 
@@ -77,46 +81,44 @@ function LogSubTable({ rowData, modifiedRows, tableName }) {
       {
         Header: 'Action',
         id: 'action',
-        accessor: 'action'
+        accessor: 'action',
+        Cell: ({ value, row }) => value === "U" && row.original.changed_fields === null ? "X" : value
       },
       {
         Header: 'Actor',
         id: 'user',
         accessor: (row) => row.audit_user[0]?.first ?? "N/A"
       },
-      ...Object.keys(rowData).map(
+      ...Object.keys(originalRow.values.row_data).map(
         key => ({
           Header: key,
           key: key,
           id: "rd_" + key, 
-          accessor: (row) => (row.changed_fields !== null ? row.changed_fields[key] : false) || row.row_data[key],
-          Cell: ({ value }) => formatCellValue(value ?? "N/A (COLUMN DOES NOT EXIST)"),
+          accessor: (row) => key in row.row_data ? row.changed_fields?.[key] || row.row_data[key] : 'N/A (COLUMN DOES NOT EXIST)',
+          Cell: ({ value }) => formatCellValue(value),
         })
       ),
     ], [])
   
   const [data, setData] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
   const { client } = useAuth();
 
   async function getLog() {
     var res = await client.query({
       query: getRowHistoryQuery,
       variables: { 
-        row_contains: {id: rowData.id},
-        table_name: tableName
+        row_contains: {id: originalRow.values.row_data.id},
+        table_name: originalRow.values.table_name
       }
     })
     return res.data
   }  
 
   const fetchData = React.useCallback(({}) => {
-    setLoading(true)
     getLog()
     .then((data) => {
       console.log(data) 
       setData(data.audit_logged_actions)
-      setLoading(false)
     })
   })
 

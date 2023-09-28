@@ -136,9 +136,21 @@ export function findDecorations(str) {
 }
 
 export function formatCellValue(contents) {
+  // Null
+  if (contents === null) {
+    return 'NULL'
+  }
+
+  // Object
+  if (typeof contents === "object") {
+    return JSON.stringify(contents)
+  }
+
+  // Raw ISO Date
   if (/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}\+\d{2}:\d{2}/.test(contents)) {
     return new Date(contents).toLocaleString()
   }
+
   // Eventually add more formatters...
   return contents;
 }

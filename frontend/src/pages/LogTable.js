@@ -330,10 +330,7 @@ function LogTable(props) {
   const renderRowSubComponent = React.useCallback(
       ({ row }) => (
          <div>
-            <LogSubTable 
-              rowData={row.values.row_data} 
-              modifiedRows={row.original.changed_fields}
-              tableName={row.values.table_name} />
+            <LogSubTable originalRow={row} />
          </div>
       ),
       []
