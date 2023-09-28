@@ -63,7 +63,6 @@ function Table({ columns, data, fetchData, getCellProps }) {
 
 function LogSubTable({ originalRow }) {
   function getCellProps(cell) {
-    console.log(cell)
     var header = cell.column.key
     var modifiedRows = cell.row.original.changed_fields
 
