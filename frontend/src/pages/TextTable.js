@@ -17,7 +17,9 @@ function Table({
    loading,
    pageCount: controlledPageCount,
    selectValues,
-   renderRowSubComponent
+   renderRowSubComponent,
+   allExpanded, 
+   setAllExpanded
 }) {
 
    //const { user } = useAuth();
@@ -70,6 +72,7 @@ function Table({
       nextPage,
       previousPage,
       setPageSize,
+      toggleAllRowsExpanded,
       // Get the state from the instance
       state: { pageIndex, pageSize, sortBy, filters, globalFilter }
    } = useTable(
@@ -91,7 +94,7 @@ function Table({
          defaultColumn,
          filterTypes,
          //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-         selectValues
+         selectValues,
       },
       useGlobalFilter,
       useFilters,
@@ -115,37 +118,29 @@ function Table({
       [columns, setHiddenColumns]
    );
 
+   React.useEffect(
+      () => {toggleAllRowsExpanded(allExpanded)},
+      [allExpanded, loading]
+   );
+
    // Render the UI for your table
    return (
       <>
-         {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
+         <div className="allExpandToggle">
+            <label>
+               <input type="checkbox" onClick={(e) => setAllExpanded(e.target.checked)}/>{' '}
+               {"Expand All"}
+            </label>
+         </div>
+
          <div className="columnToggle">
-            {allColumns.map(column => (
-               (column.label !== "sourcefiles" && column.id !== "expander") ?
-                  (<div key={column.id} className="columnToggle">
-                     <label>
-                        <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-                        {column.label}
-                     </label>
-                  </div>) : (null)
-               // condition ? (operation) : (operation) 
+            {allColumns.filter(column => !column.disableHiding).map(column => (
+               (<div key={column.id} className="columnToggle">
+                  <label>
+                     <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                     {column.label}
+                  </label>
+               </div>)
             ))}
          </div>
 
@@ -212,7 +207,7 @@ function Table({
                         {row.isExpanded && (
                            <tr>
                               <td colSpan={visibleColumns.length}>
-                                 {renderRowSubComponent({ row })}
+                                 {renderRowSubComponent({ row, allExpanded })}
                               </td>
                            </tr>
                         )}
@@ -291,9 +286,9 @@ function TextTable(props) {
    const columns = React.useMemo(
       () => [
          {
-            Header: () => null, // No header
-            id: 'expander', // It needs an ID
+            id: 'expander',
             show: true,
+            disableHiding: true,
             Cell: ({ row }) => (
                <span {...row.getToggleRowExpandedProps()}>
                   {row.isExpanded ? '▼' : '▶'}
@@ -342,25 +337,16 @@ function TextTable(props) {
             show: true,
             id: 'speaker',
             label: 'speaker'
-         },
-         {
-            Header: 'Sourcefiles',
-            accessor: 'sourcefiles',
-            tableName: 'TextTable',
-            disableSortBy: true,
-            show: false,
-            id: 'sourcefiles',
-            label: 'sourcefiles'
-         },
+         }
       ], []
    )
 
 
 
    const renderRowSubComponent = React.useCallback(
-      ({ row }) => (
+      ({ row, allExpanded }) => (
          <div>
-            <MaterialsTable materialData={row.values.sourcefiles} />
+            <MaterialsTable materialData={row.original.sourcefiles} allExpanded={allExpanded}/>
          </div>
       ),
       []
@@ -370,6 +356,7 @@ function TextTable(props) {
    const [data, setData] = React.useState([])
    const [loading, setLoading] = React.useState(false)
    const [pageCount, setPageCount] = React.useState(0)
+   const [allExpanded, setAllExpanded] = React.useState(false)
    //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
    const fetchIdRef = React.useRef(0)
    const { client, setAuthTokens } = useAuth();
@@ -445,6 +432,8 @@ function TextTable(props) {
             fetchData={fetchData}
             loading={loading}
             pageCount={pageCount}
+            allExpanded={allExpanded}
+            setAllExpanded={setAllExpanded}
          />
       </TableStyles>
    )

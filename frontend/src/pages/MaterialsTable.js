@@ -4,7 +4,7 @@ import AudioPlayer from '../utils/AudioPlayer';
 import { Link } from 'react-router-dom';
 
 
-function Table({ columns, data, renderRowSubComponent }) {
+function Table({ columns, data, renderRowSubComponent, allExpanded }) {
    
   const {
     getTableProps,
@@ -12,7 +12,8 @@ function Table({ columns, data, renderRowSubComponent }) {
     headerGroups,
     rows,
     prepareRow,
-    visibleColumns
+    visibleColumns,
+    toggleAllRowsExpanded,
   } = useTable({
     columns,
     data,
@@ -20,6 +21,17 @@ function Table({ columns, data, renderRowSubComponent }) {
   }, 
   useExpanded
   )
+
+  React.useEffect(
+    () => {
+      for (var row of rows) {
+        if (row.original.metadata?.length || 0 > 0) {
+          row.toggleRowExpanded(allExpanded)
+        }
+      }
+    },
+    [allExpanded]
+  );
 
   // Render the UI for your table
   return (
@@ -60,8 +72,8 @@ function Table({ columns, data, renderRowSubComponent }) {
   );
 }
 
-function MaterialsTable({ materialData }) {
-  console.log('this is my materialData ', materialData)
+function MaterialsTable({ materialData, allExpanded }) {
+  console.log(materialData, allExpanded)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = React.useMemo(() => [
     {
@@ -124,6 +136,7 @@ function MaterialsTable({ materialData }) {
         columns={columns}
         data={data}
         renderRowSubComponent={renderRowSubComponent}
+        allExpanded={allExpanded}
       />
   );
 }

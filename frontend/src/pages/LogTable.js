@@ -16,7 +16,9 @@ function Table({
   fetchData,
   loading,
   pageCount: controlledPageCount,
-  renderRowSubComponent
+  renderRowSubComponent,
+  allExpanded, 
+  setAllExpanded
 //   selectValues
 }) {
   const { user } = useAuth();
@@ -70,6 +72,7 @@ function Table({
     nextPage,
     previousPage,
     setPageSize,
+    toggleAllRowsExpanded,
     // Get the state from the instance
     state: { pageIndex, pageSize, sortBy, filters, globalFilter }
   } = useTable(
@@ -112,6 +115,11 @@ function Table({
     [columns, setHiddenColumns]
   );
 
+  React.useEffect(
+    () => {toggleAllRowsExpanded(allExpanded)},
+    [allExpanded, loading]
+  );
+
   // Render the UI for your table
   return (
     <>
@@ -133,6 +141,13 @@ function Table({
           )}
         </code>
       </pre> */}
+      <div className="allExpandToggle">
+        <label>
+          <input type="checkbox" onClick={(e) => setAllExpanded(e.target.checked)}/>{' '}
+          {"Expand All"}
+        </label>
+      </div>
+
       <div className="columnToggle">
         {allColumns.map(column => (
          (column.label !== undefined) ?
@@ -348,6 +363,7 @@ function LogTable(props) {
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
+  const [allExpanded, setAllExpanded] = React.useState(false)
   const fetchIdRef = React.useRef(0)
   const { client, setAuthTokens, user } = useAuth();
 
@@ -435,6 +451,8 @@ function LogTable(props) {
         loading={loading}
         pageCount={pageCount}
         // selectValues={props.selectValues}
+        allExpanded={allExpanded}
+        setAllExpanded={setAllExpanded}
       />
     </TableStyles>
   )

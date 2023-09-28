@@ -18,7 +18,9 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   selectValues, 
-  renderRowSubComponent
+  renderRowSubComponent,
+  allExpanded, 
+  setAllExpanded
 }) {
 
   const filterTypes = React.useMemo(
@@ -68,6 +70,7 @@ function Table({
     nextPage,
     previousPage,
     setPageSize,
+    toggleAllRowsExpanded,
     // Get the state from the instance
     state: { pageIndex, pageSize, sortBy, filters, globalFilter }
   } = useTable(
@@ -88,7 +91,7 @@ function Table({
       defaultColumn,
       filterTypes,
       //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      selectValues
+      selectValues,
     },
     useGlobalFilter,
     useFilters,
@@ -96,7 +99,6 @@ function Table({
     useExpanded, // my part
     usePagination,   
   )
-
 
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
@@ -112,20 +114,33 @@ function Table({
     [columns, setHiddenColumns]
   );
 
+  React.useEffect(
+    () => {toggleAllRowsExpanded(allExpanded)},
+    [allExpanded, loading]
+  );
+
+
   // Render the UI for your table
   return (
     <>
+      <div className="allExpandToggle">
+        <label>
+          <input type="checkbox" onClick={(e) => setAllExpanded(e.target.checked)}/>{' '}
+          {"Expand All"}
+        </label>
+      </div>
+
       <div className="columnToggle">
-        {allColumns.map(column => (
-          (column.label !== "sourcefiles" && column.id !== "expander") ?
-            (<div key={column.id} className="columnToggle">
-              <label>
-                <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-                {column.label}
-              </label>
-            </div>) : (null)
+        {allColumns.filter(column => !column.disableHiding).map(column => (
+          (<div key={column.id} className="columnToggle">
+            <label>
+              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+              {column.label}
+            </label>
+          </div>) 
         ))}
       </div>
+
 
       <table {...getTableProps()}>
         <thead>
@@ -252,11 +267,11 @@ function AudioTable(props) {
   const columns = React.useMemo(
     () => [
       {
-        Header: () => null, // No header
-        id: 'expander', // It needs an ID, 
+        id: 'expander', 
         accessor: "text",
         tableName: 'Audio',
         show: true,
+        disableHiding: true,
         disableFilters: true,
         Cell: ({ row }) => (
           <span {...row.getToggleRowExpandedProps()}>
@@ -271,13 +286,12 @@ function AudioTable(props) {
         label: 'Audio',
         disableFilters: true,
         show: true,
-        // Cell: ({ row }) => <span>{JSON.stringify(row.original)}</span>,
         Cell: ({ row }) =>
-        (<AudioPlayer
-          id={row.original.id}
-          title={row.original.title}
-          speaker={row.original.speaker}
-          sources={row.original.audiosets_audiofiles}/>)
+          (<AudioPlayer
+            id={row.original.id}
+            title={row.original.title}
+            speaker={row.original.speaker}
+            sources={row.original.audiosets_audiofiles}/>)
       },
       {
         Header: 'Title',
@@ -327,6 +341,7 @@ function AudioTable(props) {
 const [data, setData] = React.useState([])
 const [loading, setLoading] = React.useState(false)
 const [pageCount, setPageCount] = React.useState(0)
+const [allExpanded, setAllExpanded] = React.useState(false)
 const fetchIdRef = React.useRef(0)
 const { client, setAuthTokens } = useAuth();
 
@@ -400,6 +415,8 @@ const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, glo
         fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
+        allExpanded={allExpanded}
+        setAllExpanded={setAllExpanded}
       />
     </TableStyles>
   )
