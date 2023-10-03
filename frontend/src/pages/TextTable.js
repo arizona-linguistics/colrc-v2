@@ -17,7 +17,9 @@ function Table({
    loading,
    pageCount: controlledPageCount,
    selectValues,
-   renderRowSubComponent
+   renderRowSubComponent,
+   expandAllChecked,
+   setExpandAllChecked
 }) {
 
    //const { user } = useAuth();
@@ -70,6 +72,7 @@ function Table({
       nextPage,
       previousPage,
       setPageSize,
+      toggleAllRowsExpanded,
       // Get the state from the instance
       state: { pageIndex, pageSize, sortBy, filters, globalFilter }
    } = useTable(
@@ -91,7 +94,7 @@ function Table({
          defaultColumn,
          filterTypes,
          //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-         selectValues
+         selectValues,
       },
       useGlobalFilter,
       useFilters,
@@ -100,11 +103,10 @@ function Table({
       usePagination,
    )
 
-
    // Listen for changes in pagination and use the state to fetch our new data
    React.useEffect(() => {
-      fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+      fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded });
+   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded])
 
    React.useEffect(
       () => {
@@ -118,34 +120,23 @@ function Table({
    // Render the UI for your table
    return (
       <>
-         {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
+         <div className="allExpandToggle">
+            <label>
+               <input type="checkbox" onChange={(e) => {
+                  setExpandAllChecked(e.target.checked);
+                  toggleAllRowsExpanded(e.target.checked);}}/>
+               {' Expand All'}
+            </label>
+         </div>
+
          <div className="columnToggle">
-            {allColumns.map(column => (
-               (column.label !== "sourcefiles" && column.id !== "expander") ?
-                  (<div key={column.id} className="columnToggle">
-                     <label>
-                        <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-                        {column.label}
-                     </label>
-                  </div>) : (null)
-               // condition ? (operation) : (operation) 
+            {allColumns.filter(column => !column.disableHiding).map(column => (
+               (<div key={column.id} className="columnToggle">
+                  <label>
+                     <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                     {column.label}
+                  </label>
+               </div>)
             ))}
          </div>
 
@@ -212,7 +203,7 @@ function Table({
                         {row.isExpanded && (
                            <tr>
                               <td colSpan={visibleColumns.length}>
-                                 {renderRowSubComponent({ row })}
+                                 {renderRowSubComponent({ row, expandAllChecked })}
                               </td>
                            </tr>
                         )}
@@ -286,14 +277,13 @@ function Table({
 
 function TextTable(props) {
    let history = useHistory()
-   console.log(props.selectValues)
 
    const columns = React.useMemo(
       () => [
          {
-            Header: () => null, // No header
-            id: 'expander', // It needs an ID
+            id: 'expander',
             show: true,
+            disableHiding: true,
             Cell: ({ row }) => (
                <span {...row.getToggleRowExpandedProps()}>
                   {row.isExpanded ? '▼' : '▶'}
@@ -342,25 +332,16 @@ function TextTable(props) {
             show: true,
             id: 'speaker',
             label: 'speaker'
-         },
-         {
-            Header: 'Sourcefiles',
-            accessor: 'sourcefiles',
-            tableName: 'TextTable',
-            disableSortBy: true,
-            show: false,
-            id: 'sourcefiles',
-            label: 'sourcefiles'
-         },
+         }
       ], []
    )
 
 
 
    const renderRowSubComponent = React.useCallback(
-      ({ row }) => (
+      ({ row, expandAllChecked }) => (
          <div>
-            <MaterialsTable materialData={row.values.sourcefiles} />
+            <MaterialsTable materialData={row.original.sourcefiles} expandAllChecked={expandAllChecked}/>
          </div>
       ),
       []
@@ -370,6 +351,7 @@ function TextTable(props) {
    const [data, setData] = React.useState([])
    const [loading, setLoading] = React.useState(false)
    const [pageCount, setPageCount] = React.useState(0)
+   const [expandAllChecked, setExpandAllChecked] = React.useState(false)
    //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
    const fetchIdRef = React.useRef(0)
    const { client, setAuthTokens } = useAuth();
@@ -398,7 +380,7 @@ function TextTable(props) {
    }
 
 
-   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
+   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, toggleAllRowsExpanded }) => {
       // This will get called when the table needs new data
       // You could fetch your data from literally anywhere,
       // even a server. But for this example, we'll just fake it.
@@ -421,6 +403,7 @@ function TextTable(props) {
                   setData(data.texts)
                   setPageCount(Math.ceil(totalCount / pageSize))
                   setLoading(false)
+                  toggleAllRowsExpanded(expandAllChecked)
                })
                .catch((error) => {
                   console.log(error)
@@ -433,7 +416,7 @@ function TextTable(props) {
          }
       }, 1000)
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [history, setAuthTokens])
+   }, [history, setAuthTokens, expandAllChecked])
 
 
    return (
@@ -445,6 +428,8 @@ function TextTable(props) {
             fetchData={fetchData}
             loading={loading}
             pageCount={pageCount}
+            expandAllChecked={expandAllChecked}
+            setExpandAllChecked={setExpandAllChecked}
          />
       </TableStyles>
    )

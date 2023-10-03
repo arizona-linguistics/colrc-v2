@@ -4,7 +4,7 @@ import AudioPlayer from '../utils/AudioPlayer';
 import { Link } from 'react-router-dom';
 
 
-function Table({ columns, data, renderRowSubComponent }) {
+function Table({ columns, data, renderRowSubComponent, expandAllChecked }) {
    
   const {
     getTableProps,
@@ -12,7 +12,7 @@ function Table({ columns, data, renderRowSubComponent }) {
     headerGroups,
     rows,
     prepareRow,
-    visibleColumns
+    visibleColumns,
   } = useTable({
     columns,
     data,
@@ -20,6 +20,17 @@ function Table({ columns, data, renderRowSubComponent }) {
   }, 
   useExpanded
   )
+
+  React.useEffect(
+    () => {
+      for (var row of rows) {
+        if (row.original.metadata?.length) {
+          row.toggleRowExpanded(expandAllChecked)
+        }
+      }
+    },
+    [expandAllChecked]
+  );
 
   // Render the UI for your table
   return (
@@ -44,7 +55,7 @@ function Table({ columns, data, renderRowSubComponent }) {
                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   })}
                 </tr>
-                {row.isExpanded && (
+                {row.isExpanded && renderRowSubComponent != null && (
                   <tr>
                     <td colSpan={visibleColumns.length}>
                       {renderRowSubComponent({row})}
@@ -60,8 +71,8 @@ function Table({ columns, data, renderRowSubComponent }) {
   );
 }
 
-function MaterialsTable({ materialData }) {
-  console.log('this is my materialData ', materialData)
+function MaterialsTable({ materialData, expandAllChecked }) {
+  console.log(materialData, expandAllChecked)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = React.useMemo(() => [
     {
@@ -69,7 +80,7 @@ function MaterialsTable({ materialData }) {
       id: "subexpander",
       // remove arrow if engl
       Cell: ({ row }) => (
-        row.original.metadata && row.original.metadata.length > 0 
+        row.original.metadata?.length
         ? <span {...row.getToggleRowExpandedProps()}> {row.isExpanded ? '▼' : '▶'} </span>
         : <span/>
       ),
@@ -124,6 +135,7 @@ function MaterialsTable({ materialData }) {
         columns={columns}
         data={data}
         renderRowSubComponent={renderRowSubComponent}
+        expandAllChecked={expandAllChecked}
       />
   );
 }

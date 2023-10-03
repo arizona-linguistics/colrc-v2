@@ -119,6 +119,13 @@ const TableStyles = styled.div`
     margin: .5rem;
   }
 
+  .allExpandToggle {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 1rem;
+  }
+
   .toggle {
     margin: 1rem;
   }
