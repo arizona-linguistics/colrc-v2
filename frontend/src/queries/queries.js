@@ -424,6 +424,7 @@ export const getLogQuery = gql`
       }
     }
     audit_logged_actions(limit: $limit, offset: $offset, where: $where, order_by: $log_order) {
+      event_id
       action
       changed_fields
       hasura_user
@@ -440,6 +441,20 @@ export const getLogQuery = gql`
     }
   }
 `;
+
+export const getRowHistoryQuery = gql`
+  query getLogQuery($row_contains: jsonb, $table_name: String) {
+    audit_logged_actions(where: {row_data: {_contains: $row_contains}, table_name: {_eq: $table_name}}, order_by: {event_id: desc}) {
+      event_id
+      action
+      row_data
+      changed_fields
+      audit_user {
+        first
+      }
+    }
+  }
+`
 
 // getMetadata
 

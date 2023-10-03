@@ -108,7 +108,7 @@ function Table({
   React.useEffect(
     () => {
       setHiddenColumns(
-        columns.filter(column => !column.show).map(column => column.id)
+        columns.filter(column => column.hide).map(column => column.id)
       );
     },
     [columns, setHiddenColumns]
@@ -282,9 +282,8 @@ function LogTable(props) {
   const updateColumns = React.useMemo(
     () => [
        {
-        Header: () => null, // No header
+        Header: '',
         id: 'expander', // It needs an ID
-        show: true,
         Cell: ({ row }) => (
            <span {...row.getToggleRowExpandedProps()}>
               {row.isExpanded ? '▼' : '▶'}
@@ -296,7 +295,6 @@ function LogTable(props) {
         accessor: 'action',
         Filter: DefaultColumnFilter,
         tableName: 'LogTable',
-        show: true,
         id: 'action',
         label: 'action'
       },
@@ -305,7 +303,6 @@ function LogTable(props) {
         accessor: 'schema_name',
         Filter: DefaultColumnFilter,
         tableName: 'LogTable',
-        show: false,
         id: 'schema_name',
         label: 'schema'
       },
@@ -313,7 +310,6 @@ function LogTable(props) {
         Header: 'Table',
         accessor: 'table_name',
         tableName: 'LogTable',
-        show: true,
         id: 'table_name',
         label: 'table'
       },
@@ -322,23 +318,8 @@ function LogTable(props) {
         accessor: 'audit_user[0].first',
         filter: 'fuzzyText',
         tableName: 'LogTable',
-        show: true,
         id: 'user',
         label: 'user'
-      },
-
-      // Helper Fields
-      {
-        show: false,
-        accessor: 'row_data',
-        tableName: 'LogTable',
-        id: 'row_data',
-      },
-      {
-        show: false,
-        accessor: 'changed_fields',
-        tableName: 'LogTable',
-        id: 'changed_fields',
       }
     ], []
   )
@@ -346,9 +327,7 @@ function LogTable(props) {
   const renderRowSubComponent = React.useCallback(
       ({ row }) => (
          <div>
-            <LogSubTable 
-              rowData={row.values.row_data} 
-              modifiedRows={row.original.changed_fields} />
+            <LogSubTable originalRow={row} />
          </div>
       ),
       []
@@ -377,17 +356,6 @@ function LogTable(props) {
          }
       })
     }
-    // else {
-    //   res = await client.query({
-    //     query: getAnonAffixesQuery,
-    //     variables: { 
-    //       limit: limit,
-    //       offset: offset,
-    //       affix_order: sortBy,
-    //       where: filters,
-    //     }
-    //   })
-    // }
     return res.data
   }  
 
