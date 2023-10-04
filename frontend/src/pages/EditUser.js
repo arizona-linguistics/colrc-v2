@@ -9,14 +9,28 @@ import { useAuth } from "../context/auth";
 import { handleErrors, broadCastSuccess } from '../utils/messages';
 import { confirmAlert } from 'react-confirm-alert';
 import '../stylesheets/react-confirm-alert.css';
+import bcrypt from "bcryptjs";
 
 // first we set up validation for our form fields, using Yup (https://www.npmjs.com/package/yup)
 let editUserSchema = Yup.object().shape({
     password: Yup.string()
       .min(2, 'Password must be more than 2 characters')
-      .max(30, 'Password must be less than 30 characters')
-      .required('Required'),
-    }); 
+      .max(30, 'Password must be less than 30 characters'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    });
+
+ function encodePassword(password, saltRounds) {
+     console.log("original password" + password)
+     let hash = bcrypt.hashSync(password, saltRounds, function(err, hash) {
+         if (err) {
+         console.log(err)
+         throw new Error(err)
+         }
+         // Store hash in your password DB.
+     });
+         return hash
+ }
 
 // next we set up the things that will happen when the form is submitted    
 function EditUser(props) {
@@ -97,26 +111,31 @@ function EditUser(props) {
         handleErrors(error)
         setSubmitting(false)
         }
+
         try {
-        const pwdResult = await client.mutate({
-            mutation: updateUserPwdMutation,
-            variables: {
-                id: values.id,
-                password: values.password
+            if (values.password === values.confirmPassword)
+            {
+                let passwd = encodePassword(values.password.trim(), 15)
+                const pwdResult = await client.mutate({
+                    mutation: updateUserPwdMutation,
+                    variables: {
+                        id: values.id,
+                        password: passwd
+                    }
+                })
+                if (pwdResult.error) {
+                    handleErrors(pwdResult.error)          
+                    setSubmitting(false)
+                } else {
+                    broadCastSuccess(`User ${values.username}'s password successfully updated!`)
+                    setSubmitting(false)
+                    setHasUpdated(true)
+                }
+                }
+                } catch (error) {
+                handleErrors(error)
+                setSubmitting(false)
             }
-        })
-        if (pwdResult.error) {
-            handleErrors(pwdResult.error)          
-            setSubmitting(false)
-        } else {
-            broadCastSuccess(`User ${values.username}'s password successfully updated!`)
-            setSubmitting(false)
-            setHasUpdated(true)
-        }
-        } catch (error) {
-        handleErrors(error)
-        setSubmitting(false)
-        }
     }
 
     
@@ -157,7 +176,7 @@ function EditUser(props) {
         <>
         <Grid centered>
             <Grid.Row>
-                <Grid.Column textAlign="center" width={12}>
+                <Grid.Column textAlign="center" width={13}>
                     <Header as="h2">Manage User</Header>
                     <Message>Use this form to manage user roles and passwords.</Message>
                 </Grid.Column>
@@ -171,7 +190,9 @@ function EditUser(props) {
             username: userData.users_by_pk.username,
             email: userData.users_by_pk.email,
             roles: userData.users_by_pk.user_roles ? userRoleOptions(userData.users_by_pk.user_roles) : [] ,
-            password: userData.users_by_pk.password, 
+            // password: userData.users_by_pk.password,
+            password: '',
+            confirmPassword: '',
         }}
         validationSchema={editUserSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -197,7 +218,7 @@ function EditUser(props) {
             <Form>
                 <Grid centered>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">First Name</Label></Grid.Column>
+                        <Grid.Column width={3} textAlign="right"><Label pointing="right" basic color="blue">First Name</Label></Grid.Column>
                         <Grid.Column width={10}>
                             <Input
                                 id="first"
@@ -210,7 +231,7 @@ function EditUser(props) {
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">Last Name</Label></Grid.Column>
+                        <Grid.Column width={3} textAlign="right"><Label pointing="right" basic color="blue">Last Name</Label></Grid.Column>
                         <Grid.Column width={10}>
                             <Input
                                 id="last"
@@ -223,7 +244,7 @@ function EditUser(props) {
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">Username</Label></Grid.Column>
+                        <Grid.Column width={3} textAlign="right"><Label pointing="right" basic color="blue">Username</Label></Grid.Column>
                         <Grid.Column width={10}>
                             <Input
                                 id="username"
@@ -236,7 +257,7 @@ function EditUser(props) {
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" basic color="blue">Email</Label></Grid.Column>
+                        <Grid.Column width={3} textAlign="right"><Label pointing="right" basic color="blue">Email</Label></Grid.Column>
                         <Grid.Column width={10}>                      
                             <Input
                                 id="email"
@@ -249,7 +270,7 @@ function EditUser(props) {
                         </Grid.Column>  
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">User Roles</Label></Grid.Column>
+                        <Grid.Column width={3} textAlign="right"><Label pointing="right" color="blue">User Roles</Label></Grid.Column>
                         <Grid.Column width={10}>
                             <Dropdown
                                 id="roles"
@@ -267,19 +288,36 @@ function EditUser(props) {
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                       <Grid.Column width={2} textAlign="right"><Label pointing="right" color="blue">Password</Label></Grid.Column>
+                       <Grid.Column width={3} textAlign="right"><Label pointing="right" color="blue">Password</Label></Grid.Column>
                         <Grid.Column width={10}>                      
                             <Input
                                 id="password"
                                 placeholder="Set a password"
                                 fluid
-                                type="text"
-                                value={ values.password }
-                                onChange={ handleChange }
+                                type="password"
+                                value={values.password}
+                                onChange={handleChange}
                                 onBlur={ handleBlur }
                                 className={ errors.password && touched.password ? 'text-input error' : 'text-input' }
                             />
                             {errors.password && touched.password && ( <div className="input-feedback">{errors.password}</div>
+                            )}
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                       <Grid.Column width={3} textAlign="right"><Label pointing="right" color="blue">Confirm Password</Label></Grid.Column>
+                        <Grid.Column width={10}>                      
+                            <Input
+                                id="confirmPassword"
+                                placeholder="Confirm new password"
+                                fluid
+                                type="password"
+                                value={values.confirmPassword}
+                                onChange={handleChange}
+                                onBlur={ handleBlur }
+                                className={ errors.confirmPassword && touched.confirmPassword ? 'text-input error' : 'text-input' }
+                            />
+                            {errors.confirmPassword && touched.confirmPassword && ( <div className="input-feedback">{errors.confirmPassword}</div>
                             )}
                         </Grid.Column>
                     </Grid.Row>
