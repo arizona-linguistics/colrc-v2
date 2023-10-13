@@ -97,50 +97,50 @@ function Table({
     }
   });
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow, // I think no longer exists
-    page, // idk
-    state,
-    allColumns,
-    setHiddenColumns, // I think no longer necessary
-    visibleColumns,
-    preGlobalFilteredRows, // Can't find
-    setGlobalFilter,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    exportData,
-    // Get the state from the instance
-    state: { pageIndex, pageSize }
-  } = useReactTable(
-    {
-      columns,
-      data,
-      initialState: { 
-        pageIndex: 0, 
-        pageSize: 10,
-        sortBy: [{ id: 'author'}, { id: 'year', desc: true }]
-      }, // Pass our hoisted table state
+  // const {
+  //   getTableProps,
+  //   getTableBodyProps,
+  //   headerGroups,
+  //   prepareRow, // I think no longer exists
+  //   page, // idk
+  //   state,
+  //   allColumns,
+  //   setHiddenColumns, // I think no longer necessary
+  //   visibleColumns,
+  //   preGlobalFilteredRows, // Can't find
+  //   setGlobalFilter,
+  //   canPreviousPage,
+  //   canNextPage,
+  //   pageOptions,
+  //   pageCount,
+  //   gotoPage,
+  //   nextPage,
+  //   previousPage,
+  //   setPageSize,
+  //   exportData,
+  //   // Get the state from the instance
+  //   state: { pageIndex, pageSize }
+  // } = useReactTable(
+  //   {
+  //     columns,
+  //     data,
+  //     initialState: { 
+  //       pageIndex: 0, 
+  //       pageSize: 10,
+  //       sortBy: [{ id: 'author'}, { id: 'year', desc: true }]
+  //     }, // Pass our hoisted table state
     
-      defaultColumn,
-      filterTypes,
-      getExportFileBlob,
-      getExportFileName, 
-    },
-    useGlobalFilter,
-    useFilters,
-    useSortBy,
-    useExportData,
-    usePagination,   
-  )
+  //     defaultColumn,
+  //     filterTypes,
+  //     getExportFileBlob,
+  //     getExportFileName, 
+  //   },
+  //   useGlobalFilter,
+  //   useFilters,
+  //   useSortBy,
+  //   useExportData,
+  //   usePagination,   
+  // )
 
   // console.log('filters ', filters.map(f => {
   //   if (f.id === "salish") {
@@ -198,21 +198,21 @@ function Table({
                 <Button.Group size='mini'>
                   <Button 
                     onClick={() => {
-                      exportData("csv", false);
+                      // exportData("csv", false);
                     }}>
                       to csv
                   </Button>
                   <Button.Or />
                   <Button color='blue'
                     onClick={() => {
-                      exportData("xlsx", false);
+                      // exportData("xlsx", false);
                     }}>
                     to xlsx
                   </Button>
                   <Button.Or />
                   <Button 
                     onClick={() => {
-                      exportData("pdf", false);
+                      // exportData("pdf", false);
                     }}>
                     to pdf
                   </Button>
@@ -226,21 +226,21 @@ function Table({
                 </Label>
                 <Button.Group size='mini'>
                   <Button onClick={() => {
-                      exportData("csv", true);
+                      // exportData("csv", true);
                     }}>
                     to csv
                   </Button>
                   <Button.Or />
                   <Button color='blue'
                     onClick={() => {
-                      exportData("xlsx", true);
+                      // exportData("xlsx", true);
                     }}>
                     to xlsx
                   </Button>
                   <Button.Or />
                   <Button 
                     onClick={() => {
-                      exportData("pdf", true);
+                      // exportData("pdf", true);
                     }}>
                     to pdf
                   </Button>
@@ -263,36 +263,45 @@ function Table({
           </div>
         ))}
       </div>
-      <table {...tableInstance.getTableProps()}>
+      <table>
         <thead>
           <tr>
             <th
               colSpan={tableInstance.getVisibleLeafColumns().length}
             >
               <GlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
+                // preGlobalFilteredRows={preGlobalFilteredRows}
                 globalFilter={tableInstance.getState.globalFilter}
                 setGlobalFilter={tableInstance.setGlobalFilter}
               />
             </th>
           </tr>
-          {tableInstance.getHeaderGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  <span {...column.getSortByToggleProps()}>
-                    {column.render('Header')}                 
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' ▼'
-                        : ' ▲'
-                      : ''}
+          {tableInstance.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => {
+                return (
+                <th key={header.id}>
+                  <span>
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    {{
+                      asc: ' ▼',
+                      desc: ' ▲'
+                    }[header.column.getIsSorted()] ?? null}
                   </span>
                   <div>
-                    {column.canFilter ? column.render('Filter') : null}
+                    {header.column.getCanFilter() ? (
+                      <div>
+                        {/* <Filter column={header.column} table={tableInstance}/> */}
+                        filter goes here
+                      </div>
+                    ) : null}
                   </div>
                 </th>
-              ))}
+                )
+              })}
             </tr>
           ))}
         </thead>
@@ -313,7 +322,7 @@ function Table({
               <td colSpan="10000">Loading...</td>
             ) : (
               <td colSpan="10000">
-                Showing {tableInstance.getState().pageSize} of ~{tableInstance.getPageCount() * pageSize}{' '}
+                Showing {tableInstance.getState().pageSize} of ~{tableInstance.getPageCount() * tableInstance.getState().pageSize}{' '}
                 results
               </td>
             )}
@@ -325,7 +334,7 @@ function Table({
         <button onClick={() => tableInstance.setPageIndex(0)} disabled={!tableInstance.getCanPreviousPage()}>
           {'<<'}
         </button>{' '}
-        <button onClick={() => tableInstance.setPreviousPage()} disabled={!tableInstance.getCanPreviousPage()}>
+        <button onClick={() => tableInstance.previousPage()} disabled={!tableInstance.getCanPreviousPage()}>
           {'<'}
         </button>{' '}
         <button onClick={() => tableInstance.nextPage()} disabled={!tableInstance.getCanNextPage()}>
@@ -337,14 +346,14 @@ function Table({
         <span>
           Page{' '}
           <strong>
-            {pageIndex + 1} of {tableInstance.getPageOptions().length}
+            {tableInstance.getState().pageIndex + 1} of {tableInstance.getPageOptions().length}
           </strong>{' '}
         </span>
         <span>
           | Go to page:{' '}
           <input
             type="number"
-            defaultValue={pageIndex + 1}
+            defaultValue={tableInstance.getState().pageIndex + 1}
             onChange={e => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0
               tableInstance.setPageIndex(page)
@@ -353,7 +362,7 @@ function Table({
           />
         </span>{' '}
         <select
-          value={pageSize}
+          value={tableInstance.getState().pageSize}
           onChange={e => {
             tableInstance.setPageSize(Number(e.target.value))
           }}
