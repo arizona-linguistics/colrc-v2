@@ -1,7 +1,7 @@
 import React from "react"
 import { Grid } from "semantic-ui-react"
 import BibliographyAccordion from "./accordions/BibliographyAccordion";
-import BibliographyTable from "./BibliographyTable"
+import BibliographyTable from "./BibliographyTablev8"
 
 function Bibliography(props) {
 
