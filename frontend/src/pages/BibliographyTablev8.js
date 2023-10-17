@@ -21,6 +21,7 @@ function Table({
   data,
   fetchData,
   loading,
+  defaultVisibility,
   //globalSearch
 }) {
 
@@ -77,18 +78,29 @@ function Table({
     []
   )
 
-  const [ columnVisibility, setColumnVisibility ] = React.useState();
+  const [ columnVisibility, setColumnVisibility ] = React.useState(defaultVisibility);
+  const [ columnFilters, setColumnFilters ] = React.useState();
+  const [ globalFilter, setGlobalFilter ] = React.useState();
 
   const tableInstance = useReactTable({
     columns,
     data,
+    filterFns: {
+      fuzzy: filterTypes.fuzzyText,
+    },
     state: {
       columnVisibility,
+      columnFilters,
+      globalFilter,
     },
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: filterTypes.fuzzyText,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     defaultColumn: defaultColumn,
     initialState: {
         pageIndex: 0,
@@ -157,11 +169,9 @@ function Table({
 
   // React.useEffect(
   //   () => {
-  //     setHiddenColumns(
-  //       columns.filter(column => !column.show).map(column => column.id)
-  //     );
+  //     tableInstance.setColumnVisibility(defaultVisibility)
   //   },
-  //   [columns, setHiddenColumns]
+  //   // [tableInstance.getAllColumns(), tableInstance.setColumnVisibility()]
   // );
 
   // set up the filenames for exported files from this page
@@ -254,11 +264,11 @@ function Table({
           <div key={column.id} className="columnToggle">
             <label>
               <input {...{
-                type: 'checkox',
+                type: 'checkbox',
                 checked: column.getIsVisible(),
                 onChange: column.getToggleVisibilityHandler(),
               }} />{' '}
-              {column.label}
+              {column.columnDef.label}
             </label>
           </div>
         ))}
@@ -280,8 +290,11 @@ function Table({
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 return (
-                <th key={header.id}>
-                  <span>
+                <th key={header.id} colSpan={header.colSpan}>
+                  <span
+                    {...{
+                      onClick: header.column.getToggleSortingHandler(),
+                    }}>
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext()
@@ -294,8 +307,8 @@ function Table({
                   <div>
                     {header.column.getCanFilter() ? (
                       <div>
-                        {/* <Filter column={header.column} table={tableInstance}/> */}
-                        filter goes here
+                        {/**You have to create a custom filter element.*/}
+                        (filter)
                       </div>
                     ) : null}
                   </div>
@@ -346,7 +359,7 @@ function Table({
         <span>
           Page{' '}
           <strong>
-            {tableInstance.getState().pageIndex + 1} of {tableInstance.getPageOptions().length}
+            {tableInstance.getState().pagination.pageIndex + 1} of {tableInstance.getPageOptions().length}
           </strong>{' '}
         </span>
         <span>
@@ -381,45 +394,46 @@ function Table({
 
 function BibliographyTable(props) {
   let history = useHistory()
+    const defaultVisibility = { author: true, year: true, title: true, reference: false, link: false};
 
     const columns = React.useMemo(
       () => [
           {
-            Header: 'Author',
-            accessor: 'author',
+            header: 'Author',
+            accessorKey: 'author',
             id: 'author',
             label: 'Author',
-            show: true,
+            show: defaultVisibility.author,
           },
           {
-            Header: 'Year',
-            accessor: 'year',
+            header: 'Year',
+            accessorKey: 'year',
             id: 'year',
             label: 'Year',
             Filter: NarrowColumnFilter,
-            show: true,
+            show: defaultVisibility.year,
             width: 55,
           },
           {
-            Header: 'Title',
-            accessor: 'title',
+            header: 'Title',
+            accessorKey: 'title',
             id: 'title',
             label: 'Title',
-            show: true,
+            show: defaultVisibility.title,
             width: 250,
           },
           {
-            Header: 'Reference',
-            accessor: 'reference',
+            header: 'Reference',
+            accessorKey: 'reference',
             id: 'reference',
             label: 'Reference',
-            show: false,
+            show: defaultVisibility.reference,
           },
           {
-            Header: 'Link',
-            accessor: 'linktext',
-            Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.linktext}</a>,
-            show: false,
+            header: 'Link',
+            accessorKey: 'linktext',
+            cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.linktext}</a>,
+            show: defaultVisibility.link,
             id: 'link',
             label: 'Link (if available online)'
           },
@@ -483,6 +497,7 @@ function BibliographyTable(props) {
           fetchData={fetchData}
           loading={loading}
           pageCount={pageCount}
+          defaultVisibility={defaultVisibility}
         />
       </TableStyles>
     )
