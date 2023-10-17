@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@tanstack/react-table": "^8.10.3",
     "node-fetch": "^2.6.7",
     "react-scripts": "^5.0.1"
   }
