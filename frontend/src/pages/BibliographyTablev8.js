@@ -4,7 +4,8 @@ import React from "react";
 import { useHistory } from 'react-router-dom';
 // import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from '@tanstack/react-table'
 import { useReactTable, getCoreRowModel, getPaginationRowModel, getSortedRowModel, getFilteredRowModel, flexRender } from '@tanstack/react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
+import { /*DefaultColumnFilter,*/ /*GlobalFilter,*/ fuzzyTextFilterFn, /*NarrowColumnFilter*/ } from '../utils/Filters'
+import { GlobalFilter, AutoDetectFilter } from "./BibliographyComponent";
 import { useAuth } from "../context/auth";
 import { getAllBibliographyQuery } from '../queries/queries'
 //import { sortReshape, filterReshape } from "../utils/reshapers"
@@ -13,6 +14,7 @@ import TableStyles from "../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
 import { useExportData } from 'react-table-plugins';
 import { getExportFileBlob } from '../utils/ExportFileBlob';
+// import { ColumnFiltersState } from "@tanstack/react-table";
 
 // @ts-check
 
@@ -70,7 +72,7 @@ function Table({
 
   const defaultColumn = React.useMemo(
     () => ({
-      Filter: DefaultColumnFilter,       // Let's set up our default Filter UI
+      filter: 'defaultColumnFilter',       // Let's set up our default Filter UI
       minWidth: 25, // minWidth is only used as a limit for resizing
       width: 50, // width is used for both the flex-basis and flex-grow
       maxWidth: 500, // maxWidth is only used as a limit for resizing
@@ -79,15 +81,12 @@ function Table({
   )
 
   const [ columnVisibility, setColumnVisibility ] = React.useState(defaultVisibility);
-  const [ columnFilters, setColumnFilters ] = React.useState();
-  const [ globalFilter, setGlobalFilter ] = React.useState();
+  const [ columnFilters, setColumnFilters ] = React.useState([]);
+  const [ globalFilter, setGlobalFilter ] = React.useState('');
 
   const tableInstance = useReactTable({
     columns,
     data,
-    filterFns: {
-      fuzzy: filterTypes.fuzzyText,
-    },
     state: {
       columnVisibility,
       columnFilters,
@@ -96,7 +95,7 @@ function Table({
     onColumnVisibilityChange: setColumnVisibility,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: filterTypes.fuzzyText,
+    globalFilterFn: "includesString",
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -280,7 +279,6 @@ function Table({
               colSpan={tableInstance.getVisibleLeafColumns().length}
             >
               <GlobalFilter
-                // preGlobalFilteredRows={preGlobalFilteredRows}
                 globalFilter={tableInstance.getState.globalFilter}
                 setGlobalFilter={tableInstance.setGlobalFilter}
               />
@@ -306,10 +304,10 @@ function Table({
                   </span>
                   <div>
                     {header.column.getCanFilter() ? (
-                      <div>
-                        {/**You have to create a custom filter element.*/}
-                        (filter)
-                      </div>
+                      <AutoDetectFilter
+                        column={header.column}
+                        table={tableInstance}
+                      />
                     ) : null}
                   </div>
                 </th>
@@ -404,15 +402,17 @@ function BibliographyTable(props) {
             id: 'author',
             label: 'Author',
             show: defaultVisibility.author,
+            filterFn: 'includesStringSensitive',
           },
           {
             header: 'Year',
             accessorKey: 'year',
             id: 'year',
             label: 'Year',
-            Filter: NarrowColumnFilter,
+            filter: 'narrowColumnFilter',
             show: defaultVisibility.year,
             width: 55,
+            filterFn: 'includesString',
           },
           {
             header: 'Title',
@@ -421,6 +421,7 @@ function BibliographyTable(props) {
             label: 'Title',
             show: defaultVisibility.title,
             width: 250,
+            filterFn: 'includesString',
           },
           {
             header: 'Reference',
@@ -428,6 +429,7 @@ function BibliographyTable(props) {
             id: 'reference',
             label: 'Reference',
             show: defaultVisibility.reference,
+            filterFn: 'includesString',
           },
           {
             header: 'Link',
@@ -435,7 +437,8 @@ function BibliographyTable(props) {
             cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.linktext}</a>,
             show: defaultVisibility.link,
             id: 'link',
-            label: 'Link (if available online)'
+            label: 'Link (if available online)',
+            filterFn: 'includesString',
           },
       ], []
   )
