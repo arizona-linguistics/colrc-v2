@@ -35,18 +35,17 @@ export function DefaultColumnFilter({
   column: Column<any, unknown>
   table: Table<any>
 }) {
-  const count: number = table.getPageCount() * (table.getState() as any).pageSize;
 
   const columnFilterValue = column.getFilterValue();
 
   return (
     <DebouncedInput
+      table={table}
       type="text"
       value={(columnFilterValue ?? '') as string}
       display='inline-block'
       size='mini'
       onChange={(value: string) => column.setFilterValue(value)}
-      placeholder={`~ ${count}...`}
       style={{
         width: '125px',
         marginRight: '1rem',
@@ -62,18 +61,19 @@ export function NarrowColumnFilter({
   column: Column<any, unknown>
   table: Table<any>
 }) {
-  const count: number = table.getPageCount() * (table.getState() as any).pageSize;
+  // count is a number
+  // const count: number = table.getPageCount() * (table.getState() as any).pageSize;
 
   const columnFilterValue = column.getFilterValue();
 
   return (
     <DebouncedInput
+      table={table}
       type="text"
       value={(columnFilterValue ?? '') as string}
       size='mini'
       display='inline-block'
       onChange={(value: string) => column.setFilterValue(value)}
-      placeholder={`~ ${count}...`}
       style={{
         width: '50px',
         marginRight: '1rem',
@@ -87,14 +87,20 @@ function DebouncedInput({
   value: initialValue,
   onChange,
   debounce = 500,
+  table,
   ...props
 } : {
   value: string,
   onChange: ( value: string ) => void,
   debounce?: number
+  table?: Table<any>
 // } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
 } & any ) {
   const [value, setValue] = React.useState(initialValue);
+  let count: number = -1;
+  if (table) {
+    count = table.getPageCount() * (table.getState() as any).pageSize;
+  }
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -105,7 +111,12 @@ function DebouncedInput({
   }, [value])
 
   return (
-    <Input {...props} value={value} onChange={e => setValue(e.target.value)} />
+    // <div
+    // {...(count === -1) ? (
+      <Input {...props} value={value} placeholder={(count===-1)?`enter search term` : `~ ${count}...`} onChange={e => setValue(e.target.value)} />
+    // ) : (
+      // <Input {...props} value={value} placeholder={`~ ${count}...`} onChange={e => setValue(e.target.value)} />
+    // )} />
   )
 }
 

@@ -402,7 +402,7 @@ function BibliographyTable(props) {
             id: 'author',
             label: 'Author',
             show: defaultVisibility.author,
-            filterFn: 'includesStringSensitive',
+            filterFn: 'includesString',
           },
           {
             header: 'Year',
