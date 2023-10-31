@@ -9,12 +9,12 @@ set -e
 create_log_dir() {
   mkdir -p ${NGINX_LOG_DIR}
   chmod -R 0755 ${NGINX_LOG_DIR}
-  chown -R ${NGINX_USER}:root ${NGINX_LOG_DIR}
+  chown -R nginx:nginx ${NGINX_LOG_DIR}
 }
 
 create_tmp_dir(){
   mkdir -p ${NGINX_TEMP_DIR}
-  chown -R root:root ${NGINX_TEMP_DIR}
+  chown -R nginx:nginx ${NGINX_TEMP_DIR}
 }
 
 create_siteconf_dir() {

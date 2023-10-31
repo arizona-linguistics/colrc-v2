@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+addgroup --system --gid 101 nginx 
+adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx 
+
 install_packages() {
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "$@"
 }
@@ -167,6 +170,8 @@ make DESTDIR=${NGINX_BUILD_ROOT_DIR} install
 # install default configuration
 mkdir -p ${NGINX_BUILD_ROOT_DIR}/etc/nginx/sites-enabled
 mkdir -p ${NGINX_BUILD_ROOT_DIR}/etc/nginx/templates
+chown -R nginx:nginx ${NGINX_BUILD_ROOT_DIR}/etc/nginx/sites-enabled
+chown -R nginx:nginx ${NGINX_BUILD_ROOT_DIR}/etc/nginx/templates
 
 cp ${NGINX_BUILD_ASSETS_DIR}/config/nginx.conf ${NGINX_BUILD_ROOT_DIR}/etc/nginx/nginx.conf
 cp ${NGINX_BUILD_ASSETS_DIR}/config/templates/colrc.template ${NGINX_BUILD_ROOT_DIR}/etc/nginx/templates/colrc.template

@@ -81,7 +81,7 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        uri: 'http://localhost:8080/v1/graphql',
+        uri: 'http://149.165.155.87:8080/v1/graphql',
         //uri: process.env.REACT_APP_HASURA_CLIENT       
       })
     ),
@@ -106,7 +106,7 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        uri: 'http://localhost:4000/api',
+        uri: 'http://149.165.155.87:4000/api',
         //uri: process.env.REACT_APP_AUTH_CLIENT
       })
     ),
