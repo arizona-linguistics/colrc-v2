@@ -108,7 +108,7 @@ If you get a permissions error when running the script, you can use the command 
 
      ```
         new HttpLink({
-        uri: 'http://localhost:4000/api',
+        uri: 'http://localhost:8080/v1/graphql',
         //uri: process.env.REACT_APP_AUTH_CLIENT
       })
      ```
@@ -116,7 +116,7 @@ If you get a permissions error when running the script, you can use the command 
 
      ```
         new HttpLink({
-        uri: 'http://[yourIPaddress]:4000/api',
+        uri: 'http://[yourIPaddress]:8080/v1/graphql',
         //uri: process.env.REACT_APP_AUTH_CLIENT
       })
      ```
@@ -128,7 +128,7 @@ If you get a permissions error when running the script, you can use the command 
 
 The environment is fully up and running when you see a message that says 'Compiled successfully!'. At that point, you can go to `http://localhost:3000` if you're working on your own machine, or `http://[yourIPaddress]:3000` if you're working on a virtual machine, and you'll be able to access the running application!  The terminal window that you've used for this command will be occupied - it will *not* come back to a command prompt.  This is because the process is not daemonized.  If you want to run the application in a deamonized way, you can add a `-d` flag after `up`.
     
-9.  If you are working on a remote VM, you'll need to open the hasura console by directing your browser to `[yourIPaddress]:8080/console`.  Navigate to the tables view, and On each of these four tables:  `audiofiles`, `textfiles`, `textimages`, `elicitationfiles`, under `modify`, you'll find a computed field.  Edit the computed field - which is an SQL statement that tells the machine where it can find our pdf, png, wav and mp3 files.  In the SQL statement is a URL path.  Change the stem of that path (which is probably `localhost`) to `[yourIPaddress]:80`. Then click the button to execute the SQL.
+9.  If you are working on a remote VM, you'll need to open the hasura console by directing your browser to `[yourIPaddress]:8080/console`. You can find the required admin secret in the docker-compose.yml (hasura_graphql_admin_secret)  file at the project root. Navigate to the data tab, and On each of these four tables:  `audiofiles`, `textfiles`, `textimages`, `elicitationfiles`, under `modify`, you'll find a computed field.  Edit the computed field - which is an SQL statement that tells the machine where it can find our pdf, png, wav and mp3 files.  In the SQL statement is a URL path.  Change the stem of that path (which is probably `localhost`) to `[yourIPaddress]:80`. Then click the button to execute the SQL.
     
 10.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
 

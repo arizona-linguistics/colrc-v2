@@ -21,9 +21,6 @@ function Table({
    expandAllChecked,
    setExpandAllChecked
 }) {
-
-   //const { user } = useAuth();
-
    const filterTypes = React.useMemo(
       () => ({
          fuzzyText: fuzzyTextFilterFn,
@@ -146,21 +143,6 @@ function Table({
                   <th
                      colSpan={visibleColumns.length}
                   >
-                     {/* { (user && (user.roles.includes('update') || user.roles.includes('manager')))  &&
-              (
-                <Link 
-                  to={{
-                    pathname: "/addtext",
-                  }}>
-                  <Button animated='vertical' color='blue'>
-                    <Button.Content hidden>Add Text</Button.Content>
-                    <Button.Content visible>
-                      <Icon name='plus' />
-                    </Button.Content>
-                  </Button> 
-                </Link> 
-              )
-            } */}
                      <GlobalFilter
                         preGlobalFilteredRows={preGlobalFilteredRows}
                         globalFilter={state.globalFilter}
@@ -352,7 +334,6 @@ function TextTable(props) {
    const [loading, setLoading] = React.useState(false)
    const [pageCount, setPageCount] = React.useState(0)
    const [expandAllChecked, setExpandAllChecked] = React.useState(false)
-   //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
    const fetchIdRef = React.useRef(0)
    const { client, setAuthTokens } = useAuth();
 

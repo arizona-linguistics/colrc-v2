@@ -108,14 +108,6 @@ function Table({
     usePagination,   
   )
 
-  // console.log('filters ', filters.map(f => {
-  //   if (f.id === "salish") {
-  //     return f.value
-  //   } else {
-  //     return null
-  //   }
-  // }))
-
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
     fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })

@@ -1,12 +1,9 @@
 import React from "react";
-// import jsPDF from "jspdf";
-// import "jspdf-autotable";
 import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, NarrowColumnFilter } from '../utils/Filters'
 import { useAuth } from "../context/auth";
 import { getAllBibliographyQuery } from '../queries/queries'
-//import { sortReshape, filterReshape } from "../utils/reshapers"
 import { Button, Grid, Message, Label, Segment} from "semantic-ui-react";
 import TableStyles from "../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
@@ -18,35 +15,7 @@ function Table({
   data,
   fetchData,
   loading,
-  //globalSearch
 }) {
-
-//   function exportPDF() {
-//     const unit = "pt";
-//     const size = "A4"; // Use A1, A2, A3 or A4
-//     const orientation = "portrait"; // portrait or landscape
-
-//     const marginLeft = 40;
-//     const doc = new jsPDF(orientation, unit, size);
-
-//     doc.setFontSize(15);
-
-//     const title = "COLRC bibliography";
-//     const headers = [["TITLE", "AUTHOR"]];
-
-//     const bibData = data.map(elt=> [elt.title, elt.author]);
-
-//     let content = {
-//     startY: 50,
-//     head: headers,
-//     body: bibData
-//     };
-
-//     doc.text(title, marginLeft, 40);
-//     doc.autoTable(content);
-//     doc.save("report.pdf")
-// }
-
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -118,15 +87,6 @@ function Table({
     useExportData,
     usePagination,   
   )
-
-  // console.log('filters ', filters.map(f => {
-  //   if (f.id === "salish") {
-  //     return f.value
-  //   } else {
-  //     return null
-  //   }
-  // }))
-
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
     fetchData({  })

@@ -365,13 +365,6 @@ function OdinsonTable(props) {
     setTimeout(() => {
       // Only update the data if this is the latest fetch
       if (fetchId === fetchIdRef.current) {
-        //const controlledSort = sortReshape(sortBy,"event_id")
-        //const controlledFilter = filterReshape(filters, globalFilter, ['action', 'table_name'])
-        // console.log(controlledFilter)
-        // reset to first page when filters change
-        // if (filters.length > 0) {
-        //   pageIndex = 0
-        // }
         getPattern(globalFilter,pageSize,pageIndex,setScore, score, setDoc, doc, setCache, cache, setTotalHits, totalHits)
         .then((data) => {
           console.log(data)  
@@ -394,8 +387,6 @@ function OdinsonTable(props) {
     }, 1000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history, setAuthTokens])
-
-  // let columns = updateColumns
   
   console.log(props.globalSearch)
   return (

@@ -18,9 +18,6 @@ function Table({
   pageCount: controlledPageCount,
   selectValues, 
 }) {
-
-  //const { user } = useAuth();
-
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,

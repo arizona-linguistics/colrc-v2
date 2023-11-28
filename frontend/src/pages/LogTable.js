@@ -117,24 +117,6 @@ function Table({
   // Render the UI for your table
   return (
     <>
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              sortBy,
-              filters,
-              globalFilter
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
       <div className="allExpandToggle">
         <label>
           <input type="checkbox" onChange={(e) => {
