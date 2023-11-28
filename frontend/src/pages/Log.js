@@ -1,10 +1,8 @@
-import React from 'react'
-import LogTable from './LogTable'
+import React from "react";
+import LogTable from "./LogTable";
 
 function Log() {
-    return <LogTable/>
+  return <LogTable />;
 }
 
-
-
-export default Log
+export default Log;

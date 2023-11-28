@@ -1,14 +1,24 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useExpanded } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import React from "react";
+import { useHistory } from "react-router-dom";
+import {
+  useTable,
+  usePagination,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+  useExpanded,
+} from "react-table";
+import {
+  DefaultColumnFilter,
+  GlobalFilter,
+  fuzzyTextFilterFn,
+} from "../utils/Filters";
 import { useAuth } from "../context/auth";
-import { getTextsQuery } from './../queries/queries'
-import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers"
+import { getTextsQuery } from "./../queries/queries";
+import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers";
 import SubTable from "./MaterialsTable";
-import TableStyles from "./../stylesheets/table-styles"
-import { handleErrors } from '../utils/messages';
-
+import TableStyles from "./../stylesheets/table-styles";
+import { handleErrors } from "../utils/messages";
 
 function Table({
   columns,
@@ -16,38 +26,37 @@ function Table({
   fetchData,
   loading,
   pageCount: controlledPageCount,
-  selectValues, 
-  renderRowSubComponent
+  selectValues,
+  renderRowSubComponent,
 }) {
-
   //const { user } = useAuth();
 
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
       text: (rows, id, filterValue) => {
-        return rows.filter(row => {
-          const rowValue = row.values[id]
+        return rows.filter((row) => {
+          const rowValue = row.values[id];
           return rowValue !== undefined
             ? String(rowValue)
                 .toLowerCase()
                 .startsWith(String(filterValue).toLowerCase())
-            : true
-        })
+            : true;
+        });
       },
     }),
     []
-  )
+  );
 
   const defaultColumn = React.useMemo(
     () => ({
-      Filter: DefaultColumnFilter,       // Let's set up our default Filter UI
+      Filter: DefaultColumnFilter, // Let's set up our default Filter UI
       minWidth: 25, // minWidth is only used as a limit for resizing
       width: 50, // width is used for both the flex-basis and flex-grow
       maxWidth: 500, // maxWidth is only used as a limit for resizing
     }),
     []
-  )
+  );
 
   const {
     getTableProps,
@@ -71,15 +80,15 @@ function Table({
     previousPage,
     setPageSize,
     // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy, filters, globalFilter }
+    state: { pageIndex, pageSize, sortBy, filters, globalFilter },
   } = useTable(
     {
       columns,
       data,
-      initialState: { 
+      initialState: {
         pageIndex: 0,
-        sortBy: [{ id: 'cycle' }]
-       }, // Pass our hoisted table state
+        sortBy: [{ id: "cycle" }],
+      }, // Pass our hoisted table state
       manualPagination: true, // Tell the usePagination
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
@@ -91,29 +100,25 @@ function Table({
       defaultColumn,
       filterTypes,
       //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      selectValues
+      selectValues,
     },
     useGlobalFilter,
     useFilters,
     useSortBy,
     useExpanded,
-    usePagination,   
-  )
-
+    usePagination
+  );
 
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
+    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter });
+  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter]);
 
-  React.useEffect(
-    () => {
-      setHiddenColumns(
-        columns.filter(column => !column.show).map(column => column.id)
-      );
-    },
-    [columns, setHiddenColumns]
-  );
+  React.useEffect(() => {
+    setHiddenColumns(
+      columns.filter((column) => !column.show).map((column) => column.id)
+    );
+  }, [columns, setHiddenColumns]);
 
   // Render the UI for your table
   return (
@@ -137,25 +142,25 @@ function Table({
         </code>
       </pre> */}
       <div className="columnToggle">
-        {allColumns.map(column => (
-          (column.label !== "sourcefiles" && column.id !== "expander") ? 
-          (<div key={column.id} className="columnToggle">
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-              {column.label}
-            </label>
-          </div>) : (null)
-          // condition ? (operation) : (operation) 
-        ))}
+        {allColumns.map(
+          (column) =>
+            column.label !== "sourcefiles" && column.id !== "expander" ? (
+              <div key={column.id} className="columnToggle">
+                <label>
+                  <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
+                  {column.label}
+                </label>
+              </div>
+            ) : null
+          // condition ? (operation) : (operation)
+        )}
       </div>
-        
+
       <table className="table" {...getTableProps()}>
         <thead>
           <tr>
-            <th
-              colSpan={visibleColumns.length}
-            >
-            {/* { (user && (user.roles.includes('update') || user.roles.includes('manager')))  &&
+            <th colSpan={visibleColumns.length}>
+              {/* { (user && (user.roles.includes('update') || user.roles.includes('manager')))  &&
               (
                 <Link 
                   to={{
@@ -177,27 +182,21 @@ function Table({
               />
             </th>
           </tr>
-          {headerGroups.map(headerGroup => (
+          {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
+              {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()}>
                   <span {...column.getSortByToggleProps()}>
-                    {column.render('Header')}                 
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? '▲'
-                        : '▼'
-                      : ''}
+                    {column.render("Header")}
+                    {column.isSorted ? (column.isSortedDesc ? "▲" : "▼") : ""}
                   </span>
-                  <div>
-                    {column.canFilter ? column.render('Filter') : null}
-                  </div>
+                  <div>{column.canFilter ? column.render("Filter") : null}</div>
                 </th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()}>          
+        <tbody {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
             return (
@@ -212,7 +211,7 @@ function Table({
                 {row.isExpanded && (
                   <tr>
                     <td colSpan={visibleColumns.length}>
-                      {renderRowSubComponent({row})}
+                      {renderRowSubComponent({ row })}
                     </td>
                   </tr>
                 )}
@@ -220,7 +219,7 @@ function Table({
             );
           })}
 
-          <tr>  
+          <tr>
             {loading ? (
               // Use our custom loading state to show a loading indicator
               <td colSpan="10"> Loading... </td>
@@ -230,48 +229,47 @@ function Table({
               </td>
             )}
           </tr>
-          
         </tbody>
       </table>
 
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
+          {"<<"}
+        </button>{" "}
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
+          {"<"}
+        </button>{" "}
         <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
+          {">"}
+        </button>{" "}
         <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>{' '}
+          {">>"}
+        </button>{" "}
         <span>
-          Page{' '}
+          Page{" "}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
+          </strong>{" "}
         </span>
         <span>
-          | Go to page:{' '}
+          | Go to page:{" "}
           <input
             type="number"
             defaultValue={pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
             }}
-            style={{ width: '100px' }}
+            style={{ width: "100px" }}
           />
-        </span>{' '}
+        </span>{" "}
         <select
           value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value))
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
           }}
         >
-          {[10, 20, 30, 40, 50].map(pageSize => (
+          {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
@@ -279,160 +277,169 @@ function Table({
         </select>
       </div>
     </>
-  )
+  );
 }
 
-
 function TextTable(props) {
-  let history = useHistory()
-  console.log(props.selectValues)
+  let history = useHistory();
+  console.log(props.selectValues);
 
   const columns = React.useMemo(
     () => [
       {
         Header: () => null, // No header
-        id: 'expander', // It needs an ID
+        id: "expander", // It needs an ID
         show: true,
         Cell: ({ row }) => (
           <span {...row.getToggleRowExpandedProps()}>
-            {row.isExpanded ? '▼' : '▶'}
+            {row.isExpanded ? "▼" : "▶"}
           </span>
         ),
       },
       {
-        Header: 'Title',
-        accessor: 'title',
-        tableName: 'TextTable',
+        Header: "Title",
+        accessor: "title",
+        tableName: "TextTable",
         show: true,
-        id: 'title',
-        label: 'Title'
+        id: "title",
+        label: "Title",
       },
       {
-        Header: 'Pub.#',
-        accessor: 'rnumber',
-        tableName: 'TextTable',
+        Header: "Pub.#",
+        accessor: "rnumber",
+        tableName: "TextTable",
         disableFilters: true,
         show: false,
-        id: 'rnumber',
-        label: 'Pub.#'
+        id: "rnumber",
+        label: "Pub.#",
       },
       {
-        Header: 'Text#',
-        accessor: 'tnumber',
-        tableName: 'TextTable',
+        Header: "Text#",
+        accessor: "tnumber",
+        tableName: "TextTable",
         disableFilters: true,
         show: false,
-        id: 'tnumber',
-        label: 'Text#'
+        id: "tnumber",
+        label: "Text#",
       },
       {
-        Header: 'Cycle',
-        accessor: 'cycle',
-        tableName: 'TextTable',
+        Header: "Cycle",
+        accessor: "cycle",
+        tableName: "TextTable",
         show: true,
-        id: 'cycle',
-        label: 'cycle'
+        id: "cycle",
+        label: "cycle",
       },
       {
-        Header: 'Speaker',
-        accessor: 'speaker',
-        filter: 'fuzzyText',
-        tableName: 'TextTable',
+        Header: "Speaker",
+        accessor: "speaker",
+        filter: "fuzzyText",
+        tableName: "TextTable",
         show: true,
-        id: 'speaker',
-        label: 'speaker'
+        id: "speaker",
+        label: "speaker",
       },
       {
-        Header: 'Sourcefiles',
-        accessor: 'sourcefiles',
-        tableName: 'TextTable',
+        Header: "Sourcefiles",
+        accessor: "sourcefiles",
+        tableName: "TextTable",
         disableSortBy: true,
         show: false,
-        id: 'sourcefiles',
-        label: 'sourcefiles'
+        id: "sourcefiles",
+        label: "sourcefiles",
       },
-    ], []
-  )
-
-
+    ],
+    []
+  );
 
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
       <div>
-        <SubTable materialData={row.values.sourcefiles}/>
-      </div>    
+        <SubTable materialData={row.values.sourcefiles} />
+      </div>
     ),
     []
-  ) 
+  );
 
   // We'll start our table without any data
-  const [data, setData] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
-  const [pageCount, setPageCount] = React.useState(0)
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [pageCount, setPageCount] = React.useState(0);
   //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
-  const fetchIdRef = React.useRef(0)
+  const fetchIdRef = React.useRef(0);
   const { client, setAuthTokens } = useAuth();
 
-  
   async function getTexts(limit, offset, sortBy, filters) {
-    let res = {}
+    let res = {};
     res = await client.query({
       query: getTextsQuery,
-      variables: { 
+      variables: {
         limit: limit,
         offset: offset,
         order: sortBy,
         where: filters,
-        }
-    })
-    let texts = textReshape(res.data.texts)
-    let i = 0
-    for ( i = 0; i < texts.length; i++ ) {
-      res.data.texts[i].sourcefiles = texts[i].sourcefiles
+      },
+    });
+    let texts = textReshape(res.data.texts);
+    let i = 0;
+    for (i = 0; i < texts.length; i++) {
+      res.data.texts[i].sourcefiles = texts[i].sourcefiles;
     }
-    console.log("this is res.data ", res.data)
-    console.log("this is texts ", texts)
-    return res.data
-  }  
+    console.log("this is res.data ", res.data);
+    console.log("this is texts ", texts);
+    return res.data;
+  }
 
+  const fetchData = React.useCallback(
+    ({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
+      // This will get called when the table needs new data
+      // You could fetch your data from literally anywhere,
+      // even a server. But for this example, we'll just fake it.
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
-    // This will get called when the table needs new data
-    // You could fetch your data from literally anywhere,
-    // even a server. But for this example, we'll just fake it.
+      // Give this fetch an ID
+      const fetchId = ++fetchIdRef.current;
 
-    // Give this fetch an ID
-    const fetchId = ++fetchIdRef.current
+      // Set the loading state
+      setLoading(true);
 
-    // Set the loading state
-    setLoading(true)
-
-    // We'll even set a delay to simulate a server here
-    setTimeout(() => {
-      // Only update the data if this is the latest fetch
-      if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy) 
-        const controlledFilter = filterReshape(filters, globalFilter, ["title", "cycle", "speaker"])
-        getTexts(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
-        .then((data) => {
-          let totalCount = data.texts_aggregate.aggregate.count
-          setData(data.texts)
-          setPageCount(Math.ceil(totalCount / pageSize))
-          setLoading(false)
-        })
-        .catch((error) => {
-          console.log(error)
-          handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
-          setData([])
-          setPageCount(0)
-          setLoading(false)
-          history.push('./login')
-        })
-      }
-    }, 1000)
+      // We'll even set a delay to simulate a server here
+      setTimeout(() => {
+        // Only update the data if this is the latest fetch
+        if (fetchId === fetchIdRef.current) {
+          const controlledSort = sortReshape(sortBy);
+          const controlledFilter = filterReshape(filters, globalFilter, [
+            "title",
+            "cycle",
+            "speaker",
+          ]);
+          getTexts(
+            pageSize,
+            pageSize * pageIndex,
+            controlledSort,
+            controlledFilter
+          )
+            .then((data) => {
+              let totalCount = data.texts_aggregate.aggregate.count;
+              setData(data.texts);
+              setPageCount(Math.ceil(totalCount / pageSize));
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.log(error);
+              handleErrors(error, {
+                logout: { action: setAuthTokens, redirect: "/login" },
+              });
+              setData([]);
+              setPageCount(0);
+              setLoading(false);
+              history.push("./login");
+            });
+        }
+      }, 1000);
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history, setAuthTokens])
-
+    [history, setAuthTokens]
+  );
 
   return (
     <TableStyles>
@@ -445,7 +452,7 @@ function TextTable(props) {
         pageCount={pageCount}
       />
     </TableStyles>
-  )
+  );
 }
 
-export default TextTable
+export default TextTable;
