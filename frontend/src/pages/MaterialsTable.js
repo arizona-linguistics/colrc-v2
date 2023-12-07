@@ -11,7 +11,7 @@ function Table({ columns, data, renderRowSubComponent, expandAllChecked }) {
     headerGroups,
     rows,
     prepareRow,
-    visibleColumns,,
+    visibleColumns,
   } = useTable(
     {
       columns,

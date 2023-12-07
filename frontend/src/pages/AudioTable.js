@@ -6,6 +6,7 @@ import {
   useSortBy,
   useFilters,
   useGlobalFilter,
+  useExpanded,
 } from "react-table";
 import {
   DefaultColumnFilter,
