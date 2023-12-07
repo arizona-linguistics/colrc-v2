@@ -1,14 +1,24 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useExpanded } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import React from "react";
+import { useHistory } from "react-router-dom";
+import {
+  useTable,
+  usePagination,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+  useExpanded,
+} from "react-table";
+import {
+  DefaultColumnFilter,
+  GlobalFilter,
+  fuzzyTextFilterFn,
+} from "../utils/Filters";
 import { useAuth } from "../context/auth";
-import { getTextsQuery } from './../queries/queries'
-import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers"
+import { getTextsQuery } from "./../queries/queries";
+import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers";
 import MaterialsTable from "./MaterialsTable";
-import TableStyles from "./../stylesheets/table-styles"
-import { handleErrors } from '../utils/messages';
-
+import TableStyles from "./../stylesheets/table-styles";
+import { handleErrors } from "../utils/messages";
 
 function Table({
    columns,
@@ -40,13 +50,13 @@ function Table({
 
    const defaultColumn = React.useMemo(
       () => ({
-         Filter: DefaultColumnFilter,       // Let's set up our default Filter UI
+         Filter: DefaultColumnFilter, // Let's set up our default Filter UI
          minWidth: 25, // minWidth is only used as a limit for resizing
          width: 50, // width is used for both the flex-basis and flex-grow
          maxWidth: 500, // maxWidth is only used as a limit for resizing
       }),
       []
-   )
+   );
 
    const {
       getTableProps,
@@ -102,8 +112,8 @@ function Table({
 
    // Listen for changes in pagination and use the state to fetch our new data
    React.useEffect(() => {
-      fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded });
-   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded])
+      fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded });;
+   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded]);
 
    React.useEffect(
       () => {
@@ -210,42 +220,42 @@ function Table({
 
          <div className="pagination">
             <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-               {'<<'}
-            </button>{' '}
+               {"<<"}
+            </button>{" "}
             <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-               {'<'}
-            </button>{' '}
+               {"<"}
+            </button>{" "}
             <button onClick={() => nextPage()} disabled={!canNextPage}>
-               {'>'}
-            </button>{' '}
+               {">"}
+            </button>{" "}
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-               {'>>'}
-            </button>{' '}
+               {">>"}
+            </button>{" "}
             <span>
-               Page{' '}
+               Page{" "}
                <strong>
                   {pageIndex + 1} of {pageOptions.length}
-               </strong>{' '}
+               </strong>{" "}
             </span>
             <span>
-               | Go to page:{' '}
+               | Go to page:{" "}
                <input
                   type="number"
                   defaultValue={pageIndex + 1}
-                  onChange={e => {
-                     const page = e.target.value ? Number(e.target.value) - 1 : 0
-                     gotoPage(page)
+                  onChange={(e) => {
+                     const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                     gotoPage(page);
                   }}
-                  style={{ width: '100px' }}
+                  style={{ width: "100px" }}
                />
-            </span>{' '}
+            </span>{" "}
             <select
                value={pageSize}
-               onChange={e => {
-                  setPageSize(Number(e.target.value))
+               onChange={(e) => {
+                  setPageSize(Number(e.target.value));
                }}
             >
-               {[10, 20, 30, 40, 50].map(pageSize => (
+               {[10, 20, 30, 40, 50].map((pageSize) => (
                   <option key={pageSize} value={pageSize}>
                      Show {pageSize}
                   </option>
@@ -253,9 +263,8 @@ function Table({
             </select>
          </div>
       </>
-   )
+   );
 }
-
 
 function TextTable(props) {
    let history = useHistory()
@@ -361,16 +370,17 @@ function TextTable(props) {
    }
 
 
-   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, toggleAllRowsExpanded }) => {
-      // This will get called when the table needs new data
-      // You could fetch your data from literally anywhere,
-      // even a server. But for this example, we'll just fake it.
+   const fetchData = React.useCallback(
+    ({ pageSize, pageIndex, sortBy, filters, globalFilter, toggleAllRowsExpanded }) => {
+        // This will get called when the table needs new data
+        // You could fetch your data from literally anywhere,
+        // even a server. But for this example, we'll just fake it.
 
-      // Give this fetch an ID
-      const fetchId = ++fetchIdRef.current
+        // Give this fetch an ID
+        const fetchId = ++fetchIdRef.current;
 
-      // Set the loading state
-      setLoading(true)
+        // Set the loading state
+        setLoading(true);
 
       // We'll even set a delay to simulate a server here
       setTimeout(() => {
@@ -413,7 +423,7 @@ function TextTable(props) {
             setExpandAllChecked={setExpandAllChecked}
          />
       </TableStyles>
-   )
+   );
 }
 
-export default TextTable
+export default TextTable;

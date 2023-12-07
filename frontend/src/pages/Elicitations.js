@@ -1,6 +1,6 @@
-import React from "react"
-import ElicitationsTable from "./ElicitationsTable"
-import { Grid } from "semantic-ui-react"
+import React from "react";
+import ElicitationsTable from "./ElicitationsTable";
+import { Grid } from "semantic-ui-react";
 import ElicitationsAccordion from "./accordions/ElicitationsAccordion";
 
 function Elicitations(props) {
@@ -18,8 +18,7 @@ function Elicitations(props) {
         </Grid.Column>
       </Grid>
     </React.Fragment>
-  )
-  
+  );
 }
 
 export default Elicitations;

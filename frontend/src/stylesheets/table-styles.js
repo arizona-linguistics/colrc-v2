@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 // const Styles = styled.div`
 //   padding: 1rem;
@@ -129,6 +129,6 @@ const TableStyles = styled.div`
   .toggle {
     margin: 1rem;
   }
-`
+`;
 
-export default TableStyles
+export default TableStyles;

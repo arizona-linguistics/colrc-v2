@@ -35,8 +35,7 @@ function Upload (props) {
             </Segment>
         </Grid.Column>
     </Grid>
-
-    )
+  );
 }
 
-export default Upload
+export default Upload;

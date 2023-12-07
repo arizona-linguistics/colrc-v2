@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button, Input } from 'semantic-ui-react'
-import matchSorter from 'match-sorter'
+import React from "react";
+import { Button, Input } from "semantic-ui-react";
+import matchSorter from "match-sorter";
 
 // {
 //   preGlobalFilteredRows,
@@ -10,35 +10,31 @@ import matchSorter from 'match-sorter'
 
 // Define a default UI for filtering
 
-export function GlobalFilter({
-    globalFilter,
-    setGlobalFilter
-  }) {
-
+export function GlobalFilter({ globalFilter, setGlobalFilter }) {
   return (
     <span>
-      <label style={{marginRight: '10px'}}> Search all:</label>
+      <label style={{ marginRight: "10px" }}> Search all:</label>
       <Input
-        value={globalFilter || ''}
-        onChange={e => {
-          setGlobalFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+        value={globalFilter || ""}
+        onChange={(e) => {
+          setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
         }}
         placeholder={`enter a search term`}
         style={{
-          fontSize: '1rem',
-          border: '0',
+          fontSize: "1rem",
+          border: "0",
         }}
       />
     </span>
-  )
+  );
 }
 
 // Define a default UI for filtering
 export function DefaultColumnFilter({
-  pageCount, 
+  pageCount,
   state: { pageSize },
   column: { id, tableName, filterValue, setFilter },
-  }) {
+}) {
   // console.log(theHash)
   // const id = theHash.column.id
   // const tableName = theHash.column.tableName
@@ -50,31 +46,31 @@ export function DefaultColumnFilter({
   // console.log('the pageSize is', pageSize)
   // console.log('the pageCount is', pageCount)
   //const count = preFilteredRows.length
-  const count = pageSize * pageCount
+  const count = pageSize * pageCount;
 
   return (
     <Input
-      value={filterValue || ''}
-      display='inline-block'
-      size='mini'
-      onChange={e => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      value={filterValue || ""}
+      display="inline-block"
+      size="mini"
+      onChange={(e) => {
+        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
       }}
       placeholder={`~ ${count}...`}
       style={{
-        width: '125px',
-        marginRight: '1rem',
+        width: "125px",
+        marginRight: "1rem",
       }}
     />
-  )
+  );
 }
 
 // Define a default UI for filtering
 export function NarrowColumnFilter({
-  pageCount, 
+  pageCount,
   state: { pageSize },
   column: { id, tableName, filterValue, setFilter },
-  }) {
+}) {
   // console.log(theHash)
   // const id = theHash.column.id
   // const tableName = theHash.column.tableName
@@ -86,46 +82,43 @@ export function NarrowColumnFilter({
   // console.log('the pageSize is', pageSize)
   // console.log('the pageCount is', pageCount)
   //const count = preFilteredRows.length
-  const count = pageSize * pageCount
+  const count = pageSize * pageCount;
 
   return (
     <Input
-      value={filterValue || ''}
-      display='inline-block'
-      size='mini'
-      onChange={e => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      value={filterValue || ""}
+      display="inline-block"
+      size="mini"
+      onChange={(e) => {
+        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
       }}
       placeholder={`~ ${count}...`}
       style={{
-        width: '50px',
-        marginRight: '1rem',
+        width: "50px",
+        marginRight: "1rem",
       }}
     />
-  )
+  );
 }
 
 export function TinyColumnFilter({
-  pageCount, 
+  pageCount,
   state: { pageSize },
   column: { id, tableName, filterValue, setFilter },
-  }) {
-
+}) {
   return (
     <Input
-      value={filterValue || ''}
-      onChange={e => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      value={filterValue || ""}
+      onChange={(e) => {
+        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
       }}
       style={{
-        width: '0.5rem',
-        marginRight: '0.5rem',
+        width: "0.5rem",
+        marginRight: "0.5rem",
       }}
     />
-  )
+  );
 }
-
-
 
 // This is a custom filter UI for selecting
 // a unique option from a list
@@ -133,7 +126,7 @@ export function SelectColumnFilter({
   selectValues,
   column: { filterValue, setFilter, id },
 }) {
-  console.log('my selectValues are ', selectValues)
+  console.log("my selectValues are ", selectValues);
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = React.useMemo(() => {
@@ -141,23 +134,23 @@ export function SelectColumnFilter({
     // preFilteredRows.forEach(row => {
     //   options.add(row.values[id])
     // })
-    const options = new Set()
+    const options = new Set();
     if (selectValues[id]) {
-      return selectValues[id]
+      return selectValues[id];
     } else {
-      options.add("snarg")
-      options.add("blarf")
-      options.add("warp")
-      return [...options.values()]
+      options.add("snarg");
+      options.add("blarf");
+      options.add("warp");
+      return [...options.values()];
     }
-  }, [id, selectValues])
+  }, [id, selectValues]);
 
   // Render a multi-select box
   return (
     <select
       value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined)
+      onChange={(e) => {
+        setFilter(e.target.value || undefined);
       }}
     >
       <option value="">All</option>
@@ -167,7 +160,7 @@ export function SelectColumnFilter({
         </option>
       ))}
     </select>
-  )
+  );
 }
 
 // This is a custom filter UI that uses a
@@ -180,14 +173,14 @@ export function SliderColumnFilter({
   // using the preFilteredRows
 
   const [min, max] = React.useMemo(() => {
-    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    preFilteredRows.forEach(row => {
-      min = Math.min(row.values[id], min)
-      max = Math.max(row.values[id], max)
-    })
-    return [min, max]
-  }, [id, preFilteredRows])
+    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
+    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
+    preFilteredRows.forEach((row) => {
+      min = Math.min(row.values[id], min);
+      max = Math.max(row.values[id], max);
+    });
+    return [min, max];
+  }, [id, preFilteredRows]);
 
   return (
     <React.Fragment>
@@ -196,13 +189,13 @@ export function SliderColumnFilter({
         min={min}
         max={max}
         value={filterValue || min}
-        onChange={e => {
-          setFilter(parseInt(e.target.value, 10))
+        onChange={(e) => {
+          setFilter(parseInt(e.target.value, 10));
         }}
       />
       <Button onClick={() => setFilter(undefined)}>Off</Button>
     </React.Fragment>
-  )
+  );
 }
 
 // This is a custom UI for our 'between' or number range
@@ -212,72 +205,81 @@ export function NumberRangeColumnFilter({
   column: { filterValue = [], preFilteredRows, setFilter, id },
 }) {
   const [min, max] = React.useMemo(() => {
-    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    preFilteredRows.forEach(row => {
-      min = Math.min(row.values[id], min)
-      max = Math.max(row.values[id], max)
-    })
-    return [min, max]
-  }, [id, preFilteredRows])
+    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
+    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
+    preFilteredRows.forEach((row) => {
+      min = Math.min(row.values[id], min);
+      max = Math.max(row.values[id], max);
+    });
+    return [min, max];
+  }, [id, preFilteredRows]);
 
   return (
     <div
       style={{
-        display: 'flex',
+        display: "flex",
       }}
     >
       <input
-        value={filterValue[0] || ''}
+        value={filterValue[0] || ""}
         type="number"
-        onChange={e => {
-          const val = e.target.value
-          setFilter((old = []) => [val ? parseInt(val, 10) : undefined, old[1]])
+        onChange={(e) => {
+          const val = e.target.value;
+          setFilter((old = []) => [
+            val ? parseInt(val, 10) : undefined,
+            old[1],
+          ]);
         }}
         placeholder={`Min (${min})`}
         style={{
-          width: '70px',
-          marginRight: '0.5rem',
+          width: "70px",
+          marginRight: "0.5rem",
         }}
       />
       to
       <input
-        value={filterValue[1] || ''}
+        value={filterValue[1] || ""}
         type="number"
-        onChange={e => {
-          const val = e.target.value
-          setFilter((old = []) => [old[0], val ? parseInt(val, 10) : undefined])
+        onChange={(e) => {
+          const val = e.target.value;
+          setFilter((old = []) => [
+            old[0],
+            val ? parseInt(val, 10) : undefined,
+          ]);
         }}
         placeholder={`Max (${max})`}
         style={{
-          width: '70px',
-          marginLeft: '0.5rem',
+          width: "70px",
+          marginLeft: "0.5rem",
         }}
       />
     </div>
-  )
+  );
 }
 
 // Define a custom filter filter function!
 export function filterGreaterThan(rows, id, filterValue) {
-  return rows.filter(row => {
-    const rowValue = row.values[id]
-    return rowValue >= filterValue
-  })
+  return rows.filter((row) => {
+    const rowValue = row.values[id];
+    return rowValue >= filterValue;
+  });
 }
 
 // This is an autoRemove method on the filter function that
 // when given the new filter value and returns true, the filter
 // will be automatically removed. Normally this is just an undefined
 // check, but here, we want to remove the filter if it's not a number
-filterGreaterThan.autoRemove = val => typeof val !== 'number'
+filterGreaterThan.autoRemove = (val) => typeof val !== "number";
 
 export function fuzzyTextFilterFn(rows, id, filterValue) {
-  return matchSorter(rows, filterValue, { keys: [row => row.values[id]], threshold: matchSorter.rankings.CONTAINS})
+  return matchSorter(rows, filterValue, {
+    keys: [(row) => row.values[id]],
+    threshold: matchSorter.rankings.CONTAINS,
+  });
 }
 
 // Let the table remove the filter if the string is empty
-fuzzyTextFilterFn.autoRemove = val => !val
+fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 export function SelectOrthographyFilter({
   column: { filterValue, setFilter, preFilteredRows, id },
@@ -285,20 +287,20 @@ export function SelectOrthographyFilter({
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = React.useMemo(() => {
-    const options = new Set()
-    preFilteredRows.forEach(row => {
-      options.add("R")
-      options.add("S")
-      options.add("N")
-    })
-    return [...options.values()]
-  }, [preFilteredRows])
+    const options = new Set();
+    preFilteredRows.forEach((row) => {
+      options.add("R");
+      options.add("S");
+      options.add("N");
+    });
+    return [...options.values()];
+  }, [preFilteredRows]);
   // Render a multi-select box
   return (
     <select
       value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined)
+      onChange={(e) => {
+        setFilter(e.target.value || undefined);
       }}
     >
       <option value="">All</option>
@@ -308,7 +310,7 @@ export function SelectOrthographyFilter({
         </option>
       ))}
     </select>
-  )
+  );
 }
 
 export function ClientSelectFilter({
@@ -317,18 +319,18 @@ export function ClientSelectFilter({
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = React.useMemo(() => {
-    const options = new Set()
-    preFilteredRows.forEach(row => {
-      options.add(row.values[id])
-    })
-    return [...options.values()]
-  }, [id, preFilteredRows])
+    const options = new Set();
+    preFilteredRows.forEach((row) => {
+      options.add(row.values[id]);
+    });
+    return [...options.values()];
+  }, [id, preFilteredRows]);
   // Render a multi-select box
   return (
     <select
       value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined)
+      onChange={(e) => {
+        setFilter(e.target.value || undefined);
       }}
     >
       <option value="">All</option>
@@ -338,5 +340,5 @@ export function ClientSelectFilter({
         </option>
       ))}
     </select>
-  )
+  );
 }
