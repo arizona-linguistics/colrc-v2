@@ -426,33 +426,48 @@ function OdinsonTable(props) {
       // Set the loading state
       setLoading(true);
 
-    // We'll even set a delay to simulate a server here
-    setTimeout(() => {
-      // Only update the data if this is the latest fetch
-      if (fetchId === fetchIdRef.current) {
-        getPattern(globalFilter,pageSize,pageIndex,setScore, score, setDoc, doc, setCache, cache, setTotalHits, totalHits)
-        .then((data) => {
-          console.log(data)  
-          let totalCount = data.totalHits
-          console.log("the total count from fetchData is ", totalCount)
-          setData(data.scoreDocs)
-          setPageCount(Math.ceil(totalCount/pageSize))
-          // setPageSize(totalCount)
-          setLoading(false)
-        })
-        .catch((error) => {
-          console.log(error)
-          handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
-          setData([])
-          setPageCount(0)
-          setLoading(false)
-          history.push('./login')
-        })
-      }
-    }, 1000)
+      // We'll even set a delay to simulate a server here
+      setTimeout(() => {
+        // Only update the data if this is the latest fetch
+        if (fetchId === fetchIdRef.current) {
+          getPattern(
+            globalFilter,
+            pageSize,
+            pageIndex,
+            setScore,
+            score,
+            setDoc,
+            doc,
+            setCache,
+            cache,
+            setTotalHits,
+            totalHits
+          )
+            .then((data) => {
+              console.log(data);
+              let totalCount = data.totalHits;
+              console.log("the total count from fetchData is ", totalCount);
+              setData(data.scoreDocs);
+              setPageCount(Math.ceil(totalCount / pageSize));
+              // setPageSize(totalCount)
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.log(error);
+              handleErrors(error, {
+                logout: { action: setAuthTokens, redirect: "/login" },
+              });
+              setData([]);
+              setPageCount(0);
+              setLoading(false);
+              history.push("./login");
+            });
+        }
+      }, 1000);
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history, setAuthTokens]
-);
+    [history, setAuthTokens]
+  );
 
   console.log(props.globalSearch);
   return (

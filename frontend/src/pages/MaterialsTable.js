@@ -4,7 +4,6 @@ import AudioPlayer from "../utils/AudioPlayer";
 import { Link } from "react-router-dom";
 
 function Table({ columns, data, renderRowSubComponent, expandAllChecked }) {
-   
   const {
     getTableProps,
     getTableBodyProps,
@@ -21,16 +20,13 @@ function Table({ columns, data, renderRowSubComponent, expandAllChecked }) {
     useExpanded
   );
 
-  React.useEffect(
-    () => {
-      for (var row of rows) {
-        if (row.original.metadata?.length) {
-          row.toggleRowExpanded(expandAllChecked)
-        }
+  React.useEffect(() => {
+    for (var row of rows) {
+      if (row.original.metadata?.length) {
+        row.toggleRowExpanded(expandAllChecked);
       }
-    },
-    [expandAllChecked]
-  );
+    }
+  }, [expandAllChecked]);
 
   // Render the UI for your table
   return (
@@ -74,18 +70,22 @@ function Table({ columns, data, renderRowSubComponent, expandAllChecked }) {
 }
 
 function MaterialsTable({ materialData, expandAllChecked }) {
-  console.log(materialData, expandAllChecked)
+  console.log(materialData, expandAllChecked);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = React.useMemo(() => [
     {
       Header: () => null,
       id: "subexpander",
       // remove arrow if engl
-      Cell: ({ row }) => (
-        row.original.metadata?.length
-        ? <span {...row.getToggleRowExpandedProps()}> {row.isExpanded ? '▼' : '▶'} </span>
-        : <span/>
-      ),
+      Cell: ({ row }) =>
+        row.original.metadata?.length ? (
+          <span {...row.getToggleRowExpandedProps()}>
+            {" "}
+            {row.isExpanded ? "▼" : "▶"}{" "}
+          </span>
+        ) : (
+          <span />
+        ),
     },
     {
       Header: "Materials",
@@ -147,13 +147,13 @@ function MaterialsTable({ materialData, expandAllChecked }) {
   const [data] = React.useState(() => materialData);
 
   return (
-    <Table 
-        className='materialMetadataTable'
-        columns={columns}
-        data={data}
-        renderRowSubComponent={renderRowSubComponent}
-        expandAllChecked={expandAllChecked}
-      />
+    <Table
+      className="materialMetadataTable"
+      columns={columns}
+      data={data}
+      renderRowSubComponent={renderRowSubComponent}
+      expandAllChecked={expandAllChecked}
+    />
   );
 }
 

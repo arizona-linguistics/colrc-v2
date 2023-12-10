@@ -21,12 +21,7 @@ import { handleErrors } from "../utils/messages";
 import { useExportData } from "react-table-plugins";
 import { getExportFileBlob } from "../utils/ExportFileBlob";
 
-function Table({
-  columns,
-  data,
-  fetchData,
-  loading,
-}) {
+function Table({ columns, data, fetchData, loading }) {
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -96,7 +91,7 @@ function Table({
     useFilters,
     useSortBy,
     useExportData,
-    usePagination,   
+    usePagination
   );
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {

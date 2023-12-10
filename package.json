@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "node-fetch": "^2.6.7",
+    "prettier": "^2.8.8",
     "react-scripts": "^5.0.1"
   }
 }

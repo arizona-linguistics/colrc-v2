@@ -28,8 +28,8 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   renderRowSubComponent,
-  setExpandAllChecked
-//   selectValues
+  setExpandAllChecked,
+  //   selectValues
 }) {
   const { user } = useAuth();
   //console.log("Inside table, I have select values: ", selectValues)
@@ -107,14 +107,28 @@ function Table({
     useFilters,
     useSortBy,
     useExpanded,
-    usePagination,   
-  )
-
+    usePagination
+  );
 
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded });
-  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded]);
+    fetchData({
+      pageIndex,
+      pageSize,
+      sortBy,
+      filters,
+      globalFilter,
+      toggleAllRowsExpanded,
+    });
+  }, [
+    fetchData,
+    pageIndex,
+    pageSize,
+    sortBy,
+    filters,
+    globalFilter,
+    toggleAllRowsExpanded,
+  ]);
 
   React.useEffect(() => {
     setHiddenColumns(
@@ -127,23 +141,28 @@ function Table({
     <>
       <div className="allExpandToggle">
         <label>
-          <input type="checkbox" onChange={(e) => {
-            setExpandAllChecked(e.target.checked);
-            toggleAllRowsExpanded(e.target.checked);}}/>
-          {' Expand All'}
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setExpandAllChecked(e.target.checked);
+              toggleAllRowsExpanded(e.target.checked);
+            }}
+          />
+          {" Expand All"}
         </label>
       </div>
 
       <div className="columnToggle">
-        {allColumns.map((column) => (
-         (column.label !== undefined) ?
-          (<div key={column.id} className="columnToggle">
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
-              {column.label}
-            </label>
-          </div>) : (null)
-        ))}
+        {allColumns.map((column) =>
+          column.label !== undefined ? (
+            <div key={column.id} className="columnToggle">
+              <label>
+                <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
+                {column.label}
+              </label>
+            </div>
+          ) : null
+        )}
       </div>
       <table {...getTableProps()}>
         <thead>
@@ -175,27 +194,26 @@ function Table({
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.map((row) => {
-              prepareRow(row);
-              return (
-                 <React.Fragment key={row.getRowProps().key}>
-                    <tr>
-                       {row.cells.map((cell) => {
-                          return (
-                             <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
-                          );
-                       })}
-                    </tr>
-                    {row.isExpanded && (
-                       <tr>
-                          <td colSpan={visibleColumns.length}>
-                             {renderRowSubComponent({ row })}
-                          </td>
-                       </tr>
-                    )}
-                    
-                 </React.Fragment>
-              );
-           })}
+            prepareRow(row);
+            return (
+              <React.Fragment key={row.getRowProps().key}>
+                <tr>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+                    );
+                  })}
+                </tr>
+                {row.isExpanded && (
+                  <tr>
+                    <td colSpan={visibleColumns.length}>
+                      {renderRowSubComponent({ row })}
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            );
+          })}
           <tr>
             {loading ? (
               // Use our custom loading state to show a loading indicator
@@ -263,65 +281,65 @@ function LogTable(props) {
 
   const updateColumns = React.useMemo(
     () => [
-       {
-        Header: '',
-        id: 'expander', // It needs an ID
+      {
+        Header: "",
+        id: "expander", // It needs an ID
         Cell: ({ row }) => (
-           <span {...row.getToggleRowExpandedProps()}>
-              {row.isExpanded ? '▼' : '▶'}
-           </span>
+          <span {...row.getToggleRowExpandedProps()}>
+            {row.isExpanded ? "▼" : "▶"}
+          </span>
         ),
       },
       {
         Header: "Action",
         accessor: "action",
         Filter: DefaultColumnFilter,
-        tableName: 'LogTable',
-        id: 'action',
-        label: 'action'
+        tableName: "LogTable",
+        id: "action",
+        label: "action",
       },
       {
-        Header: 'Schema',
-        accessor: 'schema_name',
+        Header: "Schema",
+        accessor: "schema_name",
         Filter: DefaultColumnFilter,
-        tableName: 'LogTable',
-        id: 'schema_name',
-        label: 'schema'
+        tableName: "LogTable",
+        id: "schema_name",
+        label: "schema",
       },
       {
-        Header: 'Table',
-        accessor: 'table_name',
-        tableName: 'LogTable',
-        id: 'table_name',
-        label: 'table'
+        Header: "Table",
+        accessor: "table_name",
+        tableName: "LogTable",
+        id: "table_name",
+        label: "table",
       },
       {
-        Header: 'User',
-        accessor: 'audit_user[0].first',
-        filter: 'fuzzyText',
-        tableName: 'LogTable',
-        id: 'user',
-        label: 'user'
-      }
-    ], []
-  )
+        Header: "User",
+        accessor: "audit_user[0].first",
+        filter: "fuzzyText",
+        tableName: "LogTable",
+        id: "user",
+        label: "user",
+      },
+    ],
+    []
+  );
 
   const renderRowSubComponent = React.useCallback(
-      ({ row }) => (
-         <div>
-            <LogSubTable originalRow={row} />
-         </div>
-      ),
-      []
-   )
-
+    ({ row }) => (
+      <div>
+        <LogSubTable originalRow={row} />
+      </div>
+    ),
+    []
+  );
 
   // We'll start our table without any data
-  const [data, setData] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
-  const [pageCount, setPageCount] = React.useState(0)
-  const [expandAllChecked, setExpandAllChecked] = React.useState(false)
-  const fetchIdRef = React.useRef(0)
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [pageCount, setPageCount] = React.useState(0);
+  const [expandAllChecked, setExpandAllChecked] = React.useState(false);
+  const fetchIdRef = React.useRef(0);
   const { client, setAuthTokens, user } = useAuth();
 
   async function getLog(limit, offset, sortBy, filters) {
@@ -340,14 +358,21 @@ function LogTable(props) {
         },
       });
     }
-    return res.data
-  }  
+    return res.data;
+  }
 
-
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, toggleAllRowsExpanded }) => {
-    // This will get called when the table needs new data
-    // You could fetch your data from literally anywhere,
-    // even a server. But for this example, we'll just fake it.
+  const fetchData = React.useCallback(
+    ({
+      pageSize,
+      pageIndex,
+      sortBy,
+      filters,
+      globalFilter,
+      toggleAllRowsExpanded,
+    }) => {
+      // This will get called when the table needs new data
+      // You could fetch your data from literally anywhere,
+      // even a server. But for this example, we'll just fake it.
 
       // Give this fetch an ID
       const fetchId = ++fetchIdRef.current;
@@ -355,37 +380,49 @@ function LogTable(props) {
       // Set the loading state
       setLoading(true);
 
-    // We'll even set a delay to simulate a server here
-    setTimeout(() => {
-      // Only update the data if this is the latest fetch
-      if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy, 'event_id', 'desc') 
-        const controlledFilter = filterReshape(filters, globalFilter, ['action', 'table_name'])
-        // // reset to first page when filters change
-        getLog(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
-        .then((data) => {
-          console.log(data)  
-          let totalCount = data.audit_logged_actions_aggregate.aggregate.count
-          setData(data.audit_logged_actions)
-          setPageCount(Math.ceil(totalCount / pageSize))
-          setLoading(false)
-          toggleAllRowsExpanded(expandAllChecked)
-        })
-        .catch((error) => {
-          console.log(error)
-          handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
-          setData([])
-          setPageCount(0)
-          setLoading(false)
-          history.push('./login')
-        })
-      }
-    }, 1000)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history, setAuthTokens, expandAllChecked])
+      // We'll even set a delay to simulate a server here
+      setTimeout(() => {
+        // Only update the data if this is the latest fetch
+        if (fetchId === fetchIdRef.current) {
+          const controlledSort = sortReshape(sortBy, "event_id", "desc");
+          const controlledFilter = filterReshape(filters, globalFilter, [
+            "action",
+            "table_name",
+          ]);
+          // // reset to first page when filters change
+          getLog(
+            pageSize,
+            pageSize * pageIndex,
+            controlledSort,
+            controlledFilter
+          )
+            .then((data) => {
+              console.log(data);
+              let totalCount =
+                data.audit_logged_actions_aggregate.aggregate.count;
+              setData(data.audit_logged_actions);
+              setPageCount(Math.ceil(totalCount / pageSize));
+              setLoading(false);
+              toggleAllRowsExpanded(expandAllChecked);
+            })
+            .catch((error) => {
+              console.log(error);
+              handleErrors(error, {
+                logout: { action: setAuthTokens, redirect: "/login" },
+              });
+              setData([]);
+              setPageCount(0);
+              setLoading(false);
+              history.push("./login");
+            });
+        }
+      }, 1000);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [history, setAuthTokens, expandAllChecked]
+  );
 
-  let columns = updateColumns
-  
+  let columns = updateColumns;
 
   return (
     <TableStyles>
