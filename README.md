@@ -270,6 +270,8 @@ The following sections discuss the components we are using for this project, alo
 
 The frontend is built using [`react`](https://reactjs.org/).  If you've launched the development environment using [`docker-compose`](https://docs.docker.com/compose/install/), the app will launch on http://localhost:3000.  Changes you make to the frontend source will update in realtime.
 
+After making changes to frontend files, please manually run prettier to ensure that all code follows the same standards of style. To do this, after making
+any changes, run the command 'npx prettier [file name or file spec e.g. /home/exouser/colrc-v2/frontend/src/pages/TextTable.js or */*Table.js] --write'. 
 
 ### [Backend](./backend)
 
