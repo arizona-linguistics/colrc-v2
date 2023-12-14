@@ -21,6 +21,18 @@ import TableStyles from "./../stylesheets/table-styles";
 import { handleErrors } from "../utils/messages";
 import AudioMaterialsTable from "./AudioMaterialsTable";
 
+/**
+ * This function constructs a table used for displaying text data provided by the AudioTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {controlledPageCount} pageCount Nummber of pages 
+ * @param {*} selectValues Current selected values
+ * @param {*} renderRowSubComponent Renders a subcomponent for each row of the table
+ * @param {*} setExpandAllChecked A boolean that checks for expanding the table
+ * @returns A rendered UI for the table
+ */
 function Table({
   columns,
   data,
@@ -272,6 +284,11 @@ function Table({
   );
 }
 
+/**
+ * Provides the data needed to construct the AudioTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used (not used)
+ * @returns A rendered AudioTable
+ */
 function AudioTable(props) {
   let history = useHistory();
 

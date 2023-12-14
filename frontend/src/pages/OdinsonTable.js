@@ -13,9 +13,19 @@ import {
   fuzzyTextFilterFn,
 } from "../utils/Filters";
 import { useAuth } from "../context/auth";
-import TableStyles from "../stylesheets/table-styles";
-import { handleErrors } from "../utils/messages";
+import TableStyles from "../stylesheets/table-styles"
+import { handleErrors } from '../utils/messages';
 
+/**
+ * This function constructs a table used for displaying text data provided by the OdinsonTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {controlledPageCount} pageCount Nummber of pages 
+ * @param {*} globalSearch User input from a search box
+ * @returns A rendered UI for the table
+ */
 function Table({
   columns,
   data,
@@ -23,11 +33,8 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   globalSearch,
-  //   selectValues
 }) {
   const { user } = useAuth();
-  //console.log("Inside table, I have select values: ", selectValues)
-
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -95,8 +102,6 @@ function Table({
       manualGlobalFilter: true,
       defaultColumn,
       filterTypes,
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      //   selectValues
     },
     useGlobalFilter,
     useFilters,
@@ -260,6 +265,11 @@ function Table({
   );
 }
 
+/**
+ * Provides the data needed to construct the OdinsonTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used
+ * @returns A rendered OdinsonTable
+ */
 function OdinsonTable(props) {
   const [data, setData] = useState([]);
   const fetchIdRef = React.useRef(0);
@@ -479,7 +489,6 @@ function OdinsonTable(props) {
         loading={loading}
         pageCount={pageCount}
         globalSearch={props.globalSearch}
-        // selectValues={props.selectValues}
       />
     </TableStyles>
   );

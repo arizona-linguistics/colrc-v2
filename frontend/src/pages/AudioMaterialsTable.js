@@ -1,8 +1,14 @@
 import React from "react";
 import { useTable } from "react-table";
-import AudioPlayer from "../utils/AudioPlayer";
-import { Link } from "react-router-dom";
+import AudioPlayer from '../utils/AudioPlayer';
+import { Link } from 'react-router-dom';
 
+/**
+ * This function constructs a table used for displaying text data provided by the AudioMaterialsTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @returns A rendered UI for the table
+ */
 function Table({ columns, data }) {
   const {
     getTableProps,
@@ -50,6 +56,11 @@ function Table({ columns, data }) {
   );
 }
 
+/**
+ * Provides the data needed to construct the AudioMaterialsTable using the Table function
+ * @param {*} materialData the material data for the audio materials
+ * @returns A rendered AudioMaterialsTable
+ */
 function AudioMaterialsTable({ materialData }) {
   console.log("this is my materialData ", materialData);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,14 +115,12 @@ function AudioMaterialsTable({ materialData }) {
 
   const [data] = React.useState(() => materialData);
 
-  return (
-    <Table
-      //   className='materialMetadataTable'
-      columns={columns}
-      data={data}
-      //   renderRowSubComponent={renderRowSubComponent}
-    />
-  );
+   return (
+      <Table
+         columns={columns}
+         data={data}
+      />
+   );
 }
 
 export default AudioMaterialsTable;

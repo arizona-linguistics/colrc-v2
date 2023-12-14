@@ -1,9 +1,22 @@
 import React from "react";
-import { useTable, useExpanded } from "react-table";
-import AudioPlayer from "../utils/AudioPlayer";
-import { Link } from "react-router-dom";
+import {useTable, useExpanded} from "react-table";
+import AudioPlayer from '../utils/AudioPlayer';
+import { Link } from 'react-router-dom';
 
-function Table({ columns, data, renderRowSubComponent, expandAllChecked }) {
+/**
+ * This function constructs a table used for displaying text data provided by the MaterialsTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} renderRowSubComponent Renders a subcomponent for each row of the table
+ * @param {*} setExpandAllChecked A boolean that checks for expanding the table
+ * @returns A rendered UI for the table
+ */
+function Table({
+  columns, 
+  data, 
+  renderRowSubComponent, 
+  expandAllChecked }) {
+   
   const {
     getTableProps,
     getTableBodyProps,
@@ -68,7 +81,12 @@ function Table({ columns, data, renderRowSubComponent, expandAllChecked }) {
     </React.Fragment>
   );
 }
-
+/**
+ * Provides the data needed to construct the MaterialsTable using the Table function
+ * @param {*} materialData An array of data representing materials that are being used
+ * @param {*} setExpandAllChecked A boolean that checks for expanding the table
+ * @returns A rendered MaterialsTable
+ */
 function MaterialsTable({ materialData, expandAllChecked }) {
   console.log(materialData, expandAllChecked);
   // eslint-disable-next-line react-hooks/exhaustive-deps

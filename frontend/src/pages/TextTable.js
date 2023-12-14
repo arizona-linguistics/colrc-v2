@@ -17,9 +17,21 @@ import { useAuth } from "../context/auth";
 import { getTextsQuery } from "./../queries/queries";
 import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers";
 import MaterialsTable from "./MaterialsTable";
-import TableStyles from "./../stylesheets/table-styles";
-import { handleErrors } from "../utils/messages";
+import TableStyles from "./../stylesheets/table-styles"
+import { handleErrors } from '../utils/messages';
 
+/**
+ * This function constructs a table used for displaying text data provided by the TextTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {controlledPageCount} pageCount Nummber of pages 
+ * @param {*} selectValues Current selected values
+ * @param {*} renderRowSubComponent Renders a subcomponent for each row of the table
+ * @param {*} setExpandAllChecked A boolean that checks for expanding the table
+ * @returns A rendered UI for the table
+ */
 function Table({
   columns,
   data,
@@ -110,60 +122,42 @@ function Table({
     usePagination
   );
 
-  // Listen for changes in pagination and use the state to fetch our new data
-  React.useEffect(() => {
-    fetchData({
-      pageIndex,
-      pageSize,
-      sortBy,
-      filters,
-      globalFilter,
-      toggleAllRowsExpanded,
-    });
-  }, [
-    fetchData,
-    pageIndex,
-    pageSize,
-    sortBy,
-    filters,
-    globalFilter,
-    toggleAllRowsExpanded,
-  ]);
+   // Listen for changes in pagination and use the state to fetch our new data
+   React.useEffect(() => {
+      fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded });
+   }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter, toggleAllRowsExpanded])
 
-  React.useEffect(() => {
-    setHiddenColumns(
-      columns.filter((column) => !column.show).map((column) => column.id)
-    );
-  }, [columns, setHiddenColumns]);
+   React.useEffect(
+      () => {
+         setHiddenColumns(
+            columns.filter(column => !column.show).map(column => column.id)
+         );
+      },
+      [columns, setHiddenColumns]
+   );
 
-  // Render the UI for your table
-  return (
-    <>
-      <div className="allExpandToggle">
-        <label>
-          <input
-            type="checkbox"
-            onChange={(e) => {
-              setExpandAllChecked(e.target.checked);
-              toggleAllRowsExpanded(e.target.checked);
-            }}
-          />
-          {" Expand All"}
-        </label>
-      </div>
+   // Render the UI for your table
+   return (
+      <>
+         <div className="allExpandToggle">
+            <label>
+               <input type="checkbox" onChange={(e) => {
+                  setExpandAllChecked(e.target.checked);
+                  toggleAllRowsExpanded(e.target.checked);}}/>
+               {' Expand All'}
+            </label>
+         </div>
 
-      <div className="columnToggle">
-        {allColumns
-          .filter((column) => !column.disableHiding)
-          .map((column) => (
-            <div key={column.id} className="columnToggle">
-              <label>
-                <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
-                {column.label}
-              </label>
-            </div>
-          ))}
-      </div>
+         <div className="columnToggle">
+            {allColumns.filter(column => !column.disableHiding).map(column => (
+               (<div key={column.id} className="columnToggle">
+                  <label>
+                     <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                     {column.label}
+                  </label>
+               </div>)
+            ))}
+         </div>
 
       <table className="table" {...getTableProps()}>
         <thead>
@@ -213,7 +207,7 @@ function Table({
             );
           })}
 
-          <tr>
+         <tr>
             {loading ? (
               // Use our custom loading state to show a loading indicator
               <td colSpan="10"> Loading... </td>
@@ -274,6 +268,12 @@ function Table({
   );
 }
 
+
+/**
+ * Provides the data needed to construct the TextTable using the Table function
+ * @param {*} props Param never used in the function
+ * @returns A rendered TextTable
+ */
 function TextTable(props) {
   let history = useHistory();
 

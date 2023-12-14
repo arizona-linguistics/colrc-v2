@@ -19,8 +19,18 @@ import { getLogQuery } from "./../queries/queries";
 import { sortReshape, filterReshape } from "./../utils/reshapers";
 import TableStyles from "./../stylesheets/table-styles";
 import LogSubTable from "./LogSubTable";
-import { handleErrors } from "../utils/messages";
-
+import { handleErrors } from '../utils/messages';
+/**
+ * Provides the data needed to construct the LogTable using the Table function
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {controlledPageCount} pageCount Nummber of pages 
+ * @param {*} renderRowSubComponent Renders a subcomponent for each row of the table
+ * @param {*} setExpandAllChecked A boolean that checks for expanding the table
+ * @returns A rendered LogTable
+ */
 function Table({
   columns,
   data,
@@ -29,10 +39,8 @@ function Table({
   pageCount: controlledPageCount,
   renderRowSubComponent,
   setExpandAllChecked,
-  //   selectValues
 }) {
   const { user } = useAuth();
-  //console.log("Inside table, I have select values: ", selectValues)
 
   const filterTypes = React.useMemo(
     () => ({
@@ -276,6 +284,11 @@ function Table({
   );
 }
 
+/**
+ * Provides the data needed to construct the LogTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used (not used)
+ * @returns A rendered LogTable
+ */
 function LogTable(props) {
   let history = useHistory();
 

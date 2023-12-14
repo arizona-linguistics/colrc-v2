@@ -16,7 +16,21 @@ import { Icon, Button } from "semantic-ui-react";
 import TableStyles from "../stylesheets/table-styles";
 
 function UserListTable(props) {
-  function Table({ columns, data, fetchData, loading }) {
+  /**
+   * This function constructs a table used for displaying data
+   * @param {*} columns Each of the columns of the DataGrid
+   * @param {*} data Data to be used in the table
+   * @param {*} fetchData Collcts new data for the table (not used)
+   * @param {*} loading Loading indicator, a boolean
+   * @returns A rendered UI for the table
+   */
+  function Table({ 
+    columns, 
+    data,
+    fetchData,
+    loading,
+   }) {
+
     const filterTypes = React.useMemo(
       () => ({
         fuzzyText: fuzzyTextFilterFn,

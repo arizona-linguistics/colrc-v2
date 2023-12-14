@@ -11,10 +11,19 @@ const specialRowPKs = {
     user_roles: ["roleId", "userId"],
   },
   audit: {
-    logged_actions: ["event_id"], // Oh god, hopefully nobody audits changes to the audits
-  },
-};
+    logged_actions: ['event_id'],  // Oh god, hopefully nobody audits changes to the audits
+  }
+}
 
+/**
+ * This function constructs a table used for displaying text data provided by the LogSubTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {*} getCellProps modifies individual cells
+ * @returns A rendered UI for the table
+ */
 function Table({ columns, data, fetchData, getCellProps }) {
   const {
     getTableProps,
@@ -72,7 +81,11 @@ function Table({ columns, data, fetchData, getCellProps }) {
     </React.Fragment>
   );
 }
-
+/**
+ * Provides the data needed to construct the LogSubTable using the Table function
+ * @param {*} originalRow A row from the LogTable
+ * @returns A rendered LogSubTable
+ */
 function LogSubTable({ originalRow }) {
   let history = useHistory();
 

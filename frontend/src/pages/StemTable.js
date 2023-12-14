@@ -28,9 +28,20 @@ import {
 import { useExportData } from "react-table-plugins";
 import { getExportFileBlob } from "../utils/ExportFileBlob";
 
-// this table uses server-side paging, sorting and filtering.
-// It has one dropdown menu, so it uses selectValues.
-// the Table function from react-tables version 7 creates the basic table setup
+/**
+ * this table uses server-side paging, sorting and filtering.
+ * It has one dropdown menu, so it uses selectValues.
+ * The Table function from react-tables version 7 creates the basic table setup
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {controlledPageCount} pageCount Nummber of pages 
+ * @param {*} selectValues Current selected values
+ * @param {*} globalSearch User input from a search box
+ * @returns A rendered UI for the table
+ * @returns 
+ */
 function Table({
   columns,
   data,
@@ -110,7 +121,6 @@ function Table({
       manualGlobalFilter: true,
       defaultColumn,
       filterTypes,
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
       selectValues,
       getExportFileBlob,
       getExportFileName,
@@ -380,8 +390,11 @@ function Table({
   );
 }
 
-// now we build the columns of the table, paying attention to whether the user
-// has update permissions or not, and calculating any fields we need.
+/**
+ * Provides the data needed to construct the StemTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used
+ * @returns A rendered StemTable
+ */
 function StemTable(props) {
   let history = useHistory();
 

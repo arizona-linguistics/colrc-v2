@@ -14,14 +14,26 @@ import {
   NarrowColumnFilter,
 } from "../utils/Filters";
 import { useAuth } from "../context/auth";
-import { getAllBibliographyQuery } from "../queries/queries";
-import { Button, Grid, Message, Label, Segment } from "semantic-ui-react";
-import TableStyles from "../stylesheets/table-styles";
-import { handleErrors } from "../utils/messages";
-import { useExportData } from "react-table-plugins";
-import { getExportFileBlob } from "../utils/ExportFileBlob";
-
-function Table({ columns, data, fetchData, loading }) {
+import { getAllBibliographyQuery } from '../queries/queries'
+import { Button, Grid, Message, Label, Segment} from "semantic-ui-react";
+import TableStyles from "../stylesheets/table-styles"
+import { handleErrors } from '../utils/messages';
+import { useExportData } from 'react-table-plugins';
+import { getExportFileBlob } from '../utils/ExportFileBlob';
+/**
+ * This function constructs a table used for displaying text data provided by the BibliographyTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @returns A rendered UI for the table
+ */
+function Table({
+  columns,
+  data,
+  fetchData,
+  loading,
+}) {
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -312,6 +324,11 @@ function Table({ columns, data, fetchData, loading }) {
   );
 }
 
+/**
+ * Provides the data needed to construct the BibliographyTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used (not used)
+ * @returns A rendered BibliographyTable
+ */
 function BibliographyTable(props) {
   let history = useHistory();
 

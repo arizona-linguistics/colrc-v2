@@ -18,7 +18,17 @@ import ElicitationsPlayer from "../utils/ElicitationsPlayer";
 import { sortReshape, filterReshape } from "./../utils/reshapers";
 import TableStyles from "./../stylesheets/table-styles";
 import { Icon } from "semantic-ui-react";
-import { handleErrors } from "../utils/messages";
+import { handleErrors } from '../utils/messages';
+/**
+ * This function constructs a table used for displaying text data provided by the ElicitationsTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {controlledPageCount} pageCount Nummber of pages 
+ * @param {*} selectValues Current selected values
+ * @returns A rendered UI for the table
+ */
 
 function Table({
   columns,
@@ -94,7 +104,6 @@ function Table({
       manualGlobalFilter: true,
       defaultColumn,
       filterTypes,
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
       selectValues,
     },
     useGlobalFilter,
@@ -229,6 +238,11 @@ function Table({
   );
 }
 
+/**
+ * Provides the data needed to construct the ElicitationsTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used (not used)
+ * @returns A rendered ElicitationsTable
+ */
 function ElicitationsTable(props) {
   let history = useHistory();
 

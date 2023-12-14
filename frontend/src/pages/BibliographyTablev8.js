@@ -1,57 +1,32 @@
 import React from "react";
-// import jsPDF from "jspdf";
-// import "jspdf-autotable";
 import { useHistory } from 'react-router-dom';
-// import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from '@tanstack/react-table'
 import { useReactTable, getCoreRowModel, getPaginationRowModel, getSortedRowModel, getFilteredRowModel, flexRender } from '@tanstack/react-table'
 import { /*DefaultColumnFilter,*/ /*GlobalFilter,*/ fuzzyTextFilterFn, /*NarrowColumnFilter*/ } from '../utils/Filters'
 import { GlobalFilter, AutoDetectFilter } from "./BibliographyComponent";
 import { useAuth } from "../context/auth";
 import { getAllBibliographyQuery } from '../queries/queries'
-//import { sortReshape, filterReshape } from "../utils/reshapers"
 import { Button, Grid, Message, Label, Segment} from "semantic-ui-react";
 import TableStyles from "../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
 import { useExportData } from 'react-table-plugins';
 import { getExportFileBlob } from '../utils/ExportFileBlob';
-// import { ColumnFiltersState } from "@tanstack/react-table";
 
-// @ts-check
-
+/**
+ * This function constructs a table used for displaying text data provided by the BibliographyTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {*} defaultVisibility Determines the visibility of the columns
+ * @returns A rendered UI for the table
+ */
 function Table({
   columns,
   data,
   fetchData,
   loading,
   defaultVisibility,
-  //globalSearch
 }) {
-
-//   function exportPDF() {
-//     const unit = "pt";
-//     const size = "A4"; // Use A1, A2, A3 or A4
-//     const orientation = "portrait"; // portrait or landscape
-
-//     const marginLeft = 40;
-//     const doc = new jsPDF(orientation, unit, size);
-
-//     doc.setFontSize(15);
-
-//     const title = "COLRC bibliography";
-//     const headers = [["TITLE", "AUTHOR"]];
-
-//     const bibData = data.map(elt=> [elt.title, elt.author]);
-
-//     let content = {
-//     startY: 50,
-//     head: headers,
-//     body: bibData
-//     };
-
-//     doc.text(title, marginLeft, 40);
-//     doc.autoTable(content);
-//     doc.save("report.pdf")
-// }
 
   const filterTypes = React.useMemo(
     () => ({
@@ -107,71 +82,10 @@ function Table({
         sortBy: [{id: 'author'}, {id: 'year', desc: true }]
     }
   });
-
-  // const {
-  //   getTableProps,
-  //   getTableBodyProps,
-  //   headerGroups,
-  //   prepareRow, // I think no longer exists
-  //   page, // idk
-  //   state,
-  //   allColumns,
-  //   setHiddenColumns, // I think no longer necessary
-  //   visibleColumns,
-  //   preGlobalFilteredRows, // Can't find
-  //   setGlobalFilter,
-  //   canPreviousPage,
-  //   canNextPage,
-  //   pageOptions,
-  //   pageCount,
-  //   gotoPage,
-  //   nextPage,
-  //   previousPage,
-  //   setPageSize,
-  //   exportData,
-  //   // Get the state from the instance
-  //   state: { pageIndex, pageSize }
-  // } = useReactTable(
-  //   {
-  //     columns,
-  //     data,
-  //     initialState: { 
-  //       pageIndex: 0, 
-  //       pageSize: 10,
-  //       sortBy: [{ id: 'author'}, { id: 'year', desc: true }]
-  //     }, // Pass our hoisted table state
-    
-  //     defaultColumn,
-  //     filterTypes,
-  //     getExportFileBlob,
-  //     getExportFileName, 
-  //   },
-  //   useGlobalFilter,
-  //   useFilters,
-  //   useSortBy,
-  //   useExportData,
-  //   usePagination,   
-  // )
-
-  // console.log('filters ', filters.map(f => {
-  //   if (f.id === "salish") {
-  //     return f.value
-  //   } else {
-  //     return null
-  //   }
-  // }))
-
   // Listen for changes in pagination and use the state to fetch our new data
   React.useEffect(() => {
     fetchData({  })
   }, [fetchData])
-
-  // React.useEffect(
-  //   () => {
-  //     tableInstance.setColumnVisibility(defaultVisibility)
-  //   },
-  //   // [tableInstance.getAllColumns(), tableInstance.setColumnVisibility()]
-  // );
 
   // set up the filenames for exported files from this page
   function getExportFileName({fileType, all}) {
@@ -389,7 +303,11 @@ function Table({
   )
 }
 
-
+/**
+ * Provides the data needed to construct the BibliographyTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used (not used)
+ * @returns A rendered BibliographyTable
+ */
 function BibliographyTable(props) {
   let history = useHistory()
     const defaultVisibility = { author: true, year: true, title: true, reference: false, link: false};

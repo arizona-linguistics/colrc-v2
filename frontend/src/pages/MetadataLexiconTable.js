@@ -13,10 +13,29 @@ import {
   fuzzyTextFilterFn,
 } from "../utils/Filters";
 import { Icon, Button } from "semantic-ui-react";
-import TableStyles from "../stylesheets/table-styles";
+import TableStyles from "../stylesheets/table-styles"
 
+/**
+ * Provides the data needed to construct the MetadataLexiconTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used
+ * @returns A rendered MetadataLexiconTable
+ */
 function MetadataLexiconTable(props) {
-  function Table({ columns, data, fetchData, loading }) {
+  /**
+   * This function constructs a table used for displaying text data provided by the MetadataLexiconTable function.
+   * @param {*} columns Each of the columns of the DataGrid
+   * @param {*} data Data to be used in the table
+   * @param {*} fetchData Collcts new data for the table (not used)
+   * @param {*} loading Loading indicator, a boolean
+   * @returns A rendered UI for the table
+   */
+  function Table({ 
+    columns, 
+    data,
+    fetchData,
+    loading,
+   }) {
+
     const filterTypes = React.useMemo(
       () => ({
         fuzzyText: fuzzyTextFilterFn,
