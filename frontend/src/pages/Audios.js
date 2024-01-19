@@ -1,6 +1,6 @@
-import React from "react"
-import AudioTable from "./AudioTable"
-import { Grid } from "semantic-ui-react"
+import React from "react";
+import AudioTable from "./AudioTable";
+import { Grid } from "semantic-ui-react";
 import AudioAccordion from "./accordions/AudioAccordion";
 
 function Audios(props) {
@@ -18,8 +18,7 @@ function Audios(props) {
         </Grid.Column>
       </Grid>
     </React.Fragment>
-  )
-  
+  );
 }
 
 export default Audios;

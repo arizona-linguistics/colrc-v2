@@ -1,30 +1,28 @@
-export function sortReshape(sortBy, sortId, order) {
-   let res = []
-   sortBy.forEach((item) => {
-      let h = {}
-      if (item.desc) {
-         h = { [item.id]: "desc" }
-      }
-      else {
-         h = { [item.id]: "asc" }
-      }
-      res.push(h)
-   })
-   if (sortId) {
-      res.push({ [sortId]: order || "asc" })
-   }
-   else {
-      res.push({ "id": "asc" })
-   }
-   console.log("The result of the sort: ", res)
+export function sortReshape(sortBy, sortId) {
+  let res = [];
+  sortBy.forEach((item) => {
+    let h = {};
+    if (item.desc) {
+      h = { [item.id]: "desc" };
+    } else {
+      h = { [item.id]: "asc" };
+    }
+    res.push(h);
+  });
+  if (sortId) {
+    res.push({ [sortId]: "asc" });
+  } else {
+    res.push({ id: "asc" });
+  }
+  console.log("The result of the sort: ", res);
 
-   return (res)
+  return res;
 }
 
 // "where": { "_and": [
-//                      {"active": {"_eq": "Y"}}, 
+//                      {"active": {"_eq": "Y"}},
 //                      {"_and": [
-//                                  {"english": {"_like": "%pu"}}, 
+//                                  {"english": {"_like": "%pu"}},
 //                                  {"nicodemus": {"_like": "%ha%"}},
 //                                  {"_or": [
 //                                            {"english": {"_like": "%he%"}},
@@ -51,14 +49,13 @@ export function sortReshape(sortBy, sortId, order) {
 //
 //  "globalFilterVariables": ["english", "nicodemus"]
 
-
 export function filterReshape(filters, globalFilter, globalFilterVariables) {
-   //console.log('filters', filters)
-   //console.log('globalFilter', globalFilter)
-   //console.log('globalFilterVariables', globalFilterVariables)
-   let res = {}
-   let andCond = []
-   let globalOrCond = []
+  //console.log('filters', filters)
+  //console.log('globalFilter', globalFilter)
+  //console.log('globalFilterVariables', globalFilterVariables)
+  let res = {};
+  let andCond = [];
+  let globalOrCond = [];
 
    if (globalFilterVariables && globalFilter) {
       globalFilterVariables.forEach((item) => {
@@ -93,7 +90,7 @@ export function filterReshape(filters, globalFilter, globalFilterVariables) {
 
    console.log("The filter result: ", res)
 
-   return (res)
+  return res;
 }
 
 export function textReshape(jsonData) {
@@ -145,70 +142,69 @@ export function textReshape(jsonData) {
             }
             //console.log(json[i]["texts_textfiles"][j]["imagequerystring"]);
 
-            json[i]["sourcefiles"].push(
-               {
-                  src: json[i]["texts_textfiles"][j]["imagequerystring"],
-                  title: json[i]["texts_textfiles"][j].resType + " image files",
-                  fileType: json[i]["texts_textfiles"][j].fileType,
-                  type: "textimages",
-                  key: k
-               }
-            );
-            //SplitView needs to know if the imagefiles are for handwritten
-            //or typed fieldnotes.  Here's where we tell it.
-            if (json[i]["texts_textfiles"][j].msType === "Handwritten") {
-               handImages = json[i]["texts_textfiles"][j]["imagequerystring"];
-            }
-            if (json[i]["texts_textfiles"][j].msType === "Typed") {
-               typedImages = json[i]["texts_textfiles"][j]["imagequerystring"];
-            }
-         }
-         j++; k++;
+        json[i]["sourcefiles"].push({
+          src: json[i]["texts_textfiles"][j]["imagequerystring"],
+          title: json[i]["texts_textfiles"][j].resType + " image files",
+          fileType: json[i]["texts_textfiles"][j].fileType,
+          type: "textimages",
+          key: k,
+        });
+        //SplitView needs to know if the imagefiles are for handwritten
+        //or typed fieldnotes.  Here's where we tell it.
+        if (json[i]["texts_textfiles"][j].msType === "Handwritten") {
+          handImages = json[i]["texts_textfiles"][j]["imagequerystring"];
+        }
+        if (json[i]["texts_textfiles"][j].msType === "Typed") {
+          typedImages = json[i]["texts_textfiles"][j]["imagequerystring"];
+        }
       }
-      j = 0;
-      while (j < json[i]["audiosets"].length) {
-         //here we create the data that is needed to pass to the AudioPlayer
-         let l = 0
-         while (l < json[i]["audiosets"][j].audiosets_audiofiles.length) {
-            json[i]["audiosets"][j].audiosets_audiofiles[l].key = i.toString() + '_' + j.toString() + '_' + l.toString()
-            l++
-         }
-         console.log('the audiosets_audiofiles are ', json[i]["audiosets"][j].audiosets_audiofiles)
-         json[i]["sourcefiles"].push(
-            {
-               speaker: json[i]["audiosets"][j].speaker,
-               title: json[i]["audiosets"][j].title,
-               sources: json[i]["audiosets"][j].audiosets_audiofiles,
-               type: "audio",
-               key: k
-            }
-         );
-         j++; k++;
+      j++;
+      k++;
+    }
+    j = 0;
+    while (j < json[i]["audiosets"].length) {
+      //here we create the data that is needed to pass to the AudioPlayer
+      let l = 0;
+      while (l < json[i]["audiosets"][j].audiosets_audiofiles.length) {
+        json[i]["audiosets"][j].audiosets_audiofiles[l].key =
+          i.toString() + "_" + j.toString() + "_" + l.toString();
+        l++;
       }
-      //SplitView should only appear if a text has both a set of handwritten
-      //fieldnots and a corresponding set of typed manuscripts.
-      //For SplitView to read in the imagefiles into the, correct gallery
-      //we need to modify the query string to replace every instance of
-      //'images' with either 'handimages' or 'typedimages'.  We use unshift
-      //instead of push to put the SplitView at the top of the versions list,
-      //iff a text has a SplitView.
-      if (handImages.length > 0 && typedImages.length > 0) {
-         handImages = handImages.replace(/images/g, "handimages");
-         typedImages = typedImages.replace(/images/g, "typedimages");
-         json[i]["sourcefiles"].unshift(
-            {
-               src: handImages + typedImages,
-               title: "Dual view of typed and handwritten notes",
-               fileType: "images",
-               type: "splitview",
-               key: k
-            }
-         );
-      }
-      i++;
-   }
-   return json;
-
+      console.log(
+        "the audiosets_audiofiles are ",
+        json[i]["audiosets"][j].audiosets_audiofiles
+      );
+      json[i]["sourcefiles"].push({
+        speaker: json[i]["audiosets"][j].speaker,
+        title: json[i]["audiosets"][j].title,
+        sources: json[i]["audiosets"][j].audiosets_audiofiles,
+        type: "audio",
+        key: k,
+      });
+      j++;
+      k++;
+    }
+    //SplitView should only appear if a text has both a set of handwritten
+    //fieldnots and a corresponding set of typed manuscripts.
+    //For SplitView to read in the imagefiles into the, correct gallery
+    //we need to modify the query string to replace every instance of
+    //'images' with either 'handimages' or 'typedimages'.  We use unshift
+    //instead of push to put the SplitView at the top of the versions list,
+    //iff a text has a SplitView.
+    if (handImages.length > 0 && typedImages.length > 0) {
+      handImages = handImages.replace(/images/g, "handimages");
+      typedImages = typedImages.replace(/images/g, "typedimages");
+      json[i]["sourcefiles"].unshift({
+        src: handImages + typedImages,
+        title: "Dual view of typed and handwritten notes",
+        fileType: "images",
+        type: "splitview",
+        key: k,
+      });
+    }
+    i++;
+  }
+  return json;
 }
 
 export function audioReshape(jsonData) {
@@ -372,24 +368,25 @@ export function audioReshape(jsonData) {
 }
 
 export function elicitationReshape(jsonData) {
-   let json = JSON.parse(JSON.stringify(jsonData))
-   while (json.length) {
-      let i = 0
-      let j = 0
-      while (i < json["elicitationsets"][i].elicitationsets_elicitationfiles.length) {
-         json["elicitationsets"][i].elicitationsets_elicitationfiles[j].key = i.toString() + '_' + j.toString()
-         i++
-      }
-      json[i]["sourcefiles"].push(
-         {
-            speaker: json[i]["elicitationsets"][j].speaker,
-            title: json[i]["elicitationsets"][j].title,
-            sources: json[i]["elicitationsets"][j].elicitationsets_elicitationfiles,
-            type: "audio",
-            key: i
-         }
-      );
+  let json = JSON.parse(JSON.stringify(jsonData));
+  while (json.length) {
+    let i = 0;
+    let j = 0;
+    while (
+      i < json["elicitationsets"][i].elicitationsets_elicitationfiles.length
+    ) {
+      json["elicitationsets"][i].elicitationsets_elicitationfiles[j].key =
+        i.toString() + "_" + j.toString();
       i++;
-   }
-   return json;
+    }
+    json[i]["sourcefiles"].push({
+      speaker: json[i]["elicitationsets"][j].speaker,
+      title: json[i]["elicitationsets"][j].title,
+      sources: json[i]["elicitationsets"][j].elicitationsets_elicitationfiles,
+      type: "audio",
+      key: i,
+    });
+    i++;
+  }
+  return json;
 }

@@ -1,22 +1,47 @@
-import React from 'react'
-import { Link, useHistory } from 'react-router-dom';
-import { intersectionWith, isEqual } from 'lodash';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter  } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import { intersectionWith, isEqual } from "lodash";
+import {
+  useTable,
+  usePagination,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+} from "react-table";
+import {
+  DefaultColumnFilter,
+  GlobalFilter,
+  fuzzyTextFilterFn,
+  SelectColumnFilter,
+} from "../utils/Filters";
 import { useAuth } from "../context/auth";
-import { sortReshape, filterReshape } from "./../utils/reshapers"
-import DecoratedTextSpan from "./../utils/DecoratedTextSpan"
-import TableStyles from "./../stylesheets/table-styles"
-import { Icon, Button, Grid, Message, Label, Segment} from "semantic-ui-react";
-import { getStemsQuery, getAnonStemsQuery } from './../queries/queries'
-import { handleErrors } from '../utils/messages';
-import { path_segment_permissions, path_column_permissions } from "../access/permissions";
-import { useExportData } from 'react-table-plugins';
-import { getExportFileBlob } from '../utils/ExportFileBlob';
+import { sortReshape, filterReshape } from "./../utils/reshapers";
+import DecoratedTextSpan from "./../utils/DecoratedTextSpan";
+import TableStyles from "./../stylesheets/table-styles";
+import { Icon, Button, Grid, Message, Label, Segment } from "semantic-ui-react";
+import { getStemsQuery, getAnonStemsQuery } from "./../queries/queries";
+import { handleErrors } from "../utils/messages";
+import {
+  path_segment_permissions,
+  path_column_permissions,
+} from "../access/permissions";
+import { useExportData } from "react-table-plugins";
+import { getExportFileBlob } from "../utils/ExportFileBlob";
 
-// this table uses server-side paging, sorting and filtering.  
-// It has one dropdown menu, so it uses selectValues.
-// the Table function from react-tables version 7 creates the basic table setup
+/**
+ * this table uses server-side paging, sorting and filtering.
+ * It has one dropdown menu, so it uses selectValues.
+ * The Table function from react-tables version 7 creates the basic table setup
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {controlledPageCount} pageCount Nummber of pages 
+ * @param {*} selectValues Current selected values
+ * @param {*} globalSearch User input from a search box
+ * @returns A rendered UI for the table
+ * @returns 
+ */
 function Table({
   columns,
   data,
@@ -24,9 +49,8 @@ function Table({
   loading,
   pageCount: controlledPageCount,
   selectValues,
-  globalSearch
+  globalSearch,
 }) {
-
   const { user, authTokens } = useAuth();
   //console.log("Inside table, I have select values: ", selectValues)
 
@@ -34,30 +58,30 @@ function Table({
     () => ({
       fuzzyText: fuzzyTextFilterFn,
       text: (rows, id, filterValue) => {
-        return rows.filter(row => {
-          const rowValue = row.values[id]
+        return rows.filter((row) => {
+          const rowValue = row.values[id];
           return rowValue !== undefined
             ? String(rowValue)
                 .toLowerCase()
                 .startsWith(String(filterValue).toLowerCase())
-            : true
-        })
+            : true;
+        });
       },
     }),
     []
-  )
+  );
 
-  // set default parameters for columns  
+  // set default parameters for columns
   const defaultColumn = React.useMemo(
     () => ({
-      Filter: DefaultColumnFilter,  
-      minWidth: 25, 
-      width: 50, 
-      maxWidth: 500, 
+      Filter: DefaultColumnFilter,
+      minWidth: 25,
+      width: 50,
+      maxWidth: 500,
     }),
     []
-  )
-  // get all the utils we need for the table 
+  );
+  // get all the utils we need for the table
   const {
     getTableProps,
     getTableBodyProps,
@@ -81,55 +105,51 @@ function Table({
     setPageSize,
     exportData,
     // list the state variables we need to pay attention to
-    state: { pageIndex, pageSize, sortBy, filters, globalFilter }
+    state: { pageIndex, pageSize, sortBy, filters, globalFilter },
   } = useTable(
     {
       columns,
       data,
-      initialState: { 
-        pageIndex: 0, 
-        globalFilter: ((globalSearch && globalSearch !== '') ? globalSearch : null)
+      initialState: {
+        pageIndex: 0,
+        globalFilter: globalSearch && globalSearch !== "" ? globalSearch : null,
       }, // Pass our hoisted table state, tell the table we're doing server-side stuff
-      manualPagination: true, 
+      manualPagination: true,
       pageCount: controlledPageCount,
       manualSortBy: true,
       manualFilters: true,
       manualGlobalFilter: true,
       defaultColumn,
       filterTypes,
-      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
       selectValues,
       getExportFileBlob,
-      getExportFileName, 
+      getExportFileName,
     },
     // list the built-in hooks we're gonna use.  Order matters.
     useGlobalFilter,
     useFilters,
     useSortBy,
     useExportData,
-    usePagination,   
-  )
+    usePagination
+  );
 
+  // Listen for changes in pagination and use the state to fetch our new data
+  React.useEffect(() => {
+    fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter });
+  }, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter]);
 
-// Listen for changes in pagination and use the state to fetch our new data
-React.useEffect(() => {
-  fetchData({ pageIndex, pageSize, sortBy, filters, globalFilter })
-}, [fetchData, pageIndex, pageSize, sortBy, filters, globalFilter])
-
-React.useEffect(
-  () => {
+  React.useEffect(() => {
     setHiddenColumns(
-      columns.filter(column => !column.show).map(column => column.id)
+      columns.filter((column) => !column.show).map((column) => column.id)
     );
-  },
-  [columns, setHiddenColumns]
-);
+  }, [columns, setHiddenColumns]);
 
   // set up the filenames for exported files from this page
-  function getExportFileName({fileType, all}) {
-    let fileName = ''
-    fileName = (all === true) ? 'stems_sel_rows_all_cols' : 'stems_sel_rows_sel_cols'
-    return fileName
+  function getExportFileName({ fileType, all }) {
+    let fileName = "";
+    fileName =
+      all === true ? "stems_sel_rows_all_cols" : "stems_sel_rows_sel_cols";
+    return fileName;
   }
 
   // create a hook to show or hide material from the return, set to hide
@@ -138,86 +158,117 @@ React.useEffect(
   // Render the UI for your table
   return (
     <>
-      {authTokens && user && intersectionWith(path_segment_permissions['canExport'], user.roles, isEqual).length >= 1 ? 
-      ( <>
-      <Grid.Row>
-        <Button size='mini' basic color='blue'
-          type="button"
-          onClick={() => setShow(!show)}
-        >
-          show/hide export options
-        </Button>
-      </Grid.Row>
-      { show ? 
-        ( <>
-          <Message>Export visible rows or <Link to={{pathname: "/stemexports", state: { selectValues, globalSearch }}}>export all rows</Link></Message>         
-          <Grid columns={2}>
-            <Grid.Column>
-              <Segment>
-                <Label as='a' color='blue' ribbon>
-                  selected columns only
-                </Label>
-                <Button.Group size='mini'>
-                  <Button 
-                    onClick={() => {
-                      exportData("csv", false);
-                    }}>
-                      to csv
-                  </Button>
-                  <Button.Or />
-                  <Button color='blue'
-                    onClick={() => {
-                      exportData("xlsx", false);
-                    }}>
-                    to xlsx
-                  </Button>
-                  <Button.Or />
-                  <Button 
-                    onClick={() => {
-                      exportData("pdf", false);
-                    }}>
-                    to pdf
-                  </Button>
-                </Button.Group>
-              </Segment>
-            </Grid.Column>
-            <Grid.Column>
-              <Segment>
-                <Label as='a' color='blue' ribbon>
-                  all columns 
-                </Label>
-                <Button.Group size='mini'>
-                  <Button onClick={() => {
-                      exportData("csv", true);
-                    }}>
-                    to csv
-                  </Button>
-                  <Button.Or />
-                  <Button color='blue'
-                    onClick={() => {
-                      exportData("xlsx", true);
-                    }}>
-                    to xlsx
-                  </Button>
-                  <Button.Or />
-                  <Button 
-                    onClick={() => {
-                      exportData("pdf", true);
-                    }}>
-                    to pdf
-                  </Button>
-                </Button.Group>
-              </Segment>
-            </Grid.Column>
-          </Grid>
-        </>) : null} </>)
-        : (<div></div>)  
-      }
+      {authTokens &&
+      user &&
+      intersectionWith(
+        path_segment_permissions["canExport"],
+        user.roles,
+        isEqual
+      ).length >= 1 ? (
+        <>
+          <Grid.Row>
+            <Button
+              size="mini"
+              basic
+              color="blue"
+              type="button"
+              onClick={() => setShow(!show)}
+            >
+              show/hide export options
+            </Button>
+          </Grid.Row>
+          {show ? (
+            <>
+              <Message>
+                Export visible rows or{" "}
+                <Link
+                  to={{
+                    pathname: "/stemexports",
+                    state: { selectValues, globalSearch },
+                  }}
+                >
+                  export all rows
+                </Link>
+              </Message>
+              <Grid columns={2}>
+                <Grid.Column>
+                  <Segment>
+                    <Label as="a" color="blue" ribbon>
+                      selected columns only
+                    </Label>
+                    <Button.Group size="mini">
+                      <Button
+                        onClick={() => {
+                          exportData("csv", false);
+                        }}
+                      >
+                        to csv
+                      </Button>
+                      <Button.Or />
+                      <Button
+                        color="blue"
+                        onClick={() => {
+                          exportData("xlsx", false);
+                        }}
+                      >
+                        to xlsx
+                      </Button>
+                      <Button.Or />
+                      <Button
+                        onClick={() => {
+                          exportData("pdf", false);
+                        }}
+                      >
+                        to pdf
+                      </Button>
+                    </Button.Group>
+                  </Segment>
+                </Grid.Column>
+                <Grid.Column>
+                  <Segment>
+                    <Label as="a" color="blue" ribbon>
+                      all columns
+                    </Label>
+                    <Button.Group size="mini">
+                      <Button
+                        onClick={() => {
+                          exportData("csv", true);
+                        }}
+                      >
+                        to csv
+                      </Button>
+                      <Button.Or />
+                      <Button
+                        color="blue"
+                        onClick={() => {
+                          exportData("xlsx", true);
+                        }}
+                      >
+                        to xlsx
+                      </Button>
+                      <Button.Or />
+                      <Button
+                        onClick={() => {
+                          exportData("pdf", true);
+                        }}
+                      >
+                        to pdf
+                      </Button>
+                    </Button.Group>
+                  </Segment>
+                </Grid.Column>
+              </Grid>
+            </>
+          ) : null}{" "}
+        </>
+      ) : (
+        <div></div>
+      )}
       <div className="columnToggle">
-        {allColumns.map(column => (
+        {allColumns.map((column) => (
           <div key={column.id} className="columnToggle">
             <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+              <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
               {column.label}
             </label>
           </div>
@@ -226,24 +277,23 @@ React.useEffect(
       <table {...getTableProps()} className="table">
         <thead>
           <tr>
-            <th
-              colSpan={visibleColumns.length}
-            >
-            { (user && (user.roles.includes('update') || user.roles.includes('manager')))  &&
-              (
-                <Link 
-                  to={{
-                    pathname: "/addstem",
-                  }}>
-                  <Button animated='vertical' color='blue'>
-                    <Button.Content hidden>Add Stem</Button.Content>
-                    <Button.Content visible>
-                      <Icon name='plus' />
-                    </Button.Content>
-                  </Button> 
-                </Link> 
-              )
-            }
+            <th colSpan={visibleColumns.length}>
+              {user &&
+                (user.roles.includes("update") ||
+                  user.roles.includes("manager")) && (
+                  <Link
+                    to={{
+                      pathname: "/addstem",
+                    }}
+                  >
+                    <Button animated="vertical" color="blue">
+                      <Button.Content hidden>Add Stem</Button.Content>
+                      <Button.Content visible>
+                        <Icon name="plus" />
+                      </Button.Content>
+                    </Button>
+                  </Link>
+                )}
               <GlobalFilter
                 preGlobalFilteredRows={preGlobalFilteredRows}
                 globalFilter={state.globalFilter}
@@ -251,21 +301,15 @@ React.useEffect(
               />
             </th>
           </tr>
-          {headerGroups.map(headerGroup => (
+          {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
+              {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()} className="th">
                   <span {...column.getSortByToggleProps()}>
-                    {column.render('Header')}                 
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' ▼'
-                        : ' ▲'
-                      : ''}
+                    {column.render("Header")}
+                    {column.isSorted ? (column.isSortedDesc ? " ▼" : " ▲") : ""}
                   </span>
-                  <div>
-                    {column.canFilter ? column.render('Filter') : null}
-                  </div>
+                  <div>{column.canFilter ? column.render("Filter") : null}</div>
                 </th>
               ))}
             </tr>
@@ -273,14 +317,16 @@ React.useEffect(
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
-            prepareRow(row)
+            prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
                 })}
               </tr>
-            )
+            );
           })}
           <tr>
             {loading ? (
@@ -288,7 +334,7 @@ React.useEffect(
               <td colSpan="10000">Loading...</td>
             ) : (
               <td colSpan="10000">
-                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
+                Showing {page.length} of ~{controlledPageCount * pageSize}{" "}
                 results
               </td>
             )}
@@ -298,42 +344,42 @@ React.useEffect(
 
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
+          {"<<"}
+        </button>{" "}
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
+          {"<"}
+        </button>{" "}
         <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
+          {">"}
+        </button>{" "}
         <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>{' '}
+          {">>"}
+        </button>{" "}
         <span>
-          Page{' '}
+          Page{" "}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
+          </strong>{" "}
         </span>
         <span>
-          | Go to page:{' '}
+          | Go to page:{" "}
           <input
             type="number"
             defaultValue={pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
             }}
-            style={{ width: '100px' }}
+            style={{ width: "100px" }}
           />
-        </span>{' '}
+        </span>{" "}
         <select
           value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value))
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
           }}
         >
-          {[10, 20, 30, 40, 50].map(pageSize => (
+          {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
@@ -341,237 +387,267 @@ React.useEffect(
         </select>
       </div>
     </>
-  )
+  );
 }
 
-// now we build the columns of the table, paying attention to whether the user 
-// has update permissions or not, and calculating any fields we need.
+/**
+ * Provides the data needed to construct the StemTable using the Table function
+ * @param {*} props Used to access properties of the Table as it is used
+ * @returns A rendered StemTable
+ */
 function StemTable(props) {
-  let history = useHistory()
+  let history = useHistory();
 
   const updateColumns = React.useMemo(
     () => [
       {
-        Header: 'History/Edit/Delete',
+        Header: "History/Edit/Delete",
         disableFilters: true,
         sortable: false,
         width: 100,
         show: true,
-        id: 'historyEditDelete',
-        label: 'History/Edit/Delete',
-        tableName: 'StemTable',
-        Cell: ({row, original}) => (
+        id: "historyEditDelete",
+        label: "History/Edit/Delete",
+        tableName: "StemTable",
+        Cell: ({ row, original }) => (
           <div className="buttons">
-            <Link 
+            <Link
               to={{
                 pathname: "/stemhistory",
                 search: "?id=" + row.original.id,
-              }}>
+              }}
+            >
               <button className="ui mini blue icon button">
                 <Icon name="history" />
-              </button>              
+              </button>
             </Link>
-            <Link 
+            <Link
               to={{
                 pathname: "/editstem",
                 search: "?id=" + row.original.id,
-              }}>
+              }}
+            >
               <button className="ui mini black icon button">
                 <Icon name="edit" />
-              </button>              
+              </button>
             </Link>
-            <Link 
+            <Link
               to={{
                 pathname: "/deletestem",
                 search: "?id=" + row.original.id,
-              }}>
+              }}
+            >
               <button className="ui mini blue icon button">
                 <Icon name="close" />
-              </button>              
+              </button>
             </Link>
           </div>
-        )
-      }, 
-    {
-        Header: 'Category',
-        accessor: 'stem_category.value',
+        ),
+      },
+      {
+        Header: "Category",
+        accessor: "stem_category.value",
         Filter: SelectColumnFilter,
-        tableName: 'StemTable',
+        tableName: "StemTable",
         show: true,
-        id: 'stem_category.value',
-        label: 'Category'
-      },
-    {
-        Header: 'Reichard',
-        accessor: 'reichard',
-        tableName: 'StemTable',
-        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
-        show: false,
-        id: 'reichard',
-        label: 'Reichard'
-      },
-    {
-        Header: 'Doak',
-        accessor: 'doak',
-        tableName: 'StemTable',
-        show: false,
-        id: 'doak',
-        label: 'Doak'
-      },
-    {
-        Header: 'Nicodemus',
-        accessor: 'nicodemus',
-        tableName: 'StemTable',
-        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
-        show: true,
-        id: 'nicodemus',
-        label: 'Nicodemus'
+        id: "stem_category.value",
+        label: "Category",
       },
       {
-        Header: 'Salish',
-        accessor: 'salish',
-        filter: 'fuzzyText',
-        tableName: 'StemTable',
+        Header: "Reichard",
+        accessor: "reichard",
+        tableName: "StemTable",
+        Cell: ({ cell: { value } }) => <DecoratedTextSpan str={value} />,
         show: false,
-        id: 'salish',
-        label: 'Salish'
+        id: "reichard",
+        label: "Reichard",
       },
       {
-        Header: 'English',
-        accessor: 'english',
-        tableName: 'StemTable',
-        show: true,
-        id: 'english',
-        label: 'English'
+        Header: "Doak",
+        accessor: "doak",
+        tableName: "StemTable",
+        show: false,
+        id: "doak",
+        label: "Doak",
       },
-    ], []
-  )
+      {
+        Header: "Nicodemus",
+        accessor: "nicodemus",
+        tableName: "StemTable",
+        Cell: ({ cell: { value } }) => <DecoratedTextSpan str={value} />,
+        show: true,
+        id: "nicodemus",
+        label: "Nicodemus",
+      },
+      {
+        Header: "Salish",
+        accessor: "salish",
+        filter: "fuzzyText",
+        tableName: "StemTable",
+        show: false,
+        id: "salish",
+        label: "Salish",
+      },
+      {
+        Header: "English",
+        accessor: "english",
+        tableName: "StemTable",
+        show: true,
+        id: "english",
+        label: "English",
+      },
+    ],
+    []
+  );
 
   const anonColumns = React.useMemo(
-    () => [         
-        {
-            Header: 'Category',
-            accessor: 'stem_category.value',
-            Filter: SelectColumnFilter,
-            tableName: 'StemTable',
-            show: true,
-            id: 'stem_category.value',
-            label: 'Category'
-          },
-        {
-            Header: 'Reichard',
-            accessor: 'reichard',
-            tableName: 'StemTable',
-            Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
-            show: false,
-            id: 'reichard',
-            label: 'Reichard'
-          },
-        {
-            Header: 'Doak',
-            accessor: 'doak',
-            tableName: 'StemTable',
-            show: false,
-            id: 'doak',
-            label: 'Doak'
-          },
-        {
-            Header: 'Nicodemus',
-            accessor: 'nicodemus',
-            tableName: 'StemTable',
-            Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
-            show: true,
-            id: 'nicodemus',
-            label: 'Nicodemus'
-          },
-          {
-            Header: 'Salish',
-            accessor: 'salish',
-            filter: 'fuzzyText',
-            tableName: 'StemTable',
-            show: false,
-            id: 'salish',
-            label: 'Salish'
-          },
-          {
-            Header: 'English',
-            accessor: 'english',
-            tableName: 'StemTable',
-            show: true,
-            id: 'english',
-            label: 'English'
-          },
-    ], []
-  )
+    () => [
+      {
+        Header: "Category",
+        accessor: "stem_category.value",
+        Filter: SelectColumnFilter,
+        tableName: "StemTable",
+        show: true,
+        id: "stem_category.value",
+        label: "Category",
+      },
+      {
+        Header: "Reichard",
+        accessor: "reichard",
+        tableName: "StemTable",
+        Cell: ({ cell: { value } }) => <DecoratedTextSpan str={value} />,
+        show: false,
+        id: "reichard",
+        label: "Reichard",
+      },
+      {
+        Header: "Doak",
+        accessor: "doak",
+        tableName: "StemTable",
+        show: false,
+        id: "doak",
+        label: "Doak",
+      },
+      {
+        Header: "Nicodemus",
+        accessor: "nicodemus",
+        tableName: "StemTable",
+        Cell: ({ cell: { value } }) => <DecoratedTextSpan str={value} />,
+        show: true,
+        id: "nicodemus",
+        label: "Nicodemus",
+      },
+      {
+        Header: "Salish",
+        accessor: "salish",
+        filter: "fuzzyText",
+        tableName: "StemTable",
+        show: false,
+        id: "salish",
+        label: "Salish",
+      },
+      {
+        Header: "English",
+        accessor: "english",
+        tableName: "StemTable",
+        show: true,
+        id: "english",
+        label: "English",
+      },
+    ],
+    []
+  );
   // We'll start our table without any data
-  const [data, setData] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
-  const [pageCount, setPageCount] = React.useState(0)
-  const fetchIdRef = React.useRef(0)
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [pageCount, setPageCount] = React.useState(0);
+  const fetchIdRef = React.useRef(0);
   const { client, user, setAuthTokens, authTokens } = useAuth();
 
   async function getStems(limit, offset, sortBy, filters) {
-    let res = {}
-    if(user && intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1) { 
+    let res = {};
+    if (
+      user &&
+      intersectionWith(["manager", "update"], user.roles, isEqual).length >= 1
+    ) {
       res = await client.query({
         query: getStemsQuery,
-        variables: { 
+        variables: {
           limit: limit,
           offset: offset,
           stem_order: sortBy,
           where: filters,
-         }
-      })
-    }
-    else {
+        },
+      });
+    } else {
       res = await client.query({
         query: getAnonStemsQuery,
-        variables: { 
+        variables: {
           limit: limit,
           offset: offset,
           stem_order: sortBy,
           where: filters,
+        },
+      });
+    }
+    return res.data;
+  }
+
+  const fetchData = React.useCallback(
+    ({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
+      // Give this fetch an ID
+      const fetchId = ++fetchIdRef.current;
+      setLoading(true);
+      setTimeout(() => {
+        if (fetchId === fetchIdRef.current) {
+          const controlledSort = sortReshape(sortBy);
+          const controlledFilter = filterReshape(filters, globalFilter, [
+            "english",
+            "nicodemus",
+            "salish",
+            "reichard",
+            "doak",
+          ]);
+          getStems(
+            pageSize,
+            pageSize * pageIndex,
+            controlledSort,
+            controlledFilter
+          )
+            .then((data) => {
+              let totalCount = data.stems_aggregate.aggregate.count;
+              setData(data.stems);
+              setPageCount(Math.ceil(totalCount / pageSize));
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.log(error);
+              handleErrors(error, {
+                logout: { action: setAuthTokens, redirect: "/login" },
+              });
+              setData([]);
+              setPageCount(0);
+              setLoading(false);
+              history.push("./login");
+            });
         }
-      })
-    }
-    return res.data
-  }  
-
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter }) => {
-    // Give this fetch an ID
-    const fetchId = ++fetchIdRef.current
-    setLoading(true)
-    setTimeout(() => {
-      if (fetchId === fetchIdRef.current) {
-        const controlledSort = sortReshape(sortBy) 
-        const controlledFilter = filterReshape(filters, globalFilter, ["english", "nicodemus", "salish", "reichard", "doak"])
-        getStems(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
-        .then((data) => {
-          let totalCount = data.stems_aggregate.aggregate.count
-          setData(data.stems)
-          setPageCount(Math.ceil(totalCount / pageSize))
-          setLoading(false)
-        })
-        .catch((error) => {
-          console.log(error)
-          handleErrors(error, {'logout': {'action': setAuthTokens, 'redirect': '/login'}})
-          setData([])
-          setPageCount(0)
-          setLoading(false)
-          history.push('./login')
-        })
-      }
-    }, 1000)
+      }, 1000);
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history, setAuthTokens])
+    [history, setAuthTokens]
+  );
 
-  let columns = {}
-    if(authTokens && user && intersectionWith(path_column_permissions['canEdit'], user.roles, isEqual).length >= 1) {
-      columns = updateColumns
-    } else {
-      columns = anonColumns
-    }
-
+  let columns = {};
+  if (
+    authTokens &&
+    user &&
+    intersectionWith(path_column_permissions["canEdit"], user.roles, isEqual)
+      .length >= 1
+  ) {
+    columns = updateColumns;
+  } else {
+    columns = anonColumns;
+  }
 
   return (
     <TableStyles>
@@ -585,7 +661,7 @@ function StemTable(props) {
         globalSearch={props.globalSearch}
       />
     </TableStyles>
-  )
+  );
 }
 
-export default StemTable
+export default StemTable;

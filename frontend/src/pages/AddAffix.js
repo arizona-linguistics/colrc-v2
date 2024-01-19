@@ -61,6 +61,7 @@ function AddAffix() {
    */
   if (typeError) {
     return <div>Something went wrong</div>;
+    return <div>Something went wrong</div>;
   }
   /**
    *This function is called when a form is submitted. It takes the values from

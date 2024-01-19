@@ -1,14 +1,27 @@
 import React, { useState } from "react";
-import { Redirect, useLocation, useHistory } from 'react-router-dom';
-import { Grid, Button, Label, Message, Header, Input, Dropdown } from 'semantic-ui-react';
-import * as Yup from 'yup';
-import { getUserByIdQuery, getRolesQuery, updateUserRolesMutation, updateUserPwdMutation } from './../queries/queries'
-import { useQuery } from '@apollo/react-hooks'
-import { Formik, Form } from 'formik';
+import { Redirect, useLocation, useHistory } from "react-router-dom";
+import {
+  Grid,
+  Button,
+  Label,
+  Message,
+  Header,
+  Input,
+  Dropdown,
+} from "semantic-ui-react";
+import * as Yup from "yup";
+import {
+  getUserByIdQuery,
+  getRolesQuery,
+  updateUserRolesMutation,
+  updateUserPwdMutation,
+} from "./../queries/queries";
+import { useQuery } from "@apollo/react-hooks";
+import { Formik, Form } from "formik";
 import { useAuth } from "../context/auth";
-import { handleErrors, broadCastSuccess } from '../utils/messages';
-import { confirmAlert } from 'react-confirm-alert';
-import '../stylesheets/react-confirm-alert.css';
+import { handleErrors, broadCastSuccess } from "../utils/messages";
+import { confirmAlert } from "react-confirm-alert";
+import "../stylesheets/react-confirm-alert.css";
 import bcrypt from "bcryptjs";
 
 // first we set up validation for our form fields, using Yup (https://www.npmjs.com/package/yup)
@@ -32,62 +45,70 @@ let editUserSchema = Yup.object().shape({
          return hash
  }
 
-// next we set up the things that will happen when the form is submitted    
+// next we set up the things that will happen when the form is submitted
 function EditUser(props) {
-    //get user record by ID passed from UserListTable.js
-    const search = new URLSearchParams(useLocation().search)
-    const id = search.get("id")
+  //get user record by ID passed from UserListTable.js
+  const search = new URLSearchParams(useLocation().search);
+  const id = search.get("id");
 
-    //create a hook to set the outcome, set the state to false
-    const [hasUpdated, setHasUpdated] = useState(false);
-    //make sure we can use the browser history for routing after submit
-    const history = useHistory();
-    //get information about the user submitting the form to allow them to change the data
-    const { client } = useAuth();
-    //create a hook to query the database for all of the available roles, to set up our roles multiselect options
-    let { loading: userLoading, error: userError, data: userData} = useQuery(getUserByIdQuery, {client: client, variables: {id: id} })
-    let { loading: rolesLoading, error: rolesError, data: rolesData} = useQuery(getRolesQuery, {client: client})
-    if (userLoading || rolesLoading) {
-        return <div>loading...</div>
-    }
-    if (userError || rolesError ) {
-        return <div>Something went wrong </div>
-    }
+  //create a hook to set the outcome, set the state to false
+  const [hasUpdated, setHasUpdated] = useState(false);
+  //make sure we can use the browser history for routing after submit
+  const history = useHistory();
+  //get information about the user submitting the form to allow them to change the data
+  const { client } = useAuth();
+  //create a hook to query the database for all of the available roles, to set up our roles multiselect options
+  let {
+    loading: userLoading,
+    error: userError,
+    data: userData,
+  } = useQuery(getUserByIdQuery, { client: client, variables: { id: id } });
+  let {
+    loading: rolesLoading,
+    error: rolesError,
+    data: rolesData,
+  } = useQuery(getRolesQuery, { client: client });
+  if (userLoading || rolesLoading) {
+    return <div>loading...</div>;
+  }
+  if (userError || rolesError) {
+    return <div>Something went wrong </div>;
+  }
 
-    // if ( rolesData ) {
-    //     return <div>{JSON.stringify(rolesData)}</div>
-    // }
+  // if ( rolesData ) {
+  //     return <div>{JSON.stringify(rolesData)}</div>
+  // }
 
-    // if ( userData ) {
-    //     return <div>{JSON.stringify(userData)}</div>
-    // }
+  // if ( userData ) {
+  //     return <div>{JSON.stringify(userData)}</div>
+  // }
 
-    let roleIdLookUpTable = {}
-    if (rolesData) {
-        roleIdLookUpTable = roleLookUp(rolesData)        
-    }
-    console.log('the RoleIdLookUpTable is ', roleIdLookUpTable) 
+  let roleIdLookUpTable = {};
+  if (rolesData) {
+    roleIdLookUpTable = roleLookUp(rolesData);
+  }
+  console.log("the RoleIdLookUpTable is ", roleIdLookUpTable);
 
-    function roleLookUp(rolesData) {
-        let res = {}
-        rolesData.roles.forEach((item) => {
-            res[item.role_code] = item.id 
-        })
-        return res       
-    }
-    
-    function updateRolesReshape(userId, role_codes){
-        let arr = []
-        role_codes.forEach((item) => {
-            let h = {}
-            h = { 
-                  "userId": userId, 
-                  "roleId": roleIdLookUpTable[item]
-              }
-            arr.push(h)
-        })
-        return arr
-    }
+  function roleLookUp(rolesData) {
+    let res = {};
+    rolesData.roles.forEach((item) => {
+      res[item.role_code] = item.id;
+    });
+    return res;
+  }
+
+  function updateRolesReshape(userId, role_codes) {
+    let arr = [];
+    role_codes.forEach((item) => {
+      let h = {};
+      h = {
+        userId: userId,
+        roleId: roleIdLookUpTable[item],
+      };
+      arr.push(h);
+    });
+    return arr;
+  }
 
     // tell the system what to do when the 'submit' button is selected 
     async function onFormSubmit (values, setSubmitting) {
@@ -138,39 +159,37 @@ function EditUser(props) {
             }
     }
 
-    
-    
-    const routeChange=()=> {
-        let path = `/users`;
-        history.push(path);
-    }
-    
-    if (hasUpdated) {
-        return <Redirect to="/users" />;
-    }
-    
-    function userRoleOptions(options) {
-        let res = []
-        options.forEach((item) => {
-            res.push(item.role.role_code.toString())
-        })
-        console.log(res)
-        return res
-    }
+  const routeChange = () => {
+    let path = `/users`;
+    history.push(path);
+  };
 
-    function roleOptions(options) {
-        let res = []
-        options.forEach((item) => {
-            let h = {}
-            h = { 
-                key: item.id.toString(),
-                value: item.role_code.toString(),
-                text: item.role_value.toString()          
-            }
-            res.push(h)
-        })
-        return res
-    }
+  if (hasUpdated) {
+    return <Redirect to="/users" />;
+  }
+
+  function userRoleOptions(options) {
+    let res = [];
+    options.forEach((item) => {
+      res.push(item.role.role_code.toString());
+    });
+    console.log(res);
+    return res;
+  }
+
+  function roleOptions(options) {
+    let res = [];
+    options.forEach((item) => {
+      let h = {};
+      h = {
+        key: item.id.toString(),
+        value: item.role_code.toString(),
+        text: item.role_value.toString(),
+      };
+      res.push(h);
+    });
+    return res;
+  }
 
     return (
         <>
@@ -190,7 +209,6 @@ function EditUser(props) {
             username: userData.users_by_pk.username,
             email: userData.users_by_pk.email,
             roles: userData.users_by_pk.user_roles ? userRoleOptions(userData.users_by_pk.user_roles) : [] ,
-            // password: userData.users_by_pk.password,
             password: '',
             confirmPassword: '',
         }}

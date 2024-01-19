@@ -1,107 +1,126 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom';
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useExpanded } from 'react-table'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import React from "react";
+import { useHistory } from "react-router-dom";
+import {
+  useTable,
+  usePagination,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+  useExpanded,
+} from "react-table";
+import {
+  DefaultColumnFilter,
+  GlobalFilter,
+  fuzzyTextFilterFn,
+} from "../utils/Filters";
 import { useAuth } from "../context/auth";
-import { getTextsQuery } from './../queries/queries'
-import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers"
+import { getTextsQuery } from "./../queries/queries";
+import { sortReshape, filterReshape, textReshape } from "./../utils/reshapers";
 import MaterialsTable from "./MaterialsTable";
 import TableStyles from "./../stylesheets/table-styles"
 import { handleErrors } from '../utils/messages';
 
-
+/**
+ * This function constructs a table used for displaying text data provided by the TextTable function.
+ * @param {*} columns Each of the columns of the DataGrid
+ * @param {*} data Data to be used in the table
+ * @param {*} fetchData Collcts new data for the table 
+ * @param {*} loading Loading indicator, a boolean
+ * @param {controlledPageCount} pageCount Nummber of pages 
+ * @param {*} selectValues Current selected values
+ * @param {*} renderRowSubComponent Renders a subcomponent for each row of the table
+ * @param {*} setExpandAllChecked A boolean that checks for expanding the table
+ * @returns A rendered UI for the table
+ */
 function Table({
-   columns,
-   data,
-   fetchData,
-   loading,
-   pageCount: controlledPageCount,
-   selectValues,
-   renderRowSubComponent,
-   expandAllChecked,
-   setExpandAllChecked
+  columns,
+  data,
+  fetchData,
+  loading,
+  pageCount: controlledPageCount,
+  selectValues,
+  renderRowSubComponent,
+  expandAllChecked,
+  setExpandAllChecked,
 }) {
-
-   //const { user } = useAuth();
-
-   const filterTypes = React.useMemo(
-      () => ({
-         fuzzyText: fuzzyTextFilterFn,
-         text: (rows, id, filterValue) => {
-            return rows.filter(row => {
-               const rowValue = row.values[id]
-               return rowValue !== undefined
-                  ? String(rowValue)
-                     .toLowerCase()
-                     .startsWith(String(filterValue).toLowerCase())
-                  : true
-            })
-         },
-      }),
-      []
-   )
-
-   const defaultColumn = React.useMemo(
-      () => ({
-         Filter: DefaultColumnFilter,       // Let's set up our default Filter UI
-         minWidth: 25, // minWidth is only used as a limit for resizing
-         width: 50, // width is used for both the flex-basis and flex-grow
-         maxWidth: 500, // maxWidth is only used as a limit for resizing
-      }),
-      []
-   )
-
-   const {
-      getTableProps,
-      getTableBodyProps,
-      headerGroups,
-      page,
-      rows,
-      state,
-      allColumns,
-      setHiddenColumns,
-      preGlobalFilteredRows,
-      setGlobalFilter,
-      canPreviousPage,
-      canNextPage,
-      pageOptions,
-      pageCount,
-      visibleColumns,
-      prepareRow,
-      gotoPage,
-      nextPage,
-      previousPage,
-      setPageSize,
-      toggleAllRowsExpanded,
-      // Get the state from the instance
-      state: { pageIndex, pageSize, sortBy, filters, globalFilter }
-   } = useTable(
-      {
-         columns,
-         data,
-         initialState: {
-            pageIndex: 0,
-            sortBy: [{ id: 'cycle' }]
-         }, // Pass our hoisted table state
-         manualPagination: true, // Tell the usePagination
-         // hook that we'll handle our own data fetching
-         // This means we'll also have to provide our own
-         // pageCount.
-         pageCount: controlledPageCount,
-         manualSortBy: true,
-         manualFilters: true,
-         manualGlobalFilter: true,
-         defaultColumn,
-         filterTypes,
-         //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-         selectValues,
+  const filterTypes = React.useMemo(
+    () => ({
+      fuzzyText: fuzzyTextFilterFn,
+      text: (rows, id, filterValue) => {
+        return rows.filter((row) => {
+          const rowValue = row.values[id];
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true;
+        });
       },
-      useGlobalFilter,
-      useFilters,
-      useSortBy,
-      useExpanded,
-      usePagination,
-   )
+    }),
+    []
+  );
+
+  const defaultColumn = React.useMemo(
+    () => ({
+      Filter: DefaultColumnFilter, // Let's set up our default Filter UI
+      minWidth: 25, // minWidth is only used as a limit for resizing
+      width: 50, // width is used for both the flex-basis and flex-grow
+      maxWidth: 500, // maxWidth is only used as a limit for resizing
+    }),
+    []
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    rows,
+    state,
+    allColumns,
+    setHiddenColumns,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    visibleColumns,
+    prepareRow,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    toggleAllRowsExpanded,
+    // Get the state from the instance
+    state: { pageIndex, pageSize, sortBy, filters, globalFilter },
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: {
+        pageIndex: 0,
+        sortBy: [{ id: "cycle" }],
+      }, // Pass our hoisted table state
+      manualPagination: true, // Tell the usePagination
+      // hook that we'll handle our own data fetching
+      // This means we'll also have to provide our own
+      // pageCount.
+      pageCount: controlledPageCount,
+      manualSortBy: true,
+      manualFilters: true,
+      manualGlobalFilter: true,
+      defaultColumn,
+      filterTypes,
+      //hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
+      selectValues,
+    },
+    useGlobalFilter,
+    useFilters,
+    useSortBy,
+    useExpanded,
+    usePagination
+  );
 
    // Listen for changes in pagination and use the state to fetch our new data
    React.useEffect(() => {
@@ -140,299 +159,298 @@ function Table({
             ))}
          </div>
 
-         <table className="table" {...getTableProps()}>
-            <thead>
-               <tr>
-                  <th
-                     colSpan={visibleColumns.length}
-                  >
-                     {/* { (user && (user.roles.includes('update') || user.roles.includes('manager')))  &&
-              (
-                <Link 
-                  to={{
-                    pathname: "/addtext",
-                  }}>
-                  <Button animated='vertical' color='blue'>
-                    <Button.Content hidden>Add Text</Button.Content>
-                    <Button.Content visible>
-                      <Icon name='plus' />
-                    </Button.Content>
-                  </Button> 
-                </Link> 
-              )
-            } */}
-                     <GlobalFilter
-                        preGlobalFilteredRows={preGlobalFilteredRows}
-                        globalFilter={state.globalFilter}
-                        setGlobalFilter={setGlobalFilter}
-                     />
-                  </th>
-               </tr>
-               {headerGroups.map(headerGroup => (
-                  <tr {...headerGroup.getHeaderGroupProps()}>
-                     {headerGroup.headers.map(column => (
-                        <th {...column.getHeaderProps()}>
-                           <span {...column.getSortByToggleProps()}>
-                              {column.render('Header')}
-                              {column.isSorted
-                                 ? column.isSortedDesc
-                                    ? '▲'
-                                    : '▼'
-                                 : ''}
-                           </span>
-                           <div>
-                              {column.canFilter ? column.render('Filter') : null}
-                           </div>
-                        </th>
-                     ))}
+      <table className="table" {...getTableProps()}>
+        <thead>
+          <tr>
+            <th colSpan={visibleColumns.length}>
+              <GlobalFilter
+                preGlobalFilteredRows={preGlobalFilteredRows}
+                globalFilter={state.globalFilter}
+                setGlobalFilter={setGlobalFilter}
+              />
+            </th>
+          </tr>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>
+                  <span {...column.getSortByToggleProps()}>
+                    {column.render("Header")}
+                    {column.isSorted ? (column.isSortedDesc ? "▲" : "▼") : ""}
+                  </span>
+                  <div>{column.canFilter ? column.render("Filter") : null}</div>
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <React.Fragment key={row.getRowProps().key}>
+                <tr>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+                    );
+                  })}
+                </tr>
+                {row.isExpanded && (
+                  <tr>
+                    <td colSpan={visibleColumns.length}>
+                      {renderRowSubComponent({ row, expandAllChecked })}
+                    </td>
                   </tr>
-               ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-               {rows.map((row) => {
-                  prepareRow(row);
-                  return (
-                     <React.Fragment key={row.getRowProps().key}>
-                        <tr>
-                           {row.cells.map((cell) => {
-                              return (
-                                 <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
-                              );
-                           })}
-                        </tr>
-                        {row.isExpanded && (
-                           <tr>
-                              <td colSpan={visibleColumns.length}>
-                                 {renderRowSubComponent({ row, expandAllChecked })}
-                              </td>
-                           </tr>
-                        )}
-                        
-                     </React.Fragment>
-                  );
-               })}
+                )}
+              </React.Fragment>
+            );
+          })}
 
-               <tr>
-                  {loading ? (
-                     // Use our custom loading state to show a loading indicator
-                     <td colSpan="10"> Loading... </td>
-                  ) : (
-                     <td colSpan="10">
-                        Showing {page.length} of ~{pageCount * pageSize} results
-                     </td>
-                  )}
-               </tr>
+         <tr>
+            {loading ? (
+              // Use our custom loading state to show a loading indicator
+              <td colSpan="10"> Loading... </td>
+            ) : (
+              <td colSpan="10">
+                Showing {page.length} of ~{pageCount * pageSize} results
+              </td>
+            )}
+          </tr>
+        </tbody>
+      </table>
 
-            </tbody>
-         </table>
-
-         <div className="pagination">
-            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-               {'<<'}
-            </button>{' '}
-            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-               {'<'}
-            </button>{' '}
-            <button onClick={() => nextPage()} disabled={!canNextPage}>
-               {'>'}
-            </button>{' '}
-            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-               {'>>'}
-            </button>{' '}
-            <span>
-               Page{' '}
-               <strong>
-                  {pageIndex + 1} of {pageOptions.length}
-               </strong>{' '}
-            </span>
-            <span>
-               | Go to page:{' '}
-               <input
-                  type="number"
-                  defaultValue={pageIndex + 1}
-                  onChange={e => {
-                     const page = e.target.value ? Number(e.target.value) - 1 : 0
-                     gotoPage(page)
-                  }}
-                  style={{ width: '100px' }}
-               />
-            </span>{' '}
-            <select
-               value={pageSize}
-               onChange={e => {
-                  setPageSize(Number(e.target.value))
-               }}
-            >
-               {[10, 20, 30, 40, 50].map(pageSize => (
-                  <option key={pageSize} value={pageSize}>
-                     Show {pageSize}
-                  </option>
-               ))}
-            </select>
-         </div>
-      </>
-   )
+      <div className="pagination">
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {"<<"}
+        </button>{" "}
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {"<"}
+        </button>{" "}
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {">"}
+        </button>{" "}
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {">>"}
+        </button>{" "}
+        <span>
+          Page{" "}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>{" "}
+        </span>
+        <span>
+          | Go to page:{" "}
+          <input
+            type="number"
+            defaultValue={pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
+            }}
+            style={{ width: "100px" }}
+          />
+        </span>{" "}
+        <select
+          value={pageSize}
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
+    </>
+  );
 }
 
 
+/**
+ * Provides the data needed to construct the TextTable using the Table function
+ * @param {*} props Param never used in the function
+ * @returns A rendered TextTable
+ */
 function TextTable(props) {
-   let history = useHistory()
+  let history = useHistory();
 
-   const columns = React.useMemo(
-      () => [
-         {
-            id: 'expander',
-            show: true,
-            disableHiding: true,
-            Cell: ({ row }) => (
-               <span {...row.getToggleRowExpandedProps()}>
-                  {row.isExpanded ? '▼' : '▶'}
-               </span>
-            ),
-         },
-         {
-            Header: 'Title',
-            accessor: 'title',
-            tableName: 'TextTable',
-            show: true,
-            id: 'title',
-            label: 'Title'
-         },
-         {
-            Header: 'Pub.#',
-            accessor: 'rnumber',
-            tableName: 'TextTable',
-            disableFilters: true,
-            show: false,
-            id: 'rnumber',
-            label: 'Pub.#'
-         },
-         {
-            Header: 'Text#',
-            accessor: 'tnumber',
-            tableName: 'TextTable',
-            disableFilters: true,
-            show: false,
-            id: 'tnumber',
-            label: 'Text#'
-         },
-         {
-            Header: 'Cycle',
-            accessor: 'cycle',
-            tableName: 'TextTable',
-            show: true,
-            id: 'cycle',
-            label: 'cycle'
-         },
-         {
-            Header: 'Speaker',
-            accessor: 'speaker',
-            filter: 'fuzzyText',
-            tableName: 'TextTable',
-            show: true,
-            id: 'speaker',
-            label: 'speaker'
-         }
-      ], []
-   )
+  const columns = React.useMemo(
+    () => [
+      {
+        id: "expander",
+        show: true,
+        disableHiding: true,
+        Cell: ({ row }) => (
+          <span {...row.getToggleRowExpandedProps()}>
+            {row.isExpanded ? "▼" : "▶"}
+          </span>
+        ),
+      },
+      {
+        Header: "Title",
+        accessor: "title",
+        tableName: "TextTable",
+        show: true,
+        id: "title",
+        label: "Title",
+      },
+      {
+        Header: "Pub.#",
+        accessor: "rnumber",
+        tableName: "TextTable",
+        disableFilters: true,
+        show: false,
+        id: "rnumber",
+        label: "Pub.#",
+      },
+      {
+        Header: "Text#",
+        accessor: "tnumber",
+        tableName: "TextTable",
+        disableFilters: true,
+        show: false,
+        id: "tnumber",
+        label: "Text#",
+      },
+      {
+        Header: "Cycle",
+        accessor: "cycle",
+        tableName: "TextTable",
+        show: true,
+        id: "cycle",
+        label: "cycle",
+      },
+      {
+        Header: "Speaker",
+        accessor: "speaker",
+        filter: "fuzzyText",
+        tableName: "TextTable",
+        show: true,
+        id: "speaker",
+        label: "speaker",
+      },
+    ],
+    []
+  );
 
+  const renderRowSubComponent = React.useCallback(
+    ({ row, expandAllChecked }) => (
+      <div>
+        <MaterialsTable
+          materialData={row.original.sourcefiles}
+          expandAllChecked={expandAllChecked}
+        />
+      </div>
+    ),
+    []
+  );
 
+  // We'll start our table without any data
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [pageCount, setPageCount] = React.useState(0);
+  const [expandAllChecked, setExpandAllChecked] = React.useState(false);
+  const fetchIdRef = React.useRef(0);
+  const { client, setAuthTokens } = useAuth();
 
-   const renderRowSubComponent = React.useCallback(
-      ({ row, expandAllChecked }) => (
-         <div>
-            <MaterialsTable materialData={row.original.sourcefiles} expandAllChecked={expandAllChecked}/>
-         </div>
-      ),
-      []
-   )
+  async function getTexts(limit, offset, sortBy, filters) {
+    let res = {};
+    res = await client.query({
+      query: getTextsQuery,
+      variables: {
+        limit: limit,
+        offset: offset,
+        order: sortBy,
+        where: filters,
+      },
+    });
 
-   // We'll start our table without any data
-   const [data, setData] = React.useState([])
-   const [loading, setLoading] = React.useState(false)
-   const [pageCount, setPageCount] = React.useState(0)
-   const [expandAllChecked, setExpandAllChecked] = React.useState(false)
-   //const [orderBy, setOrderBy] = React.useState([{'english': 'desc'}, {'nicodemus': 'asc'}])
-   const fetchIdRef = React.useRef(0)
-   const { client, setAuthTokens } = useAuth();
+    let texts = textReshape(res.data.texts);
+    let i = 0;
+    for (i = 0; i < texts.length; i++) {
+      res.data.texts[i].sourcefiles = texts[i].sourcefiles;
+    }
+    console.log("this is res.data ", res.data);
+    console.log("this is texts ", texts);
+    return res.data;
+  }
 
-
-   async function getTexts(limit, offset, sortBy, filters) {
-      let res = {}
-      res = await client.query({
-         query: getTextsQuery,
-         variables: {
-            limit: limit,
-            offset: offset,
-            order: sortBy,
-            where: filters,
-         }
-      })
-
-      let texts = textReshape(res.data.texts)
-      let i = 0
-      for (i = 0; i < texts.length; i++) {
-         res.data.texts[i].sourcefiles = texts[i].sourcefiles
-      }
-      console.log("this is res.data ", res.data)
-      console.log("this is texts ", texts)
-      return res.data
-   }
-
-
-   const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy, filters, globalFilter, toggleAllRowsExpanded }) => {
+  const fetchData = React.useCallback(
+    ({
+      pageSize,
+      pageIndex,
+      sortBy,
+      filters,
+      globalFilter,
+      toggleAllRowsExpanded,
+    }) => {
       // This will get called when the table needs new data
       // You could fetch your data from literally anywhere,
       // even a server. But for this example, we'll just fake it.
 
       // Give this fetch an ID
-      const fetchId = ++fetchIdRef.current
+      const fetchId = ++fetchIdRef.current;
 
       // Set the loading state
-      setLoading(true)
+      setLoading(true);
 
       // We'll even set a delay to simulate a server here
       setTimeout(() => {
-         // Only update the data if this is the latest fetch
-         if (fetchId === fetchIdRef.current) {
-            const controlledSort = sortReshape(sortBy)
-            const controlledFilter = filterReshape(filters, globalFilter, ["title", "cycle", "speaker"])
-            getTexts(pageSize, pageSize * pageIndex, controlledSort, controlledFilter)
-               .then((data) => {
-                  let totalCount = data.texts_aggregate.aggregate.count
-                  setData(data.texts)
-                  setPageCount(Math.ceil(totalCount / pageSize))
-                  setLoading(false)
-                  toggleAllRowsExpanded(expandAllChecked)
-               })
-               .catch((error) => {
-                  console.log(error)
-                  handleErrors(error, { 'logout': { 'action': setAuthTokens, 'redirect': '/login' } })
-                  setData([])
-                  setPageCount(0)
-                  setLoading(false)
-                  history.push('./login')
-               })
-         }
-      }, 1000)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [history, setAuthTokens, expandAllChecked])
+        // Only update the data if this is the latest fetch
+        if (fetchId === fetchIdRef.current) {
+          const controlledSort = sortReshape(sortBy);
+          const controlledFilter = filterReshape(filters, globalFilter, [
+            "title",
+            "cycle",
+            "speaker",
+          ]);
+          getTexts(
+            pageSize,
+            pageSize * pageIndex,
+            controlledSort,
+            controlledFilter
+          )
+            .then((data) => {
+              let totalCount = data.texts_aggregate.aggregate.count;
+              setData(data.texts);
+              setPageCount(Math.ceil(totalCount / pageSize));
+              setLoading(false);
+              toggleAllRowsExpanded(expandAllChecked);
+            })
+            .catch((error) => {
+              console.log(error);
+              handleErrors(error, {
+                logout: { action: setAuthTokens, redirect: "/login" },
+              });
+              setData([]);
+              setPageCount(0);
+              setLoading(false);
+              history.push("./login");
+            });
+        }
+      }, 1000);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [history, setAuthTokens, expandAllChecked]
+  );
 
-
-   return (
-      <TableStyles>
-         <Table
-            columns={columns}
-            data={data}
-            renderRowSubComponent={renderRowSubComponent}
-            fetchData={fetchData}
-            loading={loading}
-            pageCount={pageCount}
-            expandAllChecked={expandAllChecked}
-            setExpandAllChecked={setExpandAllChecked}
-         />
-      </TableStyles>
-   )
+  return (
+    <TableStyles>
+      <Table
+        columns={columns}
+        data={data}
+        renderRowSubComponent={renderRowSubComponent}
+        fetchData={fetchData}
+        loading={loading}
+        pageCount={pageCount}
+        expandAllChecked={expandAllChecked}
+        setExpandAllChecked={setExpandAllChecked}
+      />
+    </TableStyles>
+  );
 }
 
-export default TextTable
+export default TextTable;
