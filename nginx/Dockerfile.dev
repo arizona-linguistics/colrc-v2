@@ -18,6 +18,9 @@ ARG WITH_HTTP_AUTH_PAM=true
 ARG WITH_HTTP_SUBSTITUTIONS_FILTER=true
 ARG WITH_UPSTREAM_FAIR=true
 
+RUN addgroup --system --gid 101 nginx \
+    && adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx 
+
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
       wget ca-certificates make gcc g++ pkg-config perl
@@ -39,8 +42,10 @@ FROM debian:11
 
 LABEL maintainer="colrc@thecolrc.org"
 
-ENV NGINX_USER=www-data \
-    NGINX_SITECONF_DIR=/etc/nginx/sites-enabled \
+RUN addgroup --system --gid 101 nginx \
+    && adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx 
+
+ENV NGINX_SITECONF_DIR=/etc/nginx/sites-enabled \
     NGINX_LOG_DIR=/var/log/nginx \
     NGINX_TEMP_DIR=/var/lib/nginx \
     NGINX_CACHE_DIR=/var/cache/nginx \
@@ -74,6 +79,19 @@ RUN mkdir -p ${NGINX_FILE_DIR} && touch ${NGINX_FILE_DIR}/nothing.txt
 
 RUN chmod 755 ${NGINX_FILE_DIR} && chmod 644 ${NGINX_FILE_DIR}/*
 
+RUN chown -R nginx:nginx /etc/nginx \
+    && chmod -R go+rw /etc/nginx \
+    # && sed -i 's,listen       80,listen       8081,' /etc/nginx/templates/colrc.template \
+    && sed -i '/user  nginx;/d' /etc/nginx/nginx.conf \
+    && sed -i 's,/var/run/nginx.pid,/tmp/nginx.pid,' /etc/nginx/nginx.conf \
+    && sed -i "/^http {/a \    proxy_temp_path /tmp/proxy_temp;\n    client_body_temp_path /tmp/client_temp;\n    fastcgi_temp_path /tmp/fastcgi_temp;\n    uwsgi_temp_path /tmp/uwsgi_temp;\n    scgi_temp_path /tmp/scgi_temp;\n" /etc/nginx/nginx.conf \
+    # && chown -R nginx:nginx /var/cache/nginx \
+    # && chmod -R go+rw /var/cache/nginx \
+    && chown -R nginx:nginx /var/log/nginx \
+    && chmod -R go+rw /var/log/nginx 
+    # && chown -R nginx:nginx /var/run/nginx-agent \
+    # && chmod -R go+w /var/run/nginx-agent \
+    # && ln -sf /dev/stdout /var/log/nginx-agent/agent.log
 
 EXPOSE 80/tcp 443/tcp 1935/tcp
 

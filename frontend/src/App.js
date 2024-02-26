@@ -79,8 +79,8 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        //uri: 'http://149.165.159.185:8080/v1/graphql',
-        uri: process.env.REACT_APP_HASURA_CLIENT       
+        uri: 'http://149.165.155.87:8080/v1/graphql',
+        //uri: process.env.REACT_APP_HASURA_CLIENT       
       })
     ),
     cache: new InMemoryCache(),
@@ -104,8 +104,8 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        //uri: 'http://149.165.159.185:4000/api',
-        uri: process.env.REACT_APP_AUTH_CLIENT
+        uri: 'http://149.165.155.87:4000/api',
+        //uri: process.env.REACT_APP_AUTH_CLIENT
       })
     ),
     cache: new InMemoryCache(),
