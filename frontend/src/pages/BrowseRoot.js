@@ -100,6 +100,7 @@ function Table({
               <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
               {column.label}
             </label>
+            <span>Hello Bhargav!</span>
           </div>
         ))}
       </div>

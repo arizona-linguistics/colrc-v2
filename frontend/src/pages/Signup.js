@@ -10,6 +10,7 @@ import { useAuth } from "../context/auth";
 import { handleErrors, broadCastSuccess } from '../utils/messages';
 import { confirmAlert } from 'react-confirm-alert';
 import '../stylesheets/react-confirm-alert.css';
+import bcrypt from "bcryptjs";
 
 
 let signupSchema = Yup.object().shape({
@@ -38,11 +39,22 @@ function Signup(props) {
   const history = useHistory();
   const { client, authClient, setAuthTokens } = useAuth();
 
-
+  async function encodePassword(password, saltRounds) {
+    console.log("original password" + password)
+    let hash = bcrypt.hashSync(password, saltRounds, function(err, hash) {
+        if (err) {
+        console.log(err)
+        throw new Error(err)
+        }
+        // Store hash in your password DB.
+    });
+    return hash
+}
 
   async function onFormSubmit (values, setSubmitting) {
     console.log(values)
     try {
+      let passwd = await encodePassword(values.password.trim(), 15)
       const result = await client.mutate({
         mutation: insertUserMutation,
         variables: {
@@ -50,7 +62,7 @@ function Signup(props) {
           last: values.last,
           username: values.username,
           email: values.email,
-          password: values.password.trim()
+          password: passwd
         }
       })
       if (result.error) {

@@ -33,18 +33,6 @@ let addUserSchema = Yup.object().shape({
       .required('Password confirmation is required!')
     }); 
 
-function encodePassword(password, saltRounds) {
-    console.log("original password" + password)
-    let hash = bcrypt.hashSync(password, saltRounds, function(err, hash) {
-        if (err) {
-        console.log(err)
-        throw new Error(err)
-        }
-        // Store hash in your password DB.
-    });
-    return hash
-}
-
 // next we set up the things that will happen when the form is submitted    
 function AddUser(props) {
     //create a hook to set the outcome, set the state to false
@@ -61,12 +49,24 @@ function AddUser(props) {
     if (rolesError) {
         return <div>Something went wrong</div>
     }
+
+    async function encodePassword(password, saltRounds) {
+        console.log("original password" + password)
+        let hash = bcrypt.hashSync(password, saltRounds, function(err, hash) {
+            if (err) {
+            console.log(err)
+            throw new Error(err)
+            }
+            // Store hash in your password DB.
+        });
+        return hash
+    }
     
    // tell the system what to do when the 'submit' button is selected 
     async function onFormSubmit (values, setSubmitting) {
         //console.log(values)
         try {
-            let passwd = encodePassword(values.password, 15)
+            let passwd = await encodePassword(values.password, 15)
             const result = await client.mutate({
             mutation: insertUserWithRoleMutation,
             //these are the variables allowed to be passed into the insertUserWithRole mutation in queries.js
@@ -148,7 +148,7 @@ function AddUser(props) {
         <Grid centered>
             <Grid.Row>
                 <Grid.Column textAlign="center" width={12}>
-                    <Header as="h2">Add a User to me Now</Header>
+                    <Header as="h2">Add a User</Header>
                     <Message>Use this form to add a new authorized account. The password you set should be changed by the user.</Message>
                 </Grid.Column>
             </Grid.Row>
