@@ -18,7 +18,7 @@ RUN npm install
 # Build, minify, etc.
 # FIXME: add webpack file
 
-RUN npm run build
+RUN NODE_OPTIONS=--openssl-legacy-provider npm run build
 
 # EXPOSE 3000
 

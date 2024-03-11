@@ -35,17 +35,21 @@ COPY ./nginx/entrypointProd.sh ${NGINX_BUILD_ROOT_DIR}/sbin/entrypointProd.sh
 
 RUN chmod 755 ${NGINX_BUILD_ROOT_DIR}/sbin/entrypointProd.sh
 
-FROM node:16.13.0 AS frontend
+
+
+# FROM node:16.13.0 AS frontend
+FROM node:18.4.0 AS frontend
 
 # Create app directory
 WORKDIR /app
 
 # Bundle app source
+
 COPY ./frontend .
 
+RUN ls -la 
+
 # Install app dependencies
-
-
 # RUN npm install --no-optional
 
 RUN npm install
@@ -53,7 +57,7 @@ RUN npm install
 # Build, minify, etc.
 # FIXME: add webpack file
 
-RUN npm run build
+RUN NODE_OPTIONS=--openssl-legacy-provider npm run build
 
 FROM debian:11
 
@@ -104,11 +108,17 @@ RUN chmod 755 ${NGINX_CERT_DIR}
 
 RUN chown ${NGINX_USER}:${NGINX_USER} ${NGINX_CERT_DIR}
 
-EXPOSE 80/tcp 443/tcp 1935/tcp
+EXPOSE 80/tcp 443/tcp 1935/tcp 3000/tcp
 
 ENTRYPOINT ["/sbin/entrypointProd.sh"]
 
 COPY --from=frontend /app/build /var/www/colrc
+
+RUN ls -la /var/www/colrc
+
+RUN chown -R ${NGINX_USER}:${NGINX_USER} /var/www/colrc
+
+RUN ls -la /var/www/colrc
 
 CMD ["/usr/sbin/nginx"]
 

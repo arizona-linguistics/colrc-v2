@@ -9,12 +9,12 @@ set -e
 create_log_dir() {
   mkdir -p ${NGINX_LOG_DIR}
   chmod -R 0755 ${NGINX_LOG_DIR}
-  chown -R nginx:nginx ${NGINX_LOG_DIR}
+  chown -R ${NGINX_USER}:${NGINX_USER} ${NGINX_LOG_DIR}
 }
 
 create_tmp_dir(){
   mkdir -p ${NGINX_TEMP_DIR}
-  chown -R nginx:nginx ${NGINX_TEMP_DIR}
+  chown -R ${NGINX_USER}:${NGINX_USER} ${NGINX_TEMP_DIR}
 }
 
 create_siteconf_dir() {
@@ -30,9 +30,9 @@ create_cache_dir() {
 create_html_dir() {
     mkdir -p ${NGINX_HTML_DIR}
     chmod -R 755 ${NGINX_HTML_DIR}
-    #echo "<html><head><title>My First HTML Page</title></head><body>My text goes here.</body></html>" > ${NGINX_HTML_DIR}/index.html
-    #chmod -R 755 ${NGINX_FILE_DIR}
-    #chmod 777 ${NGINX_HTML_DIR}/index.html
+   # echo "<html><head><title>My First HTML Page</title></head><body>My text goes here.</body></html>" > ${NGINX_HTML_DIR}/index.html
+   # chmod -R 755 ${NGINX_FILE_DIR}
+   # chmod 777 ${NGINX_HTML_DIR}/index.html
 }
 
 create_log_dir
