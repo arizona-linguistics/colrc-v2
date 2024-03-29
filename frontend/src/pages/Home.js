@@ -36,7 +36,7 @@ function Home(props) {
       <Grid textAlign="center">
         <Grid.Column style={{ maxWidth: 450 }}>
           <Message>Welcome to the COLRC!</Message>
-          <Logo src={logoImg} />
+          <Logo src={logoImg} alt={"Logo of COLRC"} />
           <HomeAccordion />
           <Message>
             Are you a site administrator? <Link to="/login">Log in here</Link>
