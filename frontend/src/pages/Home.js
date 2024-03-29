@@ -21,7 +21,7 @@ function Home(props) {
               </Message>
             </Grid.Row>
             <Grid.Row>
-              <Logo src={logoImg} />
+              <Logo src={logoImg} alt={"Logo of COLRC"} />
             </Grid.Row>
             <Grid.Row>
               <HomeAccordion />
