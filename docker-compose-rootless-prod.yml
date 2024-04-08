@@ -26,6 +26,7 @@ services:
     container_name: colrc-v2-hasura
     ports:
       - "8080:8080"
+    #platform: linux/amd64
     depends_on:
       postgres:
         condition: service_healthy

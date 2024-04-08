@@ -52,6 +52,7 @@ export function DefaultColumnFilter({
   //const count = preFilteredRows.length
   const count = pageSize * pageCount
 
+  // fix placeholder text for accessibility
   return (
     <Input
       value={filterValue || ''}
