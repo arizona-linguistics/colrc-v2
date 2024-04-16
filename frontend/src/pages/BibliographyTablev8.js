@@ -256,16 +256,16 @@ function Table({
       </table>
 
       <div className="pagination">
-        <button onClick={() => tableInstance.setPageIndex(0)} disabled={!tableInstance.getCanPreviousPage()}>
+        <button onClick={() => tableInstance.setPageIndex(0)} disabled={!tableInstance.getCanPreviousPage()} aria-label={"First Page"}>
           {'<<'}
         </button>{' '}
-        <button onClick={() => tableInstance.previousPage()} disabled={!tableInstance.getCanPreviousPage()}>
+        <button onClick={() => tableInstance.previousPage()} disabled={!tableInstance.getCanPreviousPage()} aria-label={"Previous Page"}>
           {'<'}
         </button>{' '}
-        <button onClick={() => tableInstance.nextPage()} disabled={!tableInstance.getCanNextPage()}>
+        <button onClick={() => tableInstance.nextPage()} disabled={!tableInstance.getCanNextPage()} aria-label={"Next Page"}>
           {'>'}
         </button>{' '}
-        <button onClick={() => tableInstance.setPageIndex(tableInstance.getPageCount() - 1)} disabled={!tableInstance.getCanNextPage()}>
+        <button onClick={() => tableInstance.setPageIndex(tableInstance.getPageCount() - 1)} disabled={!tableInstance.getCanNextPage()} aria-label={"Last Page"}>
           {'>>'}
         </button>{' '}
         <span>
