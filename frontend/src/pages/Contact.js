@@ -60,7 +60,7 @@ function Contact() {
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Logo src={logoImg} />
+        <Logo src={logoImg} alt={"Logo of COLRC"} />
         <Message>
           Contact the COLRC Team with questions or concerns, or to reset your
           password.
