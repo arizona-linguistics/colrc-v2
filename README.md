@@ -92,6 +92,18 @@ services:
     volumes: 
       - /home/exouser/src/data/odinson:/data/odinson
 ```
+
+If you are working on a Mac with an Apple Silicon chip, you may need to specify the platform for your Hasura image in your docker-compose.override.yml file as well.  If so, your file would look like this:
+
+```
+services:
+  odinson-rest-api:
+    volumes: 
+      - [yourfilepath]/data/odinson:/data/odinson
+  hasura:
+    platform: linux/amd64
+```
+
 5. Next, download our image, pdf and audio files from Dropbox. As files are updated in our Dropbox folder, you can run the script below while the development environment is down to keep your local filesystem up to date.  From the colrc-v2 directory:
 
      `cd ./misc` and then `python3 dropbox-sync.py`
