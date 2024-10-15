@@ -52,17 +52,17 @@ Linux users will use your regular terminal application.
 
 0. Set up an ssh key to work with your github account:
 
- - First, follow the steps to [generate a new SSH Key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent), and then [add the key to your github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+First, follow the steps to [generate a new SSH Key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent), and then [add the key to your github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
 
-2. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone this repository:
+1. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone this repository:
 
     `git clone git@github.com:arizona-linguistics/colrc-v2.git`
 
-3. Afterward, change to the newly-created directory and pull to make sure you have all of the current changes to the repository.  Note that the default branch, "main," is the branch you should clone and/or pull.
+2. Afterward, change to the newly-created directory and pull to make sure you have all of the current changes to the repository.  Note that the default branch, "main," is the branch you should clone and/or pull.
 
     `cd colrc-v2 && git pull`
  
-4. Create the external directories needed to run Odinson: Move up one directory, `cd ..`, and create a new directory named 'data' `mkdir data`.  
+3. Create the external directories needed to run Odinson: Move up one directory, `cd ..`, and create a new directory named 'data' `mkdir data`.  
 Move into the new directory, `cd data`, and make another directory called 'odinson', `mkdir odinson`. 
 
 Move back to the root of the colrc-v2 directory, `cd ..` to move up one level, then `cd colrc-v2` to move into the root of the colrc-v2 dirctory.
