@@ -50,7 +50,7 @@ Note that if you're using one of our Jetstream2 virtual machines, all of these p
 You will do these steps at a command line - windows users will use the WSL/Debian command lime; Mac and 
 Linux users will use your regular terminal application.
 
-1. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone or pull this repository:
+1. Create and/or switch to the directory where you want our application to live. Then, from the command line in that directory, clone this repository:
 
     `git clone https://github.com/arizona-linguistics/colrc-v2`
 
