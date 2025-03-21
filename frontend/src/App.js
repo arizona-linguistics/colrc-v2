@@ -89,7 +89,7 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        uri: 'http://localhost:8080/v1/graphql',
+        uri: 'http://[149.165.175.202]:8080/v1/graphql',
         //uri: process.env.REACT_APP_HASURA_CLIENT       
       })
     ),
@@ -113,7 +113,7 @@ function App(props) {
       return forward(operation);
     }).concat(
       new HttpLink({
-        uri: 'http://localhost:4000/api',
+        uri: 'http://[149.165.175.202]:4000/api',
         //uri: process.env.REACT_APP_AUTH_CLIENT
       })
     ),
@@ -167,6 +167,7 @@ function App(props) {
         <div>
           <NavBar>
             <ToastContainer key="ToastContainer" />
+            <p>I'm here!</p>
             <Switch>
               <Route exact path="/" component={Home} key="HomePage" />
               <Route path="/login" component={Login} key="LoginPage" />
