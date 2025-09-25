@@ -437,6 +437,8 @@ function TextTable(props) {
     [history, setAuthTokens, expandAllChecked]
   );
 
+  // I am changing a file.
+  
   return (
     <TableStyles>
       <Table
