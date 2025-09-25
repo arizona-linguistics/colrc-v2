@@ -1,7 +1,7 @@
 # colrc-v2
 Coeur d'Alene Online Language Resource Center Version 2.0
 
-[![Build Status](https://travis-ci.org/arizona-linguistics/colrc-v2.svg?branch=master)](https://travis-ci.org/arizona-linguistics/colrc-v2)
+[![Build Status](https://travis-ci.org/arizona-linguistics/colrc-v2-students.svg?branch=master)](https://travis-ci.org/arizona-linguistics/colrc-v2-students)
 
 ## Table of Contents
   
@@ -58,14 +58,14 @@ First, follow the steps to [generate a new SSH Key](https://docs.github.com/en/a
 
     `git clone git@github.com:arizona-linguistics/colrc-v2.git`
 
-2. Afterward, change to the newly-created directory and pull to make sure you have all of the current changes to the repository.  Note that the default branch, "main," is the branch you should clone and/or pull.
+2. Afterward, change to the newly-created directory.
 
-    `cd colrc-v2 && git pull`
+    `cd colrc-v2-students`
  
 3. Create the external directories needed to run Odinson: Move up one directory, `cd ..`, and create a new directory named 'data' `mkdir data`.  
 Move into the new directory, `cd data`, and make another directory called 'odinson', `mkdir odinson`. 
 
-Move back to the root of the colrc-v2 directory, `cd ..` to move up one level, then `cd colrc-v2` to move into the root of the colrc-v2 dirctory.
+Move back to the root of the colrc-v2-students directory, `cd ..` to move up one level, then `cd colrc-v2-students` to move into the root of the colrc-v2-students directory.
 
 4. Create your docker override yml file.  The purpose of this file is to tell our application where your external 
 Odinson directory lives, so that it can map a drive to that directory.  The override file will not be copied back into 
@@ -140,23 +140,31 @@ If you get a permissions error when running the script, you can use the command 
  
 7.  At the command line, build our development environment. Depending on your configuration, you may or may not need to `sudo`  The initial build may take a while, but subsequent builds will go faster.
     
-    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build` or `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
+    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build` 
+    
+    or 
+    
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
-The environment is fully up and running when you see a message that says 'Compiled successfully!'. At that point, you can go to `http://localhost:3000` if you're working on your own machine, or `http://[yourIPaddress]:3000` if you're working on a virtual machine, and you'll be able to access the running application!  The terminal window that you've used for this command will be occupied - it will *not* come back to a command prompt.  This is because the process is not daemonized.  If you want to run the application in a deamonized way, you can add a `-d` flag after `up`.
+The environment is fully up and running when you see a message that says 'Compiled successfully!', followed by this nonsense:
+  `colrc-v2-frontend     | Search for the keywords to learn more about each warning.`
+  `colrc-v2-frontend     | To ignore, add // eslint-disable-next-line to the line before.`
+
+ At that point, you can point a web browser to `http://localhost:3000` if you're working on your own machine, or `http://[yourIPaddress]:3000` if you're working on a virtual machine, and you'll be able to access the running application!  The terminal window that you've used for this command will be occupied - it will *not* come back to a command prompt.  This is because the process is not daemonized.  If you want to run the application in a daemonized way, you can add a `-d` flag after `up`.
     
 9.  If you are working on a remote VM, you'll need to open the hasura console by directing your browser to `[yourIPaddress]:8080/console`. You can find the required admin secret in the docker-compose.yml (hasura_graphql_admin_secret)  file at the project root. Navigate to the data tab, and On each of these four tables:  `audiofiles`, `textfiles`, `textimages`, `elicitationfiles`, under `modify`, you'll find a computed field.  Edit the computed field - which is an SQL statement that tells the machine where it can find our pdf, png, wav and mp3 files.  In the SQL statement is a URL path.  Change the stem of that path (which is probably `localhost`) to `[yourIPaddress]:80`. Then click the button to execute the SQL.
     
 10.  When you want to bring the system down, you can either use control-C from the terminal where the application is running; or use the 'down' button to the right of the container in Docker Desktop's gui, or you can open a new terminal, navigate to the root of the project, and use this command:
 
-    `docker-compose down`
+    `docker compose down`
     
 To relaunch for a new work session, if you haven't done a new pull from the repo, you can just 'up' the system without rebuilding it like this:
 
-    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up`
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up`
     
 To relaunch after a new pull or significant local changes to i.e. the backend, you can build and then up like this:
 
-    `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build`
+    `docker compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
 
 ### Subsequent Pulls
@@ -164,7 +172,7 @@ As we progress in development, this repository will change. To get the most rece
 
 1. Make sure that the development environment is currently not running:
     
-    `docker-compose down`
+    `docker compose down`
     
 2. If there have been changes to [`colrc.sql`](./misc/sql/colrc.sql) since your last pull, delete the database's data folder:
 
