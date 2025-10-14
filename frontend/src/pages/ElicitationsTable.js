@@ -331,6 +331,14 @@ function ElicitationsTable(props) {
         id: "language",
         label: "Language",
       },
+      {
+        Header: "Note",
+        accessor: "note",
+        tableName: "Elicitations",
+        show: true,
+        id: "note",
+        label: "Note"
+      }
     ],
     []
   );
