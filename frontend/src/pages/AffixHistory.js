@@ -1,4 +1,4 @@
-import React from "react";
+import LogHistory from "./LogHistory";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import { getAffixHistoryByIdQuery } from "./../queries/queries";
@@ -10,31 +10,24 @@ function AffixHistory() {
   const id = search.get("id");
   console.log(id);
 
-  let {
-    loading: affixHistoryLoading,
-    error: affixHistoryError,
-    data: affixHistoryData,
-  } = useQuery(getAffixHistoryByIdQuery, {
-    client: client,
-    variables: { table_name: "affixes", row_data: { id: parseInt(id) } },
-  });
+  let { loading, error, data } = useQuery(getAffixHistoryByIdQuery, {
+      client: client,
+      variables: { table_name: "affixes", row_data: { id: parseInt(id) } },
+    });
 
-  if (affixHistoryLoading) {
+  if (loading) {
     return <div>loading...</div>;
   }
-  if (affixHistoryError) {
+  if (error) {
     return <div>Something went wrong</div>;
   }
 
-  return JSON.stringify(
-    affixHistoryData.audit_logged_actions.map((elem) => {
-      return {
-        action: elem.action,
-        userId: elem.hasura_user["x-hasura-user-id"],
-        english: elem.row_data.english,
-      };
-    })
-  );
+  return (
+    <LogHistory
+      logData={data.audit_logged_actions}
+      tableName="Affix"
+    />
+  )
 }
 
 export default AffixHistory;

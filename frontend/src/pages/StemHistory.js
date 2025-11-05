@@ -1,19 +1,19 @@
 
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/auth";
-import { getRootHistoryByIdQuery } from "../queries/queries";
+import { getStemHistoryByIdQuery } from "../queries/queries";
 import { useQuery } from "@apollo/react-hooks";
 import LogHistory from "./LogHistory";
 
-function RootHistory(props) {
+function StemHistory(props) {
   const { client } = useAuth();
   const search = new URLSearchParams(useLocation().search);
   const id = search.get("id");
   console.log(id);
 
-  let { loading, error, data } = useQuery(getRootHistoryByIdQuery, {
+  let { loading, error, data } = useQuery(getStemHistoryByIdQuery, {
     client: client,
-    variables: { table_name: "roots", row_data: { id: parseInt(id) } },
+    variables: { table_name: "stems", row_data: { id: parseInt(id) } },
   });
 
   if (loading) {
@@ -28,10 +28,10 @@ function RootHistory(props) {
     <>
       <LogHistory
         logData={data.audit_logged_actions}
-        tableName="Roots"
+        tableName="Stem"
       />
     </>
   )
 }
 
-export default RootHistory;
+export default StemHistory;

@@ -26,6 +26,7 @@ import EditRoot from "./pages/EditRoot";
 import DeleteRoot from "./pages/DeleteRoot";
 import AffixHistory from "./pages/AffixHistory";
 import RootHistory from "./pages/RootHistory";
+import StemHistory from "./pages/StemHistory";
 import ElicitationHistory from "./pages/ElicitationHistory";
 import UserList from "./pages/UserList";
 import AddUser from "./pages/AddUser";
@@ -249,6 +250,11 @@ function App(props) {
                 path="/roothistory"
                 component={RootHistory}
                 key="RootHistory"
+              />
+              <PrivateRoute
+                path="/stemhistory"
+                component={StemHistory}
+                key="StemHistory"
               />
               <PrivateRoute
                 path="/elicitationhistory"
