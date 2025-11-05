@@ -660,6 +660,37 @@ export const getAllRootsQuery = gql`
   }
 `;
 
+export const getStemHistoryByIdQuery = gql`
+  query getStemHistoryById($row_data: jsonb!, $table_name: String!) {
+    audit_logged_actions(
+      where: {
+        table_name: { _eq: $table_name }
+        row_data: { _contains: $row_data }
+      }
+      order_by: { action_tstamp_clk: asc }
+    ) {
+      action
+      action_tstamp_clk
+      action_tstamp_stm
+      action_tstamp_tx
+      application_name
+      changed_fields
+      client_addr
+      client_port
+      client_query
+      event_id
+      hasura_user
+      relid
+      row_data
+      schema_name
+      session_user_name
+      statement_only
+      table_name
+      transaction_id
+    }
+  }
+`;
+
 export const getRootHistoryByIdQuery = gql`
   query getRootHistoryById($row_data: jsonb!, $table_name: String!) {
     audit_logged_actions(
